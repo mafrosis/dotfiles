@@ -1,0 +1,9 @@
+[user]
+	name = mafro
+	email = dev@mafro.net
+[core]
+	autocrlf = false
+[color]
+	ui = auto
+	diff = auto
+[gui]
