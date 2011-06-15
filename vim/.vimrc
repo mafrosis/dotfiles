@@ -1,5 +1,4 @@
 " Vim settings
-" 16/02/2009
 
 
 "---- General settings and fail safes-----------------------------------
@@ -38,22 +37,6 @@ if has('unix')
 		set background=dark						" Dark background for shell
 	endif
 endif
-
-if has('win32')
-	"Windows general settings. TODO: split these to gui and cmd
-	source $VIMRUNTIME/vimrc_example.vim
-	source $VIMRUNTIME/mswin.vim
-	behave mswin
-	set diffexpr=WindowsMyDiff()
-	set guifont=Bitstream\ Vera\ Sans\ Mono:h10:cDEFAULT 
-	winpos 120 20
-	set lines=55
-	set columns=130
-	set directory=c:\temp,c:\tmp,.				" Hide the temp files somewhere else (prefer c:\temp). Resolve in order
-	set	clipboard=unnamed 						" For yanking into the windows clip board
-	colorscheme ir_black_plus
-	set nobackup								" On windows this needs to be restated to work. TODO: Look into this.
-endif 
 
 
 "---- File type options ------------------------------------------------
@@ -107,24 +90,4 @@ set completeopt=longest,menuone,preview
 " Auto close the preview window when selected or move
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-
-
-"---- Functions --------------------------------------------------------
-function WindowsMyDiff()
-	let opt = '-a --binary '
-	if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-	if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-	let arg1 = v:fname_in
-	if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-	let arg2 = v:fname_new
-	if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-	let arg3 = v:fname_out
-	if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-	if &sh =~ '\<cmd'
-		silent execute '!""C:\Program Files\Vim\vim72\diff" ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . '"'
-	else
-		silent execute '!C:\Program" Files\Vim\vim72\diff" ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
-	endif
-endfunction
-
 
