@@ -55,7 +55,10 @@ au filetype help :se nonu		" turn off line numbers for help
 
 "Map a key for some spell checking
 map <F7> :setlocal spell! spelllang=en_gb<cr>
-imap <F7> <ESC>:setlocal spell! spelllang=en_gb<cr>
+imap <F7> <ESC><F7>
+
+map <C-P>] :tabnext<CR>
+map <C-P>[ :tabprevious<CR>
 
 " Make standard "gf" open in a new tab
 noremap gf <C-w>gF
