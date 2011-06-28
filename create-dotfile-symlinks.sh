@@ -1,14 +1,24 @@
 #! /bin/bash
 
 SRC=(
+	".asoundrc2"
 	"bash"
 	"git"
+	".muttrc"
+	"ncmpc/config"
+	".rtorrent.rc"
+	".tmux.conf"
 	".screenrc"
 	"vim"
 );
 DST=(
+	".asoundrc2"
 	""
 	""
+	".muttrc"
+	"ncmpc/config"
+	".rtorrent.rc"
+	".tmux.conf"
 	".screenrc"
 	""
 );
