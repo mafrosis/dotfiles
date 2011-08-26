@@ -94,3 +94,6 @@ set completeopt=longest,menuone,preview
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
+" highlight .wsgi files as python
+au BufNewFile,BufRead *.wsgi	setf python
+
