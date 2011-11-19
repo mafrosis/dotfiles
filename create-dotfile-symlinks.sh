@@ -51,16 +51,16 @@ for ((i=0; i<${#SRC[@]}; i++)); do
 	
 	elif [ -d "$PWD/${SRC[$i]}" ]; then
 		# list all dirs/files below this location
-		for ITEM in $(find "${SRC[$i]}" -mindepth 1 -printf "%P\n")
+		for ITEM in $(find "${SRC[$i]}" -mindepth 1)
 		do
+			LN=${ITEM#*/}
 			# create directory or symlink file
-			if [ -d "$PWD/${SRC[$i]}/$ITEM" ]; then
-				mkdir -p "$HOME/$ITEM"
-			elif [ -f "$PWD/${SRC[$i]}/$ITEM" ]; then
-				create_sym "$PWD/${SRC[$i]}/$ITEM" "$HOME/$ITEM"
+			if [ -d "$PWD/${SRC[$i]}/$LN" ]; then
+				mkdir -p "$HOME/$LN"
+			elif [ -f "$PWD/${SRC[$i]}/$LN" ]; then
+				create_sym "$PWD/${SRC[$i]}/$LN" "$HOME/$LN"
 			fi
 		done
 	fi
 done
-
 
