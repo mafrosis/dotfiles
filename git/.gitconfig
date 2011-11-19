@@ -7,3 +7,4 @@
 	ui = auto
 	diff = auto
 [gui]
+	encoding = utf-8
