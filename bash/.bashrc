@@ -29,41 +29,20 @@ esac
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-#if [ -f ~/.bash_aliases ]; then
-#    . ~/.bash_aliases
-#fi
-
-# enable color support of ls and also add handy aliases
-if [ "$TERM" != "dumb" ]; then
-    eval "`dircolors -b`"
-    alias ls='ls --color=auto'
-    #alias dir='ls --color=auto --format=vertical'
-    #alias vdir='ls --color=auto --format=long'
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
 fi
-
-# mafro- some more ls aliases
-alias ll='ls -lh'
-alias la='ls -Alh'
-alias lh='ls -ld .??*'
-
-# mafro- simple temperature check
-alias temp='sensors | grep "Core0 Temp*"'
-
-# mafro- diskspace alias
-alias duh='du -h --max-depth=1'
-
-# mafro- mcp alias for multiple file copy
-alias mcp='mmv -c'
 
 # enable programmable completion features
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 
-
-# git alias
-alias gs='git status'
-alias gb='git branch --color -a'
+# enable color support of ls and also add handy aliases
+if [ "$TERM" != "dumb" ]; then
+    eval "`dircolors -b`"
+    alias ls='ls --color=auto'
+fi
 
 # http://gist.github.com/31631
 
@@ -80,7 +59,8 @@ export PS1='\[\033[01;36m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w \[\033[1;33m\]$(p
 # allow bash color in less output
 LESS=-r
 
-# prevent ctrl-s disabling terminal flow control (XOFF)
-stty ixany
-
+# python virtualenv
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+	sourc usr/local/bin/virtualenvwrapper.sh
+fi
 
