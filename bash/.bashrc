@@ -24,10 +24,8 @@ xterm*|rxvt*)
     ;;
 esac
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+################# includes ##################
 
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
@@ -38,14 +36,22 @@ if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 
+
+################# colour ##################
+
 # enable color support of ls and also add handy aliases
 if [ "$TERM" != "dumb" ]; then
     eval "`dircolors -b`"
     alias ls='ls --color=auto'
 fi
 
-# http://gist.github.com/31631
+# allow bash color in less output
+LESS=-r
 
+
+################# prompt ##################
+
+# http://gist.github.com/31631
 function parse_git_dirty {
     [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
 }
@@ -56,11 +62,17 @@ function parse_git_branch {
 # color my prompt including git info
 export PS1='\[\033[01;36m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w \[\033[1;33m\]$(parse_git_branch)\[\033[00m\]> '
 
-# allow bash color in less output
-LESS=-r
 
-# python virtualenv
+################# python ##################
+
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
 	sourc usr/local/bin/virtualenvwrapper.sh
 fi
+
+
+################# functions ##################
+
+function allowbind() {
+	setcap 'cap_net_bind_service=+ep' $(which $1)
+}
 
