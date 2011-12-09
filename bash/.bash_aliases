@@ -1,15 +1,17 @@
-# mafro- some more ls aliases
+# some more ls aliases
 alias ll='ls -lh'
 alias la='ls -Alh'
 alias lh='ls -ld .??*'
 
-# mafro- simple temperature check
+# simple temperature check
 alias temp='sensors | grep "Core0 Temp*"'
 
-# mafro- diskspace alias
+# diskspace alias
 alias duh='du -h --max-depth=1'
 
-# mafro- mcp alias for multiple file copy
-alias mcp='mmv -c'
+# git status alias
+alias gs='git status'
 
+# mad typo fix
+alias exity='exit'
 
