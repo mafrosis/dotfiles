@@ -97,3 +97,9 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 " highlight .wsgi files as python
 au BufNewFile,BufRead *.wsgi	setf python
 
+
+"---- Code folding ------------------------------------------------------
+set foldmethod=indent
+set foldlevel=99
+
+
