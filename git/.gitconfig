@@ -8,3 +8,10 @@
 	diff = auto
 [gui]
 	encoding = utf-8
+[alias]
+	st = status
+	ci = commit
+	br = branch -a
+	co = checkout
+	df = diff
+	lg = log -p
