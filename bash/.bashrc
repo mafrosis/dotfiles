@@ -73,6 +73,8 @@ fi
 ################# functions ##################
 
 function allowbind() {
-	setcap 'cap_net_bind_service=+ep' $(which $1)
+	SRC=$(which $1)
+	BIN=$(readlink -f $SRC)
+	setcap 'cap_net_bind_service=+ep' $BIN
 }
 
