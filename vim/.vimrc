@@ -12,6 +12,8 @@ set ignorecase					" Do case insensitive matching
 set hlsearch        			" Highlight search terms found
 set incsearch					" Find as you type
 set nobackup					" No backup files (file~)
+set nowritebackup				" 
+set noswapfile					" No .swp files
 set laststatus=2				" always have a status bar at the bottom.
 set mouse=a						" Allow mouse where possible
 set ttymouse=xterm2				" Enable the mouse through GNU screen
