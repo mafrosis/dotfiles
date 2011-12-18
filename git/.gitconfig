@@ -3,6 +3,9 @@
 	email = dev@mafro.net
 [core]
 	autocrlf = false
+	eol = lf
+	whitespace = trailing-space,space-before-tab
+	excludesfile = ~/.gitignore
 [color]
 	ui = auto
 	diff = auto
@@ -15,3 +18,18 @@
 	co = checkout
 	df = diff
 	lg = log -p
+[help]
+	autocorrect = 1
+[advice]
+	#statusHints = false		# how to stage/unstage advice
+	#pushNonFastForward = false	# no push of non-FF advice
+[diff]
+	mnemonicprefix = true		# use i,w,c,o instead of a,b in diff
+	renames = copies			# attempt to spot file renames
+[branch]
+	autosetupmerge = true		# auto track remote branches
+[push]
+	default = tracking			# default a push to the upstream branch
+[merge]
+	stat = true					# show diffstat after merge
+
