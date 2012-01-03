@@ -30,14 +30,14 @@ if has('unix')
 	set t_Co=256							" Force 256 colours in GNU Screen
 	colorscheme ir_black_plus
 	
-	if has('gui_running')
-		"Unix windowed environment
-		set guifont=Bitstream\ Vera\ Sans\ Mono\ 12
-		set columns=124 lines =38
-	else
-		"Unix command line
-		set background=dark						" Dark background for shell
-	endif
+	"if has('gui_running')
+	"	"Unix windowed environment
+	"	set guifont=Bitstream\ Vera\ Sans\ Mono\ 12
+	"	set columns=124 lines =38
+	"else
+	"	"Unix command line
+	"	set background=dark						" Dark background for shell
+	"endif
 endif
 
 
