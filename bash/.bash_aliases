@@ -16,3 +16,7 @@ alias gs='git status'
 # mad typo fix
 alias exity='exit'
 
+# info with imagemagick
+alias imginfo="identify -format '-- %f -- \nType: %m\nSize: %b bytes\nResolution: %wpx x %hpx\nColors: %k'"
+alias imgres="identify -format '%f: %wpx x %hpx'"
+
