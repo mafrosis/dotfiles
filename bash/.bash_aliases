@@ -2,6 +2,7 @@
 alias ll='ls -lh'
 alias la='ls -Alh'
 alias lh='ls -ld .??*'
+alias grep='grep --color=auto'
 
 # simple temperature check
 alias temp='sensors | grep "Core0 Temp*"'
