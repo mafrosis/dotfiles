@@ -69,7 +69,7 @@ export PS1='\[\033[01;36m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w \[\033[1;33m\]$(p
 ################# python ##################
 
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-	sourc usr/local/bin/virtualenvwrapper.sh
+	source /usr/local/bin/virtualenvwrapper.sh
 fi
 
 
