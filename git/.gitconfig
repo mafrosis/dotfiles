@@ -21,7 +21,7 @@
 [help]
 	autocorrect = 1
 [advice]
-	#statusHints = false		# how to stage/unstage advice
+	statusHints = false			# how to stage/unstage advice
 	#pushNonFastForward = false	# no push of non-FF advice
 [diff]
 	mnemonicprefix = true		# use i,w,c,o instead of a,b in diff
