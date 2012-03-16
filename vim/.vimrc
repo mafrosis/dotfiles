@@ -44,6 +44,7 @@ endif
 "---- File type options ------------------------------------------------
 " Individual filetype settings in ~/.vim/ftplugin/<type>.vim
 syntax enable					" General file type syntax highlighting
+filetype on
 filetype plugin on				" Use filetype plugins
 filetype indent on				" Filetype indenting
 
@@ -104,4 +105,7 @@ au BufNewFile,BufRead *.wsgi	setf python
 set foldmethod=indent
 set foldlevel=99
 
+
+"---- Pathogen ----------------------------------------------------------
+call pathogen#infect()
 
