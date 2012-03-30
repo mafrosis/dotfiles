@@ -66,13 +66,6 @@ function parse_git_branch {
 export PS1='\[\033[01;36m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w \[\033[1;33m\]$(parse_git_branch)\[\033[00m\]> '
 
 
-################# python ##################
-
-if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-	source /usr/local/bin/virtualenvwrapper.sh
-fi
-
-
 ################# functions ##################
 
 function allowbind() {

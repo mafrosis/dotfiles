@@ -115,4 +115,5 @@ set foldlevel=99
 
 "---- Pathogen ----------------------------------------------------------
 call pathogen#infect()
+call pathogen#helptags()
 
