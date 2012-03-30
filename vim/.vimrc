@@ -63,6 +63,13 @@ imap <F7> <ESC><F7>
 map <C-P>] :tabnext<CR>
 map <C-P>[ :tabprevious<CR>
 
+"Easy insert newline
+noremap 0 o<ESC>
+
+"Map that useless Macbook key to ESC
+map § <ESC>
+imap § <ESC>
+
 " Make standard "gf" open in a new tab
 noremap gf <C-w>gF
 
