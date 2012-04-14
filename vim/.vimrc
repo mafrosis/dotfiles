@@ -53,13 +53,13 @@ au filetype help :se nonu		" turn off line numbers for help
 
 
 "---- Mappings ---------------------------------------------------------
-"NOTE: 	To see what a key sends use ctrl+k then keystroke while in 
-"		insert mode
+"NOTE: 	To see what a key sends use ctrl+k then keystroke while in insert mode
 
-"Map a key for some spell checking
+" Map a key for some spell checking
 map <F7> :setlocal spell! spelllang=en_gb<cr>
 imap <F7> <ESC><F7>
 
+" Shortcut tab next/previous
 map <C-P>] :tabnext<CR>
 map <C-P>[ :tabprevious<CR>
 
@@ -69,6 +69,9 @@ noremap 0 o<ESC>
 "Map that useless Macbook key to ESC
 map § <ESC>
 imap § <ESC>
+
+" Mapping to reload gunicorn
+map <C-G>r<CR> :!kill -HUP `cat /tmp/gunicorn.pid`<CR><CR>
 
 " Make standard "gf" open in a new tab
 noremap gf <C-w>gF
