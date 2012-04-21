@@ -1,0 +1,24 @@
+[general]
+accounts = mafro-net
+ui = ttyui
+
+[Account mafro-net]
+localrepository = Abigail
+remoterepository = Gandi
+postsynchook = deletemails.sh
+maxage = 90
+
+[Repository Abigail]
+type = Maildir
+localfolders = ~/Maildir
+
+[Repository Gandi]
+type = IMAP
+ssl = yes
+remotehost = mail.gandi.net
+remoteuser = 
+remotepass = 
+folderfilter = lambda foldername: foldername in ['INBOX', 'oii', 'Sent']
+nametrans = lambda foldername: '.pixelabuse' if foldername == 'INBOX' else '.'+foldername
+maxconnections = 2
+
