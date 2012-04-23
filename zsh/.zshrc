@@ -21,8 +21,8 @@ SAVEHIST=1000
 
 
 # aliases
-alias ll="ls -lH"
-alias la="ls -laH"
+alias ll="ls -lh"
+alias la="ls -lah"
 alias tsl="tail -f /var/log/syslog"
 alias t="todo.sh"
 alias grep="grep --color=auto"
