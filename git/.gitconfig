@@ -29,7 +29,7 @@
 [branch]
 	autosetupmerge = true		# auto track remote branches
 [push]
-	default = tracking			# default a push to the upstream branch
+	default = upstream			# default a push to the upstream branch
 [merge]
 	stat = true					# show diffstat after merge
 
