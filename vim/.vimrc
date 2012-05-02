@@ -70,6 +70,9 @@ noremap 0 o<ESC>
 map § <ESC>
 imap § <ESC>
 
+"Map code folding to spacebar
+nnoremap <space> za
+
 " Make standard "gf" open in a new tab
 noremap gf <C-w>gF
 
