@@ -1,63 +1,52 @@
-# zsh specific
-autoload -U compinit
-compinit
+# Path to your oh-my-zsh configuration.
+ZSH=$HOME/dotfiles/oh-my-zsh
 
-setopt correctall
-setopt autocd
-setopt auto_resume
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+ZSH_THEME="mafro"
+
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# Set to this to use case-sensitive completion
+CASE_SENSITIVE="true"
+
+# Comment this out to disable weekly auto-update checks
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment following line if you want to disable colors in ls
+# DISABLE_LS_COLORS="true"
+
+# Uncomment following line if you want to disable autosetting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment following line if you want red dots to be displayed while waiting for completion
+COMPLETION_WAITING_DOTS="true"
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+plugins=(git python osx)
+
+source $ZSH/oh-my-zsh.sh
+
+# Customize to your needs...
+
+# advanced file globbing
 setopt extended_glob
 
-zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
-zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'
+# enable OSX alt-arrow word nav
+bindkey '' forward-word
+bindkey '' backward-word
 
-zmodload -i zsh/complist
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-
-# history
+# ignore history duplicates
 setopt hist_ignore_all_dups
-HISTFILE=~/.zsh-histfile
-HISTSIZE=1000
-SAVEHIST=1000
 
-
-# aliases
-alias ll="ls -lh"
-alias la="ls -lah"
-alias tsl="tail -f /var/log/syslog"
-alias t="todo.sh"
-alias grep="grep --color=auto"
-alias lame="nocorrect lame"
-
-# git alias
-alias gs='git status'
-alias gb='git branch --color -a'
-
-# http://gist.github.com/31631
-
-setopt PROMPT_SUBST
-
-# Autoload zsh functions.
-fpath=(~/.zsh/functions $fpath)
-autoload -U ~/.zsh/functions/*(:t)
- 
-# Enable auto-execution of functions.
-typeset -ga preexec_functions
-typeset -ga precmd_functions
-typeset -ga chpwd_functions
- 
-# Append git functions needed for prompt.
-preexec_functions+='preexec_update_git_vars'
-precmd_functions+='precmd_update_git_vars'
-chpwd_functions+='chpwd_update_git_vars'
-
-#parse_git_dirty() {
-#    if [ "$(git status 2> /dev/null | tail -n1)" != "nothing to commit (working directory clean)" ]; then echo "*"; fi
-#}
-#parse_git_branch() {
-#    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/ [\1$(parse_git_dirty)]/"
-#}
-
-PROMPT="%B%{%F{cyan}%}%n@%m%b%{%F{white}%}:%{%F{cyan}%}%~$(prompt_git_info) %b%{%F{white}%}> "
+# prevent 'vim' -> '.vim'
+setopt nocorrectall
 
 # MacPorts
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
@@ -72,11 +61,5 @@ export EBOOK_USER=mafro
 export EBOOK_PASS=eggs1bacon4
 
 export EDITOR=vim
-
-
-# OSX colors
-export LS_OPTIONS='--color=auto'
-export CLICOLOR='Yes'
-export LSCOLORS='Bxgxfxfxcxdxdxhbadbxbx'
 
 
