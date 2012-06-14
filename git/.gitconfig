@@ -1,6 +1,6 @@
 [user]
-	name = mafro
-	email = dev@mafro.net
+	name = Matt Black
+	email = matt.black@jbadigital.com
 [core]
 	autocrlf = false
 	eol = lf
@@ -29,7 +29,7 @@
 [branch]
 	autosetupmerge = true		# auto track remote branches
 [push]
-	default = upstream			# default a push to the upstream branch
+	default = tracking
 [merge]
 	stat = true					# show diffstat after merge
 
