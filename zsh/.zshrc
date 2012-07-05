@@ -44,6 +44,7 @@ bindkey '' backward-word
 
 # ignore history duplicates
 setopt hist_ignore_all_dups
+setopt append_history no_inc_append_history no_share_history
 
 # prevent 'vim' -> '.vim'
 setopt nocorrectall
