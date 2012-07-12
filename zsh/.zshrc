@@ -21,7 +21,7 @@ DISABLE_AUTO_UPDATE="true"
 COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(git python osx virtualenvwrapper)
+plugins=(git python osx virtualenvwrapper tmux)
 
 source $ZSH/oh-my-zsh.sh
 
