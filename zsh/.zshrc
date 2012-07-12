@@ -25,6 +25,11 @@ plugins=(git python osx virtualenvwrapper)
 
 source $ZSH/oh-my-zsh.sh
 
+# import aliases
+if [ -f $HOME/.zsh_aliases ]; then
+	source $HOME/.zsh_aliases
+fi
+
 # Customize to your needs...
 
 # advanced file globbing
