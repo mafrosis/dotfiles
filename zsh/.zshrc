@@ -20,6 +20,9 @@ DISABLE_AUTO_UPDATE="true"
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 COMPLETION_WAITING_DOTS="true"
 
+# PATH
+export PATH=$HOME/bin:$PATH
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 plugins=(git python osx virtualenvwrapper tmux)
 
@@ -50,7 +53,6 @@ setopt nocorrectall
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
 # PATH
-export PATH=$HOME/bin:$PATH
 export PATH=~/Development/android/android-sdk-mac_x86/tools:~/Development/android/android-sdk-mac_x86/platform-tools:$PATH
 
 # ebook stuff
