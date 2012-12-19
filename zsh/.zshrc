@@ -23,6 +23,9 @@ COMPLETION_WAITING_DOTS="true"
 # PATH
 export PATH=$HOME/bin:$PATH
 
+# Homebrew
+export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 plugins=(git python osx virtualenvwrapper tmux)
 
@@ -48,9 +51,6 @@ setopt append_history no_inc_append_history no_share_history
 
 # prevent 'vim' -> '.vim'
 setopt nocorrectall
-
-# MacPorts
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
 # PATH
 export PATH=~/Development/android/android-sdk-mac_x86/tools:~/Development/android/android-sdk-mac_x86/platform-tools:$PATH
