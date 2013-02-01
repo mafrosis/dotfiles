@@ -1,0 +1,15 @@
+file_client: local
+
+id: salt
+
+grains:
+  role: salt
+  user: mafro
+
+file_roots:
+  base:
+    - /home/mafro/dotfiles/salt/
+
+pillar_roots:
+  base:
+    - /home/mafro/dotfiles/salt/pillar/

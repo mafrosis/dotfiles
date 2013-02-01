@@ -1,0 +1,35 @@
+[user]
+	name = mafro
+	email = github@mafro.net
+[core]
+	autocrlf = false
+	eol = lf
+	whitespace = trailing-space,space-before-tab
+	excludesfile = ~/.gitignore
+[color]
+	ui = auto
+	diff = auto
+[gui]
+	encoding = utf-8
+[alias]
+	st = status
+	ci = commit
+	br = branch -a
+	co = checkout
+	df = diff
+	lg = log -p
+[help]
+	autocorrect = 1
+[advice]
+	statusHints = false			# how to stage/unstage advice
+	#pushNonFastForward = false	# no push of non-FF advice
+[diff]
+	mnemonicprefix = true		# use i,w,c,o instead of a,b in diff
+	renames = copies			# attempt to spot file renames
+[branch]
+	autosetupmerge = true		# auto track remote branches
+[push]
+	default = tracking
+[merge]
+	stat = true					# show diffstat after merge
+
