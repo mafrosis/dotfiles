@@ -44,3 +44,8 @@ elif [ -f "$PWD/.$1" ]; then
 	create_sym "$PWD/${SRC[$i]}" "$HOME/${DST[$i]}"
 fi
 
+# special behaviour for vim and vundle
+if [ "$1" == "vim" ]; then
+	git submodule update --init
+	vim +BundleInstall +qall
+fi
