@@ -122,3 +122,7 @@ Bundle 'saltstack/salt-vim'
 "Bundle 'git://git.wincent.com/command-t.git'
 
 filetype plugin indent on     " required!
+
+
+"---- Powerline -------------------------------------------------------
+set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
