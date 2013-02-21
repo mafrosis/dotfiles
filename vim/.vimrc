@@ -9,6 +9,7 @@ set nu							" Turn on line numbers
 set showcmd						" Show (partial) command in status line.
 set showmatch					" Show matching brackets.
 set ignorecase					" Do case insensitive matching
+set smartcase					" Case-sensitive when uppercase chars included
 set hlsearch        			" Highlight search terms found
 set incsearch					" Find as you type
 set nobackup					" No backup files (file~)
@@ -61,8 +62,10 @@ map <F7> :setlocal spell! spelllang=en_gb<cr>
 imap <F7> <ESC><F7>
 
 " Shortcut tab next/previous
+map <C-P>[ :tabprev<CR>
 map <C-P>] :tabnext<CR>
-map <C-P>[ :tabprevious<CR>
+map <C-left> :tabprev<CR>
+map <C-right> :tabnext<CR>
 
 " Easy insert newline
 noremap 0 o<ESC>
@@ -71,30 +74,15 @@ noremap 0 o<ESC>
 map § <ESC>
 imap § <ESC>
 
-" Map code folding to spacebar
-nnoremap <space> za
-
 " Mapping to reload gunicorn
 map <C-G>r<CR> :!kill -HUP `cat /tmp/gunicorn.pid`<CR><CR>
 
 " Make standard "gf" open in a new tab
 noremap gf <C-w>gF
 
-" Easy tab movement (If statement handles problems with Putty and C-Left/C-Right)
-if has("gui_running")
-	" Problem with KDE terminal?
-	map <C-left> : tabprev<CR>
-	imap <C-left> <esc> : tabprev <cr>
-	map <C-right> : tabnext<CR>
-	imap <C-right> <esc> : tabnext <cr>
-else
-	map <Esc>[D :tabprev<CR>
-	imap <Esc>[D <Esc> :tabprev<CR>
-	map <Esc>[C :tabnext<CR>
-	imap <Esc>[C <Esc> :tabnext<CR>
-endif
+" NERDTree visibility
+:nmap \e :NERDTreeToggle<CR>
 
-" TODO: Key words open in a new tab
 
 "---- Code completion options ------------------------------------------
 " The same trick is needed to get ctrl+space to autocomplete in all environments
@@ -113,6 +101,9 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 " highlight .wsgi files as python
 au BufNewFile,BufRead *.wsgi	setf python
+
+" Map code folding to spacebar
+nnoremap <space> za
 
 
 "---- Code folding ------------------------------------------------------
