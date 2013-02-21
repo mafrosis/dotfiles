@@ -21,10 +21,13 @@ DISABLE_AUTO_UPDATE="true"
 COMPLETION_WAITING_DOTS="true"
 
 # PATH
-export PATH=$HOME/bin:$PATH
+export PATH=$HOME/bin:/usr/local/share/python:$PATH
 
 # Homebrew
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+
+# use zsh's ace renaming tool
+autoload zmv
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 plugins=(git python osx virtualenvwrapper tmux)
@@ -59,6 +62,8 @@ export PATH=~/Development/android/android-sdk-mac_x86/tools:~/Development/androi
 export EBOOK_HOME=~"/Documents/ebooks/DeDRM"
 export EBOOK_USER=mafro
 export EBOOK_PASS=eggs1bacon4
+
+export MUSIC_DIR="/home/mafro/MP3"
 
 export EDITOR=vim
 
