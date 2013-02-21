@@ -21,6 +21,7 @@ set background=dark				" Default. Background may be overridden is OS settings
 set showtabline=2				" Always show the tab line
 set guioptions-=T				" Turn off toolbars, but leave on menues
 set shortmess=I					" Turn off the intro message
+set bs=indent,eol,start     	" Backspace over everything in insert mode
 
 
 "---- OS Specific options ----------------------------------------------
