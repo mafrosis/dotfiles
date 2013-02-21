@@ -37,9 +37,6 @@ endif
 "---- File type options ------------------------------------------------
 " Individual filetype settings in ~/.vim/ftplugin/<type>.vim
 syntax enable					" General file type syntax highlighting
-filetype on
-filetype plugin on				" Use filetype plugins
-filetype indent on				" Filetype indenting
 
 " Small changes that don't warrent an ftplugin file of their own
 au filetype help :se nonu		" turn off line numbers for help
@@ -102,7 +99,26 @@ set foldmethod=indent
 set foldlevel=99
 
 
-"---- Pathogen ----------------------------------------------------------
-call pathogen#infect()
-call pathogen#helptags()
+"---- Vundle ------------------------------------------------------------
+filetype off                   " required!
 
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+Bundle 'gmarik/vundle'
+
+" original repos on github
+Bundle 'tpope/vim-fugitive'
+Bundle 'Lokaltog/powerline'
+Bundle 'scrooloose/syntastic'
+Bundle 'saltstack/salt-vim'
+
+" vim-scripts repos
+"Bundle 'L9'
+"Bundle 'FuzzyFinder'
+
+" non github repos
+"Bundle 'git://git.wincent.com/command-t.git'
+
+filetype plugin indent on     " required!
