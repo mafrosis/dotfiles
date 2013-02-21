@@ -1,12 +1,6 @@
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
 	url = git@github.com:mafrosis/oh-my-zsh.git
-[submodule "vim/.vim/bundle/syntastic"]
-	path = vim/.vim/bundle/syntastic
-	url = git://github.com/scrooloose/syntastic.git
-[submodule "vim/.vim/bundle/vim-powerline"]
-	path = vim/.vim/bundle/vim-powerline
-	url = git://github.com/Lokaltog/vim-powerline.git
 [submodule "tmux/tmux-powerline"]
 	path = tmux/tmux-powerline
 	url = git@github.com:mafrosis/tmux-powerline.git
