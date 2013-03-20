@@ -129,3 +129,6 @@ set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 let g:Powerline_symbols = 'fancy'
 
 set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
+
+
+let g:syntastic_python_flake8_args='--ignore=E501'
