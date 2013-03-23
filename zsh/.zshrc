@@ -39,7 +39,13 @@ if [ -f $HOME/.zsh_aliases ]; then
 	source $HOME/.zsh_aliases
 fi
 
-# Customize to your needs...
+# add custom functions to the FPATH
+# http://unix.stackexchange.com/a/33898
+fpath=( ~/.zsh-functions "${fpath[@]}" )
+
+# autoload custom functions..
+autoload -Uz uptime
+
 
 # advanced file globbing
 setopt extended_glob

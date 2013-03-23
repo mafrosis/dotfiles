@@ -1,0 +1,8 @@
+#! /bin/zsh
+
+if [ -z "$(uname -a | awk '/Darwin/ {print $1}')" ]; then
+	PID=$(ps -ef | awk '/'''$@'''/ {print $2}' | head -1)
+	ps -p $PID -o "%t" | tail -1 | tr -d ' '
+else
+	ps -ax -o etime,command -c | awk '/'''$@'''/ {print $1}'
+fi
