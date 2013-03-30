@@ -24,20 +24,25 @@ function create_sym() {
 	fi
 }
 
+function create_dir() {
+	# symlink all files in directory
+	for ITEM in $(find "$1" -mindepth 1)
+	do
+		LN=${ITEM#*$1/}
+		# create directory or symlink file
+		if [ -d "$1/$LN" ]; then
+			mkdir -p "$HOME/$LN"
+		elif [ -f "$1/$LN" ]; then
+			create_sym "$1/$LN" "$HOME/$LN"
+		fi
+	done
+}
+
 PWD=$(pwd)
 
 if [ -d "$PWD/$1" ]; then
-	# symlink all files in directory
-	for ITEM in $(find "$PWD/$1" -mindepth 1)
-	do
-		LN=${ITEM#*$PWD/$1/}
-		# create directory or symlink file
-		if [ -d "$PWD/$1/$LN" ]; then
-			mkdir -p "$HOME/$LN"
-		elif [ -f "$PWD/$1/$LN" ]; then
-			create_sym "$PWD/$1/$LN" "$HOME/$LN"
-		fi
-	done
+	# create a directory and all containing symlinks
+	create_dir "$PWD/$1"
 
 elif [ -f "$PWD/.$1" ]; then
 	# create a symlink
@@ -47,5 +52,6 @@ fi
 # special behaviour for vim and vundle
 if [ "$1" == "vim" ]; then
 	git submodule update --init
+	create_dir "$PWD/$1"
 	vim +BundleInstall +qall
 fi
