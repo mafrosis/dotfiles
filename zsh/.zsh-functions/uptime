@@ -1,8 +1,49 @@
 #! /bin/zsh
 
-if [ -z "$(uname -a | awk '/Darwin/ {print $1}')" ]; then
-	PID=$(ps -ef | awk '/'''$@'''/ {print $2}' | head -1)
-	ps -p $PID -o "%t" | tail -1 | tr -d ' '
-else
-	ps -ax -o etime,command -c | awk '/'''$@'''/ {print $1}'
+# the list of valid parameters to /bin/uptime
+uptime_opts=('-h' '--help' '-V' '--version')
+
+# if the single supplied parameter in one of the above
+# then pass it to /usr/bin/uptime and exit
+if [ $# -eq 0 ] || [[ ${uptime_opts[(r)$@]} == $@ ]]; then
+	/usr/bin/uptime $@
+	exit 0
 fi
+
+# find a process' uptime
+proc_uptime() {
+	if [ $2 -eq 1 ]; then
+		ps axc -o etime,command | grep $1
+	else
+		ps axc -o etime,command | grep $1 | head -1 
+	fi
+}
+
+# custom uptime usage
+usage="uptime [-a all] [-o oldest] [-y youngest] processes"
+
+ALL=0
+OLDEST=0
+YOUNGEST=0
+
+# parse incoming params
+while getopts "aoyh" opt; do
+	case $opt in
+		a ) ALL=1;;
+		o ) OLDEST=1;;
+		y ) YOUNGEST=1;;
+		h ) echo $usage
+			exit 1;;
+	esac
+done
+
+# reset $@
+shift $(($OPTIND-1))
+
+# iterate parameters
+for proc in "$@"; do
+	# ensure process exists
+	if [ $(ps -ef | grep "$proc" | wc -l) -gt 1 ]; then
+		proc_uptime $proc $ALL
+	fi
+done
