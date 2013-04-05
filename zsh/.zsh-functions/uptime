@@ -13,9 +13,9 @@ fi
 # find a process' uptime
 proc_uptime() {
 	if [ $2 -eq 1 ]; then
-		ps axc -o etime,command | grep $1
+		ps axc -o etime,user,command | grep $1
 	else
-		ps axc -o etime,command | grep $1 | head -1 
+		ps axc -o etime,user,command | grep $1 | head -1 
 	fi
 }
 
