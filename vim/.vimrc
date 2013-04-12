@@ -126,11 +126,14 @@ Bundle 'tpope/vim-markdown'
 filetype plugin indent on     " required!
 
 
+"---- Syntastic -------------------------------------------------------
+let g:syntastic_python_flake8_args='--ignore=E501'
+let g:syntastic_mode_map = { 'mode': 'active',
+						   \ 'active_filetypes': [],
+						   \ 'passive_filetypes': ['java'] }
+
 "---- Powerline -------------------------------------------------------
 set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 let g:Powerline_symbols = 'fancy'
 
 set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
-
-
-let g:syntastic_python_flake8_args='--ignore=E501'
