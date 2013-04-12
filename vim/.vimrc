@@ -114,6 +114,7 @@ Bundle 'Lokaltog/powerline'
 Bundle 'scrooloose/syntastic'
 Bundle 'saltstack/salt-vim'
 Bundle 'airblade/vim-gitgutter'
+Bundle 'tpope/vim-markdown'
 
 " vim-scripts repos
 "Bundle 'L9'
