@@ -7,6 +7,7 @@ uptime_opts=('-h' '--help' '-V' '--version')
 # then pass it to /usr/bin/uptime and exit
 if [ $# -eq 0 ] || [[ ${uptime_opts[(r)$@]} == $@ ]]; then
 	/usr/bin/uptime $@
+	return
 fi
 
 # find a process' uptime
@@ -32,6 +33,7 @@ while getopts "aoyh" opt; do
 		o ) OLDEST=1;;
 		y ) YOUNGEST=1;;
 		h ) echo $usage
+			return;;
 	esac
 done
 
