@@ -61,8 +61,9 @@ setopt append_history no_inc_append_history no_share_history
 # prevent 'vim' -> '.vim'
 setopt nocorrectall
 
-# PATH
-export PATH=~/Development/android/android-sdk-mac_x86/tools:~/Development/android/android-sdk-mac_x86/platform-tools:$PATH
+# Android
+export PATH=~/Development/android/adt-bundle-mac-x86_64/sdk/tools:~/Development/android/adt-bundle-mac-x86_64/sdk/platform-tools:$PATH
+export ANDROID_HOME=~/Development/android/adt-bundle-mac-x86_64/sdk/
 
 # ebook stuff
 export EBOOK_HOME=~"/Documents/ebooks/DeDRM"
