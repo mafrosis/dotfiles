@@ -22,3 +22,6 @@ alias imgres="identify -format '%f: %wpx x %hpx'"
 
 # tmux
 alias ta="tmux attach"
+
+# generate a UUID
+alias uuid="python -c 'import uuid; print uuid.uuid4()'"
