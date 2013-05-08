@@ -61,6 +61,8 @@ noremap 0 o<ESC>
 " Map that useless Macbook key to ESC
 map § <ESC>
 imap § <ESC>
+map <C-c> <ESC>
+imap <C-c> <ESC>
 
 " Mapping to reload gunicorn
 map <C-G>r<CR> :!kill -HUP `cat /tmp/gunicorn.pid`<CR><CR>
