@@ -40,18 +40,21 @@ function create_dir() {
 
 PWD=$(pwd)
 
-if [ -d "$PWD/$1" ]; then
-	# create a directory and all containing symlinks
-	create_dir "$PWD/$1"
+for app in "$@"
+do
+	if [ -d "$PWD/$app" ]; then
+		# create a directory and all containing symlinks
+		create_dir "$PWD/$app"
 
-elif [ -f "$PWD/.$1" ]; then
-	# create a symlink
-	create_sym "$PWD/${SRC[$i]}" "$HOME/${DST[$i]}"
-fi
+	elif [ -f "$PWD/.$app" ]; then
+		# create a symlink
+		create_sym "$PWD/${SRC[$i]}" "$HOME/${DST[$i]}"
+	fi
 
-# special behaviour for vim and vundle
-if [ "$1" == "vim" ]; then
-	git submodule update --init
-	create_dir "$PWD/$1"
-	vim +BundleInstall +qall
-fi
+	# special behaviour for vim and vundle
+	if [ "$app" == "vim" ]; then
+		git submodule update --init
+		create_dir "$PWD/$app"
+		vim +BundleInstall +qall
+	fi
+done
