@@ -1,9 +1,19 @@
 #! /bin/bash
 
-if [ -z "$1" ]; then
-	echo "Usage: ./install.sh application"
-	exit 1
-fi
+usage="Usage: ./install.sh [-f force] application"
+
+FORCE=0
+
+while getopts "f" options
+do
+	case $options in
+		f ) FORCE=1;;
+		\? ) echo $usage
+			 exit 1;;
+		* ) echo $usage
+			exit 1;;
+	esac
+done
 
 function create_sym() {
 	if [ -h "$2" ]; then
@@ -11,12 +21,16 @@ function create_sym() {
 		ln -fs "$1" "$2"
 
 	elif [ -f "$2" ]; then
-		# if a file exists, ask user
-		echo "Do you want to delete the existing config file '$2'? [y/N]"
-		read y
-		if [ y == "y" ]; then
+		if [ $FORCE -eq 1 ]; then
 			# replace existing file
 			ln -fs "$1" "$2"
+		else
+			# if a file exists, ask user
+			echo "Do you want to delete the existing config file '$2'? [y/N]"
+			read y
+			if [ "$y" == "y" ]; then
+				ln -fs "$1" "$2"
+			fi
 		fi
 	else
 		# doesnt exist, so create
