@@ -30,7 +30,10 @@ export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 autoload zmv
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(git python osx virtualenvwrapper tmux)
+plugins=(git python osx virtualenvwrapper vagrant)
+if [ "$(uname)" != "Darwin" ]; then
+	plugins+=(tmux)
+fi
 
 source $ZSH/oh-my-zsh.sh
 
