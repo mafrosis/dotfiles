@@ -1,6 +1,6 @@
 #! /bin/bash
 
-usage="Usage: ./install.sh [-f force] application"
+usage="Usage: ./install.sh [-f force] app1 [app2 app3 ..]"
 
 FORCE=0
 
