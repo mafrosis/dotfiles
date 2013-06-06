@@ -127,6 +127,7 @@ Bundle 'tpope/vim-markdown'
 
 filetype plugin indent on     " required!
 
+autocmd! BufNewFile,BufRead *.ino setlocal ft=arduino
 
 "---- Syntastic -------------------------------------------------------
 let g:syntastic_python_flake8_args='--ignore=E501'
