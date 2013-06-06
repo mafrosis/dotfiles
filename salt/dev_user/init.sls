@@ -43,3 +43,13 @@ install-dotfiles:
     - user: {{ grains['user'] }}
     - require:
       - cmd: dotfiles
+
+python-pip:
+  pkg:
+    - installed
+
+# recent version of virtualenvwrapper
+virtualenvwrapper:
+  pip.installed:
+    - require:
+      - pkg: python-pip
