@@ -65,8 +65,8 @@ setopt append_history no_inc_append_history no_share_history
 setopt nocorrectall
 
 # Android
-export PATH=~/Development/android/adt-bundle-mac-x86_64/sdk/tools:~/Development/android/adt-bundle-mac-x86_64/sdk/platform-tools:$PATH
-export ANDROID_HOME=~/Development/android/adt-bundle-mac-x86_64/sdk/
+export ANDROID_HOME=~/Development/android/android-sdk-macosx
+export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
 
 # ebook stuff
 export EBOOK_HOME=~"/Documents/ebooks/DeDRM"
