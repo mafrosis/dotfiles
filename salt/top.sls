@@ -1,3 +1,4 @@
 base:
-  '*':
-    - mafro
+  'role:chromebook':
+    - match: grain
+    - dev_user
