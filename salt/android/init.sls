@@ -1,5 +1,6 @@
 include:
   - dev_user
+  - java
 
 android-sdk-download:
   file.managed:
@@ -20,18 +21,13 @@ android-sdk-chown:
     - require:
       - cmd: android-sdk-download
 
-openjdk-7-jdk:
-  pkg.installed:
-    - require:
-      - cmd: android-sdk-download
-
 android-sdk-update:
   cmd.run:
     - name: echo "y" | /home/{{ grains['user'] }}/android-sdk-linux/tools/android update sdk -s --no-ui --filter tool,platform-tool,android-16
     - user: {{ grains['user'] }}
     - require:
       - cmd: android-sdk-download
-      - pkg: openjdk-7-jdk
+      - pkg: webupd8team-java
 
 android-sdk-PATH:
   file.sed:
