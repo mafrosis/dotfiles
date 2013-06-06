@@ -1,3 +1,9 @@
+{% if 'arm' in grains["cpuarch"] %}
+jdk-install:
+  pkg.installed:
+    - name: openjdk-7-jdk
+
+{% else %}
 webupd8team-java-ppa:
   pkgrepo.managed:
     - human_name: webupd8team PPA
@@ -7,8 +13,9 @@ webupd8team-java-ppa:
     - keyid: EEA14886
     - keyserver: keyserver.ubuntu.com
 
-webupd8team-java:
+jdk-install:
   pkg.installed:
     - name: oracle-java7-installer
     - require:
       - pkgrepo: webupd8team-java-ppa
+{% endif %}

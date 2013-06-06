@@ -27,7 +27,7 @@ android-sdk-update:
     - user: {{ grains['user'] }}
     - require:
       - cmd: android-sdk-download
-      - pkg: webupd8team-java
+      - pkg: jdk-install
 
 android-sdk-PATH:
   file.sed:
