@@ -12,5 +12,6 @@ required-packages:
       - rsync
       - python-pip
       - bash-completion
+      - git
     - require:
       - file: apt-no-recommends

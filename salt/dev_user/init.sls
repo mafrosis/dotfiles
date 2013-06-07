@@ -14,10 +14,6 @@ modify-shell-user:
     - name: {{ grains['user'] }}
     - shell: /bin/{{ pillar['shell'] }}
 
-git:
-  pkg:
-    - installed
-
 # grab the user's dotfiles
 dotfiles:
   git.latest:

@@ -32,10 +32,6 @@ sphinx-install:
     - require:
       - pip: pelican-install
 
-git:
-  pkg:
-    - installed
-
 base-source-dir:
   file.directory:
     - name: /home/{{ grains['user'] }}/src
