@@ -2,6 +2,12 @@ include:
   - dev_user
   - java
 
+{% if '64' in grains["cpuarch"] %}
+ia32-libs:
+  pkg:
+    - installed
+{% endif %}
+
 android-sdk-download:
   file.managed:
     - name: /home/{{ grains['user'] }}/android-sdk_r22.0.1-linux.tgz
