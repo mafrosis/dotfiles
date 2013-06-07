@@ -3,3 +3,4 @@ base:
     - match: grain
     - dev_user
     - android
+    - nginx
