@@ -4,3 +4,4 @@ base:
     - dev_user
     - android
     - nginx
+    - pelican
