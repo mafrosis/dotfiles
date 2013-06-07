@@ -16,6 +16,7 @@ webupd8team-java-ppa:
 jdk-install:
   pkg.installed:
     - name: oracle-java7-installer
+    - debconf: salt://java/oracle-java7-installer.ans
     - require:
       - pkgrepo: webupd8team-java-ppa
 {% endif %}
