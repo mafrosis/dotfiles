@@ -32,9 +32,9 @@ sphinx-install:
     - require:
       - pip: pelican-install
 
-base-source-dir:
+base-pelican-dir:
   file.directory:
-    - name: /home/{{ grains['user'] }}/src
+    - name: /home/{{ grains['user'] }}/dist
     - user: {{ grains['user'] }}
     - group: {{ grains['user'] }}
 
@@ -42,17 +42,33 @@ pelican-docs-build:
   git.latest:
     - name: git://github.com/getpelican/pelican.git
     - rev: master
-    - target: /home/{{ grains['user'] }}/src/pelican
+    - target: /home/{{ grains['user'] }}/dist/pelican
     - runas: {{ grains['user'] }}
     - require:
       - pkg: git
       - pip: sphinx-install
-      - file: base-source-dir
+      - file: base-pelican-dir
   cmd.wait:
     - name: /home/{{ grains['user'] }}/.virtualenvs/pelican/bin/sphinx-build -b html -d _build/doctrees . _build/html
-    - cwd: /home/{{ grains['user'] }}/src/pelican/docs
+    - cwd: /home/{{ grains['user'] }}/dist/pelican/docs
     - user: {{ grains['user'] }}
     - watch:
       - git: pelican-docs-build
 
+
+base-blog-dir:
+  file.directory:
+    - name: /home/{{ grains['user'] }}/src
+    - user: {{ grains['user'] }}
+    - group: {{ grains['user'] }}
+
+blog-repo-clone:
+  git.latest:
+    - name: git://github.com/mafrosis/blog.mafro.net.git
+    - rev: master
+    - target: /home/{{ grains['user'] }}/src/blog.mafro.net
+    - runas: {{ grains['user'] }}
+    - require:
+      - pkg: git
+      - file: base-blog-dir
 
