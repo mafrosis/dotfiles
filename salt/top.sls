@@ -5,3 +5,4 @@ base:
     - android
     - nginx
     - pelican
+    - sysadmin
