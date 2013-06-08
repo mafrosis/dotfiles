@@ -79,3 +79,25 @@ blog-repo-clone:
       - pip: pelican-install
     - watch:
       - git: blog-repo-clone
+
+nginx-blog-config:
+  file.managed:
+    - name: /etc/nginx/sites-available/blog.mafro.net.conf
+    - source: salt://nginx/site.tmpl.conf
+    - template: jinja
+    - context:
+        port: 7001
+        root: /home/mafro/src/blog.mafro.net/output
+        index: index.html
+
+nginx-blog-symlink:
+  file.symlink:
+    - name: /etc/nginx/sites-enabled/blog.mafro.net.conf
+    - target: /etc/nginx/sites-available/blog.mafro.net.conf
+    - require:
+      - file: nginx-blog-config
+  service.running:
+    - name: nginx
+    - reload: True
+    - watch:
+      - file: nginx-blog-symlink
