@@ -2,6 +2,7 @@ nginx:
   pkg:
     - installed
   service.running:
+    - enable: true
     - require:
       - pkg: nginx
       - file: /etc/nginx/sites-enabled/default
