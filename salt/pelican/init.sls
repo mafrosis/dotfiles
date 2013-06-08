@@ -71,4 +71,11 @@ blog-repo-clone:
     - require:
       - pkg: git
       - file: base-blog-dir
-
+  cmd.wait:
+    - name: /home/{{ grains['user'] }}/.virtualenvs/pelican/bin/pelican /home/{{ grains['user'] }}/src/blog.mafro.net/content -o /home/{{ grains['user'] }}/src/blog.mafro.net/output -s /home/{{ grains['user'] }}/src/blog.mafro.net/pelicanconf.py -q
+    - cwd: /home/{{ grains['user'] }}/src/blog.mafro.net
+    - user: {{ grains['user'] }}
+    - require:
+      - pip: pelican-install
+    - watch:
+      - git: blog-repo-clone
