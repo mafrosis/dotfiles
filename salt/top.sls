@@ -6,3 +6,4 @@ base:
     - nginx
     - pelican
     - sysadmin
+    - d3
