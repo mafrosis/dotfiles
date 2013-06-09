@@ -1,5 +1,6 @@
 include:
   - common
+  - nginx
   - virtualenv-base
 
 extend:
@@ -89,6 +90,8 @@ nginx-blog-config:
         port: 7001
         root: /home/mafro/src/blog.mafro.net/output
         index: index.html
+    - require:
+      - pkg: nginx
 
 nginx-blog-symlink:
   file.symlink:
