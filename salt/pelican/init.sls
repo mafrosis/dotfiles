@@ -50,7 +50,7 @@ pelican-docs-build:
       - pip: sphinx-install
       - file: base-pelican-dir
   cmd.wait:
-    - name: /home/{{ grains['user'] }}/.virtualenvs/pelican/bin/sphinx-build -b html -d _build/doctrees . _build/html
+    - name: /home/{{ grains['user'] }}/.virtualenvs/pelican/bin/sphinx-build -Q -b html -d _build/doctrees . _build/html
     - cwd: /home/{{ grains['user'] }}/dist/pelican/docs
     - user: {{ grains['user'] }}
     - watch:
