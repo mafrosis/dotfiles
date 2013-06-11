@@ -5,3 +5,7 @@ base:
   'user:mafro':
     - match: grain
     - mafro
+
+  'role:chromebook':
+    - match: grain
+    - chromebook
