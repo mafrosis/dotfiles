@@ -10,9 +10,6 @@ alias ll='ls -lh'
 alias la='ls -Alh'
 alias lh='ls -ld .??*'
 
-# diskspace alias
-alias duh='du -h --max-depth=1'
-
 # mad typo fix
 alias exity='exit'
 
