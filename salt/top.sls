@@ -6,3 +6,4 @@ base:
     - pelican
     - sysadmin
     - d3
+    - imap
