@@ -80,6 +80,9 @@ export EDITOR=vim
 
 export TERM=xterm-256color
 
+# Go on Chromebook
+export PATH=$PATH:~/src/go/bin
+
 # Python shell
 export PYTHONSTARTUP="$HOME/.pythonstartup.py"
 

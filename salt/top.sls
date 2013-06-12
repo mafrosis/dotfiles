@@ -7,3 +7,4 @@ base:
     - sysadmin
     - d3
     - imap
+    - go
