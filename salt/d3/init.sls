@@ -16,7 +16,7 @@ wget:
 
 dashingd3js-source:
   cmd.run:
-    - name: wget -nv -mk www.dashingd3js.com; return 0
+    - name: echo $(wget -q -mk www.dashingd3js.com)
     - unless: ls www.dashingd3js.com/index.html
     - cwd: /home/{{ grains['user'] }}/dist
     - user: {{ grains['user'] }}
@@ -51,7 +51,7 @@ nginx-dashingd3js-symlink:
 
 bostocksorg-source:
   cmd.run:
-    - name: wget -nv -mk bost.ocks.org; return 0
+    - name: echo $(wget -q -mk bost.ocks.org)
     - unless: ls bost.ocks.org/index.html
     - cwd: /home/{{ grains['user'] }}/dist
     - user: {{ grains['user'] }}
