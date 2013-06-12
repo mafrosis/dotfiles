@@ -10,6 +10,8 @@ mutt:
   file.managed:
     - source: salt://imap/dovecot.initd
     - mode: 744
+    - require:
+      - pkg: dovecot-imapd
 
 dovecot-system-auth-disabled:
   file.sed:
@@ -18,6 +20,8 @@ dovecot-system-auth-disabled:
     - after: "#!include auth-system.conf.ext"
     - limit: "^!include auth-system.conf.ext"
     - backup: ''
+    - require:
+      - pkg: dovecot-imapd
 
 dovecot-passwd-auth-enabled:
   file.sed:
@@ -32,6 +36,8 @@ dovecot-plaintext-auth-enabled:
     - before: "#disable_plaintext_auth = yes"
     - after: "disable_plaintext_auth = no"
     - backup: ''
+    - require:
+      - pkg: dovecot-imapd
 
 {% if "maildir" in grains %}
 {% set maildir = grains['maildir'] %}
@@ -45,6 +51,8 @@ dovecot-maildir-location:
     - before: "#mail_location = "
     - after: "mail_location = maildir:{{ maildir }}"
     - backup: ''
+    - require:
+      - pkg: dovecot-imapd
 
 dovecot-user-auth-file:
   file.managed:
