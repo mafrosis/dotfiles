@@ -17,5 +17,6 @@ required-packages:
       - zip
       - unzip
       - man
+      - cryptsetup
     - require:
       - file: apt-no-recommends
