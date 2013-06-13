@@ -1,3 +1,6 @@
+include:
+  - common
+
 go-source-base:
   file.directory:
     - name: /home/{{ grains['user'] }}/src
@@ -29,6 +32,7 @@ go-source-install:
     - user: {{ grains['user'] }}
     - require:
       - cmd: go-source
+      - pkg: required-packages
 
 helloworld.go:
   file.managed:
