@@ -6,6 +6,7 @@ include:
 extra_{{ package_name }}:
   pkg.installed:
     - name: {{ package_name }}
+    - order: first
 {% endfor %}
 
 # set the default shell
