@@ -31,6 +31,10 @@ dotfiles:
     - watch:
       - git: dotfiles
 
+vim:
+  pkg:
+    - installed
+
 # run dotfiles install script
 install-dotfiles:
   cmd.run:
@@ -40,6 +44,7 @@ install-dotfiles:
     - user: {{ grains['user'] }}
     - require:
       - cmd: dotfiles
+      - pkg: vim
 
 python-pip:
   pkg:
