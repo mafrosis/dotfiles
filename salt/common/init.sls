@@ -10,10 +10,12 @@ required-packages:
       - build-essential
       - curl
       - rsync
+      - axel
       - python-pip
       - bash-completion
       - git
       - zip
       - unzip
+      - man
     - require:
       - file: apt-no-recommends
