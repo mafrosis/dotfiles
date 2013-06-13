@@ -25,6 +25,14 @@ pelican-install:
     - require:
       - pip: virtualenv-init-pip
 
+markdown-install:
+  pip.installed:
+    - name: markdown
+    - bin_env: /home/{{ grains['user'] }}/.virtualenvs/pelican
+    - user: {{ grains['user'] }}
+    - require:
+      - pip: virtualenv-init-pip
+
 sphinx-install:
   pip.installed:
     - name: Sphinx
@@ -47,12 +55,13 @@ pelican-docs-build:
     - runas: {{ grains['user'] }}
     - require:
       - pkg: git
-      - pip: sphinx-install
       - file: base-pelican-dir
   cmd.wait:
     - name: /home/{{ grains['user'] }}/.virtualenvs/pelican/bin/sphinx-build -Q -b html -d _build/doctrees . _build/html
     - cwd: /home/{{ grains['user'] }}/dist/pelican/docs
     - user: {{ grains['user'] }}
+    - require:
+      - pip: sphinx-install
     - watch:
       - git: pelican-docs-build
 
@@ -78,6 +87,7 @@ blog-repo-clone:
     - user: {{ grains['user'] }}
     - require:
       - pip: pelican-install
+      - pip: markdown-install
     - watch:
       - git: blog-repo-clone
 
