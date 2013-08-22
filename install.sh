@@ -39,14 +39,27 @@ function create_sym() {
 }
 
 function create_dir() {
-	# symlink all files in directory
-	for ITEM in $(find "$1" -mindepth 1)
+	# Recurse from $1 creating symlinks to all files in $HOME
+	# Any hidden dirs in $1 will be recursed creating BOTH dir
+	# and symlinking their descendant children
+	for ITEM in $(find "$1" -mindepth 1 -maxdepth 1 -name \.\*)
 	do
 		LN=${ITEM#*$1/}
-		# create directory or symlink file
 		if [ -d "$1/$LN" ]; then
+			# recurse directories symlinking everything below
 			mkdir -p "$HOME/$LN"
+			for ITEM2 in $(find "$1/$LN" -mindepth 1)
+			do
+				LN2=${ITEM2#*$LN/}
+				if [ -d "$1/$LN/$LN2" ]; then
+					mkdir -p "$HOME/$LN/$LN2"
+				elif [ -f "$1/$LN/$LN2" ]; then
+					# create symlinks
+					create_sym "$1/$LN/$LN2" "$HOME/$LN/$LN2"
+				fi
+			done
 		elif [ -f "$1/$LN" ]; then
+			# create symlinks
 			create_sym "$1/$LN" "$HOME/$LN"
 		fi
 	done
