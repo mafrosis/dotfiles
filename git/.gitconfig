@@ -6,6 +6,7 @@
 	eol = lf
 	whitespace = trailing-space,space-before-tab
 	excludesfile = ~/.gitignore
+	pager = cat
 [color]
 	ui = auto
 	diff = auto
