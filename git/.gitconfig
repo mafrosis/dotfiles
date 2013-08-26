@@ -13,11 +13,10 @@
 	encoding = utf-8
 [alias]
 	st = status
-	ci = commit
 	br = branch -a
 	co = checkout
-	df = diff
-	lg = log -p
+	ls = log --pretty=format:"%C(yellow)%h\\ %Cred%ad%Cgreen%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+	ll = log --pretty=format:"%C(yellow)%h\\ %Cred%ad%Cgreen%d\\ %Creset%s%Cblue\\ [%cn]%Creset" --decorate --numstat --date=short
 [help]
 	autocorrect = 1
 [advice]
