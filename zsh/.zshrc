@@ -1,40 +1,43 @@
-# Path to your oh-my-zsh configuration.
+# path to your oh-my-zsh configuration.
 ZSH=$HOME/dotfiles/oh-my-zsh
-
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
 ZSH_THEME="mafro"
 
-# Set to this to use case-sensitive completion
+# case-sensitive completion
 CASE_SENSITIVE="true"
-
-# Comment this out to disable weekly auto-update checks
 DISABLE_AUTO_UPDATE="true"
-
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
-
-# Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment following line if you want red dots to be displayed while waiting for completion
 COMPLETION_WAITING_DOTS="true"
 
 # PATH
 export PATH=$HOME/bin:/usr/local/share/python:$PATH
-
 # Homebrew
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
 # use zsh's ace renaming tool
 autoload zmv
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(git python osx virtualenvwrapper vagrant)
+##### plugins #####
+# brew: completion
+# celery: completion
+# git: completion and fancy prompt
+# jump: http://bit.ly/1cLyE9Q
+# pip: completion
+# python: provides, pyfind, pyclean & pygrep
+# osx: finder funcs; most usefully trash
+# supervisor: completion
+# tmux: auto-start and attach
+# vagrant: completion
+# virtualenvwrapper auto-activates venv in project directory
+
+plugins=(celery git jump pip python supervisor vagrant virtualenvwrapper)
+
+# I don't use tmux in iTerm2
 if [ "$(uname)" != "Darwin" ]; then
 	plugins+=(tmux)
+else
+	plugins+=(brew osx)
 fi
 
+# :D
 source $ZSH/oh-my-zsh.sh
 
 # import aliases
