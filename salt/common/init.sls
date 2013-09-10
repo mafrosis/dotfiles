@@ -1,6 +1,9 @@
 include:
   - apt
 
+git:
+  pkg.installed
+
 required-packages:
   pkg.installed:
     - names:
@@ -13,7 +16,6 @@ required-packages:
       - axel
       - python-pip
       - bash-completion
-      - git
       - zip
       - unzip
       - man
