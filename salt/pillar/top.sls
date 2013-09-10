@@ -1,11 +1,14 @@
 base:
-  'user:vagrant':
-    - match: grain
-    - mafro
+  '*':
+    - common
+
   'user:mafro':
     - match: grain
     - mafro
 
-  'role:chromebook':
+  'host:mousetrap':
     - match: grain
-    - chromebook
+    - mousetrap
+  'host:monopoly':
+    - match: grain
+    - monopoly

@@ -1,10 +1,18 @@
 base:
   'role:chromebook':
     - match: grain
-    - dev_user
     - nginx
     - pelican
-    - sysadmin
     - d3
     - imap
     - go
+
+  'host:mousetrap':
+    - match: grain
+    - dev-user
+    - sysadmin
+
+  'host:monopoly':
+    - match: grain
+    - dev-user
+    - sysadmin
