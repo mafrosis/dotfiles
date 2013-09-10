@@ -8,6 +8,9 @@
 # TODO support no .tmux.conf in dotfiles; install a default
 # TODO add unless/onlyif support to file.managed
 
+# tmux-powerline theme for this project_name (or generic, if not a project deployment)
+{% set theme_name = pillar.get('project_name', pillar['login_user']) %}
+
 tmux:
   pkg.installed
 
@@ -44,10 +47,10 @@ tmux-vagrant-patch:
     - require:
       - git: tmux-powerline-install
 
-# create tmux theme for this project_name
+# create tmux-powerline theme
 tmux-powerline-theme:
   file.managed:
-    - name: /home/{{ pillar['login_user'] }}/tmux-powerline/themes/{{ pillar['project_name'] }}.sh
+    - name: /home/{{ pillar['login_user'] }}/tmux-powerline/themes/{{ theme_name }}.sh
     - source: salt://tmux/theme.sh
     - template: jinja
     - user: {{ pillar['login_user'] }}
@@ -91,7 +94,7 @@ tmux-powerlinerc:
     - user: {{ pillar['login_user'] }}
     - group: {{ pillar['login_user'] }}
     - context:
-        theme: {{ pillar['project_name'] }}
+        theme: {{ theme_name }}
         patched_font_in_use: {{ pillar.get('tmux_patched_font', 'false') }}
         yahoo_weather_location: {{ pillar.get('yahoo_weather_location', '') }}
     - default:
