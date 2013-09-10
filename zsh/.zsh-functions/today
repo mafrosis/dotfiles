@@ -1,0 +1,3 @@
+#! /bin/zsh
+
+cal | sed "s/.*/ & /;s/ $(date +%e) / [] /"
