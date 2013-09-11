@@ -3,7 +3,7 @@
 # the list of valid parameters to /bin/uptime
 uptime_opts=('-h' '--help' '-V' '--version')
 
-# if the single supplied parameter in one of the above
+# if the single supplied parameter is one of the above
 # then pass it to /usr/bin/uptime and exit
 if [ $# -eq 0 ] || [[ ${uptime_opts[(r)$@]} == $@ ]]; then
 	/usr/bin/uptime $@
