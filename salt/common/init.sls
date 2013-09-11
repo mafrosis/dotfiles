@@ -4,6 +4,14 @@ include:
 git:
   pkg.installed
 
+python-pip:
+  pkg.installed
+
+virtualenvwrapper:
+  pip.installed:
+    - require:
+      - pkg: python-pip
+
 required-packages:
   pkg.installed:
     - names:
@@ -14,7 +22,6 @@ required-packages:
       - curl
       - rsync
       - axel
-      - python-pip
       - bash-completion
       - zip
       - unzip
