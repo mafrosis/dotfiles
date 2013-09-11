@@ -7,5 +7,11 @@ required-packages-sysadmin:
       - disktype
       - whois
       - telnet
+      - curl
+      - rsync
+      - axel
+      - zip
+      - unzip
+      - cryptsetup
     - require:
       - file: apt-no-recommends

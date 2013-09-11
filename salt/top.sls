@@ -1,4 +1,7 @@
 base:
+  '*':
+    - common
+
   'role:chromebook':
     - match: grain
     - nginx
