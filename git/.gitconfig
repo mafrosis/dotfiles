@@ -32,4 +32,5 @@
 	default = upstream
 [merge]
 	stat = true					# show diffstat after merge
-
+[rebase]
+	autosquash = true			# always look for fixup! and squash! commits
