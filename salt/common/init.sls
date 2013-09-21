@@ -16,10 +16,12 @@ required-packages:
   pkg.installed:
     - names:
       - ntp
-      - language-pack-en
       - debconf-utils
       - build-essential
       - bash-completion
       - man
+      {% if grains['os'] == 'Ubuntu' %}
+      - language-pack-en
+      {% endif %}
     - require:
       - file: apt-no-recommends
