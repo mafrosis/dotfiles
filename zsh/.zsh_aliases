@@ -28,3 +28,6 @@ alias pipup="pip install -U pip && pip install -U distribute"
 
 # start xbmc on the HTPC
 alias xbmc='ssh kerplunk "/etc/init.d/xbmc start"'
+
+# view SSL cert info
+alias x509info="openssl x509 -noout -text -in"
