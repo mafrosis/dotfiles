@@ -96,3 +96,7 @@ PLATFORM="linux"
 
 # use vmware in vagrant
 export VAGRANT_DEFAULT_PROVIDER="vmware_fusion"
+
+# RVM
+PATH=$PATH:$HOME/.rvm/bin
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
