@@ -93,3 +93,6 @@ export PYTHONSTARTUP="$HOME/.pythonstartup.py"
 # tmux-powerline
 PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
 PLATFORM="linux"
+
+# use vmware in vagrant
+export VAGRANT_DEFAULT_PROVIDER="vmware_fusion"
