@@ -29,7 +29,7 @@
 [branch]
 	autosetupmerge = true		# auto track remote branches
 [push]
-	default = upstream
+	default = simple		# default in git v2
 [merge]
 	stat = true					# show diffstat after merge
 [rebase]
