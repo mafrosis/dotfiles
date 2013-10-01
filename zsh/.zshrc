@@ -53,6 +53,7 @@ fpath=( ~/.zsh-functions "${fpath[@]}" )
 autoload -Uz uptime
 autoload -Uz duh
 autoload -Uz today
+autoload -Uz f
 
 
 # advanced file globbing

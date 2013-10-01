@@ -1,0 +1,13 @@
+#! /bin/zsh
+
+if [ $# -eq 0 ]; then
+	echo "Usage: f <suffix> [search-str]"
+	exit 1
+
+elif [ $# -eq 1 ]; then
+	find . -name "*.$1"
+
+elif [ $# -eq 2 ]; then
+	find . -name "*.$1" | xargs grep -n "$2"
+
+fi
