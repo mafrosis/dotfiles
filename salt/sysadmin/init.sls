@@ -13,5 +13,6 @@ required-packages-sysadmin:
       - zip
       - unzip
       - cryptsetup
+      - parted
     - require:
       - file: apt-no-recommends
