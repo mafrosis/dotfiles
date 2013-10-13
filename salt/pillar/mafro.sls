@@ -1,3 +1,4 @@
+login_user: mafro
 github_username: mafrosis
 shell: zsh
 extras:

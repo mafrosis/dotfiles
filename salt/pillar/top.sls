@@ -1,9 +1,5 @@
 base:
   '*':
-    - common
-
-  'user:mafro':
-    - match: grain
     - mafro
 
   'host:mousetrap':
