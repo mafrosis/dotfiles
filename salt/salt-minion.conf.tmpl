@@ -2,6 +2,10 @@ file_client: local
 
 id: salt
 
+fileserver_backend:
+  - roots
+  - git
+
 file_roots:
   base:
     - /home/mafro/dotfiles/salt/
@@ -9,3 +13,6 @@ file_roots:
 pillar_roots:
   base:
     - /home/mafro/dotfiles/salt/pillar/
+
+gitfs_remotes:
+  - git@github.com:mafrosis/salt-formulae.git
