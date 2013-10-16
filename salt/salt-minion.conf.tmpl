@@ -1,6 +1,9 @@
 file_client: local
 
-id: salt
+id: vagrant
+
+grains:
+  user: mafro
 
 fileserver_backend:
   - roots
@@ -8,11 +11,12 @@ fileserver_backend:
 
 file_roots:
   base:
-    - /home/mafro/dotfiles/salt/
+    - /home/mafro/dotfiles/salt
+    - /srv/salt-formulae
 
 pillar_roots:
   base:
-    - /home/mafro/dotfiles/salt/pillar/
+    - /home/mafro/dotfiles/salt/pillar
 
 gitfs_remotes:
   - git@github.com:mafrosis/salt-formulae.git

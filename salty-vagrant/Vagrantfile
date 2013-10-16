@@ -1,0 +1,25 @@
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "wheezy64au"
+
+  # adjust the RAM size for both providers
+  config.vm.provider :virtualbox do |v|
+    v.customize [ "modifyvm", :id, "--cpus", 2 ]
+  end
+  config.vm.provider :vmware_fusion do |v|
+    v.vmx['memsize'] = 1024
+  end
+
+  # bridged network, salt config directory & shared dir in /tmp
+  config.vm.network :public_network
+  config.vm.synced_folder "../salt", "/srv/salt"
+  config.vm.synced_folder "~/Development/salt-formulae", "/srv/salt-formulae"
+  config.vm.synced_folder "/tmp", "/tmp/host_machine"
+
+  # setup the salt-minion
+  config.vm.provision :salt do |salt|
+    salt.minion_config = "salt-minion.conf"
+    salt.run_highstate = false
+  end
+end
