@@ -2,6 +2,11 @@ base:
   '*':
     - common
 
+  'id:vagrant':
+    - match: grain
+    - dev-user
+    - sysadmin
+
   'role:chromebook':
     - match: grain
     - nginx
