@@ -1,5 +1,6 @@
 base:
   '*':
+    - github_pky
     - mafro
 
   'host:mousetrap':
