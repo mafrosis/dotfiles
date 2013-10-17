@@ -1,6 +1,7 @@
 base:
   '*':
     - common
+    - salt-hack
 
   'id:vagrant':
     - match: grain
