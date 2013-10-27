@@ -23,7 +23,11 @@ base:
   'host:monopoly':
     - match: grain
     - dev-user
+    - dropbox
+    - linux-util
     - sysadmin
+    - xbox360
+    - zfs-on-linux
 
   'id:raspbmc':
     - match: grain
