@@ -1,3 +1,7 @@
+zfs-kernel-headers:
+  pkg.installed:
+    - name: linux-headers-{{ grains["kernelrelease"] }}
+
 {% if grains['os'] == "Debian" %}
 
 zol-pkgrepo:
@@ -19,6 +23,7 @@ zol-install:
     - name: debian-zfs
     - require:
       - file: zol-pinning
+      - pkg: zfs-kernel-headers
 
 {% elif grains['os'] == "Ubuntu" %}
 
@@ -35,5 +40,7 @@ zol-pkgrepo:
 zol-install:
   pkg.installed:
     - name: ubuntu-zfs
+    - require:
+      - pkg: zfs-kernel-headers
 
 {% endif %}
