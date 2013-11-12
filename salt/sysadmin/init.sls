@@ -14,5 +14,6 @@ required-packages-sysadmin:
       - unzip
       - cryptsetup
       - parted
+      - dnsutils
     - require:
       - file: apt-no-recommends
