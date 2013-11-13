@@ -15,5 +15,6 @@ required-packages-sysadmin:
       - cryptsetup
       - parted
       - dnsutils
+      - smartmontools
     - require:
       - file: apt-no-recommends
