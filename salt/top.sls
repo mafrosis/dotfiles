@@ -1,7 +1,6 @@
 base:
   '*':
     - common
-    - salt-hack
 
   'id:vagrant':
     - match: grain
@@ -25,3 +24,7 @@ base:
     - match: grain
     - dev-user
     - sysadmin
+
+  'id:raspbmc':
+    - match: grain
+    - dev-user

@@ -9,3 +9,7 @@ base:
   'host:monopoly':
     - match: grain
     - monopoly
+
+  'id:raspbmc':
+    - match: grain
+    - raspbmc
