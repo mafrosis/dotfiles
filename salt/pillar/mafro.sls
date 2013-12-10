@@ -1,9 +1,3 @@
-{% if grains.get('vmware', False) %}
-login_user: vagrant
-{% else %}
-login_user: mafro
-{% endif %}
-
 # get dotfiles from github
 github_username: mafrosis
 # install zsh and set as default login shell
