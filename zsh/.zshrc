@@ -101,3 +101,6 @@ export VAGRANT_DEFAULT_PROVIDER="vmware_fusion"
 # RVM
 PATH=$PATH:$HOME/.rvm/bin
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+
+# since root inherits $PATH on Debian now with env_keep in sudoers, need /sbin in $PATH
+export PATH=$PATH:/sbin
