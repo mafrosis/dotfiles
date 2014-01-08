@@ -24,7 +24,7 @@ alias ta="tmux attach"
 alias uuid="python -c 'import uuid; print uuid.uuid4()'"
 
 # update pip & distrbute
-alias pipup="pip install -U pip && pip install -U distribute"
+alias pipup="pip install -U pip && pip install -U setuptools --no-use-wheel"
 
 # start xbmc on the HTPC
 alias xbmc='ssh kerplunk "/etc/init.d/xbmc start"'
