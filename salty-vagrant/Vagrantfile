@@ -14,7 +14,7 @@ Vagrant.configure("2") do |config|
   # bridged network, salt config directory & shared dir in /tmp
   config.vm.network :public_network
   config.vm.synced_folder "../salt", "/srv/salt"
-  config.vm.synced_folder "~/Development/salt-formulae", "/srv/salt-formulae"
+  config.vm.synced_folder "~/dotfiles/salt-formulae", "/srv/salt-formulae"
   config.vm.synced_folder "/tmp", "/tmp/host_machine"
 
   # setup the salt-minion
