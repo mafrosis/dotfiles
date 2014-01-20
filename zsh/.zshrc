@@ -50,10 +50,9 @@ fi
 fpath=( ~/.zsh-functions "${fpath[@]}" )
 
 # autoload custom functions..
-autoload -Uz uptime
-autoload -Uz duh
-autoload -Uz today
-autoload -Uz f
+for func in $(ls ~/.zsh-functions); do
+	autoload -Uz $func
+done
 
 
 # advanced file globbing
