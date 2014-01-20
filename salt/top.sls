@@ -25,6 +25,7 @@ base:
     - dev-user
     - dropbox
     - linux-util
+    - samba
     - sysadmin
     - xbox360
     - zfs-on-linux
