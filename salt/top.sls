@@ -25,6 +25,7 @@ base:
     - dev-user
     - dropbox
     - linux-util
+    - rtorrent
     - samba
     - sysadmin
     - xbox360
