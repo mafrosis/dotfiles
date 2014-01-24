@@ -25,6 +25,18 @@ zol-install:
       - file: zol-pinning
       - pkg: zfs-kernel-headers
 
+/etc/default/zfs.orig:
+  file.managed:
+    - source: salt://zfs-on-linux/etc_default_zfs.orig
+
+/etc/default/zfs:
+  file.managed:
+    - source: salt://zfs-on-linux/etc_default_zfs.sls
+    - template: jinja
+    - defaults:
+        zfs_mount: 'yes'
+        zfs_unmount: 'yes'
+
 {% elif grains['os'] == "Ubuntu" %}
 
 zol-pkgrepo:
