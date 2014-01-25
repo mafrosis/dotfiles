@@ -56,3 +56,20 @@ zol-install:
       - pkg: zfs-kernel-headers
 
 {% endif %}
+
+
+{% if pillar.get('zpool_import', False) %}
+zpool-import-all:
+  cmd.run:
+    - name: zpool import -a -N
+    - onlyif: zfs list 2>&1 | grep "no datasets available"
+    - require:
+      - pkg: zol-install
+
+zpool-mount-all:
+  cmd.run:
+    - name: zfs mount -a
+    - require:
+      - cmd: zpool-import-all
+    - order: 1
+{% endif %}

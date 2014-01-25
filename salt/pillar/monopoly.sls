@@ -8,7 +8,7 @@ rtorrent_download_dir: /home/vagrant/torrent
 login_user: mafro
 rtorrent_download_dir: /media/pools/download
 
-{% endif %}
+zpool_import: True
 
 samba_users:
   xbmc:
@@ -17,3 +17,5 @@ samba_users:
       - video
 
 smb_workgroup: EGGS
+
+{% endif %}
