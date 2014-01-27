@@ -24,6 +24,7 @@ base:
     - match: grain
     - dev-user
     - dropbox
+    - dvd-tools
     - linux-util
     - rtorrent
     - samba
