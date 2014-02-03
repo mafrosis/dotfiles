@@ -28,6 +28,7 @@
 	renames = copies			# attempt to spot file renames
 [branch]
 	autosetupmerge = true		# auto track remote branches
+	autosetuprebase = always
 [push]
 	default = simple		# default in git v2
 [merge]
