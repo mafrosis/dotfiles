@@ -1,2 +1,4 @@
 vim/.vim/bundle/*
 salty-vagrant/.vagrant
+salt/pillar/github_pky.sls
+salt/github.*.pky
