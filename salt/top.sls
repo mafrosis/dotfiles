@@ -2,7 +2,8 @@ base:
   '*':
     - common
 
-  'id:vagrant':
+  # default Vagrant host for testing
+  'vmware:true':
     - match: grain
     - dev-user
     - sysadmin
