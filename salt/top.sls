@@ -26,6 +26,7 @@ base:
     - dropbox
     - dvd-tools
     - linux-util
+    - movie-perm-watchdog
     - rtorrent
     - samba
     - sysadmin
