@@ -1,6 +1,7 @@
 include:
   - nginx
   - nginx_apps
+  - sudo
   - supervisor
 
 extend:
@@ -18,6 +19,9 @@ rtorrent:
     - present
   user.present:
     - gid_from_name: true
+    - groups:
+      - video
+    - remove_groups: false
     - require:
       - group: rtorrent
   service.running:
@@ -122,3 +126,23 @@ php5-cgi:
     - source: salt://rtorrent/rutorrent.nginx.conf
     - require:
       - file: /etc/nginx/apps.conf.d
+
+/home/rtorrent/bin/move-torrent.sh:
+  file.managed:
+    - source: salt://rtorrent/move-torrent.sh
+    - user: rtorrent
+    - group: rtorrent
+    - mode: 744
+
+/var/log/move-torrent.log:
+  file.managed:
+    - user: rtorrent
+    - group: rtorrent
+    - mode: 550
+
+/etc/sudoers.d/rtorrent:
+  file.managed:
+    - contents: "rtorrent\tALL=(ALL)\tNOPASSWD: /bin/chown\n"
+    - mode: 0440
+    - require:
+      - pkg: sudo

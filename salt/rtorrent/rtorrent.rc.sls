@@ -19,3 +19,6 @@ session = /home/rtorrent/session
 
 # allow owner & group full access to files; no access to other
 system.umask.set = 0007
+
+# move torrents on download finish
+system.method.set_key = event.download.finished,check_complete,"execute=/home/rtorrent/bin/move-torrent.sh,$d.get_custom1=,$d.get_base_path="
