@@ -5,6 +5,8 @@ required-packages-sysadmin:
   pkg.installed:
     - names:
       - disktype
+      - iotop
+      - htop
       - whois
       - telnet
       - curl
