@@ -132,7 +132,11 @@ php5-cgi:
     - source: salt://rtorrent/move-torrent.sh
     - user: rtorrent
     - group: rtorrent
-    - mode: 744
+    - mode: 774
+
+/home/{{ pillar['login_user'] }}/bin/move-torrent.sh:
+  file.symlink:
+    - target: /home/rtorrent/bin/move-torrent.sh
 
 /var/log/move-torrent.log:
   file.managed:
