@@ -15,6 +15,7 @@ required-packages-sysadmin:
       - zip
       - unzip
       - cryptsetup
+      - lvm2
       - parted
       - dnsutils
       - smartmontools
