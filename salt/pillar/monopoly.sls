@@ -18,4 +18,8 @@ samba_users:
 
 smb_workgroup: EGGS
 
+custom_segments:
+  enc: "36 255"
+  backup: "166 255"
+
 {% endif %}

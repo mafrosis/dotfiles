@@ -30,6 +30,7 @@ base:
     - rtorrent
     - samba
     - sysadmin
+    - tmux-segments
     - xbox360
     - zfs-on-linux
 
