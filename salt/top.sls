@@ -28,6 +28,8 @@ base:
     - linux-util
     - pools-perm-watchdog
     - rtorrent
+    - rtorrent.rutorrent
+    - rtorrent.move-torrent
     - samba
     - sysadmin
     - tmux-segments
