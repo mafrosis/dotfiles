@@ -1,7 +1,7 @@
 #! /bin/bash
 
-# rtorrent d.get_custom1 in $1
-# rtorrent d.get_base_path in $2
+# rtorrent passes d.get_custom1 in $1
+#  and d.get_base_path in $2
 
 usage="move-torrent.sh [-h] tag download_path"
 
@@ -30,11 +30,13 @@ if [ ! -d "$2" ] && [ ! -f "$2" ]; then
 fi
 
 if [ "$1" == "movie" ]; then
-	DEST="Movies/HD-1080p"
+	DEST="/media/pools/video/Movies/HD-1080p"
+elif [ "$1" == "music" ]; then
+	DEST="/media/pools/music/mp3/DJ"
 else
-	DEST=$1
+	DEST="/media/pools/video/$1"
 fi
 
-rsync -avP "$2" "/media/pools/video/$DEST/"
-find "/media/pools/video/$DEST" -type d -exec sudo chown mafro:video {} \;
-echo "$2 :: /media/pools/video/$DEST/" >> /var/log/move-torrent.log
+rsync -avP "$2" "$DEST"
+find "$DEST" -type d -exec sudo chown mafro:video {} \;
+echo "$2 :: $DEST" >> /var/log/move-torrent.log
