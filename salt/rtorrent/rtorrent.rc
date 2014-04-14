@@ -1,3 +1,5 @@
+# vim: set ft=jinja:
+
 # Port range to use for listening
 port_range = 29150-29159
 

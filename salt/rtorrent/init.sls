@@ -29,7 +29,7 @@ rtorrent:
 # install init script that runs rtorrent in a tmux session
 /etc/init.d/rtorrent:
   file.managed:
-    - source: salt://rtorrent/rtorrent.init.sls
+    - source: salt://rtorrent/rtorrent.initd
     - mode: 744
 
 # ensure storrent download directory exists
@@ -54,7 +54,7 @@ rtorrent-download-dir:
 rtorrent.rc:
   file.managed:
     - name: /home/rtorrent/.rtorrent.rc
-    - source: salt://rtorrent/rtorrent.rc.sls
+    - source: salt://rtorrent/rtorrent.rc
     - template: jinja
     - user: rtorrent
     - group: rtorrent
