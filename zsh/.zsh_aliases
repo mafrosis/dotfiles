@@ -33,3 +33,12 @@ alias xbmc='ssh kerplunk "/etc/init.d/xbmc start"'
 
 # view SSL cert info
 alias x509info="openssl x509 -noout -text -in"
+
+# load external aliases
+if [ -d "$HOME/.zsh_aliases.d" ]; then
+	for F in $HOME/.zsh_aliases.d/*; do
+		if [ -f "$F" ]; then
+			source $F
+		fi
+	done
+fi
