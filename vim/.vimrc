@@ -141,5 +141,18 @@ let g:Powerline_symbols = 'fancy'
 
 set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
 
+"---- GitGutter -------------------------------------------------------
+
 " prevent gitgutter raising Vim alerts
 let g:gitgutter_realtime = 0
+
+" colour scheme
+highlight GitGutterAdd ctermbg=black
+highlight GitGutterChange ctermbg=black
+highlight GitGutterDelete ctermbg=black
+highlight GitGutterChangeDelete ctermbg=black
+
+highlight GitGutterAdd ctermfg=green
+highlight GitGutterChange ctermfg=yellow
+highlight GitGutterDelete ctermfg=red
+highlight GitGutterChangeDelete ctermfg=yellow
