@@ -30,7 +30,8 @@
 	autosetupmerge = true		# auto track remote branches
 	autosetuprebase = always
 [push]
-	default = simple		# default in git v2
+	#default = simple		# default in git v2
+	default = tracking		# let's not break pre-v2 git
 [merge]
 	stat = true					# show diffstat after merge
 [rebase]
