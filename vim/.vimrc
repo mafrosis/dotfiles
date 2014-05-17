@@ -41,6 +41,13 @@ syntax enable					" General file type syntax highlighting
 " Small changes that don't warrent an ftplugin file of their own
 au filetype help :se nonu		" turn off line numbers for help
 
+" Java
+autocmd FileType java setlocal shiftwidth=2 tabstop=2
+" HTML
+autocmd FileType html setlocal shiftwidth=2 tabstop=2
+" Markdown
+autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 expandtab
+
 
 "---- Mappings ---------------------------------------------------------
 "NOTE: 	To see what a key sends use ctrl+k then keystroke while in insert mode
