@@ -65,6 +65,8 @@ do
 	# special behaviour for vim and vundle
 	if [ "$app" == "vim" ]; then
 		git submodule update --init
-		vim +BundleInstall +qall
+		if [ $? -eq 0 ]; then
+			vim +BundleInstall +qall
+		fi
 	fi
 done
