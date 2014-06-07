@@ -59,8 +59,8 @@ done
 setopt extended_glob
 
 # enable OSX alt-arrow word nav
-bindkey '' forward-word
-bindkey '' backward-word
+bindkey '^[[1;3C' forward-word
+bindkey '^[[1;3D' backward-word
 
 # ignore history duplicates
 setopt hist_ignore_all_dups
