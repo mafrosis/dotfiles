@@ -1,13 +1,17 @@
 #! /bin/zsh
 
 if [ $# -eq 0 ]; then
-	echo "Usage: f <suffix> [search-str]"
-	exit 1
+	echo 'Usage: f <suffix> [search-str]'
+	echo "  Supplying '.' as <suffix> will search all files"
+	return 1
 
 elif [ $# -eq 1 ]; then
 	find . -name "*.$1"
 
 elif [ $# -eq 2 ]; then
-	find . -name "*.$1" | xargs grep -n "$2"
-
+	if [ "$1" = '.' ]; then
+		find . -type f -not -path '*/\.*' -print0 | xargs -0 grep -n "$2"
+	else
+		find . -name "*.$1" -not -path '*/\.*' -print0 | xargs -0 grep -n "$2"
+	fi
 fi
