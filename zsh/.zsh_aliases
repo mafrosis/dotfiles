@@ -42,3 +42,6 @@ if [ -d "$HOME/.zsh_aliases.d" ]; then
 		fi
 	done
 fi
+
+alias rethinkdb.start='launchctl load /usr/local/opt/rethinkdb/homebrew.mxcl.rethinkdb.plist'
+alias rethinkdb.stop='launchctl unload /usr/local/opt/rethinkdb/homebrew.mxcl.rethinkdb.plist'
