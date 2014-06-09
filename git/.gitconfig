@@ -18,6 +18,8 @@
 	co = checkout
 	ls = log --pretty=format:"%C(yellow)%h\\ %Cred%ad%Cgreen%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
 	ll = log --pretty=format:"%C(yellow)%h\\ %Cred%ad%Cgreen%d\\ %Creset%s%Cblue\\ [%cn]%Creset" --decorate --numstat --date=short
+	comend = commit --amend --no-edit
+	rc = rebase --continue
 [help]
 	autocorrect = 1
 [advice]
