@@ -1,0 +1,16 @@
+#! /bin/bash
+
+# show list of commits since commit id or two branches diverged
+
+USAGE='git commits-since [commit id] [branchA branchB]'
+
+if [[ $# -eq 2 ]]; then
+	# show commits since common ancestor of two branches
+	git rev-list $(git merge-base $1 $2)..HEAD
+elif [[ $# -eq 1 ]]; then
+	# show commits since commit id
+	git rev-list $1..HEAD
+else
+	echo $USAGE
+	exit 1
+fi

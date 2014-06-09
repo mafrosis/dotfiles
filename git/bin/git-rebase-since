@@ -1,0 +1,13 @@
+#! /bin/bash
+
+# start an interactive rebase on all commits since commit id
+
+USAGE='git rebase-since [commit id]'
+
+if [[ $# -eq 1 ]]; then
+	# shddow commits since commit id
+	git rebase -i HEAD~$(git rev-list "$1^..HEAD" | wc -l | tr -d ' ')
+else
+	echo $USAGE
+	exit 1
+fi
