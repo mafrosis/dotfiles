@@ -25,7 +25,7 @@
 	autocorrect = 1
 [advice]
 	statusHints = false			# how to stage/unstage advice
-	#pushNonFastForward = false	# no push of non-FF advice
+	pushNonFastForward = false	# no push of non-FF advice
 [diff]
 	mnemonicprefix = true		# use i,w,c,o instead of a,b in diff
 	renames = copies			# attempt to spot file renames
