@@ -45,8 +45,12 @@ au filetype help :se nonu		" turn off line numbers for help
 autocmd FileType java setlocal shiftwidth=2 tabstop=2
 " HTML
 autocmd FileType html setlocal shiftwidth=2 tabstop=2
+" HTML/Jinja templates
+autocmd FileType htmldjango setlocal shiftwidth=2 tabstop=2
 " Markdown
 autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 expandtab
+" YAML
+autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 expandtab
 
 
 "---- Mappings ---------------------------------------------------------
