@@ -25,11 +25,7 @@ alias tad="tmux attach -d"
 alias uuid="python -c 'import uuid; print uuid.uuid4()'"
 
 # update pip & distrbute
-#alias pipup="pip install -U pip && pip install -U setuptools --no-use-wheel"
 alias pipup="pip install pip==1.4.1 && pip install -U setuptools"
-
-# start xbmc on the HTPC
-alias xbmc='ssh kerplunk "/etc/init.d/xbmc start"'
 
 # view SSL cert info
 alias x509info="openssl x509 -noout -text -in"
