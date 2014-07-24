@@ -1,0 +1,8 @@
+#! /bin/zsh
+
+if [ $# -eq 0 ]; then
+	echo 'Usage: ffconv movie-file'
+	return 1
+fi
+
+time ffmpeg -i $1 -c:v libx264 -filter:v yadif -crf 21 -level 3.1 -tune film -c:a libfaac -q:a 100 $1.mp4
