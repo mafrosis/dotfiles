@@ -103,6 +103,9 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 " highlight .wsgi files as python
 au BufNewFile,BufRead *.wsgi	setf python
 
+" highlight Arduino
+autocmd! BufNewFile,BufRead *.ino setlocal ft=arduino
+
 " Map code folding to spacebar
 nnoremap <space> za
 
@@ -128,8 +131,6 @@ Plugin 'tpope/vim-markdown'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
-
-autocmd! BufNewFile,BufRead *.ino setlocal ft=arduino
 
 "---- Syntastic -------------------------------------------------------
 let g:syntastic_python_checkers = ['pyflakes', 'python']
