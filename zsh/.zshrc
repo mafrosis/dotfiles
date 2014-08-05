@@ -96,6 +96,7 @@ PLATFORM="linux"
 
 # use vmware in vagrant
 export VAGRANT_DEFAULT_PROVIDER="vmware_fusion"
+export VAGRANT_VMWARE_CLONE_DIRECTORY="~/.vagrant.d/machines"
 
 # RVM
 PATH=$PATH:$HOME/.rvm/bin
