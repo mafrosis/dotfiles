@@ -114,29 +114,20 @@ set foldlevel=99
 
 "---- Vundle ------------------------------------------------------------
 filetype off                   " required!
-
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-" let Vundle manage Vundle
-Bundle 'gmarik/vundle'
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
 
 " original repos on github
-Bundle 'tpope/vim-fugitive'
-Bundle 'Lokaltog/powerline'
-Bundle 'scrooloose/syntastic'
-Bundle 'saltstack/salt-vim'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'tpope/vim-markdown'
+Plugin 'tpope/vim-fugitive'
+Plugin 'Lokaltog/powerline'
+Plugin 'scrooloose/syntastic'
+Plugin 'saltstack/salt-vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-markdown'
 
-" vim-scripts repos
-"Bundle 'L9'
-"Bundle 'FuzzyFinder'
-
-" non github repos
-"Bundle 'git://git.wincent.com/command-t.git'
-
-filetype plugin indent on     " required!
+call vundle#end()            " required
+filetype plugin indent on    " required
 
 autocmd! BufNewFile,BufRead *.ino setlocal ft=arduino
 

@@ -71,7 +71,7 @@ do
 	if [ "$app" == "vim" ]; then
 		git submodule update --init
 		if [ $? -eq 0 ]; then
-			vim +BundleInstall +qall
+			vim +PluginInstall +qall
 		fi
 	fi
 done
