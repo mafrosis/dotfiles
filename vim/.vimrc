@@ -34,25 +34,6 @@ if has('unix')
 endif
 
 
-"---- File type options ------------------------------------------------
-" Individual filetype settings in ~/.vim/ftplugin/<type>.vim
-syntax enable					" General file type syntax highlighting
-
-" Small changes that don't warrent an ftplugin file of their own
-au filetype help :se nonu		" turn off line numbers for help
-
-" Java
-autocmd FileType java setlocal shiftwidth=2 tabstop=2
-" HTML
-autocmd FileType html setlocal shiftwidth=2 tabstop=2
-" HTML/Jinja templates
-autocmd FileType htmldjango setlocal shiftwidth=2 tabstop=2
-" Markdown
-autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 expandtab
-" YAML
-autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 expandtab
-
-
 "---- Mappings ---------------------------------------------------------
 "NOTE: 	To see what a key sends use ctrl+k then keystroke while in insert mode
 
@@ -128,6 +109,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'saltstack/salt-vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-markdown'
+Plugin 'elzr/vim-json'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -145,8 +127,30 @@ let g:Powerline_symbols = 'fancy'
 
 set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
 
-"---- GitGutter -------------------------------------------------------
 
+"---- File type options ------------------------------------------------
+" Individual filetype settings in ~/.vim/ftplugin/<type>.vim
+" These come after any Vundle highlight plugins
+syntax enable					" General file type syntax highlighting
+
+" Small changes that don't warrent an ftplugin file of their own
+au filetype help :se nonu		" turn off line numbers for help
+
+" Java
+autocmd FileType java setlocal shiftwidth=2 tabstop=2
+" HTML
+autocmd FileType html setlocal shiftwidth=2 tabstop=2
+" HTML/Jinja templates
+autocmd FileType htmldjango setlocal shiftwidth=2 tabstop=2
+" Markdown
+autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 expandtab
+" YAML
+autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 expandtab
+" JSON
+autocmd FileType json setlocal shiftwidth=2 tabstop=2 cole=0
+
+
+"---- GitGutter -------------------------------------------------------
 " prevent gitgutter raising Vim alerts
 let g:gitgutter_realtime = 0
 
