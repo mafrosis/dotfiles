@@ -1,6 +1,7 @@
-# path to your oh-my-zsh configuration.
-ZSH=$HOME/dotfiles/oh-my-zsh
-ZSH_THEME="mafro"
+# :D
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
 
 # case-sensitive completion
 CASE_SENSITIVE="true"
@@ -36,9 +37,6 @@ if [ "$(uname)" != "Darwin" ]; then
 else
 	plugins+=(brew osx)
 fi
-
-# :D
-source $ZSH/oh-my-zsh.sh
 
 # import aliases
 if [ -f $HOME/.zsh_aliases ]; then
