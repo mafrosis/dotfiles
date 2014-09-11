@@ -84,8 +84,10 @@ export EDITOR=vim
 
 export TERM=xterm-256color
 
-# Go on Chromebook
-export PATH=$PATH:~/src/go/bin
+# Golang via homebrew
+export PATH=$PATH:/usr/local/opt/go/libexec/bin
+export GOPATH=$HOME/Development/go
+export PATH=$PATH:$GOPATH/bin
 
 # Python shell
 export PYTHONSTARTUP="$HOME/.pythonstartup.py"
