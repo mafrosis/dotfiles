@@ -65,6 +65,9 @@ noremap gf <C-w>gF
 " NERDTree visibility
 :nmap \e :NERDTreeToggle<CR>
 
+" disable Ex mode
+nnoremap Q <nop>
+
 
 "---- Code completion options ------------------------------------------
 " The same trick is needed to get ctrl+space to autocomplete in all environments
