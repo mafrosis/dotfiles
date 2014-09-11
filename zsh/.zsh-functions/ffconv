@@ -5,4 +5,23 @@ if [ $# -eq 0 ]; then
 	return 1
 fi
 
-time ffmpeg -i $1 -c:v libx264 -filter:v yadif -crf 21 -level 3.1 -tune film -c:a libfaac -q:a 100 $1.mp4
+# analyse input file to determine existing stream types
+VCODEC=$(ffprobe "$1" 2>&1 | awk '/Stream.*Video:/ {print $4}')
+ACODEC=$(ffprobe "$1" 2>&1 | awk '/Stream.*Audio:/ {print $4}')
+
+# convert both video and audio
+if [[ $VCODEC != 'h264' ]] && [[ $ACODEC != 'aac' ]]; then
+	time ffmpeg -i "$1" -c:v libx264 -filter:v yadif -crf 21 -level 3.1 -tune film -c:a libfaac -q:a 100 "$1.mp4"
+
+# convert just video
+elif [[ $VCODEC != 'h264' ]]; then
+	time ffmpeg -i "$1" -c:v libx264 -filter:v yadif -crf 21 -level 3.1 -tune film -c:a copy "$1.mp4"
+
+# convert just audio
+elif [[ $ACODEC != 'aac' ]]; then
+	time ffmpeg -i "$1" -c:v copy -c:a libfaac -q:a 100 "$1.mp4"
+
+# convert neither; just switch container to MP4
+else
+	time ffmpeg -i "$1" -c copy "$1.mp4"
+fi
