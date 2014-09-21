@@ -23,6 +23,7 @@ set showtabline=2				" Always show the tab line
 set guioptions-=T				" Turn off toolbars, but leave on menues
 set shortmess=I					" Turn off the intro message
 set bs=indent,eol,start     	" Backspace over everything in insert mode
+set noshowmode					" Hide the default mode text (INSERT below the statusline)
 
 
 "---- OS Specific options ----------------------------------------------
@@ -107,7 +108,7 @@ Plugin 'gmarik/Vundle.vim'
 
 " original repos on github
 Plugin 'tpope/vim-fugitive'
-Plugin 'Lokaltog/powerline'
+Plugin 'bling/vim-airline'
 Plugin 'scrooloose/syntastic'
 Plugin 'saltstack/salt-vim'
 Plugin 'airblade/vim-gitgutter'
@@ -124,13 +125,6 @@ let g:syntastic_python_flake8_args='--ignore=E501'
 let g:syntastic_mode_map = { 'mode': 'active',
 						   \ 'active_filetypes': [],
 						   \ 'passive_filetypes': ['java'] }
-
-"---- Powerline -------------------------------------------------------
-set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
-let g:Powerline_symbols = 'fancy'
-
-set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
-
 
 "---- File type options ------------------------------------------------
 " Individual filetype settings in ~/.vim/ftplugin/<type>.vim
@@ -168,3 +162,40 @@ highlight GitGutterAdd ctermfg=green
 highlight GitGutterChange ctermfg=yellow
 highlight GitGutterDelete ctermfg=red
 highlight GitGutterChangeDelete ctermfg=yellow
+
+"---- Airline ---------------------------------------------------------
+" airline theme
+let g:airline_theme='powerlineish'
+
+" enable airline tab bar
+let g:airline#extensions#tabline#enabled = 1
+" don't show the close button
+"let g:airline#extensions#tabline#show_close_button = 0
+" fancy unicode close symbol
+let g:airline#extensions#tabline#close_symbol = '✘'
+" display tab number in tab bar
+let g:airline#extensions#tabline#tab_nr_type = 1
+" never show buffers in tabline
+let g:airline#extensions#tabline#show_buffers = 0
+" powerline symbols in tabline
+let g:airline#extensions#tabline#left_sep = '⮀'
+let g:airline#extensions#tabline#left_alt_sep = '⮁'
+let g:airline#extensions#tabline#right_sep = '⮂'
+let g:airline#extensions#tabline#right_alt_sep = '⮃'
+
+" disable airline whitespace checker
+let g:airline#extensions#whitespace#enabled = 0
+" whitespace algo allows tabs followed by spaces
+let g:airline#extensions#whitespace#mixed_indent_algo = 1
+
+" old vim-powerline symbols
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_left_sep = '⮀'
+let g:airline_left_alt_sep = '⮁'
+let g:airline_right_sep = '⮂'
+let g:airline_right_alt_sep = '⮃'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.readonly = '⭤'
+let g:airline_symbols.linenr = ''
