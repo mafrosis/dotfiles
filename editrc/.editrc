@@ -1,0 +1,9 @@
+bind -v
+
+bind ^[[1;3C vi-next-word
+bind ^[[1;3D vi-prev-word
+
+# beginning-of-line
+bind ^[[1~ vi-insert-at-bol
+# end-of-line
+bind ^[[4~ vi-change-to-eol
