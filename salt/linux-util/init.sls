@@ -6,6 +6,12 @@ linux-utils-pkgs:
     - names:
       - usbmount
       - hfsprogs
+      - curl
+      - rsync
+      - zip
+      - unzip
+      - ncdu
+      - axel
     - require:
       - file: apt-no-recommends
 

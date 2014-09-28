@@ -1,5 +1,5 @@
 include:
-  - apt
+  - linux-util
 
 required-packages-sysadmin:
   pkg.installed:
@@ -9,15 +9,11 @@ required-packages-sysadmin:
       - htop
       - whois
       - telnet
-      - curl
-      - rsync
-      - axel
-      - zip
-      - unzip
       - cryptsetup
       - lvm2
       - parted
       - dnsutils
       - smartmontools
+      - deborphan
     - require:
       - file: apt-no-recommends
