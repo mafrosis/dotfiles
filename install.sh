@@ -65,7 +65,7 @@ do
 	fi
 
 	# use stow to create symlinks in $HOME
-	stow -v --restow $app
+	stow -v --ignore='.md$' --restow $app
 
 	# special behaviour for vim and vundle
 	if [[ $app == 'vim' ]]; then
