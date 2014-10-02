@@ -64,6 +64,17 @@ do
 		fi
 	fi
 
+	# prezto is a pain in the arse to configure
+	if [[ $app == 'prezto' ]]; then
+		echo 'Do not install prezto directly; install zsh'
+		exit 1
+	elif [[ $app == 'zsh' ]]; then
+		git submodule update --init --recursive
+		if [[ ! -L ~/.zprezto ]]; then
+			ln -s $HOME/dotfiles/prezto $HOME/.zprezto
+		fi
+	fi
+
 	# use stow to create symlinks in $HOME
 	stow -v --ignore='.md$' --restow $app
 
