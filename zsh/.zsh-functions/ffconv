@@ -1,16 +1,33 @@
 #! /bin/zsh
 
-if [ $# -eq 0 ]; then
-	echo 'Usage: ffconv movie-file'
+if [[ $# -eq 0 ]]; then
+	echo 'Usage: ffconv movie-file [-f]'
+	echo '  -f force a re-encode, even if h264 and aac present'
 	return 1
 fi
 
-# analyse input file to determine existing stream types
-VCODEC=$(ffprobe "$1" 2>&1 | awk '/Stream.*Video:/ {print $4}')
-ACODEC=$(ffprobe "$1" 2>&1 | awk '/Stream.*Audio:/ {print $4}')
+FORCE=0
+
+while getopts 'f' options
+do
+	case $options in
+		f ) FORCE=0;;
+		\? ) echo $usage
+			 exit 1;;
+		* ) echo $usage
+			exit 1;;
+	esac
+done
+shift $(($OPTIND-1))
+
+if [[ $FORCE -eq 0 ]]; then
+	# analyse input file to determine existing stream types
+	VCODEC=$(ffprobe "$1" 2>&1 | awk '/Stream.*Video:/ {print $4}')
+	ACODEC=$(ffprobe "$1" 2>&1 | awk '/Stream.*Audio:/ {print $4}')
+fi
 
 # convert both video and audio
-if [[ $VCODEC != 'h264' ]] && [[ $ACODEC != 'aac' ]]; then
+if [[ $VCODEC != 'h264' && $ACODEC != 'aac' ]] || [[ $FORCE -eq 1 ]]; then
 	time ffmpeg -i "$1" -c:v libx264 -filter:v yadif -crf 21 -level 3.1 -tune film -c:a libfaac -q:a 100 "$1.mp4"
 
 # convert just video
