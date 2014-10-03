@@ -50,6 +50,7 @@ export EBOOK_PASS=eggs1bacon4
 export MUSIC_DIR="/home/mafro/MP3"
 
 export EDITOR=vim
+export VISUAL=vim
 
 export TERM=xterm-256color
 
