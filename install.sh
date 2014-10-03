@@ -1,9 +1,9 @@
 #! /bin/bash
 
-usage="Usage: ./install.sh [-f force] app1 [app2 app3 ..]"
+usage='Usage: ./install.sh [[-f force]] app1 [[app2 app3 ..]]'
 
 FORCE=0
-while getopts "f" options
+while getopts 'f' options
 do
 	case $options in
 		f ) FORCE=1;;
@@ -19,25 +19,25 @@ shift $((OPTIND-1))
 PWD=$(pwd)
 
 # create bin directory in $HOME before stow symlinks it
-if [ ! -d "$HOME/bin" ]; then
+if [[ ! -d $HOME/bin ]]; then
 	mkdir "$HOME/bin"
 fi
 
 for app in "$@"
 do
 	# if -f is supplied forcibly overwrite existing files
-	if [ $FORCE -eq 1 ]; then
+	if [[ $FORCE -eq 1 ]]; then
 		IFS=$(echo -en "\n\b")
 
 		# check stow version
 		VERSION=$(stow -V | awk '/stow/ {print $5}')
-		if [ ${VERSION:0:1} -eq 1 ]
+		if [[ ${VERSION:0:1} -eq 1 ]]
 		then
 			# v.1.3.3
 			# parse stow's conficts
 			CONFLICTS=$(stow -c $app 2>&1 | awk '/CONFLICT/ {print $4}')
 			for filename in $CONFLICTS; do
-				if [ -f $filename ]; then
+				if [[ -f $filename ]]; then
 					echo "Deleting symlink $filename"
 					rm -f "$filename"
 				fi
@@ -47,7 +47,7 @@ do
 			# remove existing symlinks
 			CONFLICTS=$(stow -nv --stow $app 2>&1 | awk '/not owned by stow/ {print $9}')
 			for filename in $CONFLICTS; do
-				if [ -L "$HOME/$filename" ]; then
+				if [[ -L $HOME/$filename ]]; then
 					echo "Deleting symlink $HOME/$filename"
 					rm -f "$HOME/$filename"
 				fi
@@ -56,7 +56,7 @@ do
 			# remove files which would be replaced with symlinks
 			CONFLICTS=$(stow -nv --stow $app 2>&1 | awk '/neither a link nor a directory/ {print $11}')
 			for filename in $CONFLICTS; do
-				if [ -f "$HOME/$filename" ]; then
+				if [[ -f $HOME/$filename ]]; then
 					echo "Deleting file $HOME/$filename"
 					rm -f "$HOME/$filename"
 				fi
@@ -68,9 +68,9 @@ do
 	stow -v --restow $app
 
 	# special behaviour for vim and vundle
-	if [ "$app" == "vim" ]; then
+	if [[ $app == 'vim' ]]; then
 		git submodule update --init
-		if [ $? -eq 0 ]; then
+		if [[ $? -eq 0 ]]; then
 			vim +PluginInstall +qall
 		fi
 	fi
