@@ -41,3 +41,5 @@ fi
 
 alias rethinkdb.start='launchctl load /usr/local/opt/rethinkdb/homebrew.mxcl.rethinkdb.plist'
 alias rethinkdb.stop='launchctl unload /usr/local/opt/rethinkdb/homebrew.mxcl.rethinkdb.plist'
+
+alias showopts='setopt kshoptionprint && setopt'
