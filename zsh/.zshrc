@@ -3,40 +3,21 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# case-sensitive completion
-CASE_SENSITIVE="true"
-DISABLE_AUTO_UPDATE="true"
-COMPLETION_WAITING_DOTS="true"
+# don't write history immediately; wait until exit
+setopt NO_INC_APPEND_HISTORY
+# don't share history between concurrent shells
+setopt NO_SHARE_HISTORY
+
+# prevent 'vim' -> '.vim'
+setopt NOCORRECTALL
+
+# a nice plain green grep highlight
+export GREP_COLOR='33;92'
 
 # PATH
 export PATH=$HOME/bin:/usr/local/share/python:$PATH
 # Homebrew
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
-
-# use zsh's ace renaming tool
-autoload zmv
-
-##### plugins #####
-# brew: completion
-# celery: completion
-# git: completion and fancy prompt
-# jump: http://bit.ly/1cLyE9Q
-# pip: completion
-# python: provides, pyfind, pyclean & pygrep
-# osx: finder funcs; most usefully trash
-# supervisor: completion
-# tmux: auto-start and attach
-# vagrant: completion
-# virtualenvwrapper auto-activates venv in project directory
-
-plugins=(celery git jump pip python supervisor vagrant virtualenvwrapper)
-
-# I don't use tmux in iTerm2
-if [ "$(uname)" != "Darwin" ]; then
-	plugins+=(tmux)
-else
-	plugins+=(brew osx)
-fi
 
 # import aliases
 if [ -f $HOME/.zsh_aliases ]; then
@@ -53,19 +34,9 @@ for func in $(ls ~/.zsh-functions); do
 done
 
 
-# advanced file globbing
-setopt extended_glob
-
 # enable OSX alt-arrow word nav
 bindkey '^[[1;3C' forward-word
 bindkey '^[[1;3D' backward-word
-
-# ignore history duplicates
-setopt hist_ignore_all_dups
-setopt append_history no_inc_append_history no_share_history
-
-# prevent 'vim' -> '.vim'
-setopt nocorrectall
 
 # Android
 export ANDROID_HOME=~/Development/android/android-sdk-macosx
