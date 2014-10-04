@@ -37,6 +37,8 @@ done
 # enable OSX alt-arrow word nav
 bindkey '^[[1;3C' forward-word
 bindkey '^[[1;3D' backward-word
+# custom iterm2 binding to alt-backspace
+bindkey '^[[1;9X' backward-delete-word
 
 # Android
 export ANDROID_HOME=~/Development/android/android-sdk-macosx
