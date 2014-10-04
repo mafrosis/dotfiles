@@ -16,11 +16,16 @@
 	st = status
 	br = branch -a
 	co = checkout
-	ls = log --pretty=format:"%C(yellow)%h\\ %Cred%ad%Cgreen%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
-	ll = log --pretty=format:"%C(yellow)%h\\ %Cred%ad%Cgreen%d\\ %Creset%s%Cblue\\ [%cn]%Creset" --decorate --numstat --date=short
+	ls = log --pretty=format:"%C(yellow)%h\\ %C(red)%ad%C(green)%d\\ %C(reset)%s%C(cyan)\\ [%cn]" --decorate --date=short
+	ll = log --pretty=format:"%C(yellow)%h\\ %C(red)%ad%C(green)%d\\ %C(reset)%s%C(cyan)\\ [%cn]%C(reset)" --decorate --numstat --date=short
 	comend = commit --amend --no-edit
 	rc = rebase --continue
 	cp = cherry-pick
+	ds = diff --stat
+	fixup = "!f() { if [[ -z $1 ]]; then echo 'No commit id!'; return; fi; git commit -m \"fixup! $1\"; }; f"
+	ours = "!f() { git co --ours $@ && git add $@; }; f"
+	theirs = "!f() { git co --theirs $@ && git add $@; }; f"
+	upstream = "!f() { if [[ -z $1 ]]; then echo 'No upstream!'; git remote add upstream https://github.com/$1.git; }; f"
 [help]
 	autocorrect = 1
 [advice]
