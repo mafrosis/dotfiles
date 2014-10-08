@@ -5,8 +5,13 @@
 USAGE='git rebase-since [commit id]'
 
 if [[ $# -eq 1 ]]; then
-	# shddow commits since commit id
+	# rebase only commits since commit id
 	git rebase -i HEAD~$(git rev-list "$1^..HEAD" | wc -l | tr -d ' ')
+
+elif [[ $# -eq 0 ]]; then
+	# rebase commits since remote head
+	git rebase -i $(git rev-parse --abbrev-ref --symbolic-full-name '@{u}')
+
 else
 	echo $USAGE
 	exit 1
