@@ -6,10 +6,10 @@ USAGE='git commits-since [commit id] [branchA branchB]'
 
 if [[ $# -eq 2 ]]; then
 	# show commits since common ancestor of two branches
-	git rev-list $(git merge-base $1 $2)..HEAD
+	git rev-list --oneline --pretty=format:"%C(yellow)%h %C(red)%ad%C(green)%d %C(reset)%s%C(cyan) [%cn]" --date=short $(git merge-base $1 $2)..HEAD
 elif [[ $# -eq 1 ]]; then
 	# show commits since commit id
-	git rev-list $1..HEAD
+	git rev-list --oneline --pretty=format:"%C(yellow)%h %C(red)%ad%C(green)%d %C(reset)%s%C(cyan) [%cn]" --date=short $1..HEAD | awk 'NR % 2 == 0'
 else
 	echo $USAGE
 	exit 1
