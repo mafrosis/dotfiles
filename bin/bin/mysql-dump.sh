@@ -51,13 +51,13 @@ if [[ -z $OUTPUT ]]; then
 fi
 
 # create empty file and sets up column names using the information_schema
-mysql -u "$USER" -p $DBNAME -B -e "SELECT COLUMN_NAME FROM information_schema.COLUMNS C WHERE table_name = '$TABLE';" | awk '{print $1}' | grep -iv ^COLUMN_NAME$ | sed 's/^/"/g;s/$/"/g' | tr '\n' ',' > $OUTPUT
+mysql -h "$HOST" -u "$USER" -p $DBNAME -B -e "SELECT COLUMN_NAME FROM information_schema.COLUMNS C WHERE table_name = '$TABLE';" | awk '{print $1}' | grep -iv ^COLUMN_NAME$ | sed 's/^/"/g;s/$/"/g' | tr '\n' ',' > $OUTPUT
 
 # append newline to mark beginning of data vs. column titles
 echo "" >> $OUTPUT
 
 # dump data from DB into /tmp
-mysqldump -t "-T/tmp" -u $USER -p $DBNAME $TABLE --fields-terminated-by=','
+mysqldump -h "$HOST" -t "-T/tmp" -u $USER -p $DBNAME $TABLE --fields-terminated-by=','
 
 # merge data file and file w/ column names
 cat "/tmp/$TABLE.txt" >> $OUTPUT
