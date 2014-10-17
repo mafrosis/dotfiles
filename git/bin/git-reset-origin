@@ -1,0 +1,42 @@
+#! /bin/bash
+
+# reset this branch against origin maintaining working tree
+
+USAGE='git reset-origin'
+
+function dirty {
+	# adapted from prezto's git-info
+	while IFS=$'\n' read line; do
+		# Check for deleted, modified, renamed
+		[[ "$line" == [\ ACMRT]D\ * ]] && return 0
+		[[ "$line" == ?[MT]\ * ]] && return 0
+		[[ "$line" == R?\ * ]] && return 0
+	done < <(git status --porcelain --ignore-submodules=all)
+	return 1
+}
+
+if [[ $# -eq 0 ]]; then
+	# check for dirty working tree
+	dirty; DIRTY=$?
+
+	# stash if dirty
+	if [[ $DIRTY -eq 0 ]]; then
+		git stash || exit 1
+	fi
+
+	# fetch origin
+	git fetch || exit 1
+
+	# reset against remote origin
+	BR=$(git symbolic-ref HEAD 2> /dev/null)
+	BR=${BR#refs/heads/}
+	git reset --hard origin/$BR || exit 2
+
+	# pop stash if we were dirty
+	if [[ $DIRTY -eq 0 ]]; then
+		git stash pop
+	fi
+else
+	echo $USAGE
+	exit 1
+fi
