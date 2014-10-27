@@ -38,6 +38,10 @@ elif [[ $VCODEC != 'h264' ]]; then
 elif [[ $ACODEC != 'aac' ]]; then
 	time ffmpeg -i "$1" -c:v copy -c:a libfaac -q:a 100 "$1.mp4"
 
+# do nothing for h264/aac MP4 input
+elif [[ ${1##*.} == 'mp4' ]]; then
+	print 'Nothing to do'
+
 # convert neither; just switch container to MP4
 else
 	time ffmpeg -i "$1" -c copy "$1.mp4"
