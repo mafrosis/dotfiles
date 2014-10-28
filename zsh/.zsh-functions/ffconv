@@ -8,10 +8,10 @@ fi
 
 FORCE=0
 
-while getopts 'f' options
+while getopts 'f' params
 do
-	case $options in
-		f ) FORCE=0;;
+	case $params in
+		f ) FORCE=1;;
 		\? ) echo $usage
 			 exit 1;;
 		* ) echo $usage
