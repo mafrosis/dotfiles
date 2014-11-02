@@ -1,8 +1,10 @@
 #! /bin/zsh
+#
+USAGE='Usage: ffconv movie-file [-f]
+  -f force a re-encode, even if h264 and aac present'
 
 if [[ $# -eq 0 ]]; then
-	echo 'Usage: ffconv movie-file [-f]'
-	echo '  -f force a re-encode, even if h264 and aac present'
+	echo $USAGE
 	return 1
 fi
 
@@ -12,9 +14,9 @@ while getopts 'f' params
 do
 	case $params in
 		f ) FORCE=1;;
-		\? ) echo $usage
+		\? ) echo $USAGE
 			 exit 1;;
-		* ) echo $usage
+		* ) echo $USAGE
 			exit 1;;
 	esac
 done
