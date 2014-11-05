@@ -2,7 +2,22 @@
 
 # reset this branch against origin maintaining working tree
 
-USAGE='git reset-origin'
+USAGE='git reset-origin [-f fetch]
+  -f can be supplied to fetch from remote'
+
+FETCH=0
+
+while getopts 'f' options
+do
+	case $options in
+		f ) FETCH=1;;
+		\? ) echo $usage
+			 exit 1;;
+		* ) echo $usage
+			exit 1;;
+	esac
+done
+shift $(($OPTIND-1))
 
 function dirty {
 	# adapted from prezto's git-info
@@ -19,13 +34,15 @@ if [[ $# -eq 0 ]]; then
 	# check for dirty working tree
 	dirty; DIRTY=$?
 
+	# fetch origin
+	if [[ $FETCH -eq 1 ]]; then
+		git fetch || exit 1
+	fi
+
 	# stash if dirty
 	if [[ $DIRTY -eq 0 ]]; then
 		git stash || exit 1
 	fi
-
-	# fetch origin
-	git fetch || exit 1
 
 	# reset against remote origin
 	BR=$(git symbolic-ref HEAD 2> /dev/null)
