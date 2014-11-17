@@ -1,0 +1,10 @@
+#! /bin/bash
+
+USAGE='git fixup {commit-ref}'
+
+if [[ $# -eq 1 ]]; then
+	git commit -m "fixup! $(git rev-parse $1)"
+else
+	echo $USAGE
+	exit 1
+fi

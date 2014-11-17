@@ -22,7 +22,6 @@
 	rc = rebase --continue
 	cp = cherry-pick
 	ds = diff --stat
-	fixup = "!f() { if [ -z \"$1\" ]; then echo 'No commit id!'; return; fi; git commit -m \"fixup! $1\"; }; f"
 	ours = "!f() { git co --ours $@ && git add $@; }; f"
 	theirs = "!f() { git co --theirs $@ && git add $@; }; f"
 	upstream = "!f() { if [ -z \"$1\" ]; then echo 'No upstream!'; git remote add upstream https://github.com/$1.git; }; f"
