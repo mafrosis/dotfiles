@@ -21,7 +21,7 @@ set ttymouse=xterm2				" Enable the mouse through GNU screen
 set background=dark				" Default. Background may be overridden is OS settings
 set showtabline=2				" Always show the tab line
 set guioptions-=T				" Turn off toolbars, but leave on menues
-set shortmess=I					" Turn off the intro message
+set shortmess=oI				" Disable intro messages, messages overwrite each other
 set bs=indent,eol,start     	" Backspace over everything in insert mode
 set noshowmode					" Hide the default mode text (INSERT below the statusline)
 
