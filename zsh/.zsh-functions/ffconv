@@ -15,9 +15,9 @@ do
 	case $params in
 		f ) FORCE=1;;
 		\? ) echo $USAGE
-			 exit 1;;
+			 return 1;;
 		* ) echo $USAGE
-			exit 1;;
+			return 1;;
 	esac
 done
 shift $(($OPTIND-1))
