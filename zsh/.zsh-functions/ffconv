@@ -1,6 +1,6 @@
 #! /bin/zsh
 #
-USAGE='Usage: ffconv movie-file [-f]
+USAGE='Usage: ffconv movie-file [-f] [-A]
   -f force a re-encode, even if h264 and aac present'
 
 if [[ $# -eq 0 ]]; then
@@ -9,11 +9,13 @@ if [[ $# -eq 0 ]]; then
 fi
 
 FORCE=0
+DROP_AUDIO=0
 
-while getopts 'f' params
+while getopts 'fA' params
 do
 	case $params in
 		f ) FORCE=1;;
+		A ) DROP_AUDIO=1;;
 		\? ) echo $USAGE
 			 return 1;;
 		* ) echo $USAGE
@@ -29,12 +31,20 @@ if [[ $FORCE -eq 0 ]]; then
 fi
 
 # convert both video and audio
-if [[ $VCODEC != 'h264' && $ACODEC != 'aac' ]] || [[ $FORCE -eq 1 ]]; then
-	time ffmpeg -i "$1" -c:v libx264 -filter:v yadif -crf 21 -level 3.1 -tune film -c:a libfaac -q:a 100 "$1.mp4"
+if [[ $VCODEC != 'h264' && $ACODEC != 'aac' ]] || [[ $FORCE -eq 1 ]] || [[ $DROP_AUDIO -eq 1 ]]; then
+	if [[ $DROP_AUDIO -eq 1 ]]; then
+		time ffmpeg -i "$1" -c:v libx264 -filter:v yadif -crf 21 -level 3.1 -tune film -an "$1.mp4"
+	else
+		time ffmpeg -i "$1" -c:v libx264 -filter:v yadif -crf 21 -level 3.1 -tune film -c:a libfaac -q:a 100 "$1.mp4"
+	fi
 
 # convert just video
 elif [[ $VCODEC != 'h264' ]]; then
-	time ffmpeg -i "$1" -c:v libx264 -filter:v yadif -crf 21 -level 3.1 -tune film -c:a copy "$1.mp4"
+	if [[ $DROP_AUDIO -eq 1 ]]; then
+		time ffmpeg -i "$1" -c:v libx264 -filter:v yadif -crf 21 -level 3.1 -tune film -an "$1.mp4"
+	else
+		time ffmpeg -i "$1" -c:v libx264 -filter:v yadif -crf 21 -level 3.1 -tune film -c:a copy "$1.mp4"
+	fi
 
 # convert just audio
 elif [[ $ACODEC != 'aac' ]]; then
