@@ -138,6 +138,8 @@ au filetype help :se nonu		" turn off line numbers for help
 autocmd FileType java setlocal shiftwidth=2 tabstop=2
 " HTML
 autocmd FileType html setlocal shiftwidth=2 tabstop=2
+" XHTML
+autocmd FileType xhtml setlocal shiftwidth=2 tabstop=2
 " HTML/Jinja templates
 autocmd FileType htmldjango setlocal shiftwidth=2 tabstop=2
 " Markdown
