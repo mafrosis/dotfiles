@@ -124,7 +124,7 @@ let g:syntastic_python_checkers = ['pyflakes', 'python']
 let g:syntastic_python_flake8_args='--ignore=E501'
 let g:syntastic_mode_map = { 'mode': 'active',
 						   \ 'active_filetypes': [],
-						   \ 'passive_filetypes': ['java'] }
+						   \ 'passive_filetypes': ['java', 'sass', 'scss'] }
 
 "---- File type options ------------------------------------------------
 " Individual filetype settings in ~/.vim/ftplugin/<type>.vim
