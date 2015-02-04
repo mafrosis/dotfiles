@@ -1,12 +1,12 @@
 [submodule "salt-formulae"]
 	path = salt-formulae
-	url = git@github.com:mafrosis/salt-formulae.git
+	url = https://github.com/mafrosis/salt-formulae.git
 [submodule "vim/.vim/bundle/Vundle.vim"]
 	path = vim/.vim/bundle/Vundle.vim
 	url = https://github.com/gmarik/Vundle.vim.git
 [submodule "prezto"]
 	path = prezto
-	url = git@github.com:mafrosis/prezto.git
+	url = https://github.com/mafrosis/prezto.git
 [submodule "tools-osx"]
 	path = tools-osx
 	url = https://github.com/morgant/tools-osx.git
