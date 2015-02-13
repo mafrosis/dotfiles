@@ -24,7 +24,7 @@
 	ds = diff --stat
 	ours = "!f() { git co --ours $@ && git add $@; }; f"
 	theirs = "!f() { git co --theirs $@ && git add $@; }; f"
-	upstream = "!f() { if [ -z \"$1\" ]; then echo 'No upstream!'; git remote add upstream https://github.com/$1.git; }; f"
+	upstream = "!f() { if [[ -z $1 ]]; then echo 'No upstream!'; fi; git remote add upstream https://github.com/$1.git; }; f"
 [help]
 	autocorrect = 1
 [advice]
