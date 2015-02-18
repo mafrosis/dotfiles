@@ -1,0 +1,17 @@
+#! /usr/bin/env python
+
+from init_python_cli_app.cli import entrypoint
+
+
+def main():
+    '''
+    The main entry point for init-python-cli-app CLI
+    '''
+    entrypoint()
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        raise SystemExit()
