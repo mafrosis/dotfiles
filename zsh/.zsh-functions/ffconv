@@ -34,14 +34,19 @@ if [[ $FORCE -eq 0 ]]; then
 	ACODEC=$(ffprobe "$1" 2>&1 | awk '/Stream.*Audio:/ {print $4}')
 fi
 
-# include crf in filename for MP4s, or if it's not 21
-if [[ $1 =~ (.*)mp4$ ]]; then
-	OUTPUT="${1%.*}"
-	INCLUDE_CRF=1
+if [[ $VCODEC != 'h264' ]] || [[ $FORCE -eq 1 ]]; then
+	# include crf in filename for MP4s, but only if it's not 21
+	if [[ $1 =~ (.*)mp4$ ]]; then
+		OUTPUT="${1%.*}"
+		INCLUDE_CRF=1
 
-elif [[ ! $CRF -eq 21 ]]; then
-	OUTPUT="$1"
-	INCLUDE_CRF=1
+	elif [[ ! $CRF -eq 21 ]]; then
+		OUTPUT="$1"
+		INCLUDE_CRF=1
+	else
+		OUTPUT="$1.mp4"
+		INCLUDE_CRF=0
+	fi
 else
 	OUTPUT="$1.mp4"
 	INCLUDE_CRF=0
@@ -53,7 +58,7 @@ if [[ $INCLUDE_CRF -eq 1 ]]; then
 fi
 
 # convert both video and audio
-if [[ $VCODEC != 'h264' && $ACODEC != 'aac' ]] || [[ $FORCE -eq 1 ]] || [[ $DROP_AUDIO -eq 1 ]]; then
+if [[ $VCODEC != 'h264' && $ACODEC != 'aac' ]] || [[ $FORCE -eq 1 ]]; then
 	if [[ $DROP_AUDIO -eq 1 ]]; then
 		time ffmpeg -i "$1" -c:v libx264 -filter:v yadif -crf $CRF -level 3.1 -tune film -an "$OUTPUT"
 	else
