@@ -3,3 +3,4 @@ salty-vagrant/.vagrant
 salt/pillar/github_pky.sls
 salt/github.*.pky
 vim/.vim/.netrwhist
+.DS_Store
