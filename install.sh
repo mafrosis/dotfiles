@@ -1,11 +1,17 @@
 #! /bin/bash
 
-usage='Usage: ./install.sh [[-f force]] app1 [[app2 app3 ..]]'
+usage='Usage: ./install.sh [-n] [-f] app1 [app2 app3 ..]
 
+  -n   dry-run; no filesystem changes
+  -f   force overwrite of existing symlinks'
+
+DRY_RUN=0
 FORCE=0
-while getopts 'f' options
+
+while getopts 'nf' options
 do
 	case $options in
+		n ) DRY_RUN=1;;
 		f ) FORCE=1;;
 		* ) echo $usage
 			exit 1;;
@@ -31,7 +37,9 @@ function delete_symlinks {
 	for filename in $1; do
 		if [[ -f $HOME/$filename || -L $HOME/$filename ]]; then
 			echo "Deleting file $HOME/$filename"
-			rm -f "$HOME/$filename"
+			if [[ $DRY_RUN -eq 0 ]]; then
+				rm -f "$HOME/$filename"
+			fi
 		fi
 	done
 }
@@ -67,7 +75,12 @@ do
 
 	# restow when force flag supplied
 	if [[ $FORCE -eq 1 ]]; then RESTOW='--restow'; else RESTOW=''; fi
+	if [[ $DRY_RUN -eq 1 ]]; then DR='-n'; else DR=''; fi
 
 	# use stow to create symlinks in $HOME
-	stow -v --ignore='install.sh' --ignore='.md$' $app $RESTOW --target=$HOME
+	stow -v --ignore='install.sh' --ignore='.md$' $app $RESTOW --target=$HOME $DR
+
+	if [[ $? -ne 0 && -z $DRY_RUN ]]; then
+		echo 'Stow returned a non-zero result. You may want to re-run with -f (force)'
+	fi
 done
