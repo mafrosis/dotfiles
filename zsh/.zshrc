@@ -3,6 +3,8 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+########### Globals ######################################
+#
 # don't write history immediately; wait until exit
 setopt NO_INC_APPEND_HISTORY
 # don't share history between concurrent shells
@@ -16,8 +18,8 @@ export GREP_COLOR='33;92'
 
 # PATH
 export PATH=$HOME/bin:/usr/local/share/python:$PATH
-# Homebrew
-export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+
+########### Aliases / Functions ###########################
 
 # import aliases
 if [ -f $HOME/.zsh_aliases ]; then
@@ -33,12 +35,18 @@ for func in $(ls ~/.zsh-functions); do
 	autoload -Uz $func
 done
 
+########## Exports ########################################
 
 # enable OSX alt-arrow word nav
 bindkey '^[[1;3C' forward-word
 bindkey '^[[1;3D' backward-word
 # custom iterm2 binding to alt-backspace
 bindkey '^[[1;9X' backward-delete-word
+
+#################### Exports ####################
+
+# Homebrew
+export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
 # Android
 export ANDROID_HOME=~/Development/android/android-sdk-macosx
@@ -47,9 +55,9 @@ export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
 # ebook stuff
 export EBOOK_HOME=~"/Documents/ebooks/DeDRM"
 export EBOOK_USER=mafro
-export EBOOK_PASS=eggs1bacon4
+export EBOOK_PASS=eggs
 
-export MUSIC_DIR="/home/mafro/MP3"
+export MUSIC_DIR="/home/mafro/mp3/mp3"
 
 export EDITOR=vim
 export VISUAL=vim
