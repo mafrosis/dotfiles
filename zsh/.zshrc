@@ -40,6 +40,11 @@ done
 # enable OSX alt-arrow word nav
 bindkey '^[[1;3C' forward-word
 bindkey '^[[1;3D' backward-word
+
+# fix HOME/END for xterm config in iterm2
+bindkey '^[[1~' beginning-of-line
+bindkey '^[[4~' end-of-line
+
 # custom iterm2 binding to alt-backspace
 bindkey '^[[1;9X' backward-delete-word
 
