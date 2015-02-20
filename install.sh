@@ -70,17 +70,22 @@ do
 
 	# use per-app install.sh, or just symlink with stow
 	if [[ -x $app/install.sh ]]; then
-		./$app/install.sh
+		./$app/install.sh $FORCE $DRY_RUN
 	fi
 
-	# restow when force flag supplied
-	if [[ $FORCE -eq 1 ]]; then RESTOW='--restow'; else RESTOW=''; fi
-	if [[ $DRY_RUN -eq 1 ]]; then DR='-n'; else DR=''; fi
+	# per-app install scripts can return 255 to indicate that the
+	# stow step should be skipped here
 
-	# use stow to create symlinks in $HOME
-	stow -v --ignore='install.sh' --ignore='.md$' $app $RESTOW --target=$HOME $DR
+	if [[ ! $? -eq 255 ]]; then
+		# restow when force flag supplied
+		if [[ $FORCE -eq 1 ]]; then RESTOW='--restow'; else RESTOW=''; fi
+		if [[ $DRY_RUN -eq 1 ]]; then DR='-n'; else DR=''; fi
 
-	if [[ $? -ne 0 && -z $DRY_RUN ]]; then
-		echo 'Stow returned a non-zero result. You may want to re-run with -f (force)'
+		# use stow to create symlinks in $HOME
+		stow -v --ignore='install.sh' --ignore='.md$' $app $RESTOW --target=$HOME $DR
+
+		if [[ $? -ne 0 && $DRY_RUN -eq 0 ]]; then
+			echo 'Stow returned a non-zero result. You may want to re-run with -f (force)'
+		fi
 	fi
 done
