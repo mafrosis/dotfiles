@@ -14,7 +14,8 @@ setopt NO_SHARE_HISTORY
 setopt NOCORRECTALL
 
 # a nice plain green grep highlight
-export GREP_COLOR='33;92'
+export GREP_COLOR='33;92'           # BSD
+export GREP_COLORS="mt=$GREP_COLOR" # GNU
 
 # PATH
 export PATH=$HOME/bin:/usr/local/share/python:$PATH
