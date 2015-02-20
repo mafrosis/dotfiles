@@ -8,5 +8,5 @@
 	path = prezto
 	url = https://github.com/mafrosis/prezto.git
 [submodule "tools-osx"]
-	path = tools-osx
+	path = osx/tools-osx
 	url = https://github.com/morgant/tools-osx.git
