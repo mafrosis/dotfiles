@@ -1,5 +1,8 @@
 #! /bin/bash
 
+if [[ $1 -eq 1 ]]; then RESTOW='--restow'; else RESTOW=''; fi
+if [[ $2 -eq 1 ]]; then DRY_RUN='-n'; else DRY_RUN=''; fi
+
 # install missing Homebrew
 if [[ $(uname) == 'Darwin' && -z $(which brew) ]] ; then
 	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -30,4 +33,3 @@ stow -v bin $RESTOW --target=$HOME/bin $DRY_RUN
 
 # skip stow in top-level install.sh
 exit 255
->>>>>>> cbd4244... fixup! ff0b6c2a59d59b3f973db6d7085faefbbe85d6dd
