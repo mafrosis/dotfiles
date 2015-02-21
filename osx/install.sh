@@ -1,7 +1,13 @@
 #! /bin/bash
 
+# bail if not Darwin
+if [[ $(uname) != 'Darwin' ]] ; then
+	exit 255
+fi
+
 if [[ $1 -eq 1 ]]; then RESTOW='--restow'; else RESTOW=''; fi
 if [[ $2 -eq 1 ]]; then DRY_RUN='-n'; else DRY_RUN=''; fi
+
 
 # install missing Homebrew
 if [[ $(uname) == 'Darwin' && -z $(which brew) ]] ; then
