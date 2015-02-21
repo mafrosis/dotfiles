@@ -13,6 +13,9 @@ setopt NO_SHARE_HISTORY
 # prevent 'vim' -> '.vim'
 setopt NOCORRECTALL
 
+# don't automatically change directories
+unsetopt AUTO_CD
+
 # a nice plain green grep highlight
 export GREP_COLOR='33;92'           # BSD
 export GREP_COLORS="mt=$GREP_COLOR" # GNU
