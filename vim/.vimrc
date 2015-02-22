@@ -147,6 +147,8 @@ autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 expandtab
 autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 expandtab
 " JSON
 autocmd FileType json setlocal shiftwidth=2 tabstop=2 cole=0
+" gitrebase
+autocmd FileType gitrebase set modelines=0
 
 
 "---- GitGutter -------------------------------------------------------
