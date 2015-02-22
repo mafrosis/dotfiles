@@ -107,7 +107,6 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " original repos on github
-Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
 Plugin 'scrooloose/syntastic'
 Plugin 'saltstack/salt-vim'
