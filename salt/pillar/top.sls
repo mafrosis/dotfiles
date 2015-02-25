@@ -11,6 +11,7 @@ base:
   'host:monopoly':
     - match: grain
     - monopoly
+    - wakeonlan
 
   'id:raspbmc':
     - match: grain

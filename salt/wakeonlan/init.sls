@@ -7,16 +7,11 @@ wakeonlan:
     - group: {{ pillar['login_user'] }}
     - mode: 700
 
-/home/{{ pillar['login_user'] }}/.wakeonlan/kerplunk:
+{% for hostname, mac_address in pillar['wakeonlan'].iteritems() %}
+/home/{{ pillar['login_user'] }}/.wakeonlan/{{ hostname }}:
   file.managed:
     - user: {{ pillar['login_user'] }}
     - group: {{ pillar['login_user'] }}
     - mode: 600
-    - contents: "00:00:00:00:00:00 192.168.1.255"
-
-/home/{{ pillar['login_user'] }}/.wakeonlan/monopoly:
-  file.managed:
-    - user: {{ pillar['login_user'] }}
-    - group: {{ pillar['login_user'] }}
-    - mode: 600
-    - contents: "00:00:00:00:00:00 192.168.1.255"
+    - contents: "{{ mac_address }} {{ pillar['broadcast_ip'] }}"
+{% endfor %}

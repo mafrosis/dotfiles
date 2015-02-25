@@ -29,6 +29,7 @@ base:
     - samba
     - sysadmin
     - tmux-segments
+    - wakeonlan
     - xbox360
     - zfs-on-linux
 
