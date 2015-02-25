@@ -5,7 +5,7 @@ pools-watchdog:
   pip.installed:
     - name: watchdog
 
-{% for pool_name in ('video', 'music') %}
+{% for pool_name in ('video', 'music', 'torrent') %}
 
 {{ pool_name }}-watchdog-service:
   supervisord.running:
