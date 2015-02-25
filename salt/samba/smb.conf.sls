@@ -50,9 +50,18 @@
    directory mask = 0770
    valid users = mafro
 
+[data]
+   comment = data
+   path = /media/pools/data
+   browseable = yes
+   read only = no
+   create mask = 0660
+   directory mask = 0770
+   valid users = mafro
+
 [Backup]
    comment = Backup
-   path = /media/enc
+   path = /media/enc/beta
    browseable = yes
    read only = no
    create mask = 0660
