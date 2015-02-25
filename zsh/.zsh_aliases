@@ -42,3 +42,6 @@ alias showopts='setopt kshoptionprint && setopt'
 
 # vim open multiple files in tabs
 alias vim='vim -p'
+
+# alias rsync archival
+alias ra='rsync -avP'
