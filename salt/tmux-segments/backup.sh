@@ -1,9 +1,9 @@
 run_segment() {
-	ENC=$(ls /dev/mapper | grep "vg_data-lv_enc")
-	if [ ! -z "$(df | grep /media/backup)" ]; then
-		echo "$ENC*"
-	else
-		echo $ENC
+	if [[ ! -z $(df | grep /media/backup) ]]; then
+		echo "$(df -h | awk '/\/media\/backup$/ {print $4}')"
+
+	elif [[ ! -z $(ls /dev/mapper | grep 'vg_backup-lv_backup') ]]; then
+		echo 'lv_backup'
 	fi
 	return 0
 }
