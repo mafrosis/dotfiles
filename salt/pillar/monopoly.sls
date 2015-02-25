@@ -6,7 +6,7 @@ rtorrent_download_dir: /home/vagrant/torrent
 {% else %}
 
 login_user: mafro
-rtorrent_download_dir: /media/pools/download
+rtorrent_download_dir: /media/download
 
 zpool_import: True
 

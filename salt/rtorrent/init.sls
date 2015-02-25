@@ -21,7 +21,7 @@ rtorrent:
       - pkg: rtorrent
       - user: rtorrent
       - file: rtorrent-download-dir
-      - file: /home/rtorrent/session
+      - file: /var/cache/rtorrent/session
     - watch:
       - file: /etc/init.d/rtorrent
       - file: rtorrent.rc
@@ -30,30 +30,41 @@ rtorrent:
 /etc/init.d/rtorrent:
   file.managed:
     - source: salt://rtorrent/rtorrent.initd
-    - mode: 744
+    - template: jinja
+    - dir_mode: 744
+    - defaults:
+        config: /etc/rtorrent/rtorrent.rc
 
 # ensure storrent download directory exists
 rtorrent-download-dir:
   file.directory:
     - name: {{ pillar['rtorrent_download_dir'] }}
     - group: rtorrent
-    - mode: 775
+    - dir_mode: 775
     - require:
       - user: rtorrent
 
 # ensure rtorrent session directory exists
-/home/rtorrent/session:
+/var/cache/rtorrent/session:
   file.directory:
-    - user: rtorrent
     - group: rtorrent
-    - mode: 775
+    - dir_mode: 775
+    - makedirs: true
+    - recurse:
+      - group
+      - mode
     - require:
       - user: rtorrent
+
+/etc/rtorrent:
+  file.directory:
+    - group: rtorrent
+    - dir_mode: 775
 
 # rtorrent config file
 rtorrent.rc:
   file.managed:
-    - name: /home/rtorrent/.rtorrent.rc
+    - name: /etc/rtorrent/rtorrent.rc
     - source: salt://rtorrent/rtorrent.rc
     - template: jinja
     - user: rtorrent
@@ -63,6 +74,8 @@ rtorrent.rc:
         upload_rate: 10
         download_dir: {{ pillar['rtorrent_download_dir'] }}
         move_torrent: false
+    - require:
+      - file: /etc/rtorrent
 
 {% if pillar.get('login_user', False) %}
 add-rtorrent-group-to-login-user:

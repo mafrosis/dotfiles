@@ -19,7 +19,7 @@ user="rtorrent"
 base=$(su -c 'echo $HOME' $user)
 
 # the full path to the filename where you store your rtorrent configuration
-config="/home/rtorrent/.rtorrent.rc"
+config="{{ config }}"
 
 # options to pass to rtorrent, dont read config from $HOME; load alternate
 options="-n -O import=$config"
