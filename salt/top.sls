@@ -22,6 +22,7 @@ base:
     - dropbox
     - dvd-tools
     - linux-util
+    - mp3
     - pools-perm-watchdog
     - rtorrent
     - rtorrent.rutorrent
