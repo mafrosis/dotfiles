@@ -1,6 +1,5 @@
 base:
   '*':
-    - github_pky
     - mafro
 
   # default Vagrant host for testing
