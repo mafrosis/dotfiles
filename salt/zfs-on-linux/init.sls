@@ -9,7 +9,7 @@ zol-pkgrepo:
     - humanname: ZOL
     - name: deb http://archive.zfsonlinux.org/debian wheezy main
     - file: /etc/apt/sources.list.d/zfsonlinux.list
-    - key_url: salt://zfs-on-linux/zfsonlinux.gpg
+    - key_url: http://zfsonlinux.org/4D5843EA.asc
     - require_in:
       - pkg: zol-install
 
