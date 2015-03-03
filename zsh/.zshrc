@@ -24,6 +24,22 @@ export GREP_COLORS="mt=$GREP_COLOR" # GNU
 # PATH
 export PATH=$HOME/bin:/usr/local/share/python:$PATH
 
+
+########### NTPd hack #####################################
+
+# sometimes ntpd is dead on VMs, causing bad git commit timestamps
+if [[ -x /etc/init.d/ntp ]]; then
+	# ensure user can sudo without password
+	if [[ -z $(sudo -l -n | grep 'password is required') ]]; then
+		# check ntpd status
+		sudo /etc/init.d/ntp status >/dev/null
+		if [[ $? -gt 0 ]]; then
+			sudo /etc/init.d/ntp start
+		fi
+	fi
+fi
+
+
 ########### Aliases / Functions ###########################
 
 # import aliases
