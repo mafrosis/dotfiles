@@ -3,8 +3,9 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+
 ########### Globals ######################################
-#
+
 # don't write history immediately; wait until exit
 setopt NO_INC_APPEND_HISTORY
 # don't share history between concurrent shells
@@ -26,7 +27,7 @@ export PATH=$HOME/bin:/usr/local/share/python:$PATH
 ########### Aliases / Functions ###########################
 
 # import aliases
-if [ -f $HOME/.zsh_aliases ]; then
+if [[ -f $HOME/.zsh_aliases ]]; then
 	source $HOME/.zsh_aliases
 fi
 
@@ -39,7 +40,8 @@ for func in $(ls ~/.zsh-functions); do
 	autoload -Uz $func
 done
 
-########## Exports ########################################
+
+########## Bindkey ########################################
 
 # enable OSX alt-arrow word nav
 bindkey '^[[1;3C' forward-word
@@ -52,7 +54,8 @@ bindkey '^[[4~' end-of-line
 # custom iterm2 binding to alt-backspace
 bindkey '^[[1;9X' backward-delete-word
 
-#################### Exports ####################
+
+########## Exports ########################################
 
 # Homebrew
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH

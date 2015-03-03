@@ -1,5 +1,5 @@
 # enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
+if [[ -x /usr/bin/dircolors ]]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     alias grep='grep --color=auto'
@@ -31,12 +31,8 @@ alias pipup="pip install pip==1.4.1 && pip install -U setuptools"
 alias x509info="openssl x509 -noout -text -in"
 
 # load external aliases
-if [ -d "$HOME/.zsh_aliases.d" ]; then
-	for F in $HOME/.zsh_aliases.d/*; do
-		if [ -f "$F" ]; then
-			source $F
-		fi
-	done
+if [[ -d $HOME/.zsh_aliases.d ]]; then
+	find $HOME/.zsh_aliases.d -type f -exec source {} +;
 fi
 
 alias rethinkdb.start='launchctl load /usr/local/opt/rethinkdb/homebrew.mxcl.rethinkdb.plist'
