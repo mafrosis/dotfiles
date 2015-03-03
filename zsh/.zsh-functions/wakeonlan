@@ -1,0 +1,7 @@
+#! /bin/zsh
+
+if [[ -f ~/.wakeonlan/$1 ]]; then
+	/usr/local/bin/wakeonlan -f ~/.wakeonlan/$1
+else
+	/usr/local/bin/wakeonlan $@
+fi
