@@ -10,8 +10,8 @@ base:
     - imap
     - go
 
-  'host:monopoly':
-    - match: grain
+  'G@host:monopoly or G@id:monopoly':
+    - match: compound
     - dev-user
     - dropbox
     - dvd-tools
@@ -27,6 +27,13 @@ base:
     - wakeonlan
     - xbox360
     - zfs-on-linux
+
+  'G@host:kerplunk or G@id:kerplunk':
+    - match: compound
+    - dev-user
+    - linux-util
+    - rtorrent
+    - sysadmin
 
   'id:raspbmc':
     - match: grain

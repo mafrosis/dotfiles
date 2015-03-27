@@ -7,6 +7,10 @@ base:
     - monopoly
     - wakeonlan
 
+  'G@host:kerplunk or G@id:kerplunk':
+    - match: compound
+    - kerplunk
+
   'id:raspbmc':
     - match: grain
     - raspbmc
