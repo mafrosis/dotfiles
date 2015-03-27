@@ -5,3 +5,4 @@ salt/github.*.pky
 vim/.vim/.netrwhist
 .DS_Store
 ncmpcpp/.ncmpcpp/error.log
+.vagrant

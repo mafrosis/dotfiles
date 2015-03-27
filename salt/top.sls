@@ -2,12 +2,6 @@ base:
   '*':
     - common
 
-  # default Vagrant host for testing
-  'vmware:true':
-    - match: grain
-    - dev-user
-    - sysadmin
-
   'role:chromebook':
     - match: grain
     - nginx

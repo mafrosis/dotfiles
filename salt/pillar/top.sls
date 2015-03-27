@@ -2,13 +2,8 @@ base:
   '*':
     - mafro
 
-  # default Vagrant host for testing
-  'vmware:true':
-    - match: grain
-    - vagrant
-
-  'host:monopoly':
-    - match: grain
+  'G@host:monopoly or G@id:monopoly':
+    - match: compound
     - monopoly
     - wakeonlan
 
