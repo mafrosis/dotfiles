@@ -35,6 +35,8 @@ def upload(prntr, api_key, source_filepath, dest_path, force=False):
     # init the progress bar
     prntr.progressf(num_blocks=0, total_size=filesize, extra=' - starting - ')
 
+    upload_rate_list = []
+
     while bytes_uploaded < filesize:
         bytes_uploaded, upload_id = upload_chunk(
             client,
@@ -48,17 +50,27 @@ def upload(prntr, api_key, source_filepath, dest_path, force=False):
         # calculate time remaining
         elapsed = (datetime.datetime.now() - prntr.start).seconds
         upload_rate = bytes_uploaded / elapsed
+        upload_rate_list.append(upload_rate)
         time_remaining = int((filesize - bytes_uploaded) / upload_rate)
 
         # display progress bar
         prntr.progressf(
             num_blocks=i, block_size=CHUNK, total_size=filesize,
-            extra=' {}  {} - {} remaining  '.format(
+            extra=' {} {} - {} remaining  '.format(
                 format_size(bytes_uploaded),
                 format_bitrate(upload_rate),
                 format_time(time_remaining)
             )
         )
+
+    # do a final redraw of the progress bar without the "time remaining" part
+    prntr.progressf(
+        num_blocks=i, block_size=CHUNK, total_size=filesize,
+        extra=' {} {} average                      '.format(
+            format_size(bytes_uploaded),
+            format_bitrate(sum(upload_rate_list) / len(upload_rate_list))
+        )
+    )
 
     ret = upload_commit(client, dest_filepath, upload_id, overwrite=force)
     prntr.p('Wrote {} bytes to {}'.format(ret['bytes'], ret['path']))
