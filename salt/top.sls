@@ -34,6 +34,7 @@ base:
     - mpd
     - mpd.scribble
     - linux-util
+    - linux-util.download-tools
     - rtorrent
     - sysadmin
 
