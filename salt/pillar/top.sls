@@ -10,6 +10,8 @@ base:
   'G@host:kerplunk or G@id:kerplunk':
     - match: compound
     - kerplunk
+    - kerplunk-secrets
+    - inform
 
   'id:raspbmc':
     - match: grain
