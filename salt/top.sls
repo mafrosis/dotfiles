@@ -31,6 +31,7 @@ base:
   'G@host:kerplunk or G@id:kerplunk':
     - match: compound
     - dev-user
+    - inform
     - mpd
     - mpd.scribble
     - linux-util
