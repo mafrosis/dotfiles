@@ -37,6 +37,8 @@ base:
     - sabnzbd
     - sysadmin
     - tmux-segments
+    - xbmc
+    - xbmc.config
     - zfs-on-linux
 
   'id:raspbmc':

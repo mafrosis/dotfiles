@@ -1,0 +1,67 @@
+#! /bin/bash
+
+### BEGIN INIT INFO
+# Provides:          XbmcSwitch
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts script monitoring XbmcSwitch
+# Description:       starts script monitoring XbmcSwitch
+### END INIT INFO
+
+############### EDIT ME ##################
+
+# path to python virtualenv
+DAEMON={{ venv }}/bin/python
+
+# path to arduino comms script
+DAEMON_OPTS=/opt/xbmcswitch/arduino_serial_comms.py
+
+# script name
+NAME=XbmcSwitch
+
+# user
+RUN_AS={{ user }}
+
+# Path of the PID file
+PID_FILE={{ xbmc_pid_path }}/XbmcSwitch.pid
+
+# Create and own a directory for the XBMC pid
+if [ ! -d {{ xbmc_pid_path }} ]; then
+    mkdir {{ xbmc_pid_path }}
+    /bin/chown $RUN_AS:$RUN_AS {{ xbmc_pid_path }}
+    /bin/chmod 755 {{ xbmc_pid_path }}
+fi
+
+############### END EDIT ME ##################
+
+test -x $DAEMON || exit 0
+
+set -e
+
+case "$1" in
+  start)
+        echo "Starting $NAME"
+        /sbin/start-stop-daemon --start -c $RUN_AS --background --pidfile $PID_FILE --make-pidfile --exec $DAEMON -- $DAEMON_OPTS
+        /bin/chown mafro:mafro $PID_FILE
+        ;;
+  stop)
+        echo "Stopping $NAME"
+        /sbin/start-stop-daemon --stop --pidfile $PID_FILE
+        ;;
+
+  restart)
+        echo "Restarting $NAME"
+        /sbin/start-stop-daemon --stop --pidfile $PID_FILE
+        sleep 5
+        /sbin/start-stop-daemon --start -c $RUN_AS --background --pidfile $PID_FILE --make-pidfile --exec $DAEMON -- $DAEMON_OPTS
+        ;;
+  *)
+        N=/etc/init.d/$NAME
+        echo "Usage: $N {start|stop|restart}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
