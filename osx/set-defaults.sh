@@ -92,6 +92,12 @@ defaults write com.apple.finder FXInfoPanesExpanded -dict \
 	OpenWith -bool true \
 	Privileges -bool true
 
+# General: disable sending diagnostic data to Apple
+defaults write "/Library/Application Support/CrashReporter/DiagnosticMessagesHistory" AutoSubmit -boolean false
+defaults write "/Library/Application Support/CrashReporter/DiagnosticMessagesHistory" AutoSubmitVersion -int 4
+defaults write "/Library/Application Support/CrashReporter/DiagnosticMessagesHistory" ThirdPartyDataSubmit -boolean false
+defaults write "/Library/Application Support/CrashReporter/DiagnosticMessagesHistory" ThirdPartyDataSubmitVersion -int 4
+
 
 ###############################################################################
 # Trackpad, keyboard, mouse                                                   #
