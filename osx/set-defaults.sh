@@ -98,6 +98,9 @@ defaults write "/Library/Application Support/CrashReporter/DiagnosticMessagesHis
 defaults write "/Library/Application Support/CrashReporter/DiagnosticMessagesHistory" ThirdPartyDataSubmit -boolean false
 defaults write "/Library/Application Support/CrashReporter/DiagnosticMessagesHistory" ThirdPartyDataSubmitVersion -int 4
 
+# Finder: completely disable AutoSave, Versions & Resume
+defaults write -g ApplePersistence -bool no
+
 
 ###############################################################################
 # Cleanup disk space                                                          #
