@@ -14,6 +14,10 @@ if [[ $(uname) == 'Darwin' && -z $(which brew) ]] ; then
 	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
+# install a few essentials
+brew install bash coreutils ffmpeg --with-faac git lame python --with-frameworks unrar vim
+sudo -H pip install -U pip virtualenvwrapper ipdb pyflakes
+
 # setup OSX defaults; sudo is required
 sudo -v
 if [[ $? -eq 0 ]]; then
