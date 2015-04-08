@@ -15,7 +15,7 @@ if [[ $(uname) == 'Darwin' && -z $(which brew) ]] ; then
 fi
 
 # install a few essentials
-brew install bash coreutils ffmpeg --with-faac git lame python --with-frameworks unrar vim
+brew install bash coreutils ffmpeg --with-faac lame python --with-frameworks unrar vim
 sudo -H pip install -U pip virtualenvwrapper ipdb pyflakes
 
 # setup OSX defaults; sudo is required
