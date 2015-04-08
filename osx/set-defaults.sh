@@ -100,6 +100,29 @@ defaults write "/Library/Application Support/CrashReporter/DiagnosticMessagesHis
 
 
 ###############################################################################
+# Cleanup disk space                                                          #
+###############################################################################
+
+# Cleanup: delete Speech synthesis voices
+find /System/Library/Speech/Voices -depth 1 -type d -not -name "Hysterical*" -exec rm -rf {} \; 2>/dev/null
+
+# Cleanup: delete a bunch of Desktop pictures that won't be used
+find /Library/Desktop\ Pictures -depth 1 -not -name "Grass*" -not -name "Hawaiian*" -not -name "Brushes*"  -not -name "Floating Leaves*" -not -name "Blue Pond*" -not -name "Rice Paddy*" -not -name "Earth and Moon*" -not -name "Isles*" -exec rm -rf {} \; 2>/dev/null
+
+# Cleanup: delete dictionaries that won't be used
+find /Library/Dictionaries -depth 1 -not -name "Oxford*" -not -name "Apple*" -exec rm -rf {} \; 2>/dev/null
+
+# /Applications
+for A in GarageBand.app iPhoto.app Keynote.app Numbers.app Pages.app; do
+	sudo find /Applications -name $A -type d -exec rm -rf {} \; 2>/dev/null
+done
+
+# /Library/Application Support
+sudo find /Library/Application\ Support -name "GarageBand" -type d -exec rm -rf {} \; 2>/dev/null
+sudo find /Library/Application\ Support -name "Logic" -type d -exec rm -rf {} \; 2>/dev/null
+
+
+###############################################################################
 # Trackpad, keyboard, mouse                                                   #
 ###############################################################################
 
