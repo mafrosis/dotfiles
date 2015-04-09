@@ -1,7 +1,23 @@
-{% if 'arm' in grains["cpuarch"] %}
+{% if grains["cpuarch"] == "arm" %}
 jdk-install:
   pkg.installed:
     - name: openjdk-7-jdk
+
+
+{% elif grains["os"] == "MacOS" %}
+#brew-cask-install:
+#  pkg.installed:
+#    - name: caskroom/cask/brew-cask
+
+java-install-with-cask:
+  caskroom.installed:
+    - name: java
+
+#java-install-with-cask:
+#  cmd.run:
+#    - name: brew cask install java
+#    - user: {{ pillar['login_user'] }}
+
 
 {% else %}
 webupd8team-java-ppa:
