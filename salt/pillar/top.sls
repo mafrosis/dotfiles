@@ -13,6 +13,10 @@ base:
     - kerplunk-secrets
     - inform
 
+  'G@host:mousetrap or G@id:mousetrap':
+    - match: compound
+    - mousetrap
+
   'id:raspbmc':
     - match: grain
     - raspbmc
