@@ -17,6 +17,8 @@ extend:
     - template: jinja
     - defaults:
         host: {{ grains['host'] }}
+    - require:
+      - pkg: nginx
 
 /etc/nginx/sites-enabled/{{ grains['host'] }}.conf:
   file.symlink:
