@@ -2,14 +2,6 @@ base:
   '*':
     - common
 
-  'role:chromebook':
-    - match: grain
-    - nginx
-    - pelican
-    - d3
-    - imap
-    - go
-
   'G@host:monopoly or G@id:monopoly':
     - match: compound
     - dev-user
