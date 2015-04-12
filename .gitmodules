@@ -13,3 +13,6 @@
 [submodule "bin/sesame"]
 	path = bin/sesame
 	url = https://github.com/mafrosis/sesame.sh.git
+[submodule "osx/salt-osx"]
+	path = osx/salt-osx
+	url = https://github.com/mafrosis/salt-osx.git
