@@ -9,22 +9,6 @@ if [[ $1 -eq 1 ]]; then RESTOW='--restow'; else RESTOW=''; fi
 if [[ $2 -eq 1 ]]; then DRY_RUN='-n'; else DRY_RUN=''; fi
 
 
-# install missing Homebrew
-if [[ $(uname) == 'Darwin' && -z $(which brew) ]] ; then
-	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-fi
-
-# install missing Caskroom
-if [[ $(uname) == 'Darwin' && -z $(brew cask >/dev/null) ]] ; then
-	brew install caskroom/cask/brew-cask
-	brew tap caskroom/versions
-fi
-
-# install a few essentials
-brew install bash coreutils ffmpeg --with-faac lame python --with-frameworks unrar vim
-sudo -H pip install -U pip virtualenvwrapper ipdb pyflakes
-
-
 # setup OSX defaults; sudo is required
 sudo -v
 if [[ $? -eq 0 ]]; then
@@ -49,10 +33,14 @@ cd $HOME/dotfiles/osx
 stow -v bin $RESTOW --target=$HOME/bin $DRY_RUN
 
 
-# install baseline apps
-for A in iterm2 textmate keepassx android-file-transfer google-chrome google-drive dropbox vmware-fusion6 vagrant; do
-	brew cask install $A
-done
+# install Homebrew and apps
+source ./homebrew.sh
+
+if [[ $? -eq 0 ]]; then
+	# install a couple things via pip, after Homebrew installs python
+	sudo -H pip install -U pip virtualenvwrapper ipdb pyflakes
+fi
+
 
 # skip stow in top-level install.sh
 exit 255
