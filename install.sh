@@ -22,7 +22,7 @@ shift $((OPTIND-1))
 
 # initialise OSX with missing homebrew
 if [[ $(uname) == 'Darwin' && -z $(which brew) ]] ; then
-	./osx/install.sh
+	./osx/homebrew.sh --init
 fi
 
 if [[ -z $(which stow) ]]; then
