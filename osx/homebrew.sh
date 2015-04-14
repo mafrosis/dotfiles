@@ -36,4 +36,4 @@ fi
 brew install bash coreutils ffmpeg --with-faac lame python --with-frameworks unrar vim
 
 # install baseline apps via Cask
-brew cask install iterm2 textmate keepassx android-file-transfer google-chrome google-drive dropbox vmware-fusion6 vagrant
+brew cask install iterm2 textmate keepassx android-file-transfer google-chrome google-drive dropbox
