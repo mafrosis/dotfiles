@@ -50,6 +50,4 @@ brew cask install \
 	google-drive \
 	iterm2 \
 	keepassx \
-	textmate \
-	vagrant \
-	vmware-fusion6
+	textmate
