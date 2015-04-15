@@ -1,5 +1,18 @@
 #! /bin/bash
 
+# install vim package
+if [[ $(uname) == 'Linux' && -z $(which vim) ]]; then
+
+	if [[ $(uname) =~ '(.*)Debian(.*)' ]]; then
+		sudo aptitude install vim-nox
+	elif [[ $(uname) =~ '(.*)Ubuntu(.*)' ]]; then
+		sudo aptitude install vim
+	fi
+
+elif [[ $(uname) == 'Darwin' && -z $(brew list | grep vim) ]]; then
+	brew install vim
+fi
+
 # retrieve the Vundle submodule
 git submodule update --init vim/.vim/bundle/Vundle.vim
 

@@ -39,8 +39,7 @@ brew install \
 	ffmpeg --with-faac \
 	lame \
 	python --with-frameworks \
-	unrar \
-	vim
+	unrar
 
 # install baseline apps via Cask
 brew cask install \
