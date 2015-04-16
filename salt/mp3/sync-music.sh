@@ -11,5 +11,8 @@ sudo find /media/pools/music -type f -exec chmod 640 {} \;
 
 echo "Syncing to Kerplunk"
 
-# synchronise
+# pull playlists from kerplunk
+rsync -avP --delete kerplunk:/home/mafro/playlists/ /media/pools/music/playlists
+
+# push music to kerplunk
 rsync -avP --delete /media/pools/music/mp3/ kerplunk:/home/mafro/mp3
