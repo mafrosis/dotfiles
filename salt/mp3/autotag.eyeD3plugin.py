@@ -113,9 +113,20 @@ Description here
             self.audio_file.initTag(id3.ID3_V2_4)
 
         # decode from filesystem encoding where necessary
-        self.audio_file.tag.artist = artist.decode(fs_encoding)
-        self.audio_file.tag.album_artist = self.meta['album_artist'].decode(fs_encoding)
-        self.audio_file.tag.album = self.meta['album'].decode(fs_encoding)
+        if type(artist) is str:
+            self.audio_file.tag.artist = artist.decode(fs_encoding)
+        else:
+            self.audio_file.tag.artist = artist
+
+        if type(self.meta['album_artist']) is str:
+            self.audio_file.tag.album_artist = self.meta['album_artist'].decode(fs_encoding)
+        else:
+            self.audio_file.tag.album_artist = self.meta['album_artist']
+
+        if type(self.meta['album']) is str:
+            self.audio_file.tag.album = self.meta['album'].decode(fs_encoding)
+        else:
+            self.audio_file.tag.album = self.meta['album']
 
         # set the remainder of the tags
         self.audio_file.tag.title = title
