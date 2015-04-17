@@ -1,6 +1,6 @@
 #! /bin/bash
 
-USAGE="diskinfo.sh [-v] [-h]
+USAGE="diskinfo.sh [-v] [-h] [device]
 
   -v	verbose printing
   -h	show this help"
@@ -101,7 +101,11 @@ function query_disk {
 	echo ''
 }
 
-if [[ $# -eq 1 && ! -z "$(sudo smartctl --scan | grep $1)" ]] ; then
+if [[ $# -eq 1 ]]; then
+	if [[ -z "$(sudo smartctl --scan | grep $1)" ]]; then
+		echo "Device $1 not found"
+		exit 2
+	fi
 	# query disk passed as param
 	query_disk $1
 else
