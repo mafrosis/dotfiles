@@ -1,0 +1,28 @@
+directory: /media/pools/music/mp3
+
+# http://beets.readthedocs.org/en/v1.3.10/plugins/discogs.html
+# http://beets.readthedocs.org/en/v1.3.10/plugins/lastgenre.html
+# http://beets.readthedocs.org/en/v1.3.10/plugins/replaygain.html
+
+plugins: fromfilename embedart fetchart info
+pluginpath: ~/.config/beets/plugins
+
+import:
+  move: no
+  copy: no
+  write: no
+  resume: yes
+  incremental: yes
+
+paths:
+  default: $genre/$albumartist - $year - $album/$track - $title
+  comp: $genre/$albumartist - $year - $album/$track - $artist - $title
+#  singleton: Non-Album/$artist/$title
+
+art_filename: folder.jpg
+
+list_format_item: $artist - $album - $track - $title - $path
+list_format_album: $albumartist - $album
+
+#sort_item:
+#sort_album:
