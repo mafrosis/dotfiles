@@ -85,3 +85,8 @@ add-rtorrent-group-to-login-user:
       - rtorrent
     - remove_groups: false
 {% endif %}
+
+/home/{{ pillar['login_user'] }}/watch:
+  file.directory:
+    - user: {{ pillar['login_user'] }}
+    - group: {{ pillar['login_user'] }}
