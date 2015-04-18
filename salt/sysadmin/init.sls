@@ -14,6 +14,6 @@ required-packages-sysadmin:
       - parted
       - dnsutils
       - smartmontools
-      - deborphan
+      - bmap-tools
     - require:
       - file: apt-no-recommends
