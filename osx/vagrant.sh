@@ -22,6 +22,11 @@ else
 	echo 'Vagrant VMWare license not found at ~/Desktop/license.lic'
 fi
 
+# configure VMWare vmnet devices to nice IP ranges
+for N in 1 8; do
+	sudo sed -i '' -e "s/.*VNET_${N}_HOSTONLY_SUBNET.*/answer VNET_${N}_HOSTONLY_SUBNET 172.16.${N}.0/" /Library/Preferences/VMware\ Fusion/networking
+done
+
 # also install Packer
 if [[ -z $(brew tap | grep homebrew/binary) ]]; then
 	brew tap homebrew/binary
