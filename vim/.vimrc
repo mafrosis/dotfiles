@@ -69,6 +69,9 @@ noremap gf <C-w>gF
 " disable Ex mode
 nnoremap Q <nop>
 
+" Allow saving of files as sudo http://stackoverflow.com/a/7078429/425050
+cmap w!! w !sudo tee > /dev/null %
+
 
 "---- Code completion options ------------------------------------------
 " The same trick is needed to get ctrl+space to autocomplete in all environments
