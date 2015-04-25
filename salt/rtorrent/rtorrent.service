@@ -1,0 +1,15 @@
+[Unit]
+Description=rTorrent
+Documentation=https://github.com/rakshasa/rtorrent
+After=network.target local-fs.target
+
+[Service]
+Type=forking
+User=rtorrent
+ExecStartPre=/bin/rm -f /tmp/rtorrent.sock
+ExecStart=/usr/bin/tmux -S /tmp/rtorrent.sock new-session -d -s rtorrent 'rtorrent -n -O import={{ config }}'
+ExecStop=/usr/bin/tmux -S /tmp/rtorrent.sock send-keys -t rtorrent C-q
+WorkingDirectory=/home/rtorrent
+
+[Install]
+WantedBy=default.target
