@@ -29,3 +29,6 @@ system.method.set_key = event.download.finished,check_complete,"execute=/home/rt
 
 # watch in $HOME
 schedule = watch_dir_1,5,10,"load_start=/home/mafro/watch/*.torrent"
+
+# Delete data on torrent deletion
+system.method.set_key = event.download.erased,on_erase,"execute={rm,-rf,--,$d.get_base_path=}"

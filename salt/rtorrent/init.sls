@@ -21,12 +21,19 @@ rtorrent:
       - user: rtorrent
       - file: rtorrent-download-dir
       - file: /var/cache/rtorrent/session
+      - file: rtorrent.rc
+      - file: rtorrent-init-script
 
 # install init script that runs rtorrent in a tmux session
 rtorrent-init-script:
   file.managed:
+{% if grains.get('systemd', False) %}
+    - name: /etc/systemd/system/rtorrent.service
+    - source: salt://rtorrent/rtorrent.service
+{% else %}
     - name: /etc/init.d/rtorrent
     - source: salt://rtorrent/rtorrent.init
+{% endif %}
     - template: jinja
     - dir_mode: 744
     - defaults:
@@ -36,6 +43,7 @@ rtorrent-init-script:
 rtorrent-download-dir:
   file.directory:
     - name: {{ pillar['rtorrent_download_dir'] }}
+    - user: {{ pillar['login_user'] }}
     - group: rtorrent
     - dir_mode: 775
     - require:
@@ -44,6 +52,7 @@ rtorrent-download-dir:
 # ensure rtorrent session directory exists
 /var/cache/rtorrent/session:
   file.directory:
+    - user: rtorrent
     - group: rtorrent
     - dir_mode: 775
     - makedirs: true
