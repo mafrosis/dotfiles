@@ -15,21 +15,18 @@ rtorrent:
     - remove_groups: false
     - require:
       - group: rtorrent
-  service.running:
-    - enable: true
+  service.enabled:
     - require:
       - pkg: rtorrent
       - user: rtorrent
       - file: rtorrent-download-dir
       - file: /var/cache/rtorrent/session
-    - watch:
-      - file: /etc/init.d/rtorrent
-      - file: rtorrent.rc
 
 # install init script that runs rtorrent in a tmux session
-/etc/init.d/rtorrent:
+rtorrent-init-script:
   file.managed:
-    - source: salt://rtorrent/rtorrent.initd
+    - name: /etc/init.d/rtorrent
+    - source: salt://rtorrent/rtorrent.init
     - template: jinja
     - dir_mode: 744
     - defaults:
