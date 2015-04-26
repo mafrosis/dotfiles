@@ -101,6 +101,7 @@ nnoremap <space> za
 "---- Code folding ------------------------------------------------------
 set foldmethod=indent
 set foldlevel=99
+set foldnestmax=1
 
 
 "---- Vundle ------------------------------------------------------------
