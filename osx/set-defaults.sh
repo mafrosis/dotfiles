@@ -101,6 +101,9 @@ defaults write "/Library/Application Support/CrashReporter/DiagnosticMessagesHis
 # Finder: completely disable AutoSave, Versions & Resume
 defaults write -g ApplePersistence -bool no
 
+# Disable swipe between pages
+defaults write NSGlobalDomain AppleEnableSwipeNavigateWithScrolls -bool false
+
 
 ###############################################################################
 # Cleanup disk space                                                          #
@@ -225,10 +228,6 @@ defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
 defaults write com.apple.DiskUtility DUDebugMenuEnabled -bool true
 defaults write com.apple.DiskUtility advanced-image-options -bool true
 
-
-# Disable the all too sensitive backswipe
-defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
-defaults write com.google.Chrome.canary AppleEnableSwipeNavigateWithScrolls -bool false
 
 # Use the system-native print preview dialog
 defaults write com.google.Chrome DisablePrintPreview -bool true
