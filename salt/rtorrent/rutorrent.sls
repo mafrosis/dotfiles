@@ -11,9 +11,6 @@ extend:
 
 
 # install php5-cgi and create a supervisor config to control it
-spawn-fcgi:
-  pkg.installed
-
 php5-cgi:
   pkg.installed
 
