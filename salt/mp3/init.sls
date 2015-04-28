@@ -1,7 +1,7 @@
 include:
   - mp3.cdparanoia
 
-{{ set user = pillar.get('login_user', 'vagrant') }}
+{% set user = pillar.get('login_user', 'vagrant') %}
 
 lame:
   pkg.installed
