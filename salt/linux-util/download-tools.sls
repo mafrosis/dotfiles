@@ -99,3 +99,7 @@ imgur.sh-install:
     - require:
       - git: imgur.sh-git
       - file: home-bin-dir-download-tools
+
+youtube-dl:
+  pip.installed:
+    - upgrade: true
