@@ -84,15 +84,35 @@ rtorrent.rc:
       - file: /etc/rtorrent
 
 {% if pillar.get('login_user', False) %}
+{% set user = pillar['login_user'] %}
+
 add-rtorrent-group-to-login-user:
   user.present:
-    - name: {{ pillar['login_user'] }}
+    - name: {{ user }}
     - groups:
       - rtorrent
     - remove_groups: false
-{% endif %}
 
-/home/{{ pillar['login_user'] }}/watch:
+/home/{{ user }}/watch:
   file.directory:
-    - user: {{ pillar['login_user'] }}
-    - group: {{ pillar['login_user'] }}
+    - user: {{ user }}
+    - group: {{ user }}
+
+home-bin-rtorrent:
+  file.directory:
+    - name: /home/{{ user }}/bin
+    - user: {{ user }}
+    - group: {{ user }}
+    - mode: 755
+
+/home/{{ user }}/bin/rtorrent-attach:
+  file.managed:
+    - contents: |
+        #! /bin/bash
+        tmux -S /tmp/rtorrent.sock attach
+    - user: {{ user }}
+    - group: {{ user }}
+    - mode: 700
+    - require:
+      - file: home-bin-rtorrent
+{% endif %}
