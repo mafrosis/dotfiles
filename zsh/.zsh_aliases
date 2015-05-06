@@ -24,9 +24,6 @@ alias tad="tmux attach -d"
 # generate a UUID
 alias uuid="python -c 'import uuid; print uuid.uuid4()'"
 
-# update pip & distrbute
-alias pipup="pip install pip==1.4.1 && pip install -U setuptools"
-
 # view SSL cert info
 alias x509info="openssl x509 -noout -text -in"
 
