@@ -10,3 +10,6 @@
 [submodule "tools-osx"]
 	path = osx/tools-osx
 	url = https://github.com/morgant/tools-osx.git
+[submodule "bin/sesame"]
+	path = bin/sesame
+	url = https://github.com/mafrosis/sesame.sh.git
