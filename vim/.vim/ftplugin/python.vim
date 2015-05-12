@@ -16,3 +16,8 @@ autocmd BufReadPost,FileReadPost,BufWinEnter * call s:PythonFoldNestMax()
 
 " setup command :PythonFoldNestMax
 command! -bar PythonFoldNestMax  call s:PythonFoldNestMax()
+
+" setup macros to insert common debug statements
+let @i = 'Oimport ipdb; ipdb.set_trace()'
+let @p = 'Oimport pdb; pdb.set_trace()'
+let @r = 'Ofrom celery.contrib import rdb; rdb.set_trace()'
