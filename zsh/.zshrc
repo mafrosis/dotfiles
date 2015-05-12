@@ -104,9 +104,11 @@ export PYTHONSTARTUP="$HOME/.pythonstartup.py"
 PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
 PLATFORM="linux"
 
-# use vmware in vagrant
+# use vmware in vagrant / packer
 export VAGRANT_DEFAULT_PROVIDER="vmware_fusion"
 export VAGRANT_VMWARE_CLONE_DIRECTORY="~/.vagrant.d/machines"
+export VAGRANT_VMWARE_FUSION_APP="/Users/mafro/Applications/VMware Fusion.app"
+export FUSION_APP_PATH="/Users/mafro/Applications/VMware Fusion.app"
 
 # since root inherits $PATH on Debian now with env_keep in sudoers, need /sbin in $PATH
 export PATH=$PATH:/sbin
