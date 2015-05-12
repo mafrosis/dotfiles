@@ -24,6 +24,7 @@
 	ds = diff --stat
 	sp = stash show -p
 	fap = fetch --all --prune
+	sui = submodule update --init
 	ours = "!f() { git co --ours $@ && git add $@; }; f"
 	theirs = "!f() { git co --theirs $@ && git add $@; }; f"
 	upstream = "!f() { if [[ -z $1 ]]; then echo 'No upstream!'; fi; git remote add upstream https://github.com/$1.git; }; f"
