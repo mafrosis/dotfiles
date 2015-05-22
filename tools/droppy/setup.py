@@ -38,6 +38,9 @@ setup(
     package_dir={'': '.'},
     include_package_data=True,
     install_requires=requires,
+    dependency_links=[
+        'https://github.com/mafrosis/dropbox-python-sdk/archive/v2.2.1.zip#egg=dropbox-2.2.1'
+    ],
     scripts=['scripts/droppy'],
     license=open('LICENSE').read(),
     classifiers=(
