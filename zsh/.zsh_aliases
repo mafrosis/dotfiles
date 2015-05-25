@@ -29,7 +29,11 @@ alias x509info="openssl x509 -noout -text -in"
 
 # load external aliases
 if [[ -d $HOME/.zsh_aliases.d ]]; then
-	find $HOME/.zsh_aliases.d -type f -exec source {} +;
+	for F in $HOME/.zsh_aliases.d/*; do
+		if [[ -f $F ]]; then
+			source $F
+		fi
+	done
 fi
 
 alias rethinkdb.start='launchctl load /usr/local/opt/rethinkdb/homebrew.mxcl.rethinkdb.plist'
