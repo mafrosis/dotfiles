@@ -1,28 +1,44 @@
-directory: /media/pools/music/mp3
+directory: /media/music
 
-# http://beets.readthedocs.org/en/v1.3.10/plugins/discogs.html
-# http://beets.readthedocs.org/en/v1.3.10/plugins/lastgenre.html
 # http://beets.readthedocs.org/en/v1.3.10/plugins/replaygain.html
 
-plugins: fromfilename embedart fetchart info
 pluginpath: ~/.config/beets/plugins
+plugins:
+  - chroma
+  - embedart
+  - discogs
+  - fetchart
+  - fromfilename
+  - info
+  - mpdstats
+
+match:
+  preferred:
+    countries: ['US', 'GB|UK']
+    media: ['CD', 'Digital Media|File']
+    original_year: yes
 
 import:
-  move: no
-  copy: no
-  write: no
-  resume: yes
-  incremental: yes
+  move: no      # dont move files
+  copy: no      # dont copy files
+  write: no     # dont write tags
+  resume: yes   # resume imports
+  detail: yes   # show detail of all tags
+  incremental: yes  # enable incremental import
+  log: /var/log/beets/import.log
 
 paths:
   default: $genre/$albumartist - $year - $album/$track - $title
   comp: $genre/$albumartist - $year - $album/$track - $artist - $title
-#  singleton: Non-Album/$artist/$title
 
-art_filename: folder.jpg
+art_filename: folder
 
-list_format_item: $artist - $album - $track - $title - $path
-list_format_album: $albumartist - $album
+format_item: $artist - $album - $track - $title - $path
+format_album: $albumartist - $album
 
-#sort_item:
-#sort_album:
+# plugin settings
+acoustid:
+  apikey: {{ acousticid_api_key }}
+
+chroma:
+  auto: no
