@@ -24,6 +24,8 @@ base:
     - match: compound
     - dev-user
     - inform
+    - mp3
+    - mp3.beets
     - mpd
     - mpd.scribble
     - linux-util

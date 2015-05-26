@@ -31,12 +31,15 @@ flac:
 
 
 eyeD3:
-  pip.installed
+  pip.installed:
+    - allow_external: eyeD3
+    - allow_unverified: eyeD3
 
 /home/{{ user }}/.eyeD3/plugins:
   file.directory:
     - user: {{ user }}
     - group: {{ user }}
+    - makedirs: true
 
 /home/{{ user }}/.eyeD3/plugins/autotag.py:
   file.symlink:
