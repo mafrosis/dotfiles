@@ -38,7 +38,7 @@ source ./homebrew.sh
 
 if [[ $? -eq 0 ]]; then
 	# install a couple things via pip, after Homebrew installs python
-	sudo -H pip install -U pip virtualenvwrapper ipdb pyflakes
+	pip install -U pip virtualenvwrapper ipdb pyflakes
 fi
 
 
