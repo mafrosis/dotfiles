@@ -97,6 +97,9 @@ export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export GOPATH=$HOME/Development/go
 export PATH=$PATH:$GOPATH/bin
 
+# no virtualenv prompt; shown via prezto theme
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
 # Python shell
 export PYTHONSTARTUP="$HOME/.pythonstartup.py"
 
