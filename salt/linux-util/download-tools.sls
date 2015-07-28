@@ -1,5 +1,6 @@
 include:
   - github
+  - sabnzbd
 
 {% set user = pillar.get('login_user', 'vagrant') %}
 

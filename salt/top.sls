@@ -31,6 +31,7 @@ base:
     - linux-util
     - linux-util.download-tools
     - rtorrent
+    - sabnzbd
     - sysadmin
 
   'id:raspbmc':
