@@ -20,6 +20,11 @@ done
 shift $((OPTIND-1))
 
 
+if ! command -v sudo >/dev/null 2>&1; then
+	echo 'Please install sudo and try again'
+	exit 44
+fi
+
 # initialise OSX with missing homebrew
 if [[ $(uname) == 'Darwin' ]]; then
 	if ! command -v brew >/dev/null 2>&1; then
