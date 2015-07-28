@@ -13,7 +13,7 @@ plowshare-git:
     - name: https://github.com/mcrapet/plowshare.git
     - rev: master
     - target: /opt/plowshare
-    - runas: {{ user }}
+    - user: {{ user }}
     - require:
       - pkg: git
       - file: /opt/plowshare
@@ -62,7 +62,7 @@ jsawk-git:
     - name: https://github.com/micha/jsawk.git
     - rev: master
     - target: /opt/jsawk
-    - runas: {{ user }}
+    - user: {{ user }}
     - require:
       - pkg: git
       - file: /opt/jsawk
@@ -86,7 +86,7 @@ imgur.sh-git:
     - name: https://github.com/manabutameni/Imgur.git
     - rev: master
     - target: /opt/Imgur
-    - runas: {{ user }}
+    - user: {{ user }}
     - require:
       - pkg: git
       - file: /opt/Imgur
