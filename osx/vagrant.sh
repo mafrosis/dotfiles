@@ -3,8 +3,10 @@
 # Bootstrap Vagrant & VMware on this machine
 
 # install missing Homebrew
-if [[ $(uname) == 'Darwin' ]] && [[ -z $(which brew) || -z $(brew cask &>/dev/null) ]] ; then
-	./osx/homebrew.sh --init
+if [[ $(uname) == 'Darwin' ]]; then
+	if ! command -v brew >/dev/null 2>&1; then
+		./osx/homebrew.sh --init
+	fi
 fi
 
 # install VMware Fusion and Vagrant

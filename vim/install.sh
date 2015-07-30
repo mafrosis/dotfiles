@@ -1,12 +1,14 @@
 #! /bin/bash
 
 # install vim package
-if [[ $(uname) == 'Linux' && -z $(which vim) ]]; then
+if [[ $(uname) == 'Linux' ]]; then
 
-	if [[ $(uname) =~ '(.*)Debian(.*)' ]]; then
-		sudo aptitude install vim-nox
-	elif [[ $(uname) =~ '(.*)Ubuntu(.*)' ]]; then
-		sudo aptitude install vim
+	if ! command -v vim >/dev/null 2>&1; then
+		if [[ $(uname) =~ '(.*)Debian(.*)' ]]; then
+			sudo aptitude install vim-nox
+		elif [[ $(uname) =~ '(.*)Ubuntu(.*)' ]]; then
+			sudo aptitude install vim
+		fi
 	fi
 
 elif [[ $(uname) == 'Darwin' && -z $(brew list | grep vim) ]]; then

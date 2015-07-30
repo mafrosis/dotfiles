@@ -2,7 +2,7 @@
 
 # install salt package
 if [[ $(uname) == 'Darwin' ]]; then
-	if [[ -z $(which brew) ]] ; then
+	if ! command -v brew >/dev/null 2>&1; then
 		echo 'Run ./install.sh osx first to bootstrap OSX with Homebrew'
 		exit 3
 	fi
