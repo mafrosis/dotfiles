@@ -8,4 +8,8 @@ rtorrent_download_dir: /home/vagrant/download
 login_user: mafro
 rtorrent_download_dir: /home/mafro/download
 
+custom_segments:
+  enc: "36 255"
+  backup: "166 255"
+
 {% endif %}
