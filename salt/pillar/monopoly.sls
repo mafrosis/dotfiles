@@ -5,6 +5,7 @@ rtorrent_download_dir: /home/vagrant/torrent
 
 {% else %}
 
+hostname: monopoly
 login_user: mafro
 rtorrent_download_dir: /media/download
 

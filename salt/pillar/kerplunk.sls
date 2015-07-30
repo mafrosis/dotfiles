@@ -5,6 +5,7 @@ rtorrent_download_dir: /home/vagrant/download
 
 {% else %}
 
+hostname: kerplunk
 login_user: mafro
 rtorrent_download_dir: /home/mafro/download
 
