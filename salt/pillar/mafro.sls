@@ -13,6 +13,7 @@ extras:
   - zsh
   - git
   - tmux
+  - shellcheck
 
 # install extras from pip
 pip:
