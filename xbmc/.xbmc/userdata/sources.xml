@@ -14,6 +14,16 @@
             <path pathversion="1">/media/pools/video/Movies/HD-1080p/</path>
             <allowsharing>true</allowsharing>
         </source>
+        <source>
+            <name>F1</name>
+            <path pathversion="1">/media/pools/video/F1/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+        <source>
+            <name>x-art</name>
+            <path pathversion="1">/media/pools/video/x-art/</path>
+            <allowsharing>true</allowsharing>
+        </source>
     </video>
     <music>
         <default pathversion="1"></default>
