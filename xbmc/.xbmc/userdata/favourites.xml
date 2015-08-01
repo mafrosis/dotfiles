@@ -1,0 +1,4 @@
+<favourites>
+    <favourite name="x-art">ActivateWindow(10025,&quot;/media/pools/video/x-art/&quot;,return)</favourite>
+    <favourite name="F1">ActivateWindow(10025,&quot;/media/pools/video/F1/&quot;,return)</favourite>
+</favourites>

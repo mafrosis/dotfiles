@@ -70,7 +70,7 @@
     <filelists>
         <allowfiledeletion default="true">false</allowfiledeletion>
         <ignorethewhensorting default="true">true</ignorethewhensorting>
-        <showaddsourcebuttons>false</showaddsourcebuttons>
+        <showaddsourcebuttons default="true">true</showaddsourcebuttons>
         <showextensions default="true">true</showextensions>
         <showhidden default="true">false</showhidden>
         <showparentdiritems default="true">true</showparentdiritems>
@@ -80,7 +80,7 @@
         <addonforeignfilter default="true">false</addonforeignfilter>
         <addonnotifications default="true">true</addonnotifications>
         <settinglevel>1</settinglevel>
-        <systemtotaluptime>0</systemtotaluptime>
+        <systemtotaluptime>25</systemtotaluptime>
     </general>
     <input>
         <enablejoystick default="true">false</enablejoystick>
@@ -114,7 +114,7 @@
         <skintheme default="true">SKINDEFAULT</skintheme>
         <skinzoom default="true">0</skinzoom>
         <soundskin default="true">SKINDEFAULT</soundskin>
-        <startupwindow default="true">10000</startupwindow>
+        <startupwindow>10006</startupwindow>
     </lookandfeel>
     <masterlock>
         <maxretries default="true">3</maxretries>
@@ -168,7 +168,7 @@
         <replacelabels default="true">true</replacelabels>
         <selectaction default="true">1</selectaction>
         <stackvideos>true</stackvideos>
-        <startwindow default="true">100024</startwindow>
+        <startwindow>10025</startwindow>
         <watchmodemovies>0</watchmodemovies>
         <watchmodetvshows>0</watchmodetvshows>
         <watchmodemusicvideos>0</watchmodemusicvideos>
@@ -395,7 +395,7 @@
         <setting type="bool" name="skin.xperience1080.VideoOSD.OnTop">false</setting>
         <setting type="bool" name="skin.xperience1080.OSDMusicAlt.Enabled">false</setting>
         <setting type="bool" name="skin.xperience1080.AutoScroll.Disable">false</setting>
-        <setting type="bool" name="skin.xperience1080.KioskMode">false</setting>
+        <setting type="bool" name="skin.xperience1080.KioskMode">true</setting>
         <setting type="bool" name="skin.xperience1080.BackgroundVideo">false</setting>
         <setting type="bool" name="skin.xperience1080.HideFanart">true</setting>
         <setting type="bool" name="skin.xperience1080.HideShutdownButton">false</setting>
@@ -427,8 +427,8 @@
         <setting type="bool" name="skin.xperience1080.HideHomeButtons">false</setting>
         <setting type="bool" name="skin.xperience1080.HomeMovies">false</setting>
         <setting type="bool" name="skin.xperience1080.HomeTVShows">false</setting>
-        <setting type="bool" name="skin.xperience1080.HomeMusic">false</setting>
-        <setting type="bool" name="skin.xperience1080.HomePrograms">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeMusic">true</setting>
+        <setting type="bool" name="skin.xperience1080.HomePrograms">true</setting>
         <setting type="bool" name="skin.xperience1080.HideHomeSubmenuArrow">false</setting>
         <setting type="bool" name="skin.xperience1080.ShowWeatherFanart">false</setting>
         <setting type="bool" name="skin.xperience1080.HideHomeProfileInfo">false</setting>
@@ -455,6 +455,50 @@
         <setting type="bool" name="skin.xperience1080.ThumbnailPlot">false</setting>
         <setting type="bool" name="skin.xperience1080.posterstv">false</setting>
         <setting type="bool" name="skin.xperience1080.TVTunes.Enabled">false</setting>
+        <setting type="bool" name="skin.xperience1080.UpdateArt.Enabled">false</setting>
+        <setting type="bool" name="skin.xperience1080.MovieInformation.PlayTrailer">false</setting>
+        <setting type="bool" name="skin.xperience1080.PlayTrailer.Minimized">false</setting>
+        <setting type="bool" name="skin.xperience1080.OSDVisualisation.Enabled">false</setting>
+        <setting type="bool" name="skin.xperience1080.OSDVisualisation.ShowFanart">false</setting>
+        <setting type="bool" name="skin.xperience1080.ArtistSlideShow.Enabled">false</setting>
+        <setting type="bool" name="skin.xperience1080.ArtistSlideShow.Animate">false</setting>
+        <setting type="bool" name="skin.xperience1080.OSDDefaultSubtitleButton.Enabled">false</setting>
+        <setting type="bool" name="skin.xperience1080.Guide.HideClock">false</setting>
+        <setting type="bool" name="skin.xperience1080.Guide.HideUserImage">false</setting>
+        <setting type="bool" name="skin.xperience1080.Guide.Custom1">false</setting>
+        <setting type="bool" name="skin.xperience1080.Guide.Custom2">false</setting>
+        <setting type="bool" name="skin.xperience1080.Guide.Custom3">false</setting>
+        <setting type="bool" name="skin.xperience1080.Guide.Custom4">false</setting>
+        <setting type="bool" name="skin.xperience1080.CustomHomePanel1">false</setting>
+        <setting type="bool" name="skin.xperience1080.CustomHomePanel2">false</setting>
+        <setting type="bool" name="skin.xperience1080.CustomHomePanel3">false</setting>
+        <setting type="bool" name="skin.xperience1080.CustomHomePanel4">false</setting>
+        <setting type="bool" name="skin.xperience1080.CustomHomePanel5">false</setting>
+        <setting type="bool" name="skin.xperience1080.CustomHomePanel6">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeHomeTile1">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeHomeTile2">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeVideoTile5">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeVideoTile6">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeVideoTile1">true</setting>
+        <setting type="bool" name="skin.xperience1080.HomeVideoTile2">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeVideoTile3">true</setting>
+        <setting type="bool" name="skin.xperience1080.HomeVideoTile4">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeTVShowTile3">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeTVShowTile4">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeTVShowTile1">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeTVShowTile2">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeMusicTile3">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeMusicTile4">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeMusicTile1">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeMusicTile2">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeProgramTile5">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeProgramTile6">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeProgramTile7">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeProgramTile8">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeProgramTile1">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeProgramTile2">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeProgramTile3">false</setting>
+        <setting type="bool" name="skin.xperience1080.HomeProgramTile4">false</setting>
         <setting type="string" name="skin.confluence.CustomBackgroundPath"></setting>
         <setting type="string" name="skin.confluence.HomeVideosButton1"></setting>
         <setting type="string" name="skin.confluence.HomeVideosButton2"></setting>
@@ -546,20 +590,20 @@
         <setting type="string" name="skin.xperience1080.HomeVideoTile6.ShowLabel"></setting>
         <setting type="string" name="skin.xperience1080.HomeVideoTile6.Path"></setting>
         <setting type="string" name="skin.xperience1080.HomeVideoTile6.Animate"></setting>
-        <setting type="string" name="skin.xperience1080.HomeVideoTile1.Label"></setting>
-        <setting type="string" name="skin.xperience1080.HomeVideoTile1.Icon"></setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile1.Label">extra</setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile1.Icon">/home/mafro/extra.png</setting>
         <setting type="string" name="skin.xperience1080.HomeVideoTile1.ShowLabel"></setting>
-        <setting type="string" name="skin.xperience1080.HomeVideoTile1.Path"></setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile1.Path">ActivateWindow(10025,&quot;/media/pools/video/extra/&quot;,return,return)</setting>
         <setting type="string" name="skin.xperience1080.HomeVideoTile1.Animate"></setting>
         <setting type="string" name="skin.xperience1080.HomeVideoTile2.Label"></setting>
         <setting type="string" name="skin.xperience1080.HomeVideoTile2.Icon"></setting>
         <setting type="string" name="skin.xperience1080.HomeVideoTile2.ShowLabel"></setting>
         <setting type="string" name="skin.xperience1080.HomeVideoTile2.Path"></setting>
         <setting type="string" name="skin.xperience1080.HomeVideoTile2.Animate"></setting>
-        <setting type="string" name="skin.xperience1080.HomeVideoTile3.Label"></setting>
-        <setting type="string" name="skin.xperience1080.HomeVideoTile3.Icon"></setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile3.Label">F1</setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile3.Icon">/home/mafro/f1.jpg</setting>
         <setting type="string" name="skin.xperience1080.HomeVideoTile3.ShowLabel"></setting>
-        <setting type="string" name="skin.xperience1080.HomeVideoTile3.Path"></setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile3.Path">ActivateWindow(10025,&quot;/media/pools/video/F1/&quot;,return,return)</setting>
         <setting type="string" name="skin.xperience1080.HomeVideoTile3.Animate"></setting>
         <setting type="string" name="skin.xperience1080.HomeVideoTile4.Label"></setting>
         <setting type="string" name="skin.xperience1080.HomeVideoTile4.Icon"></setting>
@@ -674,6 +718,68 @@
         <setting type="string" name="skin.xperience1080.HomeWidget.5.Method">Playlist</setting>
         <setting type="string" name="skin.xperience1080.HomeWidget.5.UnWatched">False</setting>
         <setting type="string" name="skin.xperience1080.HomeWidget.5.Resume">False</setting>
+        <setting type="string" name="skin.xperience1080.StartupPlaylist.Path"></setting>
+        <setting type="string" name="skin.xperience1080.rss.setting">Disabled</setting>
+        <setting type="string" name="skin.xperience1080.music.name">Library</setting>
+        <setting type="string" name="skin.xperience1080.MovieMPAALang"></setting>
+        <setting type="string" name="skin.xperience1080.SubtitleScript_Path"></setting>
+        <setting type="string" name="skin.xperience1080.Guide.Custom1.Label"></setting>
+        <setting type="string" name="skin.xperience1080.Guide.Custom2.Label"></setting>
+        <setting type="string" name="skin.xperience1080.Guide.Custom3.Label"></setting>
+        <setting type="string" name="skin.xperience1080.Guide.Custom4.Label"></setting>
+        <setting type="string" name="skin.xperience1080.LyricScript_Path"></setting>
+        <setting type="string" name="skin.xperience1080.CustomHomePanel1.Label"></setting>
+        <setting type="string" name="skin.xperience1080.CustomHomePanel2.Label"></setting>
+        <setting type="string" name="skin.xperience1080.CustomHomePanel3.Label"></setting>
+        <setting type="string" name="skin.xperience1080.CustomHomePanel4.Label"></setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile1.TypeName">Favourite</setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile2.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile3.TypeName">Favourite</setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile4.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeTVShowTile1.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeTVShowTile2.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeMusicTile1.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeMusicTile2.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeProgramTile1.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeProgramTile2.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeProgramTile3.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeProgramTile4.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeHomeTile1.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeHomeTile2.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile5.TypeName">Video add-on</setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile6.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeTVShowTile3.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeTVShowTile4.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeMusicTile3.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeMusicTile4.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeProgramTile5.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeProgramTile6.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeProgramTile7.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeProgramTile8.TypeName"></setting>
+        <setting type="string" name="skin.xperience1080.HomeHomeTile1.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeHomeTile2.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile5.Type">0</setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile6.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile1.Type">6</setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile2.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile3.Type">6</setting>
+        <setting type="string" name="skin.xperience1080.HomeVideoTile4.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeTVShowTile3.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeTVShowTile4.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeTVShowTile1.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeTVShowTile2.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeMusicTile3.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeMusicTile4.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeMusicTile1.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeMusicTile2.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeProgramTile5.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeProgramTile6.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeProgramTile7.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeProgramTile8.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeProgramTile1.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeProgramTile2.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeProgramTile3.Type"></setting>
+        <setting type="string" name="skin.xperience1080.HomeProgramTile4.Type"></setting>
     </skinsettings>
     <resolutions />
     <defaultvideosettings>
@@ -779,10 +885,10 @@
             <sortattributes>0</sortattributes>
         </videonavseasons>
         <videonavtitles>
-            <viewmode>65536</viewmode>
-            <sortmethod>1</sortmethod>
+            <viewmode>66037</viewmode>
+            <sortmethod>27</sortmethod>
             <sortorder>1</sortorder>
-            <sortattributes>0</sortattributes>
+            <sortattributes>1</sortattributes>
         </videonavtitles>
         <videonavtvshows>
             <viewmode>65536</viewmode>
@@ -799,6 +905,6 @@
     </viewstates>
     <audio>
         <mute>false</mute>
-        <fvolumelevel>1.000000</fvolumelevel>
+        <fvolumelevel>0.833333</fvolumelevel>
     </audio>
 </settings>
