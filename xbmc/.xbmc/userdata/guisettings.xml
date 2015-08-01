@@ -13,7 +13,7 @@
     <audiooutput>
         <ac3passthrough default="true">true</ac3passthrough>
         <ac3transcode default="true">false</ac3transcode>
-        <audiodevice default="true">ALSA:@</audiodevice>
+        <audiodevice>ALSA:hdmi:CARD=NVidia,DEV=1</audiodevice>
         <channels default="true">1</channels>
         <config default="true">2</config>
         <dtshdpassthrough default="true">false</dtshdpassthrough>
@@ -307,7 +307,7 @@
         <playlistspath>special://profile/playlists/</playlistspath>
     </system>
     <videolibrary>
-        <actorthumbs default="true">true</actorthumbs>
+        <actorthumbs>false</actorthumbs>
         <backgroundupdate default="true">false</backgroundupdate>
         <enabled default="true">true</enabled>
         <flattentvshows default="true">1</flattentvshows>
@@ -397,7 +397,7 @@
         <setting type="bool" name="skin.xperience1080.AutoScroll.Disable">false</setting>
         <setting type="bool" name="skin.xperience1080.KioskMode">false</setting>
         <setting type="bool" name="skin.xperience1080.BackgroundVideo">false</setting>
-        <setting type="bool" name="skin.xperience1080.HideFanart">false</setting>
+        <setting type="bool" name="skin.xperience1080.HideFanart">true</setting>
         <setting type="bool" name="skin.xperience1080.HideShutdownButton">false</setting>
         <setting type="bool" name="skin.xperience1080.HideOptionsButton">false</setting>
         <setting type="bool" name="skin.xperience1080.EPGGenreColors.Enabled">false</setting>
