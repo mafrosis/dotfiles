@@ -1,0 +1,27 @@
+<sources>
+    <programs>
+        <default pathversion="1"></default>
+    </programs>
+    <video>
+        <default pathversion="1"></default>
+        <source>
+            <name>TV</name>
+            <path pathversion="1">/media/pools/video/TV/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+        <source>
+            <name>Movies</name>
+            <path pathversion="1">/media/pools/video/Movies/HD-1080p/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+    </video>
+    <music>
+        <default pathversion="1"></default>
+    </music>
+    <pictures>
+        <default pathversion="1"></default>
+    </pictures>
+    <files>
+        <default pathversion="1"></default>
+    </files>
+</sources>
