@@ -9,6 +9,13 @@ extend:
 
 
 # script moves completed torrents
+/home/rtorrent/bin:
+  file.directory:
+    - user: rtorrent
+    - group: rtorrent
+    - mode: 700
+
+# script moves completed torrents
 /home/rtorrent/bin/move-torrent.sh:
   file.managed:
     - source: salt://rtorrent/move-torrent.sh
