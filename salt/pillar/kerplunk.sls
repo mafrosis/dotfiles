@@ -7,7 +7,7 @@ rtorrent_download_dir: /home/vagrant/download
 
 hostname: kerplunk
 login_user: mafro
-rtorrent_download_dir: /home/mafro/download
+rtorrent_download_dir: /media/download
 
 custom_segments:
   enc: "36 255"
