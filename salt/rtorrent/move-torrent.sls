@@ -13,7 +13,7 @@ extend:
   file.directory:
     - user: rtorrent
     - group: rtorrent
-    - mode: 700
+    - mode: 770
 
 # script moves completed torrents
 /home/rtorrent/bin/move-torrent.sh:
@@ -33,6 +33,7 @@ extend:
     - user: rtorrent
     - group: rtorrent
     - mode: 660
+    - replace: false
 
 # ensure the rtorrent process can chown files
 /etc/sudoers.d/rtorrent:
