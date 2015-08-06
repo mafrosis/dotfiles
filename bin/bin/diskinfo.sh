@@ -102,7 +102,7 @@ function query_disk {
 }
 
 if [[ $# -eq 1 ]]; then
-	if [[ -z "$(sudo smartctl --scan | grep $1)" ]]; then
+	if [[ -z "$(smartctl --scan | grep $1)" ]]; then
 		echo "Device $1 not found"
 		exit 2
 	fi
@@ -110,7 +110,7 @@ if [[ $# -eq 1 ]]; then
 	query_disk $1
 else
 	# query all disks
-	sudo smartctl --scan | awk '{print $1}' | while read DEVICE;
+	smartctl --scan | awk '{print $1}' | while read DEVICE;
 	do
 		query_disk $DEVICE
 	done
