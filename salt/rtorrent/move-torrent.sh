@@ -42,7 +42,7 @@ else
 fi
 
 # copy the download to its destination
-rsync -avP "$SOURCE_PATH" "$DEST"
+rsync -avhP "$SOURCE_PATH" "$DEST"
 
 if [[ $? -eq 0 ]]; then
 	echo "$SOURCE_PATH :: $DEST" >> /var/log/move-torrent.log

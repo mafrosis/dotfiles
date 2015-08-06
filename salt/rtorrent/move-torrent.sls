@@ -13,7 +13,7 @@ extend:
   file.directory:
     - user: rtorrent
     - group: rtorrent
-    - mode: 700
+    - mode: 770
 
 # script moves completed torrents
 /home/rtorrent/bin/move-torrent.sh:

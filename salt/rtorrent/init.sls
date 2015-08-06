@@ -9,6 +9,7 @@ rtorrent:
   group:
     - present
   user.present:
+    - shell: /bin/bash
     - gid_from_name: true
     - groups:
       - video
