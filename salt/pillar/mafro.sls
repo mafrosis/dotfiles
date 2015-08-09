@@ -1,8 +1,8 @@
 # get dotfiles from github
 github_username: mafrosis
 
-github_key: |
-  ""
+#github_key: |
+#  ""
 
 # install zsh and set as default login shell
 shell: zsh
