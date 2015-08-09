@@ -1,7 +1,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "mafro/jessie64-au-salt"
+  config.vm.box = "mafro/jessie64-gb-salt"
   config.vm.provider :vmware_fusion do |v|
     v.vmx['memsize'] = 1024
   end
