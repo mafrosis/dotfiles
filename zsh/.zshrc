@@ -77,7 +77,7 @@ bindkey '^[[1;9X' backward-delete-word
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
 # Android
-export ANDROID_HOME=~/Development/android/android-sdk-macosx
+export ANDROID_HOME=/usr/local/opt/android-sdk
 export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
 
 # ebook stuff
