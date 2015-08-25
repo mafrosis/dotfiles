@@ -1,0 +1,2 @@
+firmware-realtek:
+  pkg.installed
