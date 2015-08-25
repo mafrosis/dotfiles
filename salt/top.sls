@@ -25,6 +25,7 @@ base:
     - dev-user
     - firmware-realtek
     - inform
+    - kerplunk
     - mp3
     - mp3.beets
     - mpd
