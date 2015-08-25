@@ -23,6 +23,7 @@ base:
   'G@host:kerplunk or G@id:kerplunk':
     - match: compound
     - dev-user
+    - firmware-realtek
     - inform
     - mp3
     - mp3.beets
