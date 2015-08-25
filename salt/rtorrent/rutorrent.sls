@@ -38,7 +38,7 @@ php5-cgi:
     - source_hash: sha1=5870cddef717c83560e89aee56f2b7635ed1c90d
   cmd.wait:
     - name: tar xzf /tmp/rutorrent-3.6.tar.gz
-    - unless: test -f /srv/rutorrent/index.html
+    - onlyif: test -f /srv/rutorrent/index.html
     - user: rtorrent
     - cwd: /srv
     - require:
