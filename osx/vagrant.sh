@@ -28,7 +28,4 @@ for N in 1 8; do
 done
 
 # also install Packer
-if [[ -z $(brew tap | grep homebrew/binary) ]]; then
-	brew tap homebrew/binary
-fi
 brew install packer
