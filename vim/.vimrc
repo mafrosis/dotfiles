@@ -117,7 +117,7 @@ Plugin 'saltstack/salt-vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-markdown'
 Plugin 'elzr/vim-json'
-Plugin 'jnwhiteh/vim-golang'
+Plugin 'fatih/vim-go'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
