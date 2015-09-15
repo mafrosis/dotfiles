@@ -118,6 +118,7 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-markdown'
 Plugin 'elzr/vim-json'
 Plugin 'fatih/vim-go'
+Plugin 'bkad/vim-terraform'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -155,6 +156,8 @@ autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 expandtab
 autocmd FileType json setlocal shiftwidth=2 tabstop=2 cole=0
 " gitrebase
 autocmd FileType gitrebase set modelines=0
+" Terraform
+autocmd FileType terraform setlocal shiftwidth=2 tabstop=2 cole=0
 
 
 "---- GitGutter -------------------------------------------------------
