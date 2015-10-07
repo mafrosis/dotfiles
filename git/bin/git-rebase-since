@@ -2,17 +2,17 @@
 
 # start an interactive rebase on all commits since commit id
 
-USAGE='git rebase-since [commit id]'
+USAGE='git rebase-since [commit id] [filepath]'
 
 if [[ $# -eq 1 ]]; then
 	# rebase only commits since commit id
-	git rebase -i HEAD~$(git rev-list "$1^..HEAD" | wc -l | tr -d ' ')
+	git rebase -i "HEAD~$(git rev-list "$1^..HEAD" | wc -l | tr -d ' ')"
 
 elif [[ $# -eq 0 ]]; then
-	# rebase commits since remote head
-	git rebase -i $(git rev-parse --abbrev-ref --symbolic-full-name '@{u}')
+	# rebase commits since default branch HEAD
+	git rebase -i "$(git remote show origin | awk '/HEAD branch/ {print $3}')"
 
 else
-	echo $USAGE
+	echo "$USAGE"
 	exit 1
 fi
