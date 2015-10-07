@@ -1,12 +1,19 @@
 #! /bin/bash
 
-# start an interactive rebase on all commits since commit id
+# start an interactive rebase on all commits since commit id or modified
 
 USAGE='git rebase-since [commit id] [filepath]'
 
 if [[ $# -eq 1 ]]; then
-	# rebase only commits since commit id
-	git rebase -i "HEAD~$(git rev-list "$1^..HEAD" | wc -l | tr -d ' ')"
+	if [[ -f $1 ]]; then
+		# rebase all commits since filepath last modified
+		COMMIT_ID=$(git log --format='%h' "$1")
+	else
+		# rebase only commits since supplied commit id
+		COMMIT_ID="$1"
+	fi
+
+	git rebase -i "HEAD~$(git rev-list "$COMMIT_ID^..HEAD" | wc -l | tr -d ' ')"
 
 elif [[ $# -eq 0 ]]; then
 	# rebase commits since default branch HEAD
