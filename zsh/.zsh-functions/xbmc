@@ -6,4 +6,4 @@ else
 	VERB="$1"
 fi
 
-ssh kerplunk "/etc/init.d/xbmc $VERB"
+ssh kerplunk "sudo systemctl $VERB xbmc"
