@@ -119,6 +119,7 @@ Plugin 'tpope/vim-markdown'
 Plugin 'elzr/vim-json'
 Plugin 'fatih/vim-go'
 Plugin 'bkad/vim-terraform'
+Plugin 'chase/vim-ansible-yaml'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
