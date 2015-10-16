@@ -4,9 +4,9 @@
 if [[ $(uname) == 'Linux' ]]; then
 
 	if ! command -v vim >/dev/null 2>&1; then
-		if [[ $(uname) =~ '(.*)Debian(.*)' ]]; then
+		if [[ $(uname) =~ (.*)Debian(.*) ]]; then
 			sudo aptitude install vim-nox
-		elif [[ $(uname) =~ '(.*)Ubuntu(.*)' ]]; then
+		elif [[ $(uname) =~ (.*)Ubuntu(.*) ]]; then
 			sudo aptitude install vim
 		fi
 	fi
