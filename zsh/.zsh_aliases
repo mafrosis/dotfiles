@@ -45,4 +45,4 @@ alias showopts='setopt kshoptionprint && setopt'
 alias vim='vim -p'
 
 # alias rsync archival
-alias ra='rsync -avP'
+alias ra='rsync -avhP'
