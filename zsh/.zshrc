@@ -71,6 +71,12 @@ bindkey '^[[4~' end-of-line
 bindkey '^[[1;9X' backward-delete-word
 
 
+########## Third-party ####################################
+
+# rupa/z
+. ~/dotfiles/bin/z/z.sh
+
+
 ########## Exports ########################################
 
 # Homebrew
