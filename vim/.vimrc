@@ -1,6 +1,5 @@
 " Vim settings
 
-
 "---- General settings and fail safes-----------------------------------
 set nocompatible				" Not vi compatible
 set tabstop=4					" Set the tab size to 4
@@ -38,24 +37,33 @@ endif
 "---- Mappings ---------------------------------------------------------
 "NOTE: 	To see what a key sends use ctrl+k then keystroke while in insert mode
 
+" use semi-colon for cmdline mode
+:nmap ; :
+
+" leader is spacebar
+let mapleader = "\<Space>"
+
+" short timeout after leader pressed
+set timeoutlen=400
+
 " Map a key for some spell checking
 map <F7> :setlocal spell! spelllang=en_gb<cr>
 imap <F7> <ESC><F7>
 
 " Shortcut tab next/previous
-map <C-P>[ :tabprev<CR>
-map <C-P>] :tabnext<CR>
-map <C-left> :tabprev<CR>
-map <C-right> :tabnext<CR>
+map <leader>[ :tabprev<CR>
+map <leader>] :tabnext<CR>
+map <leader>1 1gt
+map <leader>2 2gt
+map <leader>3 3gt
+map <leader>4 4gt
+map <leader>5 5gt
+map <leader>6 6gt
+map <leader>7 7gt
+map <leader>8 8gt
 
 " Easy insert newline
 noremap 0 o<ESC>
-
-" Map that useless Macbook key to ESC
-map § <ESC>
-imap § <ESC>
-map <C-c> <ESC>
-imap <C-c> <ESC>
 
 " Mapping to reload gunicorn
 map <C-G>r<CR> :!kill -HUP `cat /tmp/gunicorn.pid`<CR><CR>
@@ -71,6 +79,9 @@ nnoremap Q <nop>
 
 " Allow saving of files as sudo http://stackoverflow.com/a/7078429/425050
 cmap w!! w !sudo tee > /dev/null %
+
+" Map code folding to comma
+nnoremap , za
 
 
 "---- Code completion options ------------------------------------------
@@ -93,9 +104,6 @@ au BufNewFile,BufRead *.wsgi	setf python
 
 " highlight Arduino
 autocmd! BufNewFile,BufRead *.ino setlocal ft=arduino
-
-" Map code folding to spacebar
-nnoremap <space> za
 
 
 "---- Code folding ------------------------------------------------------
