@@ -80,9 +80,6 @@ nnoremap Q <nop>
 " Allow saving of files as sudo http://stackoverflow.com/a/7078429/425050
 cmap w!! w !sudo tee > /dev/null %
 
-" Map code folding to comma
-nnoremap , za
-
 
 "---- Code completion options ------------------------------------------
 " The same trick is needed to get ctrl+space to autocomplete in all environments
@@ -106,12 +103,6 @@ au BufNewFile,BufRead *.wsgi	setf python
 autocmd! BufNewFile,BufRead *.ino setlocal ft=arduino
 
 
-"---- Code folding ------------------------------------------------------
-set foldmethod=indent
-set foldlevel=99
-set foldnestmax=1
-
-
 "---- Vundle ------------------------------------------------------------
 filetype off                   " required!
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -131,6 +122,19 @@ Plugin 'chase/vim-ansible-yaml'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
+
+
+"---- Code folding ------------------------------------------------------
+" Map to comma
+nnoremap , za
+
+set foldmethod=indent
+set foldlevel=99
+set foldnestmax=1
+
+Plugin 'tmhedberg/SimpylFold'
+
+let g:SimpylFold_docstring_preview = 1
 
 
 "---- Syntastic -------------------------------------------------------
