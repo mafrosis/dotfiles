@@ -25,13 +25,6 @@ php5-cgi:
     - watch:
       - file: /etc/supervisor/conf.d/php5-cgi.conf
 
-# install rutorrent web-frontend
-/srv/rutorrent:
-  file.directory:
-    - user: rtorrent
-    - group: rtorrent
-    - mode: 755
-
 /tmp/rutorrent-3.6.tar.gz:
   file.managed:
     - source: http://dl.bintray.com/novik65/generic/rutorrent-3.6.tar.gz
@@ -39,12 +32,23 @@ php5-cgi:
   cmd.wait:
     - name: tar xzf /tmp/rutorrent-3.6.tar.gz
     - onlyif: test -f /srv/rutorrent/index.html
-    - user: rtorrent
     - cwd: /srv
-    - require:
-      - file: /srv/rutorrent
     - watch:
       - file: /tmp/rutorrent-3.6.tar.gz
+
+rutorrent-chmod:
+  file.directory:
+    - name: /srv/rutorrent
+    - user: rtorrent
+    - group: www-data
+    - dir_mode: 755
+    - file_mode: 644
+    - recurse:
+      - user
+      - group
+      - mode
+    - require:
+      - cmd: /tmp/rutorrent-3.6.tar.gz
 
 # create an nginx config for rutorrent
 /etc/nginx/apps.conf.d/rutorrent.conf:
