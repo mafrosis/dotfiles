@@ -16,6 +16,7 @@
 	st = status
 	br = branch -a
 	co = checkout
+	lc = log --pretty=format:"%s\\ (%h)"
 	ls = log --pretty=format:"%C(yellow)%h\\ %C(red)%ad%C(green)%d\\ %C(reset)%s%C(cyan)\\ [%cn]" --decorate --date=short
 	ll = log --pretty=format:"%C(yellow)%h\\ %C(red)%ad%C(green)%d\\ %C(reset)%s%C(cyan)\\ [%cn]%C(reset)" --decorate --numstat --date=short
 	comend = commit --amend --no-edit
@@ -40,8 +41,7 @@
 	autosetupmerge = true		# auto track remote branches
 	autosetuprebase = always
 [push]
-	#default = simple		# default in git v2
-	default = tracking		# let's not break pre-v2 git
+	default = simple			# default in git v2
 [merge]
 	stat = true					# show diffstat after merge
 [rebase]
