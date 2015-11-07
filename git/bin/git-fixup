@@ -1,10 +1,31 @@
 #! /bin/bash
 
-USAGE='git fixup {commit-ref}'
+USAGE='git fixup [-h] [-a] COMMIT|FILEPATH
+  -a	amend the previous commit
+  -h	display this message
 
-if [[ $# -eq 1 ]]; then
-	git commit -m "fixup! $(git rev-parse $1)"
+  Create a fixup commit with the supplied id, or a fixup commit against the
+  most recent change to the supplied file'
+
+AMEND=''
+
+while getopts 'ah' options
+do
+	case $options in
+		a ) AMEND='--amend';;
+		h ) echo "$USAGE" && exit 1;;
+	esac
+done
+shift $((OPTIND-1))
+
+
+# attempt to guess if $1 is a commit id
+if [[ $1 =~ ^([abcdef0-9]*)$ ]] && [[ ${#1} -eq 7 || ${#1} -eq 8 || ${#1} -eq 40 ]]; then
+	COMMIT_ID=$(git rev-parse "$1")
+
 else
-	echo $USAGE
-	exit 1
+	# fixup the last non-fixup commit to this file
+	COMMIT_ID=$(git log --format='%h %s' -- "$1" | awk '! /fixup!/ {print $1}' | head -1)
 fi
+
+git commit $AMEND -m "fixup! $COMMIT_ID"
