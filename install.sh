@@ -8,9 +8,9 @@ usage='Usage: ./install.sh [-n] [-f] app1 [app2 app3 ..]
 DRY_RUN=0
 FORCE=0
 
-while getopts 'nf' options
+while getopts 'nf' opts
 do
-	case $options in
+	case $opts in
 		n ) DRY_RUN=1;;
 		f ) FORCE=1;;
 		* ) echo $usage
