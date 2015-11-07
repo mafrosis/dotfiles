@@ -41,6 +41,11 @@ brew install \
 	python --with-frameworks \
 	unrar
 
+# symlink a couple of missing shell commands from GNU coreutils
+if [[ ! -L /usr/local/bin/tac ]]; then
+	ln -s /usr/local/bin/gtac /usr/local/bin/tac
+fi
+
 # install baseline apps via Cask
 brew cask install \
 	android-file-transfer \
