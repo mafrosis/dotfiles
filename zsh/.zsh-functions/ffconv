@@ -1,9 +1,12 @@
 #! /bin/zsh
 #
-USAGE='Usage: ffconv movie-file [-c] [-f] [-A]
-  -c manually set the CRF value
-  -f force a re-encode, even if h264 and aac present
-  -A drop audio channel'
+USAGE='Usage: ffconv movie-file [-h] [-c INT] [-f] [-A]
+  -c	manually set the CRF value
+  -f	force a re-encode, even if already using H264/AAC streams
+  -A	drop audio channel
+  -h	display this message
+
+  Re-encode a movie to H264/MP4 using standard film presets'
 
 if [[ $# -eq 0 ]]; then
 	echo $USAGE
@@ -14,16 +17,13 @@ FORCE=0
 DROP_AUDIO=0
 CRF=21
 
-while getopts 'fAc:' params
+while getopts 'fAc:h' params
 do
 	case $params in
 		f ) FORCE=1;;
 		A ) DROP_AUDIO=1;;
 		c ) CRF=$OPTARG;;
-		\? ) echo $USAGE
-			 return 1;;
-		* ) echo $USAGE
-			return 1;;
+		h ) echo "$USAGE" && return 1;;
 	esac
 done
 shift $(($OPTIND-1))
