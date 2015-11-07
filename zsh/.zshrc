@@ -22,7 +22,7 @@ export GREP_COLOR='33;92'           # BSD
 export GREP_COLORS="mt=$GREP_COLOR" # GNU
 
 # PATH
-export PATH=$HOME/bin:/usr/local/share/python:$PATH
+export PATH=$HOME/bin:$PATH
 
 
 ########### NTPd hack #####################################
