@@ -6,12 +6,12 @@ if [ $# -eq 0 ]; then
 	return 1
 
 elif [ $# -eq 1 ]; then
-	find . -name "*.$1"
+	find . -type f -name "*.$1"
 
 elif [ $# -eq 2 ]; then
 	if [ "$1" = '.' ]; then
 		find . -type f -not -path '*/\.*' -print0 | xargs -0 grep -n "$2"
 	else
-		find . -name "*.$1" -not -path '*/\.*' -print0 | xargs -0 grep -n "$2"
+		find . -type f -not -path '*/\.*' -name "*.$1" -print0 | xargs -0 grep -n "$2"
 	fi
 fi
