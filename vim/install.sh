@@ -1,17 +1,23 @@
 #! /bin/bash
 
+if [[ $(id -u) -gt 0 ]]; then
+	SUDO='sudo'
+else
+	SUDO=''
+fi
+
 # install vim package
 if [[ $(uname) == 'Linux' ]]; then
 
 	if ! command -v vim >/dev/null 2>&1; then
 		if [[ $(uname) =~ (.*)Debian(.*) ]]; then
-			sudo aptitude install vim-nox
+			$SUDO apt-get install -y vim-nox
 		elif [[ $(uname) =~ (.*)Ubuntu(.*) ]]; then
-			sudo aptitude install vim
+			$SUDO apt-get install -y vim
 		fi
 	fi
 
-elif [[ $(uname) == 'Darwin' && -z $(brew list | grep vim) ]]; then
+elif [[ $(uname) == 'Darwin' ]] && ! brew list | grep -q vim; then
 	brew install vim
 fi
 

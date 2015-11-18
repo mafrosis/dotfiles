@@ -13,14 +13,14 @@ do
 	case $opts in
 		n ) DRY_RUN=1;;
 		f ) FORCE=1;;
-		* ) echo $usage
+		* ) echo "$usage"
 			exit 1;;
 	esac
 done
 shift $((OPTIND-1))
 
 
-if ! command -v sudo >/dev/null 2>&1; then
+if [[ $(id -u) -gt 0 ]] && ! command -v sudo >/dev/null 2>&1; then
 	echo 'Please install sudo and try again'
 	exit 44
 fi
@@ -32,11 +32,17 @@ if [[ $(uname) == 'Darwin' ]]; then
 	fi
 fi
 
+if [[ $(id -u) -gt 0 ]]; then
+	SUDO='sudo'
+else
+	SUDO=''
+fi
+
 if ! command -v stow >/dev/null 2>&1; then
 	if [[ $(uname) == 'Darwin' ]]; then
 		brew install stow
 	else
-		sudo aptitude install stow
+		$SUDO apt-get install stow
 	fi
 fi
 
@@ -62,22 +68,22 @@ do
 		if [[ ${VERSION:0:1} -eq 1 ]]; then
 			# v.1.3.3
 			# parse stow's conficts
-			CONFLICTS=$(stow -c $app 2>&1 | awk '/CONFLICT/ {print $4}')
+			CONFLICTS=$(stow -c "$app" 2>&1 | awk '/CONFLICT/ {print $4}')
 			delete_symlinks "$CONFLICTS"
 		else
 			# v2.2.0
 			# remove existing symlinks
 			# remove files which would be replaced with symlinks
 			# remove symlinks which belong to other packages (which may cause trouble later but ho hum)
-			CONFLICTS=$(stow -nv $app 2>&1 | awk '/\* existing target is/ {print $NF}')
-			echo $CONFLICTS
+			CONFLICTS=$(stow -nv "$app" 2>&1 | awk '/\* existing target is/ {print $NF}')
+			echo "$CONFLICTS"
 			delete_symlinks "$CONFLICTS"
 		fi
 	fi
 
 	# use per-app install.sh, or just symlink with stow
 	if [[ -x $app/install.sh ]]; then
-		./$app/install.sh $FORCE $DRY_RUN
+		"./$app/install.sh" $FORCE $DRY_RUN
 	fi
 
 	# per-app install scripts can return 255 to indicate that the
@@ -89,7 +95,7 @@ do
 		if [[ $DRY_RUN -eq 1 ]]; then DR='-n'; else DR=''; fi
 
 		# use stow to create symlinks in $HOME
-		stow -v --ignore='install.sh' --ignore='.md$' $app $RESTOW --target=$HOME $DR
+		stow -v --ignore='install.sh' --ignore='.md$' "$app" $RESTOW --target="$HOME" $DR
 
 		if [[ $? -ne 0 && $DRY_RUN -eq 0 ]]; then
 			echo 'Stow returned a non-zero result. You may want to re-run with -f (force)'

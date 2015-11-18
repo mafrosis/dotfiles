@@ -1,5 +1,11 @@
 #! /bin/bash
 
+if [[ $(id -u) -gt 0 ]]; then
+	SUDO='sudo'
+else
+	SUDO=''
+fi
+
 if ! command -v zsh >/dev/null 2>&1; then
 
 	# install ZSH package
@@ -11,7 +17,7 @@ if ! command -v zsh >/dev/null 2>&1; then
 		brew install zsh
 
 	elif [[ $(uname) == 'Linux' ]]; then
-		sudo aptitude install zsh
+		$SUDO apt-get install -y zsh
 	fi
 
 fi
@@ -21,5 +27,5 @@ git submodule update --init --recursive prezto
 
 # manually create symlink to prezto in $HOME
 if [[ ! -L ~/.zprezto ]]; then
-	ln -s $HOME/dotfiles/prezto $HOME/.zprezto
+	ln -s "$HOME/dotfiles/prezto" "$HOME/.zprezto"
 fi
