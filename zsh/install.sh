@@ -15,9 +15,11 @@ if ! command -v zsh >/dev/null 2>&1; then
 			exit 3
 		fi
 		brew install zsh
+		$SUDO chsh -s /bin/zsh "$(whoami)"
 
 	elif [[ $(uname) == 'Linux' ]]; then
 		$SUDO apt-get install -y zsh
+		$SUDO usermod -s /bin/zsh "$(whoami)"
 	fi
 
 fi
