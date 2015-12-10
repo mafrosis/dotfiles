@@ -24,7 +24,7 @@ base:
     - match: compound
     - dev-user
     - firmware-realtek
-    - inform
+    - informa
     - kerplunk
     - mp3
     - mp3.beets

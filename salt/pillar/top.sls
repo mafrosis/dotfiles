@@ -11,7 +11,7 @@ base:
     - match: compound
     - kerplunk
     - kerplunk-secrets
-    - inform
+    - informa
 
   'G@host:mousetrap or G@id:mousetrap':
     - match: compound
