@@ -25,6 +25,9 @@ if [[ $(id -u) -gt 0 ]] && ! command -v sudo >/dev/null 2>&1; then
 	exit 44
 fi
 
+# retrieve all repo submodules
+git submodule update --init --recursive
+
 # initialise OSX with missing homebrew
 if [[ $(uname) == 'Darwin' ]]; then
 	if ! command -v brew >/dev/null 2>&1; then
@@ -32,12 +35,14 @@ if [[ $(uname) == 'Darwin' ]]; then
 	fi
 fi
 
+# determine if sudo necessary
 if [[ $(id -u) -gt 0 ]]; then
 	SUDO='sudo'
 else
 	SUDO=''
 fi
 
+# ensure stow is available
 if ! command -v stow >/dev/null 2>&1; then
 	if [[ $(uname) == 'Darwin' ]]; then
 		brew install stow
