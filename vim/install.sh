@@ -14,6 +14,8 @@ if [[ $(uname) == 'Linux' ]]; then
 			$SUDO apt-get install -y vim-nox
 		elif [[ $(uname) =~ (.*)Ubuntu(.*) ]]; then
 			$SUDO apt-get install -y vim
+		elif [[ $(uname) =~ (.*)Linux(.*) ]]; then
+			$SUDO apt-get install -y vim-nox
 		fi
 	fi
 
