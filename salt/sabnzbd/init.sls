@@ -4,6 +4,8 @@ include:
 
 {% set user = pillar.get('login_user', 'vagrant') %}
 {% set sabnzbd_basedir = pillar.get('sabnzbd_basedir', '/home/'+user+'/usenet') %}
+{% set sabnzbd_user = pillar.get('sabnzbd_user', 'sabnzbd') %}
+{% set sabnzbd_group = pillar.get('sabnzbd_user', 'download') %}
 
 sabnzbd-reqs:
   pkg.installed:
@@ -13,17 +15,17 @@ sabnzbd-reqs:
 
 sabnzbd-download-group:
   group.present:
-    - name: download
+    - name: {{ sabnzbd_group }}
 
 create-sabnzbd-user:
   user.present:
-    - name: sabnzbd
-    - home: /home/sabnzbd
+    - name: {{ sabnzbd_user }}
+    - home: /home/{{ sabnzbd_user }}
     - shell: /bin/bash
-    - gid: download
+    - gid: {{ sabnzbd_group }}
     - remove_groups: false
     - require:
-      - group: download
+      - group: {{ sabnzbd_group }}
 
 sabnzbdplus:
   pkg.installed:
@@ -39,7 +41,7 @@ sabnzbd-patch-user:
   file.replace:
     - name: /etc/default/sabnzbdplus
     - pattern: "^USER=.*"
-    - repl: "USER=sabnzbd"
+    - repl: "USER={{ sabnzbd_user }}"
 
 sabnzbd-patch-host:
   file.replace:
@@ -57,19 +59,19 @@ sabnzbd-patch-config:
   file.replace:
     - name: /etc/default/sabnzbdplus
     - pattern: "^CONFIG=.*"
-    - repl: "CONFIG=/home/sabnzbd/sabnzbd.ini"
+    - repl: "CONFIG=/home/{{ sabnzbd_user }}/sabnzbd.ini"
 
 {{ sabnzbd_basedir }}:
   file.directory:
     - user: {{ user }}
-    - group: download
+    - group: {{ sabnzbd_group }}
     - dir_mode: 770
 
 {% for dir in ('complete', 'incomplete', 'watch'): %}
 {{ sabnzbd_basedir }}/{{ dir }}:
   file.directory:
-    - user: sabnzbd
-    - group: download
+    - user: {{ sabnzbd_user }}
+    - group: {{ sabnzbd_group }}
     - dir_mode: 770
 {% endfor %}
 
@@ -77,10 +79,10 @@ sabnzbd-patch-config:
 # files relative to the INI file path
 sabnzbd-config:
   file.managed:
-    - name: /home/sabnzbd/sabnzbd.ini
+    - name: /home/{{ sabnzbd_user }}/sabnzbd.ini
     - source: salt://sabnzbd/sabnzbd.ini
     - template: jinja
-    - user: sabnzbd
+    - user: {{ sabnzbd_user }}
     - defaults:
         host: "{{ salt['cmd.run']("hostname -I | awk '/.*/ {print $1}'") }}"
         download_dir: {{ sabnzbd_basedir }}/incomplete
