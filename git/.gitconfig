@@ -41,7 +41,7 @@
 	autosetupmerge = true		# auto track remote branches
 	autosetuprebase = always
 [push]
-	default = simple			# default in git v2
+	default = current			# push current branch to same name on remote
 [merge]
 	stat = true					# show diffstat after merge
 [rebase]
