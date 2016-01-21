@@ -9,14 +9,13 @@ fileserver_backend:
   - roots
   - git
 
+gitfs_remotes:
+  - git@github.com:mafrosis/salt-formulae.git
+
 file_roots:
   base:
     - /home/mafro/dotfiles/salt
-    - /srv/salt-formulae
 
 pillar_roots:
   base:
     - /home/mafro/dotfiles/salt/pillar
-
-gitfs_remotes:
-  - git@github.com:mafrosis/salt-formulae.git
