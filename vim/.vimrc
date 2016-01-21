@@ -21,8 +21,22 @@ set background=dark				" Default. Background may be overridden is OS settings
 set showtabline=2				" Always show the tab line
 set guioptions-=T				" Turn off toolbars, but leave on menues
 set shortmess=oI				" Disable intro messages, messages overwrite each other
-set bs=indent,eol,start     	" Backspace over everything in insert mode
+set bs=indent,eol,start		 	" Backspace over everything in insert mode
 set noshowmode					" Hide the default mode text (INSERT below the statusline)
+
+
+"---- Path and wildmenu ------------------------------------------------
+" search current dir, followed by PWD
+set path=.,,
+
+set wildmenu
+
+" longest substr match; list all matches in wildmenu
+set wildmode=longest:full,full
+"set wildmode=longest:list,full
+
+" ignore patterns for wildmenu
+set wildignore+=*.min.*,__pycache__,*.pyc
 
 
 "---- OS Specific options ----------------------------------------------
