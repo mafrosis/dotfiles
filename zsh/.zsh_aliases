@@ -46,3 +46,6 @@ alias vim='vim -p'
 
 # alias rsync archival
 alias ra='rsync -avhP'
+
+# quiet SSH
+alias sshq='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
