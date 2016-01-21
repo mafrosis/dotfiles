@@ -186,6 +186,8 @@ autocmd FileType json setlocal shiftwidth=2 tabstop=2 cole=0
 autocmd FileType gitrebase set modelines=0
 " Terraform
 autocmd FileType terraform setlocal shiftwidth=2 tabstop=2 cole=0
+" Makefile
+autocmd FileType make setlocal noexpandtab shiftwidth=4 softtabstop=0
 
 
 "---- GitGutter -------------------------------------------------------
