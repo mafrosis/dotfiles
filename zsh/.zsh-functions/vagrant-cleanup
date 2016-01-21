@@ -21,30 +21,44 @@ shift $(($OPTIND-1))
 typeset -a MACHINES
 typeset -a VAGRANTS
 
+# locate all UUIDs of Vagrant machines
 for M in ~/.vagrant.d/machines/*; do
 	MACHINES+=(${M[34,69]})
 done
 
+# find all .vagrant dirs & map id file against MACHINES
 find ~ -type d -name .vagrant | while read D; do
 	if [[ -f $D/machines/default/vmware_fusion/id ]]; then
 		VMFILE=$(cat $D/machines/default/vmware_fusion/id)
 		UUID=${VMFILE[34,69]}
 		VAGRANTS+=($UUID)
 
+		# match $UUID to an entry in MACHINES (subscript flags)
 		if [[ ${MACHINES[(r)$UUID]} == $UUID ]]; then
 			echo "Machine $UUID found at $D"
+
+			# remove found UUID from MACHINES
+			MACHINES[${MACHINES[(i)$UUID]}]=()
 		fi
 	fi
 done
 
-for M in $VAGRANTS; do
+ORPHANS=0
+
+# iterate MACHINES which weren't mapped to .vagrant dirs
+for M in $MACHINES; do
 	if [[ ${MACHINES[(r)$M]} == $M ]]; then
 		if [[ $DELETE -eq 1 ]]; then
-			SIZE=$(du -h -d 1 ~/.vagrant.d/machines/$M | awk '{print $1}')
+			SIZE=$(du -h -d 1 ~/.vagrant.d/machines/$M | cut -d\  -f 1)
 			rm -rf ~/.vagrant.d/machines/$M
 			echo "Machine $M deleted freeing $SIZE"
 		else
 			echo "Machine $M has been orphaned!"
+			ORPHANS=1
 		fi
 	fi
 done
+
+if [[ $ORPHANS -eq 1 && $DELETE -eq 0 ]]; then
+	echo 'Re-run with the -D flag to delete orphaned VMs'
+fi
