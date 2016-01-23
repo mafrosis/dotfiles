@@ -3,6 +3,7 @@
 USAGE='diskinfo.sh [-v] [-h] [device]
 
   -v	verbose printing
+  -S	support SMART via USB (passes `-d sat` to smartctl)
   -h	show this help'
 
 # ensure run as root
@@ -13,11 +14,13 @@ fi
 
 
 VERBOSE=0
+SMART_SAT=''
 
-while getopts 'vh' options
+while getopts 'vSh' options
 do
 	case $options in
 		v ) VERBOSE=1;;
+		S ) SMART_SAT='-d sat';;
 		h ) echo "$USAGE" && exit 1;;
 		* ) echo "$USAGE" && exit 1;;
 	esac
@@ -36,7 +39,8 @@ fi
 
 function query_disk {
 	# extract hardware info from smartctl
-	INFO="$(smartctl --info "$1")"
+	# shellcheck disable=SC2086
+	INFO="$(smartctl $SMART_SAT --info "$1")"
 	MODEL="$(echo "$INFO" | grep 'Device Model' | cut -d' ' -f 3- | xargs)"
 	SERIAL="$(echo "$INFO" | awk '/Serial Number/ {print $3}')"
 	FIRMWARE="$(echo "$INFO" | awk '/Firmware/ {print $3}')"
@@ -105,7 +109,8 @@ function query_disk {
 }
 
 if [[ $# -eq 1 ]]; then
-	if ! smartctl --scan | grep -q "$1"; then
+	# shellcheck disable=SC2086
+	if ! smartctl $SMART_SAT --scan | grep -q "$1"; then
 		echo "Device $1 not found"
 		exit 2
 	fi
@@ -113,7 +118,8 @@ if [[ $# -eq 1 ]]; then
 	query_disk "$1"
 else
 	# query all disks
-	smartctl --scan | awk '{print $1}' | while read DEVICE;
+	# shellcheck disable=SC2086
+	smartctl $SMART_SAT --scan | cut -d\  -f 1 | while read DEVICE;
 	do
 		query_disk "$DEVICE"
 	done
