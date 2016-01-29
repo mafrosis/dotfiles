@@ -23,6 +23,7 @@ base:
   'G@host:kerplunk or G@id:kerplunk':
     - match: compound
     - dev-user
+    - disable-salt-minion
     - firmware-realtek
     - informa
     - kerplunk
