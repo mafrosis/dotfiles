@@ -1,8 +1,14 @@
+.DS_Store
+.vagrant
+
 vim/.vim/bundle/*
+vim/.vim/.netrwhist
+
 salty-vagrant/.vagrant
 salt/pillar/github_pky.sls
 salt/github.*.pky
-vim/.vim/.netrwhist
-.DS_Store
+
 ncmpcpp/.ncmpcpp/error.log
-.vagrant
+
+ipython/.ipython/profile_default/history.sqlite
+ipython/.ipython/profile_default/startup/

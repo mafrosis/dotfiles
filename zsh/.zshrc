@@ -106,9 +106,6 @@ export PATH=$PATH:$GOPATH/bin
 # no virtualenv prompt; shown via prezto theme
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-# Python shell
-export PYTHONSTARTUP="$HOME/.pythonstartup.py"
-
 # tmux-powerline
 PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
 PLATFORM="linux"
