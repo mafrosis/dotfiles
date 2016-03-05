@@ -36,11 +36,6 @@ stow -v bin $RESTOW --target=$HOME/bin $DRY_RUN
 # install Homebrew and apps
 source ./homebrew.sh
 
-if [[ $? -eq 0 ]]; then
-	# install a couple things via pip, after Homebrew installs python
-	pip install -U pip virtualenvwrapper ipdb pyflakes
-fi
-
 
 # skip stow in top-level install.sh
 exit 255

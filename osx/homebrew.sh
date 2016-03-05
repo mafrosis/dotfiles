@@ -18,7 +18,7 @@ function install_caskroom {
 	if [[ $? -eq 1 ]] ; then
 		brew install caskroom/cask/brew-cask
 	fi
-	if [[ -z $(brew tap | grep caskroom/versions) ]]; then
+	if ! brew tap | grep -q caskroom/versions; then
 		brew tap caskroom/versions
 	fi
 }
@@ -38,7 +38,7 @@ brew install \
 	coreutils \
 	ffmpeg --with-faac \
 	lame \
-	python --with-frameworks \
+	python \
 	unrar
 
 # symlink a couple of missing shell commands from GNU coreutils
