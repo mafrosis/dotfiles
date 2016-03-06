@@ -89,6 +89,11 @@ for func in $(ls ~/.zsh-functions); do
 done
 
 
+########## Completion Extensions ##########################
+
+zstyle ':completion:*:(gvim|vim|vi):*' ignored-patterns '*.(o|a|so|swp|idx|out|toc|class|pdf|pyc|mp4|mkv|avi|mp3|flac|jpg|jpeg|gif|png)|__pycache__'
+
+
 ########## Bindkey ########################################
 
 # enable OSX alt-arrow word nav
