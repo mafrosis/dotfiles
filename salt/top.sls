@@ -28,6 +28,7 @@ base:
     - firmware-realtek
     - informa
     - kerplunk
+    - kodi
     - mp3
     - mp3.beets
     - mpd
@@ -41,8 +42,6 @@ base:
     - sabnzbd
     - sysadmin
     - tmux-segments
-    - xbmc
-    - xbmc.config
     - zfs-on-linux
 
   'id:raspbmc':
