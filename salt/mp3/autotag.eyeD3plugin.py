@@ -141,7 +141,7 @@ Description here
         # write a cover art image
         if self.meta['image'] is not None:
             self.audio_file.tag.images.set(
-                type=id3.frames.ImageFrame.FRONT_COVER,
+                type_=id3.frames.ImageFrame.FRONT_COVER,
                 img_data=self.meta['image'],
                 mime_type='image/jpeg',
             )
