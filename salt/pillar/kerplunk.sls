@@ -16,3 +16,5 @@ custom_segments:
   backup: "166 255"
 
 {% endif %}
+
+bootstrap_dotfiles_cmd: ./install.sh -f zsh vim git tmux inputrc
