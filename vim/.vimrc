@@ -124,7 +124,8 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " original repos on github
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/syntastic'
 Plugin 'saltstack/salt-vim'
 Plugin 'airblade/vim-gitgutter'
