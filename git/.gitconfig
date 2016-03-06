@@ -29,6 +29,7 @@
 	ours = "!f() { git co --ours $@ && git add $@; }; f"
 	theirs = "!f() { git co --theirs $@ && git add $@; }; f"
 	upstream = "!f() { if [[ -z $1 ]]; then echo 'No upstream!'; fi; git remote add upstream https://github.com/$1.git; }; f"
+	shown = show --name-status
 [help]
 	autocorrect = 1
 [advice]
