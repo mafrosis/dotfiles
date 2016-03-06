@@ -24,6 +24,7 @@ base:
     - match: compound
     - dev-user
     - disable-salt-minion
+    - docker
     - firmware-realtek
     - informa
     - kerplunk
