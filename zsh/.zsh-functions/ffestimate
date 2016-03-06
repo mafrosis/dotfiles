@@ -1,0 +1,99 @@
+#! /bin/zsh
+
+zmodload zsh/mathfunc
+
+USAGE='Usage: ffestimate [-h] [-c INT] [-m INT] movie-name
+  -c manually set the CRF value
+  -m number of minutes to convert during estimate (default: 2)
+  -h	display this message
+
+  Estimate the time and filesize for a re-encode using ffconv'
+
+if [[ $# -eq 0 ]]; then
+	echo $USAGE
+	return 1
+fi
+
+CRF=21
+MINS=2
+
+while getopts 'c:m:h' params
+do
+	case $params in
+		c ) CRF=$OPTARG;;
+		m ) MINS=$OPTARG;;
+		h ) echo "$USAGE" && return 1;;
+	esac
+done
+shift $(($OPTIND-1))
+
+if [[ ! -f $1 ]]; then
+	echo 'File does not exist!'
+	return 2
+fi
+
+format_time() {
+	local SECS=$1
+	(( hours= $SECS / 3600 ))
+	(( mins= $SECS % 3600 / 60 ))
+	(( secs= $SECS % 3600 % 60 ))
+	echo $( printf "%d:%02d:%02d" $((int($hours))) $((int($mins))) $((int($secs))) )
+}
+
+cleanup() {
+	if [[ -f /tmp/egg.mp4 ]]; then
+		rm -f /tmp/egg.mp4
+	fi
+}
+cleanup
+
+# get the original file size
+MOVIE_SIZE=$( /usr/bin/du -m $1 | awk '{print $1}' )
+
+# extract the movie duration
+META=$( ffprobe "$1" 2>&1 )
+DURATION=$( echo "$META" | awk '/Duration/ {print $2}' )
+MOVIE_LEN=$(( ${DURATION:3:2} * 60 + ${DURATION:6:2} ))
+
+# start estimate in roughly middle of the movie
+OFFSET=$(( $MINS / 2 ))
+START=$(( $MOVIE_LEN / 2 / 60 - $OFFSET ))
+echo "Converting $MINS minute(s) at minute $START ..."
+
+OUTPUT=$( {time ffmpeg -i "$1" -ss 00:$START:00 -t 00:$MINS:00 -c:v libx264 -filter:v yadif -crf $CRF -level 3.1 -tune film -c:a libfaac -q:a 100 /tmp/egg.mp4 2>&1} 2>&1 )
+
+# extract conversion time
+CONV_TIME=$( echo "$OUTPUT" | awk '/system.*cpu/ {print $7}' )
+# split by semi-colon
+TIME_PARTS=( "${(@s/:/)CONV_TIME}" )
+CONV_SECS=0
+i=1
+# include hours/minutes
+if [[ $#TIME_PARTS -eq 3 ]]; then
+	(( CONV_SECS= $TIME_PARTS[1] * 3600 ))
+	(( CONV_SECS= $TIME_PARTS[2] * 60 + $CONV_SECS ))
+	i=3
+# include minutes
+elif [[ $#TIME_PARTS -eq 2 ]]; then
+	(( CONV_SECS= $TIME_PARTS[1] * 60 + $CONV_SECS ))
+	i=2
+fi
+# include seconds (trimming microseconds)
+(( CONV_SECS= ${TIME_PARTS[$i]%.*} + $CONV_SECS ))
+
+# extract converted filesize
+CONV_SIZE=$( /usr/bin/du -m /tmp/egg.mp4 | awk '{print $1}' )
+
+# calculate estimates (with magic number)
+(( EST_CONV_TIME= $MOVIE_LEN / ($MINS * 60) * $CONV_SECS ))
+(( EST_FILE_SIZE= $MOVIE_LEN / ($MINS * 60) * $CONV_SIZE * 0.8696 ))
+(( EST_PERCENT= float($EST_FILE_SIZE) / float($MOVIE_SIZE) * 100 ))
+
+printf "Movie duration is %s\n" $(format_time $MOVIE_LEN)
+printf "Current filesize is %d MB\n" $MOVIE_SIZE
+printf "Estimates for crf=%d:\n" $CRF
+printf "  Conversion time: %s\n" $(format_time $EST_CONV_TIME)
+printf "  File size: %.2f MB (%.2f)%%\n" $EST_FILE_SIZE $EST_PERCENT
+printf "Estimated in %s\n" $(format_time $CONV_SECS)
+
+cleanup
