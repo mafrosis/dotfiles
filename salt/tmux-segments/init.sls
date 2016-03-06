@@ -1,6 +1,3 @@
-include:
-  - tmux
-
 {% for segment_name, colours in pillar.get('custom_segments', {}).iteritems() %}
 {{ segment_name}}-segment-file:
   file.managed:
@@ -8,5 +5,6 @@ include:
     - source: salt://tmux-segments/{{ segment_name }}.sh
     - user: {{ pillar['login_user'] }}
     - group: {{ pillar['login_user'] }}
+    - onlyif: test -d /home/{{ pillar['login_user'] }}/tmux-powerline
     - mode: 770
 {% endfor %}
