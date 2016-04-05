@@ -28,4 +28,9 @@ else
 	COMMIT_ID=$(git log --format='%h %s' -- "$1" | awk '! /fixup!/ {print $1}' | head -1)
 fi
 
+if [[ -z $COMMIT_ID ]]; then
+	echo "Unknown reference: $1"
+	exit 1
+fi
+
 git commit $AMEND -m "fixup! $COMMIT_ID"
