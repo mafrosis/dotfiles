@@ -1,0 +1,18 @@
+#! /bin/bash
+
+if [[ $(uname) == 'Darwin' ]]; then
+	BASE="$HOME/Music"
+else
+	BASE="$HOME"
+fi
+
+if [[ ! -d $BASE/youtube-cache ]]; then
+	mkdir "$BASE/youtube-cache"
+fi
+
+youtube-dl --default-search=ytsearch: \
+           --youtube-skip-dash-manifest \
+           --output="$BASE/youtube-cache/%(title)-s%(id)s.%(ext)s" \
+           --restrict-filenames \
+           --format="bestaudio[ext!=webm]" \
+           --exec=mplayer -v "$*"
