@@ -53,7 +53,7 @@ MOVIE_SIZE=$( /usr/bin/du -m $1 | awk '{print $1}' )
 # extract the movie duration
 META=$( ffprobe "$1" 2>&1 )
 DURATION=$( echo "$META" | awk '/Duration/ {print $2}' )
-MOVIE_LEN=$(( ${DURATION:3:2} * 60 + ${DURATION:6:2} ))
+MOVIE_LEN=$(( ${DURATION:0:2} * 3600 + ${DURATION:3:2} * 60 + ${DURATION:6:2} ))
 
 # start estimate in roughly middle of the movie
 OFFSET=$(( $MINS / 2 ))
