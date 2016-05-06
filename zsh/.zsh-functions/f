@@ -10,8 +10,8 @@ elif [ $# -eq 1 ]; then
 
 elif [ $# -eq 2 ]; then
 	if [ "$1" = '.' ]; then
-		find . -type f -not -path '*/\.*' -print0 | xargs -0 grep -n "$2"
+		find . -type f -not -path '*/\.*' -print0 | xargs -0 grep --color=always -n -- "$2"
 	else
-		find . -type f -not -path '*/\.*' -name "*.$1" -print0 | xargs -0 grep -n "$2"
+		find . -type f -not -path '*/\.*' -name "*.$1" -print0 | xargs -0 grep --color=always -n -- "$2"
 	fi
 fi
