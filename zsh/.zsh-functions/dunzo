@@ -1,0 +1,6 @@
+#! /bin/bash
+
+terminal-notifier \
+	-title "${2:-terminal}" \
+	-message "${1:-Done}" \
+	-open "file://${3:-}"

@@ -1,5 +1,5 @@
 #! /bin/zsh
-#
+
 USAGE='Usage: ffconv movie-file [-h] [-c INT] [-f] [-A]
   -c	manually set the CRF value
   -f	force a re-encode, even if already using H264/AAC streams
@@ -84,4 +84,8 @@ elif [[ $1 == *mp4$ ]]; then
 else
 	# convert neither; just switch container to MP4
 	time ffmpeg -i "$1" -c copy "$OUTPUT"
+fi
+
+if [[ $? -eq 0 ]]; then
+	dunzo "Finished transcoding $OUTPUT" 'ffconv' "$PWD/$(dirname $OUTPUT)"
 fi
