@@ -1,9 +1,0 @@
-#! /bin/zsh
-
-if [[ $# -eq 0 ]]; then
-	VERB='start'
-else
-	VERB="$1"
-fi
-
-ssh kerplunk "sudo systemctl $VERB xbmc"
