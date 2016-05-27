@@ -135,6 +135,7 @@ Plugin 'fatih/vim-go'
 Plugin 'bkad/vim-terraform'
 Plugin 'chase/vim-ansible-yaml'
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'ekalinin/Dockerfile.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
