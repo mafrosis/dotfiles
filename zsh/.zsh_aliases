@@ -41,3 +41,6 @@ alias sshq='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 # docker cleanup aliases
 alias docker-rm-stopped='docker ps -a | awk '\''/Exit/ {print $1}'\'' | xargs docker rm'
 alias docker-rmi-dangling='docker rmi "$(docker images -f dangling=true -q)"'
+
+# ffprobe via docker FTW
+alias ffprobe='docker run -it --rm -v $(pwd):/tmp/workdir --entrypoint ffprobe jrottenberg/ffmpeg'
