@@ -36,7 +36,7 @@ def process_template(project_name, verbose=False, clear=False):
             os.remove(path)
 
             if verbose:
-                print '--> Jinja processed\n    {}'.format(os.path.splitext(path)[0])
+                print('--> Jinja processed\n    {}'.format(os.path.splitext(path)[0]))
 
 
 def copytree(project_name, src, dest, paths, verbose=False):
@@ -51,7 +51,7 @@ def copytree(project_name, src, dest, paths, verbose=False):
     if os.path.isdir(src):
         if not os.path.isdir(dest):
             if verbose:
-                print '--> {}\n    {}'.format(src, dest)
+                print('--> {}\n    {}'.format(src, dest))
             os.makedirs(dest)
 
         files = os.listdir(src)
@@ -71,6 +71,6 @@ def copytree(project_name, src, dest, paths, verbose=False):
                 os.path.dirname(dest), project_name.replace('-', '_')
             )
         if verbose:
-            print '--> {}\n    {}'.format(src, dest)
+            print('--> {}\n    {}'.format(src, dest))
         shutil.copyfile(src, dest)
         paths.append(dest)
