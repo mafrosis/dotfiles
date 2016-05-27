@@ -1,0 +1,8 @@
+#! /bin/bash
+
+DATE="$(exiftool -t -s -d "%Y-%m-%d %H:%M:%S" -MediaCreateDate -CreateDate -FileModifyDate "$1" | awk '!/0000:00:00/ {print $2" "$3}' | head -1)"
+if [[ ! -z $DATE ]]; then
+	echo "Setting EXIF timestamp to $DATE"
+	exiftool "-AllDates=$DATE" -overwrite_original "$1"
+	touch -d "$DATE" "$1"
+fi
