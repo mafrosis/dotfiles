@@ -155,3 +155,6 @@ export FUSION_APP_PATH="/Users/mafro/Applications/VMware Fusion.app"
 
 # since root inherits $PATH on Debian now with env_keep in sudoers, need /sbin in $PATH
 export PATH=$PATH:/sbin
+
+# fix the whacky coreutils ls quoting change - http://unix.stackexchange.com/a/262162/8504
+export QUOTING_STYLE=literal ls
