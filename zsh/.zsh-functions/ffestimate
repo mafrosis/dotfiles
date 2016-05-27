@@ -55,6 +55,12 @@ META=$( ffprobe "$1" 2>&1 )
 DURATION=$( echo "$META" | awk '/Duration/ {print $2}' )
 MOVIE_LEN=$(( ${DURATION:0:2} * 3600 + ${DURATION:3:2} * 60 + ${DURATION:6:2} ))
 
+# extract movie resolution
+RESO=$( echo "$META" | awk '/Video:/ {print $10}' )
+if [[ ! $RESO =~ [0-9]+x[0-9]+ ]]; then
+	RESO=$( echo "$META" | awk '/Video:/ {print $11}' | tr -d , )
+fi
+
 # start estimate in roughly middle of the movie
 OFFSET=$(( $MINS / 2 ))
 START=$(( $MOVIE_LEN / 2 / 60 - $OFFSET ))
@@ -89,7 +95,7 @@ CONV_SIZE=$( /usr/bin/du -m /tmp/egg.mp4 | awk '{print $1}' )
 (( EST_FILE_SIZE= $MOVIE_LEN / ($MINS * 60) * $CONV_SIZE * 0.8696 ))
 (( EST_PERCENT= float($EST_FILE_SIZE) / float($MOVIE_SIZE) * 100 ))
 
-printf "Movie duration is %s\n" $(format_time $MOVIE_LEN)
+printf "Movie duration is %s at %s\n" $(format_time $MOVIE_LEN) $RESO
 printf "Current filesize is %d MB\n" $MOVIE_SIZE
 printf "Estimates for crf=%d:\n" $CRF
 printf "  Conversion time: %s\n" $(format_time $EST_CONV_TIME)
