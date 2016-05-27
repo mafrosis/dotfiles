@@ -158,3 +158,6 @@ export PATH=$PATH:/sbin
 
 # fix the whacky coreutils ls quoting change - http://unix.stackexchange.com/a/262162/8504
 export QUOTING_STYLE=literal ls
+
+# Docker exports
+export MACHINE_DRIVER=vmwarefusion
