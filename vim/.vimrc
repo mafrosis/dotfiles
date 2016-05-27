@@ -155,6 +155,7 @@ let g:SimpylFold_docstring_preview = 1
 
 "---- Syntastic -------------------------------------------------------
 let g:syntastic_python_checkers = ['pyflakes', 'python']
+let g:syntastic_python_pyflakes_exe = 'python3 -m pyflakes'
 let g:syntastic_python_flake8_args='--ignore=E501'
 let g:syntastic_mode_map = { 'mode': 'active',
 						   \ 'active_filetypes': [],
