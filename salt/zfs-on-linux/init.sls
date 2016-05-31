@@ -25,11 +25,6 @@ zol-install:
       - file: zol-pinning
       - pkg: zfs-kernel-headers
 
-/etc/default/zfs:
-  file.managed:
-    - source: salt://zfs-on-linux/etc_default_zfs.sls
-    - backup: '.bak'
-
 {% elif grains['os'] == "Ubuntu" %}
 
 zol-pkgrepo:
