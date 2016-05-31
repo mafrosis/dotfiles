@@ -20,14 +20,13 @@ base:
     - xbox360
     - zfs-on-linux
 
-  'G@host:kerplunk or G@id:kerplunk':
+  'G@host:locke or G@id:locke':
     - match: compound
     - dev-user
     - disable-salt-minion
     - docker
-    - firmware-realtek
     - informa
-    - kerplunk
+    - locke
     - kodi
     - mp3
     - mp3.beets

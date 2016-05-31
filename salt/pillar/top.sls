@@ -7,10 +7,10 @@ base:
     - monopoly
     - wakeonlan
 
-  'G@host:kerplunk or G@id:kerplunk':
+  'G@host:locke or G@id:vagrant':
     - match: compound
-    - kerplunk
-    - kerplunk-secrets
+    - locke
+    - locke-secrets
     - informa
 
   'G@host:mousetrap or G@id:mousetrap':
