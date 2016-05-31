@@ -11,7 +11,6 @@ base:
     - match: compound
     - locke
     - locke-secrets
-    - informa
 
   'G@host:mousetrap or G@id:mousetrap':
     - match: compound

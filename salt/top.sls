@@ -25,7 +25,6 @@ base:
     - dev-user
     - disable-salt-minion
     - docker
-    - informa
     - locke
     - kodi
     - mp3
