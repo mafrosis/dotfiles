@@ -63,13 +63,21 @@ if [[ ! -d /home/mafro/dotfiles ]]; then
 	chown -R mafro:mafro /home/mafro
 fi
 
+# install gitfs gubbins
+apt-get install -y git python-pip libgit2-21 build-essential python-dev libffi-dev libgit2-dev
+pip install -U pip pygit2==0.21.4
+
 tee /etc/salt/minion.d/salt-minion.conf > /dev/null <<EOF
 file_client: local
 id: $(hostname -s)
+fileserver_backend:
+  - roots
+  - git
+gitfs_remotes:
+  - https://github.com/mafrosis/salt-formulae
 file_roots:
   base:
     - /home/mafro/dotfiles/salt
-    - /home/mafro/dotfiles/salt-formulae
 pillar_roots:
   base:
     - /home/mafro/dotfiles/salt/pillar
