@@ -51,14 +51,12 @@ fi
 
 # get a copy of my dotfiles
 if [[ ! -d /home/mafro/dotfiles ]]; then
-	cd /home/mafro
-	git clone --recursive https://github.com/mafrosis/dotfiles.git
-
 	if [[ ! -z $BRANCH ]]; then
-		cd dotfiles
-		git checkout "$BRANCH"
-		git submodule update
+		BRANCH_PARAM="--branch=${BRANCH}"
 	fi
+
+	cd /home/mafro
+	git clone --recursive "$BRANCH_PARAM" https://github.com/mafrosis/dotfiles.git
 
 	# they don't belong to root
 	chown -R mafro:mafro /home/mafro
