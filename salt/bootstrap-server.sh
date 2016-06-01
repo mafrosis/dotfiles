@@ -1,4 +1,5 @@
-#! /bin/bash
+#! /bin/bash -eu
+set -o pipefail
 
 USAGE="bootstrap-dotfiles.sh [-p sesame-password] [-v salt-tagname] [-b git-branch]"
 
@@ -87,12 +88,6 @@ EOF
 if [[ ! -f /home/mafro/dotfiles/salt/pillar/$(hostname -s)-secrets.sls ]]; then
 	cd /home/mafro/dotfiles/salt/pillar
 	sesame.sh d -f -p "$SESAME_PASS" "$(hostname -s)-secrets.sesame"
-	echo 'Pillar decrypted'
-
-	if [[ $? -gt 0 ]]; then
-		echo -e "${red}Failed decrypting sensitive pillar!${reset}"
-		exit 3
-	fi
 fi
 
 # fix permissions
