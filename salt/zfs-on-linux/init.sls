@@ -46,7 +46,7 @@ zol-install:
 {% endif %}
 
 
-{% if pillar.get('zpool_import', False) %}
+{% if pillar.get('zpool_import', false) %}
 zpool-import-all:
   cmd.run:
     - name: zpool import -a -N

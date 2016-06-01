@@ -28,7 +28,7 @@ rtorrent:
 # install init script that runs rtorrent in a tmux session
 rtorrent-init-script:
   file.managed:
-{% if grains.get('systemd', False) %}
+{% if grains.get('systemd', false) %}
     - name: /etc/systemd/system/rtorrent.service
     - source: salt://rtorrent/rtorrent.service
 {% else %}
@@ -84,7 +84,7 @@ rtorrent.rc:
     - require:
       - file: /etc/rtorrent
 
-{% if pillar.get('login_user', False) %}
+{% if pillar.get('login_user', false) %}
 {% set user = pillar['login_user'] %}
 
 add-rtorrent-group-to-login-user:
