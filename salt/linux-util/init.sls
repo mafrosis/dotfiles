@@ -5,14 +5,27 @@ include:
 linux-utils-pkgs:
   pkg.latest:
     - names:
-      - usbmount
-      - hfsprogs
-      - curl
-      - rsync
-      - zip
-      - unzip
-      - ncdu
       - axel
+      - bmap-tools
+      - cryptsetup
+      - curl
+      - disktype
+      - dnsutils
+      - hfsprogs
+      - htop
+      - iotop
+      - lshw
+      - lvm2
+      - ncdu
+      - parted
+      - pastebinit
+      - rsync
+      - smartmontools
+      - unzip
+      - usbmount
+      - telnet
+      - whois
+      - zip
     - require:
       - file: apt-no-recommends
 

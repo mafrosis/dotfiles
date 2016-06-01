@@ -14,7 +14,6 @@ base:
     - rtorrent.rutorrent
     - rtorrent.move-torrent
     - samba
-    - sysadmin
     - tmux-segments
     - wakeonlan
     - xbox360
@@ -38,7 +37,6 @@ base:
     - rtorrent.rutorrent
     - rtorrent.move-torrent
     - sabnzbd
-    - sysadmin
     - tmux-segments
     - zfs-on-linux
 
