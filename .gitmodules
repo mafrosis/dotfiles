@@ -10,9 +10,6 @@
 [submodule "bin/sesame"]
 	path = bin/sesame
 	url = https://github.com/mafrosis/sesame.sh.git
-[submodule "osx/salt-osx"]
-	path = osx/salt-osx
-	url = https://github.com/mafrosis/salt-osx.git
 [submodule "bin/z"]
 	path = bin/z
 	url = https://github.com/rupa/z.git
