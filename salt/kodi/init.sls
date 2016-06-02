@@ -57,23 +57,12 @@ xwindows:
       - xinit
       - xserver-xorg
       - dbus-x11
-      - nvidia-glx
 
 /etc/X11/Xwrapper.config:
   file.replace:
     - pattern: "allowed_users=console"
     - repl: "allowed_users=anybody"
     - backup: false
-    - require:
-      - pkg: xserver-xorg
-
-/usr/share/X11/xorg.conf.d/20-nvidia.conf:
-  file.managed:
-    - contents: |
-        Section "Device"
-            Identifier "{{ grains['host'] }}"
-            Driver "nvidia"
-        EndSection
     - require:
       - pkg: xserver-xorg
 
