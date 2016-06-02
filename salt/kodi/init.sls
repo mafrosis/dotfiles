@@ -28,7 +28,7 @@ kodi-systemd-script:
     - contents: |
         [Unit]
         Description = Kodi Media Center
-        After = systemd-user-sessions.service network.target sound.target
+        After = systemd-user-sessions.service sound.target
 
         [Service]
         User = kodi
