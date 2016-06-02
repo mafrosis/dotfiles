@@ -2,7 +2,7 @@ base:
   '*':
     - common
 
-  'G@host:monopoly or G@id:monopoly':
+  'G@host:monopoly':
     - match: compound
     - dev-user
     - dropbox
@@ -19,7 +19,7 @@ base:
     - xbox360
     - zfs-on-linux
 
-  'G@host:locke or G@id:locke':
+  'G@host:locke or G@id:vagrant':
     - match: compound
     - dev-user
     - disable-salt-minion

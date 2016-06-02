@@ -1,18 +1,24 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "mafro/jessie64-gb-salt"
+  config.vm.box = "mafrosis/jessie64-gb-salt"
   config.vm.provider :vmware_fusion do |v|
-    v.vmx['memsize'] = 1024
+    v.vmx['memsize'] = 512
+    v.vmx['numvcpus'] = 1
   end
 
-  # salt config directory & shared dir in /tmp
-  config.vm.synced_folder ".", "/srv/salt"
+  config.vm.network "public_network"
+
+  # create a shared dir in /tmp
   config.vm.synced_folder "/tmp", "/tmp/host_machine"
+
+  # use local development version of salt-formulae
+  #config.vm.synced_folder "/Users/mafro/Development/salt-formulae", "/srv/salt-formulae"
 
   # setup the salt-minion
   config.vm.provision :salt do |salt|
     salt.minion_config = "salt-minion.conf"
     salt.run_highstate = false
+    salt.bootstrap_options = '-D -F -c /tmp'
   end
 end
