@@ -34,9 +34,8 @@ base:
     - linux-util.download-tools
     - pools-perm-watchdog
     - rtorrent
-    - rtorrent.rutorrent
     - rtorrent.move-torrent
-    - sabnzbd
+    #- sabnzbd
     - tmux-segments
     - zfs-on-linux
 

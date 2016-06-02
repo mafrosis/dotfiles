@@ -29,7 +29,12 @@ linux-utils-pkgs:
     - require:
       - file: apt-no-recommends
 
+{% if grains['os'] == "Debian" %}
 unrar:
   pkg.installed:
     - require:
       - pkgrepo: nonfree-pkgrepo
+{% else %}
+unrar:
+  pkg.installed
+{% endif %}

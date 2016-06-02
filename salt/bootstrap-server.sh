@@ -63,11 +63,16 @@ if [[ ! -d /home/mafro/dotfiles ]]; then
 fi
 
 # install gitfs gubbins
-apt-get install -y git python-pip libgit2-21 build-essential python-dev libffi-dev libgit2-dev
-pip install -U pip pygit2==0.21.4
+# TODO figure out how to check OS version jessie/xenial
+#apt-get install -y libgit2-21
+apt-get install -y libgit2-24
+apt-get install -y git python-pip build-essential python-dev libffi-dev libgit2-dev
+#pip install -U pip pygit2==0.21.4
+pip install -U pip pygit2==0.24.0
 
 tee /etc/salt/minion.d/salt-minion.conf > /dev/null <<EOF
 file_client: local
+state_output: mixed
 id: $(hostname -s)
 fileserver_backend:
   - roots

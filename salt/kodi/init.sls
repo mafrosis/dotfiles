@@ -1,7 +1,9 @@
+{% if grains['os'] == 'Debian' %}
 include:
   - debian-repos.backports
   - debian-repos.contrib
   - debian-repos.nonfree
+{% endif %}
 
 kodi:
   user.present:
@@ -51,20 +53,39 @@ linux-headers:
   pkg.installed:
     - name: linux-headers-{{ salt['cmd.run']("uname -r|sed 's,[^-]*-[^-]*-,,'") }}
 
-xwindows:
-  pkg.installed:
-    - names:
-      - xinit
-      - xserver-xorg
-      - dbus-x11
+xserver-xorg:
+  pkg.installed
 
-/etc/X11/Xwrapper.config:
+xinit:
+  pkg.installed
+
+dbus-x11:
+  pkg.installed
+
+{% if grains['os'] == 'Ubuntu' %}
+xserver-xorg-legacy:
+  pkg.installed:
+    - require:
+      - pkg: xserver-xorg
+{% endif %}
+
+xwrapper-allowed-users:
   file.replace:
+    - name: /etc/X11/Xwrapper.config
     - pattern: "allowed_users=console"
     - repl: "allowed_users=anybody"
     - backup: false
     - require:
       - pkg: xserver-xorg
+
+{% if grains['os'] == 'Ubuntu' %}
+xwrapper-needs-root-rights:
+  file.append:
+    - name: /etc/X11/Xwrapper.config
+    - text: needs_root_rights=yes
+    - require:
+      - pkg: xserver-xorg-legacy
+{% endif %}
 
 disable-nouveau:
   cmd.run:
