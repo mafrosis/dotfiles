@@ -1,8 +1,8 @@
+{% if grains['os'] == 'Debian' %}
+
 zfs-kernel-headers:
   pkg.installed:
-    - name: linux-headers-{{ grains["kernelrelease"] }}
-
-{% if grains['os'] == "Debian" %}
+    - name: linux-headers-{{ grains['kernelrelease'] }}
 
 zol-pkgrepo:
   pkgrepo.managed:
@@ -16,7 +16,7 @@ zol-pkgrepo:
 zol-pinning:
   file.managed:
     - name: /etc/apt/preferences.d/pin-zfsonlinux
-    - contents: "Package: *\nPin: release o=archive.zfsonlinux.org\nPin-Priority: 1001"
+    - contents: 'Package: *\nPin: release o=archive.zfsonlinux.org\nPin-Priority: 1001'
 
 zol-install:
   pkg.installed:
@@ -25,23 +25,11 @@ zol-install:
       - file: zol-pinning
       - pkg: zfs-kernel-headers
 
-{% elif grains['os'] == "Ubuntu" %}
-
-zol-pkgrepo:
-  pkgrepo.managed:
-    - humanname: ZOL
-    - name: deb http://ppa.launchpad.net/zfs-native/stable/ubuntu wheezy main
-    - file: /etc/apt/sources.list.d/zfs-native.list
-    - keyid: F6B0FC61
-    - keyserver: keyserver.ubuntu.com
-    - require_in:
-      - pkg: zol-install
+{% elif grains['oscodename'] == 'xenial' %}
 
 zol-install:
   pkg.installed:
-    - name: ubuntu-zfs
-    - require:
-      - pkg: zfs-kernel-headers
+    - name: zfsutils-linux
 
 {% endif %}
 
@@ -50,7 +38,7 @@ zol-install:
 zpool-import-all:
   cmd.run:
     - name: zpool import -a -N
-    - onlyif: zfs list 2>&1 | grep "no datasets available"
+    - onlyif: zfs list 2>&1 | grep 'no datasets available'
     - require:
       - pkg: zol-install
 
