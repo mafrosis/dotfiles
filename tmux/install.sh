@@ -25,4 +25,14 @@ if ! command -v tmux >/dev/null 2>&1; then
 fi
 
 # install tmux-powerline from git
-git clone https://github.com/mafrosis/tmux-powerline.git "$HOME/tmux-powerline"
+if [[ ! -d $HOME/tmux-powerline ]]; then
+	git clone https://github.com/mafrosis/tmux-powerline.git "$HOME/tmux-powerline"
+fi
+
+# install the tmux-powerline custom theme
+ln -sf "$HOME/dotfiles/tmux/powerline-theme.sh" "$HOME/tmux-powerline/themes/"
+
+# symlink all custom segments into tmux-powerline
+for F in tmux/.tmux-segments/*; do
+	ln -sf "$HOME/dotfiles/$F" "$HOME/tmux-powerline/segments/"
+done

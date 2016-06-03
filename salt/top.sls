@@ -14,7 +14,6 @@ base:
     - rtorrent.rutorrent
     - rtorrent.move-torrent
     - samba
-    - tmux-segments
     - wakeonlan
     - xbox360
     - zfs-on-linux
@@ -36,7 +35,6 @@ base:
     - rtorrent
     - rtorrent.move-torrent
     #- sabnzbd
-    - tmux-segments
     - zfs-on-linux
 
   'id:raspbmc':

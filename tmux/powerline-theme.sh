@@ -22,8 +22,11 @@ if [[ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]]; then
 		"hostname 33 0" \
 		"wan_ip 24 255" \
 		"lan_ip 24 255" \
-		#"gunicorn 22 255" \
-		#"celeryd 52 255" \
+
+		"zfs 160 255" \
+		"enc 36 255" \
+		"backup 166 255" \
+
 		"load 237 167" \
 		"date_day 235 136" \
 		"date 235 136 ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
