@@ -34,12 +34,25 @@ fi
 
 # install a few essentials
 brew install \
+	awscli \
 	bash \
 	coreutils \
+	fdupes \
 	ffmpeg --with-faac \
+	flac \
+	httpie \
+	imagemagick \
+	jq \
 	lame \
+	nmap \
+	mercurial \
+	mplayer \
 	python \
-	unrar
+	python3 \
+	shellcheck \
+	terminal-notifier \
+	unrar \
+	youtube-dl
 
 # symlink a couple of missing shell commands from GNU coreutils
 if [[ ! -L /usr/local/bin/tac ]]; then
