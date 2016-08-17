@@ -8,4 +8,4 @@ if ! command -v git >/dev/null 2>&1; then
 fi
 git clone --recursive https://github.com/mafrosis/dotfiles.git "$HOME/dotfiles"
 cd "$HOME/dotfiles" || exit 2
-./install.sh zsh vim git tmux
+./install.sh zsh vim git tmux inputrc
