@@ -4,7 +4,7 @@
 
 ##### connection settings #####
 
-mpd_host = "kerplunk"
+mpd_host = "192.168.1.103"
 mpd_port = "6600"
 #mpd_music_dir = "/home/mafro/MP3"
 mpd_connection_timeout = "5"
