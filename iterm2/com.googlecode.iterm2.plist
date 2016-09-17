@@ -46,6 +46,8 @@
 	<true/>
 	<key>DisableFullscreenTransparency</key>
 	<true/>
+	<key>EliminateCloseButtons</key>
+	<true/>
 	<key>EnableRendezvous</key>
 	<false/>
 	<key>FocusFollowsMouse</key>
@@ -90,8 +92,6 @@
 	<true/>
 	<key>MaxVertically</key>
 	<true/>
-	<key>NSFontPanelAttributes</key>
-	<string>1, 0</string>
 	<key>NSNavLastRootDirectory</key>
 	<string>~/dotfiles/iterm2</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
@@ -121,21 +121,16 @@
 	<array/>
 	<key>NSTableView Sort Ordering KeyBingingTable</key>
 	<array/>
-	<key>NSToolbar Configuration com.apple.NSColorPanel</key>
-	<dict>
-		<key>TB Is Shown</key>
-		<integer>1</integer>
-	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>1467 42 1085 544 0 0 2560 1417 </string>
-	<key>NSWindow Frame Preferences</key>
-	<string>-1458 570 606 456 -1920 0 1920 1057 </string>
-	<key>NSWindow Frame SUStatusFrame</key>
-	<string>-1152 696 384 129 -1920 0 1920 1057 </string>
+	<string>498 110 802 400 0 0 1366 745 </string>
+	<key>NSWindow Frame SharedPreferences</key>
+	<string>176 250 796 473 0 0 1366 745 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>-1919 79 1914 978 -1920 0 1920 1057 </string>
-	<key>NSWindow Frame iTerm Window 1</key>
-	<string>2 185 1025 558 0 0 1366 745 </string>
+	<string>0 39 1249 706 0 0 1366 745 </string>
+	<key>NeverWarnAboutShortLivedSessions_EA6AA480-9050-4138-970D-BFEBD45C9459</key>
+	<true/>
+	<key>NeverWarnAboutShortLivedSessions_EA6AA480-9050-4138-970D-BFEBD45C9459_selection</key>
+	<integer>0</integer>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -813,7 +808,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>HackMafro-Regular 12</string>
+			<string>MonacoForPowerline 12</string>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
@@ -979,7 +974,7 @@
 			<key>Use Italic Font</key>
 			<false/>
 			<key>Vertical Spacing</key>
-			<real>0.95711034536361694</real>
+			<real>0.82520381298409884</real>
 			<key>Visual Bell</key>
 			<true/>
 			<key>Window Type</key>
@@ -988,46 +983,14 @@
 			<string>~</string>
 		</dict>
 	</array>
-	<key>NoSyncDisablePromotions</key>
-	<true/>
-	<key>NoSyncDoNotWarnBeforeMultilinePaste</key>
-	<true/>
-	<key>NoSyncDoNotWarnBeforeMultilinePaste_selection</key>
-	<integer>0</integer>
-	<key>NoSyncHaveShownPromoWithId_4</key>
-	<true/>
-	<key>NoSyncLastTipTime</key>
-	<real>484214074.554856</real>
-	<key>NoSyncNeverRemindPrefsChangesCopy</key>
-	<true/>
+	<key>NoSyncInstallationId</key>
+	<string>484576B9-B4CB-429C-AAE4-622D57157F4C</string>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
 	<integer>0</integer>
-	<key>NoSyncPermissionToShowTip</key>
-	<true/>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
-	<real>482138771.29698598</real>
-	<key>NoSyncTimeOfLastPromo</key>
-	<real>477584547.78981799</real>
-	<key>NoSyncTimeOfLastPromoDownload</key>
-	<real>477580685.43004102</real>
-	<key>NoSyncTipsToNotShow</key>
-	<array>
-		<string>000</string>
-		<string>0000</string>
-		<string>0001</string>
-		<string>0002</string>
-		<string>0003</string>
-		<string>0004</string>
-		<string>0005</string>
-		<string>0006</string>
-		<string>0007</string>
-		<string>0008</string>
-		<string>0009</string>
-		<string>0010</string>
-		<string>0011</string>
-	</array>
+	<real>495742799.24191803</real>
 	<key>OnlyWhenMoreTabs</key>
 	<true/>
 	<key>OpenArrangementAtStartup</key>
@@ -1085,18 +1048,18 @@
 	<integer>8</integer>
 	<key>RightOption</key>
 	<integer>3</integer>
-	<key>SUAutomaticallyUpdate</key>
-	<true/>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedAlternateAppNameKey</key>
 	<string>iTerm</string>
 	<key>SUFeedURL</key>
-	<string>https://iterm2.com/appcasts/final.xml</string>
+	<string>https://iterm2.com/appcasts/final.xml?shard=90</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-05-04T09:04:53Z</date>
+	<date>2016-09-16T18:21:37Z</date>
+	<key>SUSendProfileInfo</key>
+	<false/>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Show Toolbelt</key>
@@ -5576,6 +5539,6 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>2.9.20160313</string>
+	<string>3.0.9</string>
 </dict>
 </plist>
