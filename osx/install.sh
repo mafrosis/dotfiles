@@ -28,6 +28,11 @@ stow -v bin $RESTOW --target="$HOME/bin" "$DRY_RUN"
 source ./homebrew.sh
 
 
+# install VMWare, vagrant, packer etc
+# shellcheck disable=SC1091
+source ./vagrant.sh
+
+
 # install Moom via mas
 if [[ ! -L /Users/mafro/Library/Preferences/com.manytricks.Moom.plist ]]; then
 	mas install "$(mas search moom | cut -d\  -f 1)"
