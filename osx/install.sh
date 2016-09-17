@@ -36,14 +36,16 @@ if [[ ! -L /Users/mafro/Library/Preferences/com.manytricks.Moom.plist ]]; then
 fi
 
 
-# setup OSX defaults; sudo is required
-sudo -v
-if [[ $? -eq 0 ]]; then
-	# shellcheck disable=SC1091
-	source set-defaults.sh
-	echo 'You will need to restart to make new macOS defaults take effect'
-else
-	echo 'Sudo failed, skipping OSX defaults'
+if [[ ! -f $HOME/.osx-set-defaults-done ]]; then
+	# setup OSX defaults; sudo is required
+	sudo -v
+	if [[ $? -eq 0 ]]; then
+		# shellcheck disable=SC1091
+		source set-defaults.sh
+		echo 'You will need to restart to make new macOS defaults take effect'
+	else
+		echo 'Sudo failed, skipping OSX defaults'
+	fi
 fi
 
 
