@@ -45,6 +45,7 @@ brew install \
 	jq \
 	lame \
 	nmap \
+	mas \
 	mercurial \
 	mplayer \
 	python \
