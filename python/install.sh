@@ -23,9 +23,9 @@ fi
 
 
 # update pip itself
-pip install -U pip
+pip install -U pip setuptools
 
 # install a couple things via pip
-pip install virtualenvwrapper \
+pip install \
 	ipdb \
 	pyflakes
