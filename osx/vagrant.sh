@@ -45,5 +45,5 @@ else
 	done
 fi
 
-# also install Packer
-brew install packer
+# also install Packer & Terraform
+brew install packer terraform
