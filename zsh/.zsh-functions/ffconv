@@ -60,17 +60,17 @@ fi
 # convert both video and audio
 if [[ $VCODEC != 'h264' && $ACODEC != 'aac' ]] || [[ $FORCE -eq 1 ]]; then
 	if [[ $DROP_AUDIO -eq 1 ]]; then
-		time ffmpeg -i "$1" -c:v libx264 -filter:v yadif -crf $CRF -level 3.1 -tune film -an "$OUTPUT"
+		time ffmpeg -i "$1" -c:v libx264 -tune film -filter:v yadif -crf $CRF -an "$OUTPUT"
 	else
-		time ffmpeg -i "$1" -c:v libx264 -filter:v yadif -crf $CRF -level 3.1 -tune film -c:a libfaac -q:a 100 "$OUTPUT"
+		time ffmpeg -i "$1" -c:v libx264 -tune film -filter:v yadif -crf $CRF -c:a libfaac -q:a 90 "$OUTPUT"
 	fi
 
 # convert just video
 elif [[ $VCODEC != 'h264' ]]; then
 	if [[ $DROP_AUDIO -eq 1 ]]; then
-		time ffmpeg -i "$1" -c:v libx264 -filter:v yadif -crf $CRF -level 3.1 -tune film -an ""$OUTPUT
+		time ffmpeg -i "$1" -c:v libx264 -tune film -filter:v yadif -crf $CRF -an ""$OUTPUT
 	else
-		time ffmpeg -i "$1" -c:v libx264 -filter:v yadif -crf $CRF -level 3.1 -tune film -c:a copy "$OUTPUT"
+		time ffmpeg -i "$1" -c:v libx264 -tune film -filter:v yadif -crf $CRF -c:a copy "$OUTPUT"
 	fi
 
 # convert just audio
