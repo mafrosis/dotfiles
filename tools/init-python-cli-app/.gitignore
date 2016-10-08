@@ -1,2 +1,3 @@
+pip-selfcheck.json
 *.pyc
 init_python_cli_app.egg-info

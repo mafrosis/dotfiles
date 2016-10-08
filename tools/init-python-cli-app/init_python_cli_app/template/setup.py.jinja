@@ -35,7 +35,9 @@ setup(
     package_dir={'': '.'},
     include_package_data=True,
     install_requires=requires,
-    scripts=['scripts/{{ project_name }}'],
+    entry_points = {
+        'console_scripts': ['{{ project_name }}={{ project_name|replace("-", "_") }}.cli:entrypoint']
+    },
     license=open('LICENSE').read(),
     classifiers=(
         'Development Status :: 3 - Alpha',

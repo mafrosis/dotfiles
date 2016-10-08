@@ -38,7 +38,9 @@ setup(
     package_dir={'': '.'},
     include_package_data=True,
     install_requires=requires,
-    scripts=['scripts/init-python-cli-app'],
+    entry_points = {
+        'console_scripts': ['init-python-cli-app=init_python_cli_app.cli:entrypoint']
+    },
     license=open('LICENSE').read(),
     classifiers=(
         'Development Status :: 3 - Alpha',
