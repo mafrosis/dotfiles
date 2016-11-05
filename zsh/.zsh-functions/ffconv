@@ -1,91 +1,96 @@
-#! /bin/zsh
+#! /bin/bash
 
 USAGE='Usage: ffconv movie-file [-h] [-c INT] [-f] [-A]
   -c	manually set the CRF value
   -f	force a re-encode, even if already using H264/AAC streams
+  -a	audio quality [0-100]
   -A	drop audio channel
+  -T	don'"'"'t trash the input file
   -h	display this message
 
   Re-encode a movie to H264/MP4 using standard film presets'
 
 if [[ $# -eq 0 ]]; then
-	echo $USAGE
+	echo "$USAGE"
 	return 1
 fi
 
-FORCE=0
-DROP_AUDIO=0
 CRF=21
+FORCE=0
+AUDIOQ=70
+DROP_AUDIO=0
+DONT_TRASH=0
 
-while getopts 'fAc:h' params
+while getopts 'c:fa:ATh' params
 do
 	case $params in
-		f ) FORCE=1;;
-		A ) DROP_AUDIO=1;;
 		c ) CRF=$OPTARG;;
+		f ) FORCE=1;;
+		a ) AUDIOQ=1;;
+		A ) DROP_AUDIO=1;;
+		T ) DONT_TRASH=1;;
 		h ) echo "$USAGE" && return 1;;
 	esac
 done
-shift $(($OPTIND-1))
+shift $((OPTIND-1))
 
-if [[ $FORCE -eq 0 ]]; then
-	# analyse input file to determine existing stream types
-	VCODEC=$(ffprobe "$1" 2>&1 | awk '/Stream.*Video:/ {print $4}')
-	ACODEC=$(ffprobe "$1" 2>&1 | awk '/Stream.*Audio:/ {print $4}')
+function fin() {
+	dunzo "Finished transcoding $2" 'ffconv' "$PWD/$(dirname "$2")"
+	if [[ $DONT_TRASH -eq 0 ]]; then
+		trash "$1"
+	fi
+}
+
+VCMD='-c:v copy'
+ACMD='-c:a copy'
+
+# analyse input file to determine existing stream types
+META=$( ffprobe "$1" 2>&1 )
+VCODEC=$( echo "$META" | awk '/Stream.*Video:/ {print $4}' )
+ACODEC=$( echo "$META" | awk '/Stream.*Audio:/ {print $4}' )
+
+# set the baseline deinterlace filter
+VFILTER='-filter:v yadif'
+
+# convert to H264
+if [[ $VCODEC != 'h264' || $FORCE -eq 1 ]]; then
+	VCMD="-c:v libx264 -tune film $VFILTER -crf $CRF"
 fi
 
-if [[ $VCODEC != 'h264' ]] || [[ $FORCE -eq 1 ]]; then
-	# include crf in filename for MP4s, but only if it's not 21
-	if [[ $1 =~ (.*)mp4$ ]]; then
-		OUTPUT="${1%.*}"
-		INCLUDE_CRF=1
-
-	elif [[ ! $CRF -eq 21 ]]; then
-		OUTPUT="$1"
-		INCLUDE_CRF=1
-	else
-		OUTPUT="$1.mp4"
-		INCLUDE_CRF=0
-	fi
-else
-	OUTPUT="$1.mp4"
-	INCLUDE_CRF=0
-fi
-
-# include crf
-if [[ $INCLUDE_CRF -eq 1 ]]; then
-	OUTPUT="${OUTPUT}-crf$CRF.mp4"
-fi
-
-# convert both video and audio
-if [[ $VCODEC != 'h264' && $ACODEC != 'aac' ]] || [[ $FORCE -eq 1 ]]; then
-	if [[ $DROP_AUDIO -eq 1 ]]; then
-		time ffmpeg -i "$1" -c:v libx264 -tune film -filter:v yadif -crf $CRF -an "$OUTPUT"
-	else
-		time ffmpeg -i "$1" -c:v libx264 -tune film -filter:v yadif -crf $CRF -c:a libfaac -q:a 90 "$OUTPUT"
-	fi
-
-# convert just video
-elif [[ $VCODEC != 'h264' ]]; then
-	if [[ $DROP_AUDIO -eq 1 ]]; then
-		time ffmpeg -i "$1" -c:v libx264 -tune film -filter:v yadif -crf $CRF -an ""$OUTPUT
-	else
-		time ffmpeg -i "$1" -c:v libx264 -tune film -filter:v yadif -crf $CRF -c:a copy "$OUTPUT"
-	fi
-
-# convert just audio
+# completely drop audio
+if [[ $DROP_AUDIO -eq 1 ]]; then
+	ACMD='-an'
 elif [[ $ACODEC != 'aac' ]]; then
-	time ffmpeg -i "$1" -c:v copy -c:a libfaac -q:a 100 "$OUTPUT"
-
-# do nothing for h264/aac MP4 input
-elif [[ $1 == *mp4$ ]]; then
-	print 'Nothing to do'
-
-else
-	# convert neither; just switch container to MP4
-	time ffmpeg -i "$1" -c copy "$OUTPUT"
+	ACMD="-c:a aac -q:a $AUDIOQ"
 fi
 
-if [[ $? -eq 0 ]]; then
-	dunzo "Finished transcoding $OUTPUT" 'ffconv' "$PWD/$(dirname $OUTPUT)"
+# include crf in output filename
+if [[ ! $VCMD =~ (.*)copy$ ]]; then
+	SUFFIX="-crf${CRF}"
+elif [[ $1 =~ (.*)mp4$ ]]; then
+	SUFFIX='-reenc'
+fi
+
+OUTFILE="${1%.*}${SUFFIX}.mp4"
+
+# build FFMPEG command
+FFMPEG="time ffmpeg -i \"$1\" $VCMD $ACMD \"$OUTFILE\""
+echo "$FFMPEG"
+
+# if either stream needs converting, or --force supplied
+if [[ ! $VCMD =~ (.*)copy$ || ! $ACMD =~ (.*)copy$ || $FORCE -eq 1 ]]; then
+	if eval "$FFMPEG"; then
+		fin "$1" "$OUTFILE"
+	fi
+
+else
+	# else if already MP4 do nothing
+	if [[ $1 =~ (.*)mp4$ ]]; then
+		print 'Nothing to do'
+	else
+		# switch container to MP4
+		if /usr/local/bin/ffmpeg -i "$1" -c copy "${1%.*}.mp4"; then
+			fin "$1" "$OUTFILE"
+		fi
+	fi
 fi
