@@ -46,10 +46,12 @@ brew install \
 	lame \
 	nmap \
 	mas \
+	m-cli \
 	mercurial \
 	mplayer \
 	python \
 	python3 \
+	pyenv \
 	shellcheck \
 	terminal-notifier \
 	unrar \
@@ -64,8 +66,14 @@ fi
 brew cask install \
 	android-file-transfer \
 	dropbox \
+	firefox \
 	google-chrome \
 	google-drive \
 	iterm2 \
 	keepassx \
-	textmate
+	skype \
+	textmate \
+	vlc
+
+# remove all the dirty temp files
+brew cleanup
