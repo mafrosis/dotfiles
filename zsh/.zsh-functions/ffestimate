@@ -69,7 +69,7 @@ OFFSET=$(( $MINS / 2 ))
 START=$(( $MOVIE_LEN / 2 / 60 - $OFFSET ))
 echo "Converting $MINS minute(s) at minute $START ..."
 
-OUTPUT=$( {time ffmpeg -y -i "$1" -ss 00:$START:00 -t 00:$MINS:00 -c:v libx264 -filter:v yadif -crf $CRF -level 3.1 -tune film -c:a libfaac -q:a 100 /tmp/egg.mp4 2>&1} 2>&1 )
+OUTPUT=$( {time ffmpeg -y -i "$1" -ss 00:$START:00 -t 00:$MINS:00 -c:v libx264 -filter:v yadif -crf $CRF -tune film -c:a copy /tmp/egg.mp4 2>&1} 2>&1 )
 
 # extract conversion time
 CONV_TIME=$( echo "$OUTPUT" | awk '/system.*cpu/ {print $7}' )
