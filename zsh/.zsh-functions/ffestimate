@@ -10,7 +10,7 @@ USAGE='Usage: ffestimate [-h] [-c INT] [-m INT] movie-name
   Estimate the time and filesize for a re-encode using ffconv'
 
 if [[ $# -eq 0 ]]; then
-	echo $USAGE
+	echo "$USAGE"
 	return 1
 fi
 
@@ -37,7 +37,7 @@ format_time() {
 	(( hours= $SECS / 3600 ))
 	(( mins= $SECS % 3600 / 60 ))
 	(( secs= $SECS % 3600 % 60 ))
-	echo $( printf "%d:%02d:%02d" $((int($hours))) $((int($mins))) $((int($secs))) )
+	echo "$( printf "%d:%02d:%02d" $((int($hours))) $((int($mins))) $((int($secs))) )"
 }
 
 cleanup() {
@@ -45,7 +45,10 @@ cleanup() {
 		rm -f /tmp/egg.mp4
 	fi
 }
-cleanup
+# trap exit and cleanup
+trap cleanup EXIT
+
+echo "Estimating $1 at crf=$CRF"
 
 # get the original file size
 MOVIE_SIZE=$( /usr/bin/du -m $1 | awk '{print $1}' )
@@ -66,7 +69,7 @@ OFFSET=$(( $MINS / 2 ))
 START=$(( $MOVIE_LEN / 2 / 60 - $OFFSET ))
 echo "Converting $MINS minute(s) at minute $START ..."
 
-OUTPUT=$( {time ffmpeg -i "$1" -ss 00:$START:00 -t 00:$MINS:00 -c:v libx264 -filter:v yadif -crf $CRF -level 3.1 -tune film -c:a libfaac -q:a 100 /tmp/egg.mp4 2>&1} 2>&1 )
+OUTPUT=$( {time ffmpeg -y -i "$1" -ss 00:$START:00 -t 00:$MINS:00 -c:v libx264 -filter:v yadif -crf $CRF -level 3.1 -tune film -c:a libfaac -q:a 100 /tmp/egg.mp4 2>&1} 2>&1 )
 
 # extract conversion time
 CONV_TIME=$( echo "$OUTPUT" | awk '/system.*cpu/ {print $7}' )
@@ -101,5 +104,3 @@ printf "Estimates for crf=%d:\n" $CRF
 printf "  Conversion time: %s\n" $(format_time $EST_CONV_TIME)
 printf "  File size: %.2f MB (%.2f)%%\n" $EST_FILE_SIZE $EST_PERCENT
 printf "Estimated in %s\n" $(format_time $CONV_SECS)
-
-cleanup
