@@ -123,13 +123,6 @@ export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 export ANDROID_HOME=/usr/local/opt/android-sdk
 export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
 
-# ebook stuff
-export EBOOK_HOME=~"/Documents/ebooks/DeDRM"
-export EBOOK_USER=mafro
-export EBOOK_PASS=eggs
-
-export MUSIC_DIR="/home/mafro/mp3/mp3"
-
 export EDITOR=vim
 export VISUAL=vim
 
@@ -150,8 +143,6 @@ PLATFORM="linux"
 # use vmware in vagrant / packer
 export VAGRANT_DEFAULT_PROVIDER="vmware_fusion"
 export VAGRANT_VMWARE_CLONE_DIRECTORY="~/.vagrant.d/machines"
-export VAGRANT_VMWARE_FUSION_APP="/Users/mafro/Applications/VMware Fusion.app"
-export FUSION_APP_PATH="/Users/mafro/Applications/VMware Fusion.app"
 
 # since root inherits $PATH on Debian now with env_keep in sudoers, need /sbin in $PATH
 export PATH=$PATH:/sbin
