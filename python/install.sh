@@ -22,10 +22,14 @@ if ! command -v pip >/dev/null 2>&1; then
 fi
 
 
-# update pip itself
-pip install -U pip setuptools
+for PIP in pip pip3;
+do
+	# update pip itself
+	$PIP install -U pip setuptools
 
-# install a couple things via pip
-pip install \
-	ipdb \
-	pyflakes
+	# install a couple things via pip
+	$PIP install \
+		virtualenv \
+		ipdb \
+		pyflakes
+done
