@@ -1,4 +1,4 @@
-{% if grains.get('vmware', false) %}
+{% if grains.get('id', 'vagrant') %}
 
 login_user: vagrant
 rtorrent_download_dir: /home/vagrant/download
