@@ -55,6 +55,7 @@ brew install \
 	shellcheck \
 	terminal-notifier \
 	unrar \
+	wakeonlan \
 	youtube-dl
 
 # symlink a couple of missing shell commands from GNU coreutils
