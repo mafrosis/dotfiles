@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/zsh
 
 USAGE='Usage: ffconv movie-file [-h] [-c INT] [-f] [-A]
   -c	manually set the CRF value
@@ -6,6 +6,9 @@ USAGE='Usage: ffconv movie-file [-h] [-c INT] [-f] [-A]
   -a	audio quality [0-100]
   -A	drop audio channel
   -T	don'"'"'t trash the input file
+  -W	resize to this horizontal pixel size
+  -s	encode start time (in 0:01:23 time format)
+  -d	encode duration (in seconds)
   -h	display this message
 
   Re-encode a movie to H264/MP4 using standard film presets'
@@ -20,8 +23,12 @@ FORCE=0
 AUDIOQ=70
 DROP_AUDIO=0
 DONT_TRASH=0
+NEW_WIDTH=0
+START_TIME=0
+DURATION='2:00:00.00'
+START=
 
-while getopts 'c:fa:ATh' params
+while getopts 'c:fa:ATW:s:d:h' params
 do
 	case $params in
 		c ) CRF=$OPTARG;;
@@ -29,6 +36,9 @@ do
 		a ) AUDIOQ=1;;
 		A ) DROP_AUDIO=1;;
 		T ) DONT_TRASH=1;;
+		W ) NEW_WIDTH=$OPTARG;;
+		s ) START_TIME=$OPTARG;;
+		d ) DURATION=$OPTARG;;
 		h ) echo "$USAGE" && return 1;;
 	esac
 done
@@ -52,9 +62,36 @@ ACODEC=$( echo "$META" | awk '/Stream.*Audio:/ {print $4}' )
 # set the baseline deinterlace filter
 VFILTER='-filter:v yadif'
 
+# fade in movie at specified time
+if [[ $START_TIME > 0 ]]; then
+	START="-ss $START_TIME -t $DURATION"
+	VFILTER="-filter:v 'yadif,fade=in:0:30'"
+fi
+
 # convert to H264
-if [[ $VCODEC != 'h264' || $FORCE -eq 1 ]]; then
+if [[ $VCODEC != 'h264' || ! -z $START || $NEW_WIDTH > 0 || $FORCE -eq 1 ]]; then
 	VCMD="-c:v libx264 -tune film $VFILTER -crf $CRF"
+
+	# resize movie
+	if [[ $NEW_WIDTH > 0 ]]; then
+		# extract movie resolution
+		RESO=$( echo "$META" | awk '/Video:/ {print $10}' )
+		if [[ ! $RESO =~ [0-9]+x[0-9]+ ]]; then
+			RESO=$( echo "$META" | awk '/Video:/ {print $11}' | tr -d , )
+		fi
+		WIDTH=$( echo $RESO | cut -d x -f 1 )
+		HEIGHT=$( echo $RESO | cut -d x -f 2 )
+
+		# calculate new height
+		TMP=$(( $NEW_WIDTH.0 / $WIDTH * $HEIGHT ))
+		integer NEW_HEIGHT=$TMP
+		# ensure is divisible by 2
+		if [[ $(( $NEW_HEIGHT % 2 )) -eq 1 ]]; then
+			(( NEW_HEIGHT -= 1 ))
+		fi
+
+		VCMD="$VCMD -vf scale=$NEW_WIDTH:$NEW_HEIGHT"
+	fi
 fi
 
 # completely drop audio
@@ -74,7 +111,7 @@ fi
 OUTFILE="${1%.*}${SUFFIX}.mp4"
 
 # build FFMPEG command
-FFMPEG="time ffmpeg -i \"$1\" $VCMD $ACMD \"$OUTFILE\""
+FFMPEG="time ffmpeg $START -i \"$1\" $VCMD $ACMD \"$OUTFILE\""
 echo "$FFMPEG"
 
 # if either stream needs converting, or --force supplied
