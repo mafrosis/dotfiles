@@ -52,3 +52,6 @@ alias osx-clear-dns='sudo killall -HUP mDNSResponder'
 alias mkdircd='mkdir -p $1 && cd $1'
 
 alias cd..='cd ..'
+
+alias find-large-files='find . -xdev -type f -size +700M -exec ls -lah {} \; | gsort -rhk 5 | head -50'
+alias find-large-dirs='find . -mindepth 1 -xdev -type d -print0 | xargs -0 du -h | sort -rh | head -20'
