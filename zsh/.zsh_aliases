@@ -48,3 +48,7 @@ alias venv-clear='if command -v deactivate >/dev/null 2>&1; then deactivate; fi 
 
 # OSX clear DNS cache
 alias osx-clear-dns='sudo killall -HUP mDNSResponder'
+
+alias mkdircd='mkdir -p $1 && cd $1'
+
+alias cd..='cd ..'
