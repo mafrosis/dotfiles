@@ -46,9 +46,6 @@ alias venv2-create='virtualenv --python python2.7 . && source bin/activate'
 alias venv3-create='pyvenv . && source bin/activate'
 alias venv-clear='if command -v deactivate >/dev/null 2>&1; then deactivate; fi && rm -rf bin lib include lib64 share pyvenv.cfg pip-selfcheck.json .Python && pyclean'
 
-# OSX clear DNS cache
-alias osx-clear-dns='sudo killall -HUP mDNSResponder'
-
 alias mkdircd='mkdir -p $1 && cd $1'
 
 alias cd..='cd ..'
