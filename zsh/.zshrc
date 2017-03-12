@@ -25,38 +25,6 @@ export GREP_COLORS="mt=$GREP_COLOR" # GNU
 export PATH=$HOME/bin:$PATH
 
 
-########### Python venv ###################################
-
-# function is called every time pwd changes
-function chpwd() {
-	emulate -L zsh
-	enter_venv
-}
-
-function enter_venv() {
-	# only in dev directories
-	if [[ $PWD == *Dev* ]]; then
-		# activate a venv if it exists here
-		if [[ -f ./bin/activate ]]; then
-			source bin/activate
-		else
-			exit_venv
-		fi
-	else
-		exit_venv
-	fi
-}
-
-function exit_venv() {
-	# if no longer in a venv directory; exit an active venv
-	if command -v deactivate >/dev/null 2>&1; then
-		deactivate
-	fi
-}
-
-# run venv check on shell start
-enter_venv
-
 ########### NTPd hack #####################################
 
 # sometimes ntpd is dead on VMs, causing bad git commit timestamps

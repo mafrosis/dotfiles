@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# ensure virtualenv active
+if ! command -v deactivate >/dev/null 2>&1; then
+	echo 'The venv must be active to clean it up'
+	return 1
+fi
+
+# remove virtualenv dir and autoenv files
+rm -rf "${VIRTUAL_ENV}" "${VIRTUAL_ENV:h}/.env" "${VIRTUAL_ENV:h}/.out"
+
+# remove paths from autoenv
+sed -i "\:${VIRTUAL_ENV:h}:d" "$AUTOENV_AUTH_FILE"
+
+# exit the virtualenv
+deactivate
+
+# cleanup
+pyclean

@@ -13,7 +13,6 @@ ncmpcpp/.ncmpcpp/error.log
 ipython/.ipython/profile_default/history.sqlite
 ipython/.ipython/profile_default/startup/
 
-tools/*/bin/
-tools/*/lib/
-tools/*/lib64
-tools/*/pyvenv.cfg
+tools/*/.venv
+tools/*/.env
+tools/*/.out

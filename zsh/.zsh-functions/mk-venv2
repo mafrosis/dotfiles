@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# if param passed create in that directory
+if [[ ! -z $1 ]]; then
+	mkdir "$1"
+	cd "$1"
+fi
+
+virtualenv --python python2.7 .venv
+
+ACTIVATE_SCRIPT='.venv/bin/activate'
+
+# setup autoenv enter/exit venv
+echo "source ${ACTIVATE_SCRIPT:a}" > .env
+echo 'if command -v deactivate >/dev/null 2>&1; then deactivate; fi' > .out
+
+if [[ ! -f "$AUTOENV_AUTH_FILE" ]]; then
+	touch "$AUTOENV_AUTH_FILE"
+fi
+
+# pre-warm autoenv to avoid warnings
+autoenv_hash_pair "$(pwd)/.env" >> "$AUTOENV_AUTH_FILE"
+autoenv_hash_pair "$(pwd)/.out" >> "$AUTOENV_AUTH_FILE"
+
+# enter the venv
+source .venv/bin/activate

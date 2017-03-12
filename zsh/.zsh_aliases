@@ -41,11 +41,6 @@ alias docker-rmi-dangling='docker rmi "$(docker images -f dangling=true -q)"'
 # ffprobe via docker FTW
 alias ffprobe='docker run -it --rm -v $(pwd):/tmp/workdir --entrypoint ffprobe jrottenberg/ffmpeg'
 
-# virtualenv
-alias venv2-create='virtualenv --python python2.7 . && source bin/activate'
-alias venv3-create='pyvenv . && source bin/activate'
-alias venv-clear='if command -v deactivate >/dev/null 2>&1; then deactivate; fi && rm -rf bin lib include lib64 share pyvenv.cfg pip-selfcheck.json .Python && pyclean'
-
 alias mkdircd='mkdir -p $1 && cd $1'
 
 alias cd..='cd ..'
