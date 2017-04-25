@@ -39,7 +39,8 @@ alias docker-rm-stopped='docker ps -a | awk '\''/Exit/ {print $1}'\'' | xargs do
 alias docker-rmi-dangling='docker rmi "$(docker images -f dangling=true -q)"'
 
 # ffprobe via docker FTW
-alias ffprobe='docker run -it --rm -v $(pwd):/tmp/workdir --entrypoint ffprobe jrottenberg/ffmpeg'
+alias ffprobe='docker run -it --rm -v "$(pwd):/tmp/workdir" --entrypoint ffprobe jrottenberg/ffmpeg'
+alias ffconv='docker run -it --rm -v "$(pwd):/tmp/workdir" mafrosis/ffconv'
 
 alias mkdircd='mkdir -p $1 && cd $1'
 
