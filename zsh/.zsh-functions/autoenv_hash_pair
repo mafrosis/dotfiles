@@ -1,0 +1,24 @@
+#! /bin/zsh
+#
+# Copied verbatim from https://github.com/Tarrasch/zsh-autoenv
+#
+
+local env_file=${1:A}
+local cksum_version=${2:-2}
+local env_cksum=${3:-}
+if [[ -z $env_cksum ]]; then
+  if ! [[ -e $env_file ]]; then
+    echo "Missing file argument for _autoenv_hash_pair!" >&2
+    return 1
+  fi
+  if [ $cksum_version = 2 ]; then
+    # Get the output from `cksum` and join the first two words with a dot.
+    env_cksum=${(j:.:)${:-$(cksum "$env_file")}[1,2]}
+  elif [ $cksum_version = 1 ]; then
+    env_cksum=$(shasum $env_file | cut -d' ' -f1)
+  else
+    echo "Invalid version argument (${cksum_version}) for _autoenv_hash_pair!" >&2
+    return 1
+  fi
+fi
+echo ":${env_file}:${env_cksum}:${cksum_version}"
