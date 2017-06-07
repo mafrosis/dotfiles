@@ -6,6 +6,7 @@ USAGE='Usage: ffconv movie-file [-h] [-c INT] [-f] [-A]
   -a	audio quality [0-100]
   -A	drop audio channel
   -T	don'"'"'t trash the input file
+  -N	hide the dunzo message
   -W	resize to this horizontal pixel size
   -s	encode start time (in 0:01:23 time format)
   -d	encode duration (in seconds)
@@ -23,12 +24,13 @@ FORCE=0
 AUDIOQ=70
 DROP_AUDIO=0
 DONT_TRASH=0
+NO_DUNZO=0
 NEW_WIDTH=0
 START_TIME=0
 DURATION='2:00:00.00'
 START=
 
-while getopts 'c:fa:ATW:s:d:h' params
+while getopts 'c:fa:ATW:s:d:h:N' params
 do
 	case $params in
 		c ) CRF=$OPTARG;;
@@ -39,20 +41,24 @@ do
 		W ) NEW_WIDTH=$OPTARG;;
 		s ) START_TIME=$OPTARG;;
 		d ) DURATION=$OPTARG;;
+		N ) NO_DUNZO=1;;
 		h ) echo "$USAGE" && return 1;;
 	esac
 done
 shift $((OPTIND-1))
 
 
-# set DONT_TRASH on linux
+# set NO_TRASH & NO_DUNZO on linux
 if [[ $(uname) == 'Linux' ]]; then
 	DONT_TRASH=1
+	NO_DUNZO=1
 fi
 
 
 function fin() {
-	dunzo "Finished transcoding $2" 'ffconv' "$PWD/$(dirname "$2")"
+	if [[ $NO_DUNZO -eq 0 ]]; then
+		dunzo "Finished transcoding $2" 'ffconv' "$PWD/$(dirname "$2")"
+	fi
 	if [[ $DONT_TRASH -eq 0 ]]; then
 		trash "$1"
 	fi
