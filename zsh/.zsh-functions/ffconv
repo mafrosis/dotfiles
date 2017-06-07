@@ -62,13 +62,25 @@ fi
 
 
 function fin() {
+	local INPUT_FILE="$1"
+	local OUTPUT_FILE="$2"
+
+	# copy the EXIF date data
+	DATE="$(exiftool -t -s -d "%Y-%m-%d %H:%M:%S" -MediaCreateDate -CreateDate -FileModifyDate "$INPUT_FILE" | awk '!/0000:00:00/ {print $2" "$3}' | head -1)"
+	if [[ ! -z $DATE ]]; then
+		echo "Setting EXIF timestamp to $DATE"
+		exiftool "-AllDates=$DATE" -overwrite_original "$OUTPUT_FILE"
+		touch -d "$DATE" "$OUTPUT_FILE"
+	fi
+
 	if [[ $NO_DUNZO -eq 0 ]]; then
-		dunzo "Finished transcoding $2" 'ffconv' "$PWD/$(dirname "$2")"
+		dunzo "Finished transcoding $OUTPUT_FILE" 'ffconv' "$PWD/$(dirname "$OUTPUT_FILE")"
 	fi
 	if [[ $DONT_TRASH -eq 0 ]]; then
-		trash "$1"
+		trash "$INPUT_FILE"
 	fi
 }
+
 
 VCMD='-c:v copy'
 ACMD='-c:a copy'
