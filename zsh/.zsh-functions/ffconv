@@ -44,6 +44,13 @@ do
 done
 shift $((OPTIND-1))
 
+
+# set DONT_TRASH on linux
+if [[ $(uname) == 'Linux' ]]; then
+	DONT_TRASH=1
+fi
+
+
 function fin() {
 	dunzo "Finished transcoding $2" 'ffconv' "$PWD/$(dirname "$2")"
 	if [[ $DONT_TRASH -eq 0 ]]; then
