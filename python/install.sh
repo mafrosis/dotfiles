@@ -16,7 +16,7 @@ if ! command -v pip >/dev/null 2>&1; then
 		fi
 
 	elif [[ $(uname) == 'Linux' ]]; then
-		$SUDO apt-get install -y python-dev python-pip python-virtualenv
+		$SUDO apt-get install -y python-dev python-pip
 	fi
 
 fi
@@ -29,7 +29,9 @@ do
 
 	# install a couple things via pip
 	$PIP install \
-		virtualenv \
 		ipdb \
 		pyflakes
 done
+
+# only install virtualenv for python2
+pip install virtualenv
