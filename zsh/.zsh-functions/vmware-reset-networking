@@ -1,0 +1,11 @@
+#! /bin/bash
+
+# stop VMWare networking and recreate base config
+sudo vmnet-cli --stop
+sudo rm -rf /Library/Preferences/VMware\ Fusion/networking* /Library/Preferences/VMware\ Fusion/vmnet*
+sudo vmnet-cli --configure
+
+# configure VMWare vmnet devices to nice IP ranges
+for N in 1 8; do
+	sudo sed -i '' -e "s/.*VNET_${N}_HOSTONLY_SUBNET.*/answer VNET_${N}_HOSTONLY_SUBNET 172.16.${N}.0/" /Library/Preferences/VMware\ Fusion/networking
+done
