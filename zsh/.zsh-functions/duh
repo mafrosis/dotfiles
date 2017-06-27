@@ -1,8 +1,0 @@
-#! /bin/zsh
-
-# diskspace alias
-if [ "$(uname)" = "Darwin" ]; then
-	du -h -d 1
-else
-	du -h --max-depth=1
-fi
