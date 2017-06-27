@@ -29,8 +29,10 @@ do
 
 	# install a couple things via pip
 	$PIP install \
+		bs4 \
 		ipdb \
-		pyflakes
+		pyflakes \
+		requests
 done
 
 # only install virtualenv for python2
