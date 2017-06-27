@@ -1,5 +1,5 @@
-" mark up column 81 to indicate E501 max line length
-set colorcolumn=81
+" mark up column 101 to long lines
+set colorcolumn=101
 highlight ColorColumn ctermbg=8
 
 " setup macros to insert common debug statements
