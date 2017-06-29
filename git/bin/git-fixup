@@ -19,12 +19,13 @@ done
 shift $((OPTIND-1))
 
 
-# attempt to guess if $1 is a commit id
-if [[ $1 =~ ^([abcdef0-9]*)$ ]] && [[ ${#1} -eq 7 || ${#1} -eq 8 || ${#1} -eq 40 ]]; then
+# determine if param $1 is a file
+if git cat-file -e "$1" 2>/dev/null; then
+	# if not file, verify supplied git commit with rev-parse
 	COMMIT_ID=$(git rev-parse "$1")
 
 else
-	# fixup the last non-fixup commit to this file
+	# else if a file: so fixup the last non-fixup commit to the file
 	COMMIT_ID=$(git log --format='%h %s' -- "$1" | awk '! /fixup!/ {print $1}' | head -1)
 fi
 
