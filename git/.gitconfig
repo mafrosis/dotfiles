@@ -50,6 +50,7 @@
 	default = current			# push current branch to same name on remote
 [merge]
 	stat = true					# show diffstat after merge
+	ff = only					# never merge!
 [rebase]
 	autosquash = true			# always look for fixup! and squash! commits
 	autostash = true			# auto stash/pop when rebasing
