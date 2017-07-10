@@ -82,30 +82,30 @@ ACODEC=$( echo "$META" | awk '/Stream.*Audio:/ {print $4}' )
 VFILTER='-filter:v yadif'
 
 # fade in movie at specified time
-if [[ $START_TIME > 0 ]]; then
+if [[ $START_TIME -gt 0 ]]; then
 	START="-ss $START_TIME -t $DURATION"
 	VFILTER="-filter:v 'yadif,fade=in:0:30'"
 fi
 
 # convert to H264
-if [[ $VCODEC != 'h264' || ! -z $START || $NEW_WIDTH > 0 || $FORCE -eq 1 ]]; then
+if [[ $VCODEC != 'h264' || ! -z $START || $NEW_WIDTH -gt 0 || $FORCE -eq 1 ]]; then
 	VCMD="-c:v libx264 -tune film $VFILTER -crf $CRF"
 
 	# resize movie
-	if [[ $NEW_WIDTH > 0 ]]; then
+	if [[ $NEW_WIDTH -gt 0 ]]; then
 		# extract movie resolution
 		RESO=$( echo "$META" | awk '/Video:/ {print $10}' )
 		if [[ ! $RESO =~ [0-9]+x[0-9]+ ]]; then
 			RESO=$( echo "$META" | awk '/Video:/ {print $11}' | tr -d , )
 		fi
-		WIDTH=$( echo $RESO | cut -d x -f 1 )
-		HEIGHT=$( echo $RESO | cut -d x -f 2 )
+		WIDTH=$( echo "$RESO" | cut -d x -f 1 )
+		HEIGHT=$( echo "$RESO" | cut -d x -f 2 )
 
 		# calculate new height
-		TMP=$(( $NEW_WIDTH.0 / $WIDTH * $HEIGHT ))
+		TMP=$(( WIDTH * HEIGHT / NEW_WIDTH.0 ))
 		integer NEW_HEIGHT=$TMP
 		# ensure is divisible by 2
-		if [[ $(( $NEW_HEIGHT % 2 )) -eq 1 ]]; then
+		if [[ $(( NEW_HEIGHT % 2 )) -eq 1 ]]; then
 			(( NEW_HEIGHT -= 1 ))
 		fi
 
