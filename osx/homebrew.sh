@@ -35,11 +35,14 @@ fi
 # install a few essentials
 brew install \
 	awscli \
+	axel \
 	bash \
 	coreutils \
+	exiftool \
 	fdupes \
 	ffmpeg --with-faac \
 	flac \
+	gnu-sed \
 	httpie \
 	imagemagick \
 	jq \
@@ -72,6 +75,7 @@ brew cask install \
 	google-drive \
 	iterm2 \
 	keepassx \
+	qlstephen \
 	skype \
 	textmate \
 	vlc
