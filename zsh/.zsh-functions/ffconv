@@ -19,6 +19,12 @@ if [[ $# -eq 0 ]]; then
 	return 1
 fi
 
+if [[ -x /usr/local/bin/gtouch ]]; then
+	function touch {
+		gtouch "$@"
+	}
+fi
+
 CRF=21
 FORCE=0
 AUDIOQ=70
