@@ -10,6 +10,11 @@
 [color]
 	ui = auto
 	diff = auto
+	branch = auto
+[color "status"]
+	added = green
+	changed = yellow
+	untracked = red
 [gui]
 	encoding = utf-8
 [alias]
