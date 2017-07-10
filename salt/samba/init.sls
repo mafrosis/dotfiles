@@ -1,6 +1,7 @@
 samba:
-  pkg:
-    - installed
+  pkg.installed
+
+smbd:
   service.running:
     - enable: true
     - require:
@@ -11,13 +12,9 @@ samba:
 samba-common-bin:
   pkg.installed
 
-/etc/samba/smb.master.conf:
-  file.managed:
-    - source: salt://samba/smb.master.conf
-
 /etc/samba/smb.conf:
   file.managed:
-    - source: salt://samba/smb.conf.sls
+    - source: salt://samba/smb.conf
     - template: jinja
     - defaults:
         host: {{ grains['host'] }}
@@ -32,7 +29,7 @@ create-samba-user-{{ user }}:
     - createhome: false
     - gid_from_name: true
     - groups:
-      {% for grp in args['groups'] %}
+      {% for grp in args.get('groups', []) %}
       - {{ grp }}
       {% endfor %}
     - require:
