@@ -17,7 +17,7 @@ shift $((OPTIND-1))
 
 if [[ $# -eq 1 ]]; then
 	# attempt to guess if the param is a commit id
-	if [[ $1 =~ ^([abcdef0-9]*)$ ]] && [[ ${#1} -eq 7 || ${#1} -eq 8 || ${#1} -eq 40 ]]; then
+	if git cat-file -e "$1"; then
 		# rebase only commits since supplied commit id
 		COMMIT_ID=$(git rev-parse "$1")
 
