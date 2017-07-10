@@ -120,3 +120,6 @@ export QUOTING_STYLE=literal ls
 
 # Docker exports
 export MACHINE_DRIVER=vmwarefusion
+
+# awscli and friends
+export AWS_DEFAULT_REGION=eu-west-1
