@@ -20,6 +20,8 @@ if git cat-file -e "$1" 2>/dev/null; then
 	# if not file, verify supplied git commit with rev-parse
 	COMMIT_ID=$(git rev-parse "$1")
 
+	# if target commit is fixup!, use commit targetted by the fixup
+	COMMIT_ID=$(git log -1 "$1" --oneline | awk '{ if (/fixup/) {print $3} else {print $1} }')
 else
 	# else if a file: so fixup the last non-fixup commit to the file
 	COMMIT_ID=$(git log --format='%h %s' -- "$1" | awk '! /fixup!/ {print $1}' | head -1)
