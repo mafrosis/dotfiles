@@ -22,14 +22,13 @@ if [[ $# -eq 1 ]]; then
 		COMMIT_ID=$(git rev-parse "$1")
 
 	else
-		# rebase all commits since filepath last modified
-		# find last commid where $1 was last modified - excluding fixup! commits
-		COMMIT_ID=$(git log --format='%h %s' -- "$1" | awk '! /fixup!/ {print $1}' | head -1)
+		# find last commit where $1 was last modified - excluding fixup! commits
+		COMMIT_ID=$(git log --format='%h %s' -- "$1" | awk '! /(fixup|squash)!/ {print $1}' | head -1)
 	fi
 
 elif [[ $# -eq 0 ]]; then
 	# extract list of hashes of all fixup! commits
-	ALL_FIXUPS="$(git log --format='%s' | awk '/^fixup!/ {print $2}')"
+	ALL_FIXUPS="$(git log --format='%s' | awk '/^(fixup|squash)!/ {print $2}')"
 	if [[ -z $ALL_FIXUPS ]]; then
 		echo 'Nothing to do'
 		exit 0
