@@ -94,6 +94,9 @@ nnoremap Q <nop>
 " Allow saving of files as sudo http://stackoverflow.com/a/7078429/425050
 cmap w!! w !sudo tee > /dev/null %
 
+nmap <leader>p2 :let g:syntastic_python_pyflakes_exe = 'python2 -m pyflakes'
+nmap <leader>p3 :let g:syntastic_python_pyflakes_exe = 'python3 -m pyflakes'
+
 
 "---- Code completion options ------------------------------------------
 " The same trick is needed to get ctrl+space to autocomplete in all environments
