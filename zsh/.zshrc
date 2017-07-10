@@ -88,7 +88,7 @@ bindkey '^[[1;9X' backward-delete-word
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
 # Android
-export ANDROID_HOME=/usr/local/opt/android-sdk
+export ANDROID_HOME=/usr/local/share/android-sdk
 export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
 
 export EDITOR=vim
