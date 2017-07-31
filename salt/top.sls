@@ -42,11 +42,6 @@ base:
     - mpd.scribble
     - linux-util
     - linux-util.download-tools
-    - pools-perm-watchdog
-    - rtorrent
-    - rtorrent.move-torrent
-    #- sabnzbd
-    - zfs-on-linux
 
   'id:raspbmc':
     - match: grain
