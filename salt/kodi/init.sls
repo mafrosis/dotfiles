@@ -3,6 +3,12 @@ include:
   - debian-repos.backports
   - debian-repos.contrib
   - debian-repos.nonfree
+
+{% elif grains['os'] == 'Ubuntu' %}
+team-xbmc-ppa:
+  pkgrepo.managed:
+    - name: ppa:team-xbmc/ppa
+
 {% endif %}
 
 kodi:
@@ -13,7 +19,10 @@ kodi:
       - audio
       - video
   pkg.installed:
+    {% if grains['os'] == 'Debian' %}
     - fromrepo: {{ grains['oscodename'] }}-backports
+    {% endif %}
+    - refresh: true
 
 add-mafro-to-video:
   user.present:
