@@ -10,7 +10,7 @@ upload_rate = {{ upload_rate }}
 encoding_list = UTF-8
 
 # enable SGCI gateway for external control of rtorrent
-scgi_port = 127.0.0.1:5000
+scgi_port = 0.0.0.0:5000
 
 # Default directory to save the downloaded torrents
 directory = {{ download_dir }}
