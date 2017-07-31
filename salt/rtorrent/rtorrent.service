@@ -6,7 +6,7 @@ After=network.target local-fs.target
 [Service]
 Type=forking
 User={{ user }}
-ExecStartPre=/bin/rm -f /tmp/rtorrent.sock
+ExecStartPre=/bin/rm -f /tmp/rtorrent.sock{,.lock}
 ExecStart=/usr/bin/tmux -f /etc/rtorrent/tmux.conf -S /tmp/rtorrent.sock new-session -d -s rtorrent 'rtorrent -n -O import={{ config }}'
 ExecStop=/usr/bin/tmux -S /tmp/rtorrent.sock send-keys -t rtorrent C-q
 WorkingDirectory=/home/{{ user }}
