@@ -33,7 +33,6 @@ set wildmenu
 
 " longest substr match; list all matches in wildmenu
 set wildmode=longest:full,full
-"set wildmode=longest:list,full
 
 " ignore patterns for wildmenu
 set wildignore+=*.min.*,__pycache__,*.pyc
@@ -78,15 +77,6 @@ map <leader>8 8gt
 
 " Easy insert newline
 noremap 0 o<ESC>
-
-" Mapping to reload gunicorn
-map <C-G>r<CR> :!kill -HUP `cat /tmp/gunicorn.pid`<CR><CR>
-
-" Make standard "gf" open in a new tab
-noremap gf <C-w>gF
-
-" NERDTree visibility
-:nmap \e :NERDTreeToggle<CR>
 
 " disable Ex mode
 nnoremap Q <nop>
@@ -158,6 +148,9 @@ let g:SimpylFold_docstring_preview = 1
 
 
 "---- Syntastic -------------------------------------------------------
+let g:syntastic_check_on_open=1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_signs=1
 let g:syntastic_python_checkers = ['pyflakes', 'python']
 let g:syntastic_python_pyflakes_exe = 'python3 -m pyflakes'
 let g:syntastic_python_flake8_args='--ignore=E501'
