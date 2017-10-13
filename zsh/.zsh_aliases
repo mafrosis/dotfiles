@@ -34,9 +34,10 @@ alias ra='rsync -avhP'
 # quiet SSH
 alias sshq='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
-# docker cleanup aliases
+# docker aliases
 alias docker-rm-stopped='docker ps -a | awk '\''/Exit/ {print $1}'\'' | xargs docker rm'
 alias docker-rmi-dangling='docker rmi "$(docker images -f dangling=true -q)"'
+alias docker-stats='docker stats --all --format "table {{.ID}}\t{{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.MemPerc}}\t{{.NetIO}}\t{{.BlockIO}}"'
 
 # ffprobe via docker FTW
 alias ffprobe='docker run -it --rm -v "$(pwd):/tmp/workdir" --entrypoint ffprobe jrottenberg/ffmpeg'
