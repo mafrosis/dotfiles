@@ -22,7 +22,6 @@ linux-utils-pkgs:
       - rsync
       - smartmontools
       - unzip
-      - usbmount
       - telnet
       - whois
       - zip
