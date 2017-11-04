@@ -47,7 +47,7 @@ sabnzbd-patch-host:
   file.replace:
     - name: /etc/default/sabnzbdplus
     - pattern: "^HOST=.*"
-    - repl: "HOST={{ salt['cmd.run']("hostname -I | awk '/.*/ {print $1}'") }}"
+    - repl: "HOST={{ salt['cmd.shell']("hostname -I | awk '/.*/ {print $1}'") }}"
 
 sabnzbd-patch-port:
   file.replace:
@@ -84,7 +84,7 @@ sabnzbd-config:
     - template: jinja
     - user: {{ sabnzbd_user }}
     - defaults:
-        host: "{{ salt['cmd.run']("hostname -I | awk '/.*/ {print $1}'") }}"
+        host: "{{ salt['cmd.shell']("hostname -I | awk '/.*/ {print $1}'") }}"
         download_dir: {{ sabnzbd_basedir }}/incomplete
         complete_dir: {{ sabnzbd_basedir }}/complete
         dirscan_dir: {{ sabnzbd_basedir }}/watch

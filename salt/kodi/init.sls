@@ -51,7 +51,7 @@ kodi-service-enable:
 
 linux-headers:
   pkg.installed:
-    - name: linux-headers-{{ salt['cmd.run']("uname -r|sed 's,[^-]*-[^-]*-,,'") }}
+    - name: linux-headers-{{ salt['cmd.shell']("uname -r|sed 's,[^-]*-[^-]*-,,'") }}
 
 xserver-xorg:
   pkg.installed
