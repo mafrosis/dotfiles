@@ -4,7 +4,7 @@ base:
 
   'G@id:vagrant':
     - match: compound
-    - dev-user
+    - user
     - disable-salt-minion
     - docker
     - linux-util
@@ -15,7 +15,7 @@ base:
 
   'G@host:monopoly':
     - match: compound
-    - dev-user
+    - user
     - dropbox
     - dvd-tools
     - linux-util
@@ -31,7 +31,7 @@ base:
 
   'G@host:locke':
     - match: compound
-    - dev-user
+    - user
     - disable-salt-minion
     - docker
     - locke

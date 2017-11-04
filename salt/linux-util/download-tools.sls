@@ -1,6 +1,3 @@
-include:
-  - github
-
 {% set user = pillar.get('login_user', 'vagrant') %}
 
 
@@ -17,7 +14,6 @@ plowshare-git:
     - require:
       - pkg: git
       - file: /opt/plowshare
-      - ssh_known_hosts: github_known_hosts
 
 plowshare-install:
   cmd.run:
@@ -66,7 +62,6 @@ jsawk-git:
     - require:
       - pkg: git
       - file: /opt/jsawk
-      - ssh_known_hosts: github_known_hosts
 
 jsawk-install:
   file.symlink:
@@ -90,7 +85,6 @@ imgur.sh-git:
     - require:
       - pkg: git
       - file: /opt/Imgur
-      - ssh_known_hosts: github_known_hosts
 
 imgur.sh-install:
   file.symlink:
