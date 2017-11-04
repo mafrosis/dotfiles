@@ -27,7 +27,7 @@ plowmod-install:
   cmd.run:
     - name: plowmod --install
     - cwd: /opt/plowshare
-    - user: {{ user }}
+    - runas: {{ user }}
     - unless: plowmod --status 2>&1 | grep 'modules found'
     - require:
       - cmd: plowshare-install

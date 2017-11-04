@@ -129,7 +129,7 @@ sqlalchemy-init:
     - name: /home/informa/.virtualenvs/informa/bin/python manage.py init_db
     - unless: test -f /srv/informa/informa.sqlitedb
     - cwd: /srv/informa
-    - user: informa
+    - runas: informa
     - require:
       - pkg: sqlite3
     - require_in:

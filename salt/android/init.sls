@@ -44,7 +44,7 @@ android-sdk-chown:
 android-sdk-update:
   cmd.run:
     - name: echo "y" | /home/{{ pillar['login_user'] }}/android-sdk-linux/tools/android update sdk -s --no-ui --filter tool,platform-tool,android-16
-    - user: {{ pillar['login_user'] }}
+    - runas: {{ pillar['login_user'] }}
     - require:
       - cmd: android-sdk-download
       - pkg: jdk-install
