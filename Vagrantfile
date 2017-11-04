@@ -12,9 +12,6 @@ Vagrant.configure("2") do |config|
   # create a shared dir in /tmp
   config.vm.synced_folder "/tmp", "/tmp/host_machine"
 
-  # use local development version of salt-formulae
-  #config.vm.synced_folder "/Users/mafro/Development/salt-formulae", "/srv/salt-formulae"
-
   # setup the salt-minion
   config.vm.provision :salt do |salt|
     salt.minion_config = "salt-minion.conf"
