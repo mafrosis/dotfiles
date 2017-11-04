@@ -2,12 +2,16 @@ base:
   '*':
     - mafro
 
+  'G@id:vagrant':
+    - match: compound
+    - vagrant
+
   'G@host:monopoly or G@id:monopoly':
     - match: compound
     - monopoly
     - wakeonlan
 
-  'G@host:locke or G@id:vagrant':
+  'G@host:locke':
     - match: compound
     - locke
     - locke-secrets
