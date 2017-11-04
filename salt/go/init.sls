@@ -20,7 +20,7 @@ go-source:
     - name: tar xf go1.1.src.tar.gz
     - unless: ls /home/{{ grains['user'] }}/src/go
     - cwd: /home/{{ grains['user'] }}/src
-    - user: {{ grains['user'] }}
+    - runas: {{ grains['user'] }}
     - watch:
       - file: go-source
 
@@ -29,7 +29,7 @@ go-source-install:
     - name: ./all.bash
     - unless: ls /home/{{ grains['user'] }}/src/go/bin/go
     - cwd: /home/{{ grains['user'] }}/src/go/src
-    - user: {{ grains['user'] }}
+    - runas: {{ grains['user'] }}
     - require:
       - cmd: go-source
       - pkg: required-packages
@@ -45,7 +45,7 @@ helloworld.go:
   cmd.run:
     - name: /home/{{ grains['user'] }}/src/go/bin/go run hello.go
     - cwd: /home/{{ grains['user'] }}
-    - user: {{ grains['user'] }}
+    - runas: {{ grains['user'] }}
     - require:
       - cmd: go-source-install
     - watch:
