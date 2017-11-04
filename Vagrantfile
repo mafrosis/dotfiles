@@ -1,10 +1,12 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "mafrosis/jessie64-gb-salt"
+  config.vm.box = "mafrosis/stretch64-gb-salt"
+
   config.vm.provider :vmware_fusion do |v|
     v.vmx['memsize'] = 512
     v.vmx['numvcpus'] = 1
+    v.whitelist_verified = true
   end
 
   config.vm.network "public_network"
