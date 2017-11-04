@@ -2,6 +2,17 @@ base:
   '*':
     - common
 
+  'G@id:vagrant':
+    - match: compound
+    - dev-user
+    - disable-salt-minion
+    - docker
+    - linux-util
+    - linux-util.download-tools
+    - mpd
+    - rtorrent
+    - sabnzbd
+
   'G@host:monopoly':
     - match: compound
     - dev-user
@@ -18,7 +29,7 @@ base:
     - xbox360
     - zfs-on-linux
 
-  'G@host:locke or G@id:vagrant':
+  'G@host:locke':
     - match: compound
     - dev-user
     - disable-salt-minion
