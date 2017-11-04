@@ -1,16 +1,26 @@
+docker-apt-deps:
+  pkg.installed:
+    - names:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg2
+      - software-properties-common
+
 docker-pkgrepo:
   pkgrepo.managed:
     - humanname: docker
-    - name: deb https://apt.dockerproject.org/repo {{ grains['os']|lower }}-{{ grains['oscodename'] }} main
+    - name: deb [arch=amd64] https://download.docker.com/linux/{{ grains['os']|lower }} {{ grains['oscodename'] }} stable
     - file: /etc/apt/sources.list.d/docker.list
-    - keyid: 58118E89F3A912897C070ADBF76221572C52609D
-    - keyserver: hkp://p80.pool.sks-keyservers.net:80
+    - key_url: https://download.docker.com/linux/{{ grains['os']|lower }}/gpg
     - require_in:
       - pkg: docker-install
 
 docker-install:
   pkg.installed:
-    - name: docker-engine
+    - name: docker-ce
+    - require:
+      - pkg: docker-apt-deps
 
 docker-compose-install:
   file.managed:
@@ -18,3 +28,9 @@ docker-compose-install:
     - source: https://github.com/docker/compose/releases/download/1.7.1/docker-compose-Linux-x86_64
     - source_hash: sha1=f8c4b82c22f905ed5eaa5cd82d1e28d5ad6df43d
     - mode: 744
+
+docker-adduser-group:
+  group.present:
+    - name: docker
+    - addusers:
+      - {{ pillar['login_user'] }}
