@@ -21,59 +21,41 @@ create-sabnzbd-user:
   user.present:
     - name: {{ sabnzbd_user }}
     - home: /home/{{ sabnzbd_user }}
-    - shell: /bin/bash
     - gid: {{ sabnzbd_group }}
     - remove_groups: false
     - require:
       - group: {{ sabnzbd_group }}
 
+sabnzbdplus.service:
+  file.managed:
+    - name: /etc/systemd/system/sabnzbdplus.service
+    - source: salt://sabnzbd/sabnzbdplus.service
+    - template: jinja
+    - context:
+        sabnzbd_basedir: {{ sabnzbd_basedir }}
+        sabnzbd_user: {{ sabnzbd_user }}
+        sabnzbd_group: {{ sabnzbd_group }}
+        download_dir: {{ sabnzbd_basedir }}/incomplete
+        complete_dir: {{ sabnzbd_basedir }}/complete
+        uid: {{ salt['cmd.shell']("id -u "+sabnzbd_user) }}
+        gid: {{ salt['cmd.shell']("id -g "+sabnzbd_group) }}
+    - require:
+      - user: {{ sabnzbd_user }}
+  module.run:
+    - name: service.systemctl_reload
+    - onchanges:
+      - file: sabnzbdplus.service
+
 sabnzbdplus:
-  pkg.installed:
-    - require:
-      - pkgrepo: contrib-pkgrepo
   service.running:
-    - enable: true
-    - reload: true
-    - require:
-      - pkg: sabnzbdplus
-
-sabnzbd-patch-user:
-  file.replace:
-    - name: /etc/default/sabnzbdplus
-    - pattern: "^USER=.*"
-    - repl: "USER={{ sabnzbd_user }}"
-
-sabnzbd-patch-host:
-  file.replace:
-    - name: /etc/default/sabnzbdplus
-    - pattern: "^HOST=.*"
-    - repl: "HOST={{ salt['cmd.shell']("hostname -I | awk '/.*/ {print $1}'") }}"
-
-sabnzbd-patch-port:
-  file.replace:
-    - name: /etc/default/sabnzbdplus
-    - pattern: "^PORT=.*"
-    - repl: "PORT=7654"
-
-sabnzbd-patch-config:
-  file.replace:
-    - name: /etc/default/sabnzbdplus
-    - pattern: "^CONFIG=.*"
-    - repl: "CONFIG=/home/{{ sabnzbd_user }}/sabnzbd.ini"
+    - watch:
+      - module: sabnzbdplus.service
 
 {{ sabnzbd_basedir }}:
   file.directory:
     - user: {{ user }}
     - group: {{ sabnzbd_group }}
     - dir_mode: 770
-
-{% for dir in ('complete', 'incomplete', 'watch'): %}
-{{ sabnzbd_basedir }}/{{ dir }}:
-  file.directory:
-    - user: {{ sabnzbd_user }}
-    - group: {{ sabnzbd_group }}
-    - dir_mode: 770
-{% endfor %}
 
 # config file must be in sabnzbd user's $HOME, since it writes
 # files relative to the INI file path
@@ -84,10 +66,8 @@ sabnzbd-config:
     - template: jinja
     - user: {{ sabnzbd_user }}
     - defaults:
-        host: "{{ salt['cmd.shell']("hostname -I | awk '/.*/ {print $1}'") }}"
         download_dir: {{ sabnzbd_basedir }}/incomplete
         complete_dir: {{ sabnzbd_basedir }}/complete
-        dirscan_dir: {{ sabnzbd_basedir }}/watch
         oznzb_key: "{{ pillar.get('oznzb_key', '') }}"
         sabnzbd_api_key: "{{ pillar.get('sabnzbd_api_key', '') }}"
         sabnzbd_nzb_key: "{{ pillar.get('sabnzbd_nzb_key', '') }}"

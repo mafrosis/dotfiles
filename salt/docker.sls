@@ -34,3 +34,10 @@ docker-adduser-group:
     - name: docker
     - addusers:
       - {{ pillar['login_user'] }}
+
+docker-systemd-install:
+  file.managed:
+    - name: /usr/local/bin/systemd-docker
+    - source: https://github.com/ibuildthecloud/systemd-docker/releases/download/v0.2.1/systemd-docker
+    - source_hash: sha1=f9d48f7ca0cd11fb6430bfdc3b6317221a366b27
+    - mode: 744
