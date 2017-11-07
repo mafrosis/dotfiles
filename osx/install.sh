@@ -14,6 +14,9 @@ if [[ ! -d $HOME/bin ]]; then
 	mkdir "$HOME/bin"
 fi
 
+# accept xcode license
+sudo xcodebuild -license accept
+
 # retrieve the morgant/tools-osx submodule
 git submodule update --init osx/tools-osx
 
