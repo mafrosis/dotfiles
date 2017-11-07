@@ -32,8 +32,8 @@ DROP_AUDIO=0
 DONT_TRASH=0
 NO_DUNZO=0
 NEW_WIDTH=0
-START_TIME=0
-DURATION='2:00:00.00'
+START_TIME=''
+DURATION='9:00:00.00'
 START=
 
 while getopts 'c:fa:ATW:s:d:h:N' params
@@ -94,7 +94,7 @@ ACODEC=$( echo "$META" | awk '/Stream.*Audio:/ {print $4}' )
 VFILTER='-filter:v yadif'
 
 # fade in movie at specified time
-if [[ $START_TIME -gt 0 ]]; then
+if [[ ! -z $START_TIME ]]; then
 	START="-ss $START_TIME -t $DURATION"
 	VFILTER="-filter:v 'yadif,fade=in:0:30'"
 fi
@@ -114,7 +114,7 @@ if [[ $VCODEC != 'h264' || ! -z $START || $NEW_WIDTH -gt 0 || $FORCE -eq 1 ]]; t
 		HEIGHT=$( echo "$RESO" | cut -d x -f 2 )
 
 		# calculate new height
-		TMP=$(( WIDTH * HEIGHT / NEW_WIDTH.0 ))
+		TMP=$(( NEW_WIDTH * HEIGHT / WIDTH ))
 		integer NEW_HEIGHT=$TMP
 		# ensure is divisible by 2
 		if [[ $(( NEW_HEIGHT % 2 )) -eq 1 ]]; then
