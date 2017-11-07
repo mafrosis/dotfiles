@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# Script sets up python3 for normal operations
+# and assumes python2 is system-python and thus needs sudo
+
 if [[ $(id -u) -gt 0 ]]; then
 	SUDO='sudo'
 else
@@ -10,10 +13,7 @@ if ! command -v pip >/dev/null 2>&1; then
 
 	# install pip package
 	if [[ $(uname) == 'Darwin' ]]; then
-		if ! command -v brew >/dev/null 2>&1; then
-			echo 'Run ./install.sh osx first to bootstrap OSX with Homebrew & Python'
-			exit 3
-		fi
+		curl https://bootstrap.pypa.io/get-pip.py | sudo -H python
 
 	elif [[ $(uname) == 'Linux' ]]; then
 		$SUDO apt-get install -y python-dev python-pip
@@ -22,18 +22,15 @@ if ! command -v pip >/dev/null 2>&1; then
 fi
 
 
-for PIP in pip pip3;
-do
-	# update pip itself
-	$PIP install -U pip setuptools
+# update pip itself
+pip3 install -U pip setuptools
 
-	# install a couple things via pip
-	$PIP install \
-		bs4 \
-		ipdb \
-		pyflakes \
-		requests
-done
+# install a couple things via pip
+pip3 install \
+	bs4 \
+	ipdb \
+	pyflakes \
+	requests
 
 # only install virtualenv for python2
-pip install virtualenv
+sudo -H pip install virtualenv
