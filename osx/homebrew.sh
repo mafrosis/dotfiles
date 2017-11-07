@@ -55,14 +55,22 @@ if [[ ! -L /usr/local/bin/tac ]]; then
 	ln -s /usr/local/bin/gtac /usr/local/bin/tac
 fi
 
+# install cask for Chrome, if not already installed
+if [[ ! -d /Applications/Google\ Chrome.app ]]; then
+	brew cask install google-chrome
+fi
+
+# install cask for iTerm2, if not already installed
+if [[ ! -d /Applications/iTerm.app ]]; then
+	brew cask install iterm2
+fi
+
 # install baseline apps via Cask
 brew cask install \
 	android-file-transfer \
 	dropbox \
 	firefox \
-	google-chrome \
 	google-drive \
-	iterm2 \
 	keepassx \
 	qlstephen \
 	skype \
