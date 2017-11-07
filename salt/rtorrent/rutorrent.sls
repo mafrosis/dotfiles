@@ -1,7 +1,8 @@
 include:
-  - nginx
   - nginx_apps
   - rtorrent
+
+{% set rtorrent_user = pillar.get('rtorrent_user', 'rtorrent') %}
 
 extend:
   nginx:
@@ -10,36 +11,38 @@ extend:
         - file: /etc/nginx/apps.conf.d/rutorrent.conf
 
 
-# install php5-cgi and create a supervisor config to control it
-php5-cgi:
+php-cgi:
   pkg.installed
 
-/etc/supervisor/conf.d/php5-cgi.conf:
+/etc/supervisor/conf.d/php-cgi.conf:
   file.managed:
-    - source: salt://rtorrent/php5-cgi.supervisord.conf
+    - source: salt://rtorrent/php-cgi.supervisord.conf
+    - template: jinja
     - mode: 644
+    - defaults:
+        user: {{ rtorrent_user }}
     - require:
       - service: supervisor
   cmd.wait:
     - name: supervisorctl update
     - watch:
-      - file: /etc/supervisor/conf.d/php5-cgi.conf
+      - file: /etc/supervisor/conf.d/php-cgi.conf
 
-/tmp/rutorrent-3.6.tar.gz:
+/tmp/rutorrent-3.8.tar.gz:
   file.managed:
-    - source: http://dl.bintray.com/novik65/generic/rutorrent-3.6.tar.gz
-    - source_hash: sha1=5870cddef717c83560e89aee56f2b7635ed1c90d
+    - source: https://github.com/Novik/ruTorrent/archive/v3.8.tar.gz
+    - source_hash: sha1=6519ade2c5b0af40c0869f326df86daf17e6cad3
   cmd.wait:
-    - name: tar xzf /tmp/rutorrent-3.6.tar.gz
+    - name: tar xzf /tmp/rutorrent-3.8.tar.gz
     - onlyif: test -f /srv/rutorrent/index.html
     - cwd: /srv
     - watch:
-      - file: /tmp/rutorrent-3.6.tar.gz
+      - file: /tmp/rutorrent-3.8.tar.gz
 
 rutorrent-chmod:
   file.directory:
     - name: /srv/rutorrent
-    - user: rtorrent
+    - user: {{ rtorrent_user }}
     - group: www-data
     - dir_mode: 755
     - file_mode: 644
@@ -48,7 +51,7 @@ rutorrent-chmod:
       - group
       - mode
     - require:
-      - cmd: /tmp/rutorrent-3.6.tar.gz
+      - cmd: /tmp/rutorrent-3.8.tar.gz
 
 # create an nginx config for rutorrent
 /etc/nginx/apps.conf.d/rutorrent.conf:
