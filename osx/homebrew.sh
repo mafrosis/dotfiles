@@ -13,19 +13,8 @@ function install_homebrew {
 	fi
 }
 
-function install_caskroom {
-	brew cask &>/dev/null
-	if [[ $? -eq 1 ]] ; then
-		brew install caskroom/cask/brew-cask
-	fi
-	if ! brew tap | grep -q caskroom/versions; then
-		brew tap caskroom/versions
-	fi
-}
-
-# install missing Homebrew & Caskroom
+# install missing Homebrew
 install_homebrew
-install_caskroom
 
 # --init means ensure Homebrew available & exit
 if [[ $1 == '--init' ]]; then
