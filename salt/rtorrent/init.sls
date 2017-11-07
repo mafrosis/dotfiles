@@ -2,14 +2,19 @@ include:
   - sudo
   - supervisor
 
+{% set user = pillar.get('login_user', 'vagrant') %}
+{% set rtorrent_user = pillar.get('rtorrent_user', 'rtorrent') %}
+{% set rtorrent_group = pillar.get('rtorrent_group', 'rtorrent') %}
+{% set rtorrent_download_dir = pillar.get('rtorrent_download_dir', '/home/'+user+'/rtorrent') %}
+
 # install rtorrent via apt
 rtorrent:
   pkg:
     - installed
-  group:
-    - present
+  group.present:
+    - name: {{ rtorrent_group }}
   user.present:
-    - shell: /bin/bash
+    - name: {{ rtorrent_user }}
     - gid_from_name: true
     - groups:
       - video
@@ -23,29 +28,29 @@ rtorrent:
       - file: rtorrent-download-dir
       - file: /var/cache/rtorrent/session
       - file: rtorrent.rc
-      - file: rtorrent-init-script
+      - file: rtorrent.service
 
-# install init script that runs rtorrent in a tmux session
-rtorrent-init-script:
+# install systemd unit that runs rtorrent in a tmux session
+rtorrent.service:
   file.managed:
-{% if grains.get('systemd', false) %}
     - name: /etc/systemd/system/rtorrent.service
     - source: salt://rtorrent/rtorrent.service
-{% else %}
-    - name: /etc/init.d/rtorrent
-    - source: salt://rtorrent/rtorrent.init
-{% endif %}
     - template: jinja
     - dir_mode: 744
     - defaults:
+        user: {{ rtorrent_user }}
         config: /etc/rtorrent/rtorrent.rc
+  module.run:
+    - name: service.systemctl_reload
+    - onchanges:
+      - file: rtorrent.service
 
 # ensure storrent download directory exists
 rtorrent-download-dir:
   file.directory:
-    - name: {{ pillar['rtorrent_download_dir'] }}
-    - user: {{ pillar['login_user'] }}
-    - group: rtorrent
+    - name: {{ rtorrent_download_dir }}
+    - user: {{ user }}
+    - group: {{ rtorrent_group }}
     - dir_mode: 775
     - require:
       - user: rtorrent
@@ -53,8 +58,8 @@ rtorrent-download-dir:
 # ensure rtorrent session directory exists
 /var/cache/rtorrent/session:
   file.directory:
-    - user: rtorrent
-    - group: rtorrent
+    - user: {{ rtorrent_user }}
+    - group: {{ rtorrent_group }}
     - dir_mode: 775
     - makedirs: true
     - recurse:
@@ -65,17 +70,15 @@ rtorrent-download-dir:
 
 /etc/rtorrent:
   file.directory:
-    - group: rtorrent
+    - group: {{ rtorrent_group }}
     - dir_mode: 775
 
-# rtorrent config file
 rtorrent.rc:
   file.managed:
     - name: /etc/rtorrent/rtorrent.rc
     - source: salt://rtorrent/rtorrent.rc
     - template: jinja
-    - user: rtorrent
-    - group: rtorrent
+    - group: {{ rtorrent_group }}
     - defaults:
         download_rate: 0
         upload_rate: 10
@@ -84,14 +87,20 @@ rtorrent.rc:
     - require:
       - file: /etc/rtorrent
 
-{% if pillar.get('login_user', false) %}
-{% set user = pillar['login_user'] %}
+# install blank tmux config
+rtorrent-tmux-conf:
+  file.managed:
+    - name: /etc/rtorrent/tmux.conf
+    - group: {{ rtorrent_group }}
+    - require:
+      - file: /etc/rtorrent
 
+{% if pillar.get('login_user', false) %}
 add-rtorrent-group-to-login-user:
   user.present:
     - name: {{ user }}
     - groups:
-      - rtorrent
+      - {{ rtorrent_group }}
     - remove_groups: false
 
 /home/{{ user }}/watch:
