@@ -34,8 +34,8 @@ DONT_TRASH=0
 NO_DUNZO=0
 NEW_WIDTH=0
 NEW_HEIGHT=0
-START_TIME=''
-DURATION='9:00:00.00'
+START_TIME=
+DURATION=
 START=
 
 while getopts 'c:fa:ATW:H:s:d:h:N' params
@@ -98,8 +98,20 @@ set -A VFILTER 'yadif'
 
 # fade in movie at specified time
 if [[ ! -z $START_TIME ]]; then
+	if [[ -z $DURATION ]]; then
+		DURATION='99:00:00.00'
+	fi
 	START="-ss $START_TIME -t $DURATION"
 	VFILTER+=("fade=in:0:30")
+
+elif [[ ! -z $DURATION ]]; then
+	# extract number of frames and frame rate
+	FRAMES=$( echo "$VSTREAM_DATA" | grep nb_frames | cut -d = -f 2 )
+	FRAME_RATE=$(( $( echo "$VSTREAM_DATA" | grep r_frame_rate | cut -d = -f 2 ) ))
+	FADE_OUT_FRAME=$(( (FRAME_RATE * DURATION) - 30 ))
+
+	START="-ss 0:00:00 -t $DURATION"
+	VFILTER+=("fade=out:$FADE_OUT_FRAME:30")
 fi
 
 # convert to H264
