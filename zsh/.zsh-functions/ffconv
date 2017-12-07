@@ -85,10 +85,10 @@ function fin() {
 VCMD='-c:v copy'
 ACMD='-c:a copy'
 
-# analyse input file to determine existing stream types
-META=$( ffprobe "$1" 2>&1 )
-VCODEC=$( echo "$META" | awk '/Stream.*Video:/ {print $4}' )
-ACODEC=$( echo "$META" | awk '/Stream.*Audio:/ {print $4}' )
+# analyse input file to determine existing stream codecs
+VSTREAM_DATA=$( ffprobe -i "$1" -show_streams -select_streams v:0 2>&1 )
+VCODEC=$( echo "$VSTREAM_DATA" | grep codec_name | cut -d = -f 2 )
+ACODEC=$( ffprobe -i "$1" -show_streams -select_streams a:0 2>&1 | grep codec_name | cut -d = -f 2 )
 
 # set the baseline deinterlace filter
 VFILTER='-filter:v yadif'
@@ -106,16 +106,11 @@ if [[ $VCODEC != 'h264' || ! -z $START || $NEW_WIDTH -gt 0 || $FORCE -eq 1 ]]; t
 	# resize movie
 	if [[ $NEW_WIDTH -gt 0 ]]; then
 		# extract movie resolution
-		RESO=$( echo "$META" | awk '/Video:/ {print $10}' )
-		if [[ ! $RESO =~ [0-9]+x[0-9]+ ]]; then
-			RESO=$( echo "$META" | awk '/Video:/ {print $11}' | tr -d , )
-		fi
-		WIDTH=$( echo "$RESO" | cut -d x -f 1 )
-		HEIGHT=$( echo "$RESO" | cut -d x -f 2 )
+		WIDTH=$( echo "$VSTREAM_DATA" | grep '^width' | cut -d = -f 2 )
+		HEIGHT=$( echo "$VSTREAM_DATA" | grep '^height' | cut -d = -f 2 )
 
 		# calculate new height
-		TMP=$(( NEW_WIDTH * HEIGHT / WIDTH ))
-		integer NEW_HEIGHT=$TMP
+		integer NEW_HEIGHT=$(( NEW_WIDTH * HEIGHT / WIDTH ))
 		# ensure is divisible by 2
 		if [[ $(( NEW_HEIGHT % 2 )) -eq 1 ]]; then
 			(( NEW_HEIGHT -= 1 ))
