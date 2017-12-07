@@ -90,20 +90,18 @@ VSTREAM_DATA=$( ffprobe -i "$1" -show_streams -select_streams v:0 2>&1 )
 VCODEC=$( echo "$VSTREAM_DATA" | grep codec_name | cut -d = -f 2 )
 ACODEC=$( ffprobe -i "$1" -show_streams -select_streams a:0 2>&1 | grep codec_name | cut -d = -f 2 )
 
-# set the baseline deinterlace filter
-VFILTER='-filter:v yadif'
+# filter array including baseline deinterlace filter
+set -A VFILTER 'yadif'
 
 # fade in movie at specified time
 if [[ ! -z $START_TIME ]]; then
 	START="-ss $START_TIME -t $DURATION"
-	VFILTER="-filter:v 'yadif,fade=in:0:30'"
+	VFILTER+=("fade=in:0:30")
 fi
 
 # convert to H264
 if [[ $VCODEC != 'h264' || ! -z $START || $NEW_WIDTH -gt 0 || $FORCE -eq 1 ]]; then
-	VCMD="-c:v libx264 -tune film $VFILTER -crf $CRF"
-
-	# resize movie
+	# scale filter
 	if [[ $NEW_WIDTH -gt 0 ]]; then
 		# extract movie resolution
 		WIDTH=$( echo "$VSTREAM_DATA" | grep '^width' | cut -d = -f 2 )
@@ -116,8 +114,11 @@ if [[ $VCODEC != 'h264' || ! -z $START || $NEW_WIDTH -gt 0 || $FORCE -eq 1 ]]; t
 			(( NEW_HEIGHT -= 1 ))
 		fi
 
-		VCMD="$VCMD -vf scale=$NEW_WIDTH:$NEW_HEIGHT"
+		VFILTER+=("scale=$NEW_WIDTH:$NEW_HEIGHT")
 	fi
+
+	# create encode options string
+	VCMD="-c:v libx264 -tune film -filter:v '${(j:,:)VFILTER}' -crf $CRF"
 fi
 
 # completely drop audio
