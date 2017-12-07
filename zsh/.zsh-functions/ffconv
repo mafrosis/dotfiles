@@ -96,22 +96,26 @@ ACODEC=$( ffprobe -i "$1" -show_streams -select_streams a:0 2>&1 | grep codec_na
 # filter array including baseline deinterlace filter
 set -A VFILTER 'yadif'
 
+# extract frame rate for fade duration
+if [[ ! -z $START_TIME || ! -z $DURATION ]]; then
+	FRAME_RATE=$(( $( echo "$VSTREAM_DATA" | grep r_frame_rate | cut -d = -f 2 ) ))
+fi
+
 # fade in movie at specified time
 if [[ ! -z $START_TIME ]]; then
 	if [[ -z $DURATION ]]; then
 		DURATION='99:00:00.00'
 	fi
 	START="-ss $START_TIME -t $DURATION"
-	VFILTER+=("fade=in:0:30")
+	VFILTER+=("fade=in:0:$FRAME_RATE")
 
 elif [[ ! -z $DURATION ]]; then
 	# extract number of frames and frame rate
 	FRAMES=$( echo "$VSTREAM_DATA" | grep nb_frames | cut -d = -f 2 )
-	FRAME_RATE=$(( $( echo "$VSTREAM_DATA" | grep r_frame_rate | cut -d = -f 2 ) ))
-	FADE_OUT_FRAME=$(( (FRAME_RATE * DURATION) - 30 ))
+	FADE_OUT_FRAME=$(( (FRAME_RATE * DURATION) - FRAME_RATE ))
 
 	START="-ss 0:00:00 -t $DURATION"
-	VFILTER+=("fade=out:$FADE_OUT_FRAME:30")
+	VFILTER+=("fade=out:$FADE_OUT_FRAME:$FRAME_RATE")
 fi
 
 # convert to H264
