@@ -105,7 +105,10 @@ fi
 # convert to H264
 if [[ $VCODEC != 'h264' || ! -z $START || $NEW_WIDTH -gt 0 || $NEW_HEIGHT -gt 0 || $FORCE -eq 1 ]]; then
 	# scale filter
-	if [[ $NEW_WIDTH -gt 0 ]]; then
+	if [[ $NEW_WIDTH -gt 0 && $NEW_HEIGHT -gt 0 ]]; then
+		VFILTER+=("scale=$NEW_WIDTH:$NEW_HEIGHT")
+
+	elif [[ $NEW_WIDTH -gt 0 ]]; then
 		# extract movie resolution
 		WIDTH=$( echo "$VSTREAM_DATA" | grep '^width' | cut -d = -f 2 )
 		HEIGHT=$( echo "$VSTREAM_DATA" | grep '^height' | cut -d = -f 2 )
