@@ -218,35 +218,24 @@ let g:airline_theme='powerlineish'
 
 " enable airline tab bar
 let g:airline#extensions#tabline#enabled = 1
-" don't show the close button
-"let g:airline#extensions#tabline#show_close_button = 0
-" fancy unicode close symbol
-let g:airline#extensions#tabline#close_symbol = '✘'
-" display tab number in tab bar
-let g:airline#extensions#tabline#tab_nr_type = 1
-" never show buffers in tabline
-let g:airline#extensions#tabline#show_buffers = 0
-" powerline symbols in tabline
-let g:airline#extensions#tabline#left_sep = '⮀'
-let g:airline#extensions#tabline#left_alt_sep = '⮁'
-let g:airline#extensions#tabline#right_sep = '⮂'
-let g:airline#extensions#tabline#right_alt_sep = '⮃'
+
+" hide tabbar title, tab number and close button
+let g:airline#extensions#tabline#show_tab_type = 0
+let g:airline#extensions#tabline#show_tab_nr = 0
+let g:airline#extensions#tabline#show_close_button = 0
+" hide buffers list on right of tabline
+let g:airline#extensions#tabline#show_splits = 0
+
+" no powerline symbols in tabline
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline#extensions#tabline#right_sep = ''
+let g:airline#extensions#tabline#right_alt_sep = ''
 
 " disable airline whitespace checker
 let g:airline#extensions#whitespace#enabled = 0
 " whitespace algo allows tabs followed by spaces
 let g:airline#extensions#whitespace#mixed_indent_algo = 1
 
-" old vim-powerline symbols
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-let g:airline_left_sep = '⮀'
-let g:airline_left_alt_sep = '⮁'
-let g:airline_right_sep = '⮂'
-let g:airline_right_alt_sep = '⮃'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.readonly = '⭤'
-let g:airline_symbols.linenr = ''
-
+" hide branch name
 let g:airline#extensions#branch#enabled = 0
