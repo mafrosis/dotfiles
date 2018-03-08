@@ -37,6 +37,7 @@ brew install \
 	jq \
 	lame \
 	nmap \
+	nvm \
 	mas \
 	m-cli \
 	mercurial \

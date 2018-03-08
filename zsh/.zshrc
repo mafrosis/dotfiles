@@ -66,6 +66,10 @@ bindkey '^[[1;9X' backward-delete-word
 # rupa/z
 . ~/dotfiles/bin/z/z.sh
 
+# nvm
+export NVM_DIR="$HOME/.nvm"
+. "/usr/local/opt/nvm/nvm.sh"
+
 
 ########## Exports ########################################
 
