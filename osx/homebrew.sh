@@ -72,7 +72,7 @@ brew cask install \
 	android-file-transfer \
 	dropbox \
 	firefox \
-	google-drive \
+	google-backup-and-sync \
 	keepassx \
 	qlstephen \
 	skype \
