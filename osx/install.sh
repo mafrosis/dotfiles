@@ -37,17 +37,19 @@ source ./vagrant.sh
 
 
 # install Moom via mas
-if [[ ! -L /Users/mafro/Library/Preferences/com.manytricks.Moom.plist ]]; then
+if [[ ! -L $HOME/Library/Preferences/com.manytricks.Moom.plist ]]; then
+	if [[ -f $HOME/Library/Preferences/com.manytricks.Moom.plist ]]; then
+		rm -f "$HOME/Library/Preferences/com.manytricks.Moom.plist"
+	fi
 	mas install "$(mas search moom | cut -d\  -f 1)"
-	ln -s "$HOME/dotfiles/osx/moom/com.manytricks.Moom.plist" /Users/mafro/Library/Preferences/com.manytricks.Moom.plist
+	ln -s "$HOME/dotfiles/osx/moom/com.manytricks.Moom.plist" "$HOME/Library/Preferences/com.manytricks.Moom.plist"
 	echo 'You will need to restart to load Moom prefs'
 fi
 
 
 if [[ ! -f $HOME/.osx-set-defaults-done ]]; then
 	# setup OSX defaults; sudo is required
-	sudo -v
-	if [[ $? -eq 0 ]]; then
+	if sudo -v; then
 		# shellcheck disable=SC1091
 		source set-defaults.sh
 		echo 'You will need to restart to make new macOS defaults take effect'
