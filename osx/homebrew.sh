@@ -68,6 +68,7 @@ fi
 
 # install baseline apps via Cask
 brew cask install \
+	1password 1password-cli \
 	android-file-transfer \
 	dropbox \
 	firefox \

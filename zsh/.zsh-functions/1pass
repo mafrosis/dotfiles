@@ -1,0 +1,20 @@
+#! /bin/bash
+
+if ! command -v op &>/dev/null; then
+	echo '1password op tool is missing!'
+	return 4
+fi
+
+if [[ $# -eq 0 ]]; then
+	echo 'Usage: 1pass KEY'
+	return 1
+fi
+
+# shellcheck disable=SC2154
+if [[ -z $OP_SESSION_my ]]; then
+	EXPORT=$(op signin my | head -1)
+	echo "$EXPORT" >&2
+	eval "$EXPORT"
+fi
+
+op get item "$1" | jq -ar '.details.sections[0].fields[] | select(.n | contains("password")) | .v'
