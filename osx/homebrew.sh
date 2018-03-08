@@ -29,7 +29,7 @@ brew install \
 	coreutils \
 	exiftool \
 	fdupes \
-	ffmpeg --with-faac \
+	ffmpeg \
 	flac \
 	gnu-sed \
 	httpie \
