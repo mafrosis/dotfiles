@@ -22,7 +22,7 @@ beets-virtualenv:
     - requirements: /tmp/beets-reqs.txt
     - user: {{ user }}
     - require:
-      - pip: virtualenvwrapper
+      - pip: virtualenv
       - file: /tmp/beets-reqs.txt
 
 /home/{{ user }}/.config/beets:

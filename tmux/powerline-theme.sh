@@ -20,7 +20,7 @@ fi
 if [[ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]]; then
 	TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS=(
 		"hostname 33 0" \
-		"wan_ip 24 255" \
+		#"wan_ip 24 255" \
 		"lan_ip 24 255" \
 
 		"zfs 160 255" \
@@ -29,7 +29,7 @@ if [[ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]]; then
 
 		"load 237 167" \
 		"date_day 235 136" \
-		"date 235 136 ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
-		"time 235 136 ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
+		#"date 235 136 ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
+		#"time 235 136 ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
 	)
 fi

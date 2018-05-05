@@ -11,6 +11,7 @@ linux-utils-pkgs:
       - curl
       - disktype
       - dnsutils
+      - ethtool
       - hfsprogs
       - htop
       - iotop

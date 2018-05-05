@@ -6,19 +6,16 @@ base:
     - match: compound
     - vagrant
 
-  'G@host:monopoly or G@id:monopoly':
+  'G@host:jorg or G@id:jorg':
     - match: compound
-    - monopoly
+    - jorg
+    - jorg-secrets
     - wakeonlan
 
   'G@host:locke':
     - match: compound
     - locke
     - locke-secrets
-
-  'G@host:mousetrap or G@id:mousetrap':
-    - match: compound
-    - mousetrap
 
   'id:raspbmc':
     - match: grain

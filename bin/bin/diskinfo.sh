@@ -3,7 +3,7 @@
 USAGE='diskinfo.sh [-v] [-h] [device]
 
   -v	verbose printing
-  -S	support SMART via USB (passes `-d sat` to smartctl)
+  -S	support SMART via USB (passes -d sat to smartctl)
   -h	show this help'
 
 # ensure run as root
@@ -37,23 +37,28 @@ if ! command -v smartctl &>/dev/null || ! command -v disktype &>/dev/null; then
 	fi
 fi
 
+declare -A DISKMAP
+
 function query_disk {
+	local DEVICE="$1"
+
 	# extract hardware info from smartctl
 	# shellcheck disable=SC2086
-	INFO="$(smartctl $SMART_SAT --info "$1")"
+	INFO="$(smartctl $SMART_SAT --info "$DEVICE")"
 	MODEL="$(echo "$INFO" | grep 'Device Model' | cut -d' ' -f 3- | xargs)"
 	SERIAL="$(echo "$INFO" | awk '/Serial Number/ {print $3}')"
 	FIRMWARE="$(echo "$INFO" | awk '/Firmware/ {print $3}')"
 	SIZE="$(echo "$INFO" | awk '/User Capacity/ {print substr($5,2) substr($6,1,length($6)-1)}')"
 
 	# display disk header
-	echo "========== $1 =========="
+	echo "========== $DEVICE =========="
 	echo -e "Model:\t\t$MODEL"
 	if [[ $VERBOSE -eq 1 ]]; then
 		echo -e "Serial:\t\t$SERIAL" | grep --color "$SERIAL"
 	else
 		echo -e "Serial\t\t$SERIAL"
 	fi
+	echo -e "WWN:\t\t${DISKMAP[$DEVICE]}"
 	echo -e "Firmware:\t$FIRMWARE"
 	echo -e "Size:\t\t$SIZE"
 
@@ -63,12 +68,12 @@ function query_disk {
 
 	# print partition info from disktype
 	echo -e "\n---- Partitions ----------"
-	disktype "$1" | awk 'NF && ! /^--/'
+	disktype "$DEVICE" | awk 'NF && ! /^--/'
 
 	# extra ZFS info
 	if command -v zfs &>/dev/null; then
 		# iterate zpools
-		zpool list | awk '! /^NAME/ {print $1}' | while read POOL;
+		zpool list | awk '! /^NAME/ {print $1}' | while read -r POOL;
 		do
 			# display info if this disk in pool
 			if zpool status "$POOL" | grep -q "$SERIAL"; then
@@ -87,14 +92,14 @@ function query_disk {
 
 	# extra LVM info
 	if command -v lvm &>/dev/null; then
-		if [[ ! -z "$(pvdisplay 2>/dev/null | awk -v var="$1" '$0 ~ var')" ]]; then
+		if [[ ! -z "$(pvdisplay 2>/dev/null | awk -v var="$DEVICE" '$0 ~ var')" ]]; then
 			echo -e "\n---- LVM Volumes ---------"
 
 			# iterate Volume Groups on this device
-			pvdisplay "$1" | awk '/VG Name/ {print $3}' | while read VG_NAME;
+			pvdisplay "$DEVICE" | awk '/VG Name/ {print $3}' | while read -r VG_NAME;
 			do
 				# iterate Logical Volumes
-				lvdisplay "$VG_NAME" | awk '/LV Path/ {print $3}' | while read LV_PATH;
+				lvdisplay "$VG_NAME" | awk '/LV Path/ {print $3}' | while read -r LV_PATH;
 				do 
 					LV_NAME="$(lvdisplay "$LV_PATH" | awk '/LV Name/ {print $3}')"
 					LV_SIZE="$(lvdisplay "$LV_PATH" | awk '/LV Size/ {print $3$4}')"
@@ -108,19 +113,37 @@ function query_disk {
 	echo ''
 }
 
-if [[ $# -eq 1 ]]; then
-	# shellcheck disable=SC2086
-	if ! smartctl $SMART_SAT --scan | grep -q "$1"; then
-		echo "Device $1 not found"
-		exit 2
+# query all disks for smart data
+# shellcheck disable=SC2086
+SMART_DATA=$(smartctl $SMART_SAT --scan | cut -d\  -f 1)
+
+# get list of WWN* disks
+# shellcheck disable=SC2010
+WWN_DRIVES="$(ls /dev/disk/by-id/wwn* | grep -v part)"
+
+for DEVICE in $SMART_DATA; do
+	# extract Disk GUID
+	DISK_GUID="$(disktype "$DEVICE" | awk '/Disk GUID/ {print $3}')"
+
+	#echo "D:$DISK_GUID"
+	# iterate wwn* disks and match by Disk GUID
+	for D in $WWN_DRIVES; do
+		WWN_DISK_GUID=$(disktype "$D" | awk '/Disk GUID/ {print $3}')
+
+		#echo "G:$WWN_DISK_GUID"
+		if [[ $WWN_DISK_GUID = "$DISK_GUID" ]]; then
+			DISKMAP[$DEVICE]=${D##*/}
+			break
+		fi
+	done
+
+	# display info for all disks
+	if [[ $# -eq 0 ]]; then
+		query_disk "$DEVICE"
 	fi
+done
+
+if [[ $# -eq 1 ]]; then
 	# query disk passed as param
 	query_disk "$1"
-else
-	# query all disks
-	# shellcheck disable=SC2086
-	smartctl $SMART_SAT --scan | cut -d\  -f 1 | while read DEVICE;
-	do
-		query_disk "$DEVICE"
-	done
 fi

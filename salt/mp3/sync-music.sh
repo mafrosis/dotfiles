@@ -9,10 +9,10 @@ sudo chown mafro:audio -R /media/pools/music
 sudo find /media/pools/music -type d -exec chmod 750 {} \;
 sudo find /media/pools/music -type f -exec chmod 640 {} \;
 
-echo "Syncing to Kerplunk"
+echo "Syncing to Locke"
 
-# pull playlists from kerplunk
-rsync -avP --delete kerplunk:/home/mafro/playlists/ /media/pools/music/playlists
+# pull playlists from locke
+rsync -avP --delete locke:/home/mafro/playlists/ /media/pools/music/playlists
 
-# push music to kerplunk
-rsync -avP --delete /media/pools/music/mp3/ kerplunk:/home/mafro/mp3
+# push music to locke
+rsync -avP --delete /media/pools/music/mp3/ locke:/home/mafro/mp3

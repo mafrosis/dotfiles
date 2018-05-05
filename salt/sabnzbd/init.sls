@@ -26,30 +26,41 @@ create-sabnzbd-user:
     - require:
       - group: {{ sabnzbd_group }}
 
-sabnzbdplus.service:
-  file.managed:
-    - name: /etc/systemd/system/sabnzbdplus.service
-    - source: salt://sabnzbd/sabnzbdplus.service
-    - template: jinja
-    - context:
-        sabnzbd_basedir: {{ sabnzbd_basedir }}
-        sabnzbd_user: {{ sabnzbd_user }}
-        sabnzbd_group: {{ sabnzbd_group }}
-        download_dir: {{ sabnzbd_basedir }}/incomplete
-        complete_dir: {{ sabnzbd_basedir }}/complete
-        uid: {{ salt['cmd.shell']("id -u "+sabnzbd_user) }}
-        gid: {{ salt['cmd.shell']("id -g "+sabnzbd_group) }}
-    - require:
-      - user: {{ sabnzbd_user }}
-  module.run:
-    - name: service.systemctl_reload
-    - onchanges:
-      - file: sabnzbdplus.service
-
-sabnzbdplus:
-  service.running:
-    - watch:
-      - module: sabnzbdplus.service
+#sabnzbdplus.service:
+#  file.managed:
+#    - name: /etc/systemd/system/sabnzbdplus.service
+#    - source: salt://sabnzbd/sabnzbdplus.service
+#    - template: jinja
+#    - context:
+#        sabnzbd_basedir: {{ sabnzbd_basedir }}
+#        sabnzbd_user: {{ sabnzbd_user }}
+#        sabnzbd_group: {{ sabnzbd_group }}
+#        download_dir: {{ sabnzbd_basedir }}/incomplete
+#        complete_dir: {{ sabnzbd_basedir }}/complete
+#    - require:
+#      - pkg: sabnzbdplus
+#      - user: {{ sabnzbd_user }}
+#  module.run:
+#    - name: service.systemctl_reload
+#    - onchanges:
+#      - file: sabnzbdplus.service
+#
+#sabnzbd-patch-user:
+#  file.replace:
+#    - name: /etc/default/sabnzbdplus
+#    - pattern: "^USER=.*"
+#    - repl: "USER={{ sabnzbd_user }}"
+#
+#sabnzbd-patch-host:
+#  file.replace:
+#    - name: /etc/default/sabnzbdplus
+#    - pattern: "^HOST=.*"
+#    - repl: "HOST={{ salt['cmd.shell']("hostname -I | cut -d' ' -f 1") }}"
+#
+#sabnzbdplus:
+#  service.running:
+#    - watch:
+#      - module: sabnzbdplus.service
 
 {{ sabnzbd_basedir }}:
   file.directory:

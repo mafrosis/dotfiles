@@ -18,4 +18,3 @@ extras:
 # install extras from pip
 pip:
   - pyflakes
-  - virtualenvwrapper

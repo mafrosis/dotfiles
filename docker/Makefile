@@ -2,4 +2,4 @@
 
 ffconv:
 	cp ~/.zsh-functions/ffconv .
-	docker build .
+	docker build --tag mafrosis/ffconv .
