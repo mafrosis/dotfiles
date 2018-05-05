@@ -25,19 +25,12 @@ docker-install:
 docker-compose-install:
   file.managed:
     - name: /usr/local/bin/docker-compose
-    - source: https://github.com/docker/compose/releases/download/1.7.1/docker-compose-Linux-x86_64
+    - source: https://github.com/docker/compose/releases/download/1.21.2/docker-compose-Linux-x86_64
     - source_hash: sha1=f8c4b82c22f905ed5eaa5cd82d1e28d5ad6df43d
-    - mode: 744
+    - mode: 755
 
 docker-adduser-group:
   group.present:
     - name: docker
     - addusers:
       - {{ pillar['login_user'] }}
-
-docker-systemd-install:
-  file.managed:
-    - name: /usr/local/bin/systemd-docker
-    - source: https://github.com/ibuildthecloud/systemd-docker/releases/download/v0.2.1/systemd-docker
-    - source_hash: sha1=f9d48f7ca0cd11fb6430bfdc3b6317221a366b27
-    - mode: 744
