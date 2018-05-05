@@ -24,13 +24,6 @@ required-packages:
     - require:
       - file: apt-no-recommends
 
-# use pip to upgrade pip to latest
-pip:
-  pip.installed:
-    - upgrade: true
-    - require:
-      - pkg: required-packages
-
 esky:
   pip.installed:
     - require:
