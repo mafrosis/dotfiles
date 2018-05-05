@@ -25,8 +25,8 @@ docker-install:
 docker-compose-install:
   file.managed:
     - name: /usr/local/bin/docker-compose
-    - source: https://github.com/docker/compose/releases/download/1.21.2/docker-compose-Linux-x86_64
-    - source_hash: sha1=f8c4b82c22f905ed5eaa5cd82d1e28d5ad6df43d
+    - source: https://github.com/docker/compose/releases/download/1.22.0/docker-compose-Linux-x86_64
+    - source_hash: sha256=f679a24b93f291c3bffaff340467494f388c0c251649d640e661d509db9d57e9
     - mode: 755
 
 docker-adduser-group:
