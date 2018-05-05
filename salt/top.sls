@@ -1,6 +1,7 @@
 base:
   '*':
     - common
+    - disable-salt-minion
 
   'G@id:vagrant':
     - match: compound
@@ -13,20 +14,20 @@ base:
     - rtorrent
     - sabnzbd
 
-  'G@host:monopoly':
+  'G@host:jorg':
     - match: compound
-    - user
-    - dropbox
-    - dvd-tools
+    - disable-salt-minion
+    - docker
+    - jorg
     - linux-util
+    - linux-util.download-tools
     - mp3
     - pools-perm-watchdog
     - rtorrent
-    - rtorrent.rutorrent
     - rtorrent.move-torrent
+    - sabnzbd
     - samba
     - wakeonlan
-    - xbox360
     - zfs-on-linux
 
   'G@host:locke':
