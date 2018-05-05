@@ -6,3 +6,13 @@ include:
 git:
   pkg.latest:
     - order: 1
+
+system-tools:
+  pkg.latest:
+    - names:
+      - at
+      - bc
+      - file
+      - less
+      - time
+      - whois
