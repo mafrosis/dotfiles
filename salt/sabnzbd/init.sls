@@ -6,9 +6,17 @@ include:
 {% set sabnzbd_user = pillar.get('sabnzbd_user', 'sabnzbd') %}
 {% set sabnzbd_group = pillar.get('sabnzbd_user', 'download') %}
 
+# create download group
 sabnzbd-download-group:
   group.present:
     - name: {{ sabnzbd_group }}
+
+# add login_user to download group
+sabnzbd-adduser-group:
+  group.present:
+    - name: download
+    - addusers:
+      - {{ pillar['login_user'] }}
 
 create-sabnzbd-user:
   user.present:
