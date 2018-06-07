@@ -38,6 +38,7 @@ alias sshq='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 alias docker-rm-stopped='docker ps -a | awk '\''/Exit/ {print $1}'\'' | xargs docker rm'
 alias docker-rmi-dangling='docker rmi "$(docker images -f dangling=true -q)"'
 alias docker-stats='docker stats --all --format "table {{.ID}}\t{{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.MemPerc}}\t{{.NetIO}}\t{{.BlockIO}}"'
+alias docker-rm-volumes='docker volume ls | awk '\''{print $2}'\'' | xargs docker volume rm'
 
 # ffprobe via docker FTW
 alias ffprobe='docker run -it --rm -v "$(pwd):/tmp/workdir" --entrypoint ffprobe jrottenberg/ffmpeg'
