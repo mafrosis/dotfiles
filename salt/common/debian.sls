@@ -18,7 +18,6 @@ required-packages:
       - python-apt
       - software-properties-common
       - swig
-      - vim
     - require:
       - file: apt-no-recommends
 

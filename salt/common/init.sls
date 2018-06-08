@@ -18,4 +18,5 @@ system-tools:
       - file
       - less
       - time
+      - vim
       - whois
