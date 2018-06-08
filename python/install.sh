@@ -16,7 +16,7 @@ if ! command -v pip >/dev/null 2>&1; then
 		curl https://bootstrap.pypa.io/get-pip.py | sudo -H python
 
 	elif [[ $(uname) == 'Linux' ]]; then
-		$SUDO apt-get install -y python-dev python-pip
+		$SUDO apt-get install -y python-dev python-pip python3-dev python3-pip
 	fi
 
 fi
