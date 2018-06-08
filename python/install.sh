@@ -1,36 +1,49 @@
 #! /bin/bash
 
-# Script sets up python3 for normal operations
-# and assumes python2 is system-python and thus needs sudo
+# Ensure both python2+pip and python3+pip is available
+# Assume python2 installed by system and thus needs sudo
 
 if [[ $(id -u) -gt 0 ]]; then
-	SUDO='sudo'
+	SUDO='sudo -H'
 else
 	SUDO=''
 fi
 
-if ! command -v pip >/dev/null 2>&1; then
-
+if ! command -v pip2 >/dev/null 2>&1; then
 	# install pip package
+	curl https://bootstrap.pypa.io/get-pip.py | $SUDO python2
+fi
+
+if ! command -v python3 >/dev/null 2>&1; then
+	# install python3
 	if [[ $(uname) == 'Darwin' ]]; then
-		curl https://bootstrap.pypa.io/get-pip.py | sudo -H python
+		brew install python
 
 	elif [[ $(uname) == 'Linux' ]]; then
-		$SUDO apt-get install -y python-dev python-pip python3-dev python3-pip
+		$SUDO apt-get install -y python3 python3-dev
 	fi
+fi
 
+# install distutils on ubuntu bionic
+if [[ $(lsb_release -cs) == 'bionic' ]]; then
+	$SUDO apt-get install -y python3-distutils
+fi
+
+if ! command -v pip3 >/dev/null 2>&1; then
+	# install pip package
+	curl https://bootstrap.pypa.io/get-pip.py | $SUDO python3
 fi
 
 
 # update pip itself
-pip3 install -U pip setuptools
+$SUDO pip3 install -U pip setuptools
 
 # install a couple things via pip
-pip3 install \
+$SUDO pip3 install \
 	bs4 \
 	ipdb \
 	pyflakes \
 	requests
 
 # only install virtualenv for python2
-sudo -H pip install virtualenv
+$SUDO pip install virtualenv
