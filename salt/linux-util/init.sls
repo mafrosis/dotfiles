@@ -11,11 +11,13 @@ linux-utils-pkgs:
       - curl
       - disktype
       - dnsutils
+      - ethtool
       - hfsprogs
       - htop
       - iotop
       - lshw
       - lvm2
+      - man-db
       - ncdu
       - parted
       - pastebinit
