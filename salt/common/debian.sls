@@ -16,8 +16,6 @@ required-packages:
       - man-db
       - ntp
       - python-apt
-      - python-dev
-      - python-pip
       - software-properties-common
       - swig
       - vim
