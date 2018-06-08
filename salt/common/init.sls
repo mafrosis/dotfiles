@@ -1,6 +1,9 @@
 {% if grains['os_family'] == 'Debian' %}
 include:
   - common.debian
+{% elif grains['os'] == 'Ubuntu' %}
+include:
+  - common.ubuntu
 {% endif %}
 
 git:
