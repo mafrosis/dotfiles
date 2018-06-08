@@ -6,10 +6,12 @@ apt-no-recommends:
         APT::Install-Suggests "0";
     - order: first
 
+{% if grains['os'] == 'Debian' %}
 apt-disable-cdrom:
   file.comment:
     - name: /etc/apt/sources.list
     - regex: ^deb cdrom
+{% endif %}
 
 {% if pillar.get('autoupdate', false) %}
 autoupdate-requisites:
