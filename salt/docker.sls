@@ -7,10 +7,18 @@ docker-apt-deps:
       - gnupg2
       - software-properties-common
 
+{# HACK: docker didnt release into stable for bionic #}
+{# https://github.com/docker/for-linux/issues/290#issuecomment-393605253 #}
+{% if grains['oscodename'] == 'bionic' %}
+{% set oscodename = 'artful' %}
+{% else %}
+{% set oscodename = grains['oscodename'] %}
+{% endif %}
+
 docker-pkgrepo:
   pkgrepo.managed:
     - humanname: docker
-    - name: deb [arch=amd64] https://download.docker.com/linux/{{ grains['os']|lower }} {{ grains['oscodename'] }} stable
+    - name: deb [arch=amd64] https://download.docker.com/linux/{{ grains['os']|lower }} {{ oscodename }} stable
     - file: /etc/apt/sources.list.d/docker.list
     - key_url: https://download.docker.com/linux/{{ grains['os']|lower }}/gpg
     - require_in:
