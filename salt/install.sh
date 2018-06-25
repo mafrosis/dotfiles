@@ -31,7 +31,7 @@ EOF
 
 elif [[ $(uname) == 'Linux' ]]; then
 	# install salt-minion via bootstrap
-	curl -L http://bootstrap.saltstack.org | sudo sh -s -- git v2014.7.4
+	curl -L http://bootstrap.saltstack.org | sudo sh -s -- git v2017.7.5
 fi
 
 # skip stow in top-level install.sh
