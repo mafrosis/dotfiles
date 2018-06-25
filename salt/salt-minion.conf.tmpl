@@ -1,16 +1,9 @@
 file_client: local
-
-id: vagrant
+state_output: mixed
+log_level: info
 
 grains:
   user: mafro
-
-fileserver_backend:
-  - roots
-  - git
-
-gitfs_remotes:
-  - git@github.com:mafrosis/salt-formulae.git
 
 file_roots:
   base:
