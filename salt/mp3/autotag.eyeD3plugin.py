@@ -4,40 +4,40 @@ import fnmatch
 import os
 import sys
 
-import eyed3
+#import eyed3
 from eyed3 import core, id3
-from eyed3 import LOCAL_ENCODING
+#from eyed3 import LOCAL_ENCODING
 from eyed3.plugins import load, LoaderPlugin
-from eyed3.utils.console import printMsg, printError, printWarning
+from eyed3.utils.console import getTtySize, printMsg, printError, printWarning
 
-eyed3.require((0, 7))
+#eyed3.require((0, 7))
 
 class AutotagPlugin(LoaderPlugin):
-    SUMMARY = u'Automagically tag MP3s based on their filename and the parent folder name'
+    SUMMARY = 'Automagically tag MP3s based on their filename and the parent folder name'
     DESCRIPTION = u"""
 Description here
 """
     NAMES = ['autotag']
 
     def __init__(self, arg_parser):
-        super(AutotagPlugin, self).__init__(arg_parser)
+        super().__init__(arg_parser)
         g = self.arg_group
 
         self.meta = None
 
-        def UnicodeArg(arg):
-            return unicode(arg, LOCAL_ENCODING)
+        #def UnicodeArg(arg):
+        #    return unicode(arg, LOCAL_ENCODING)
 
         # CLI options
         g.add_argument('-f', '--force', action='store_true',
                        help=ARGS_HELP['--force'])
         g.add_argument('--compilation', action='store_true',
                        help=ARGS_HELP['--compilation'])
-        g.add_argument('-G', '--genre', type=UnicodeArg,
+        g.add_argument('-G', '--genre', #type=UnicodeArg,
                        help=ARGS_HELP['--genre'])
-        g.add_argument('-E', '--eac', type=UnicodeArg,
+        g.add_argument('-E', '--eac', #type=UnicodeArg,
                        help=ARGS_HELP['--eac'])
-        g.add_argument('--skip-tests', type=UnicodeArg,
+        g.add_argument('--skip-tests', #type=UnicodeArg,
                        help=ARGS_HELP['--skip-tests'])
         g.add_argument('-v', '--verbose', action='store_true',
                        help=ARGS_HELP['--verbose'])
@@ -50,7 +50,7 @@ Description here
 
 
     def handleFile(self, f):
-        super(AutotagPlugin, self).handleFile(f)
+        super().handleFile(f)
 
         if len(self.args.paths) != 1:
             printError('Autotag operates on only a single album at a time')
@@ -61,15 +61,11 @@ Description here
             # ensure args is set in classic plugin
             self.classic.args = self.args
 
-            # handle current directoty notation
-            if self.args.paths[0] == '.':
-                path = os.getcwd()
-            else:
-                path = self.args.paths[0]
-
             try:
                 # extract album metadata from directory name
-                self.parseDirectoryName(path)
+                self.parseDirectoryName(
+                    os.path.abspath(self.args.paths[0])
+                )
 
             except AppException as e:
                 printError(str(e))
@@ -83,21 +79,25 @@ Description here
 
 
     def tagFile(self, filename):
-        # get the filesystem character encoding
-        fs_encoding = sys.getfilesystemencoding()
-        
         parts = os.path.splitext(filename)[0].split(' - ')
+
+        # handle dashes in the track name
+        if len(parts) > 2:
+            parts = [parts[0], ' - '.join(parts[2:])]
+
+        if not self.audio_file.tag:
+            self.audio_file.initTag(version=id3.ID3_V2_4)
 
         if self.args.compilation:
             # compilations are named "01i - Artist Name - Track Name"
             track_num = parts[0]
-            artist = parts[1]
-            title = parts[2]
+            self.audio_file.tag.artist = parts[1]
+            self.audio_file.tag.title = parts[2]
         else:
             # normal albums are named "01 - Track Name"
             track_num = parts[0]
-            artist = self.meta['artist']
-            title = parts[1]
+            self.audio_file.tag.artist = self.meta['artist']
+            self.audio_file.tag.title = parts[1]
 
         # extract GENRE
         # if GENRE:
@@ -112,31 +112,16 @@ Description here
         if self.audio_file.tag is None:
             self.audio_file.initTag(id3.ID3_V2_4)
 
-        # decode from filesystem encoding where necessary
-        if type(artist) is str:
-            self.audio_file.tag.artist = artist.decode(fs_encoding)
-        else:
-            self.audio_file.tag.artist = artist
-
-        if type(self.meta['album_artist']) is str:
-            self.audio_file.tag.album_artist = self.meta['album_artist'].decode(fs_encoding)
-        else:
-            self.audio_file.tag.album_artist = self.meta['album_artist']
-
-        if type(self.meta['album']) is str:
-            self.audio_file.tag.album = self.meta['album'].decode(fs_encoding)
-        else:
-            self.audio_file.tag.album = self.meta['album']
-
         # set the remainder of the tags
-        self.audio_file.tag.title = title
+        self.audio_file.tag.album_artist = self.meta['album_artist']
+        self.audio_file.tag.album = self.meta['album']
         self.audio_file.tag.track_num = (track_num, self.meta['total_num_tracks'])
         self.audio_file.tag.recording_date = core.Date(self.meta['year'])
         self.audio_file.tag.tagging_date = '{:%Y-%m-%d}'.format(datetime.datetime.now())
 
         # set a tag to say this was ripped with EAC
         if self.args.eac is True:
-            self.audio_file.tag.user_text_frames.set(u'EAC', u'Ripping Tool')
+            self.audio_file.tag.user_text_frames.set('EAC', 'Ripping Tool')
 
         # write a cover art image
         if self.meta['image'] is not None:
@@ -153,9 +138,10 @@ Description here
             preserve_file_time=True,
         )
 
-        # print output from the classic plugin
+        # use classic plugin to print nice output
+        self.classic.terminal_width = getTtySize()[1]
         self.classic.printHeader(self.audio_file.path)
-        printMsg("-" * 79)
+        printMsg("-" * self.classic.terminal_width)
         self.classic.printAudioInfo(self.audio_file.info)
         self.classic.printTag(self.audio_file.tag)
 
@@ -168,6 +154,9 @@ Description here
             # check directory contains mp3s..
             if len(fnmatch.filter(os.listdir(path), '*.mp3')) == 0:
                 raise AppException("No MP3s found in '{}'".format(directory_name))
+            # handle dashes in the album name
+            elif len(parts) > 3:
+                parts = [parts[0], parts[1], ' - '.join(parts[2:])]
             else:
                 raise AppException("Badly formed directory name '{}'".format(directory_name))
 
