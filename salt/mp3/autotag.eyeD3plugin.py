@@ -4,19 +4,14 @@ import fnmatch
 import os
 import sys
 
-#import eyed3
 from eyed3 import core, id3
-#from eyed3 import LOCAL_ENCODING
 from eyed3.plugins import load, LoaderPlugin
 from eyed3.utils.console import getTtySize, printMsg, printError, printWarning
 
-#eyed3.require((0, 7))
 
 class AutotagPlugin(LoaderPlugin):
     SUMMARY = 'Automagically tag MP3s based on their filename and the parent folder name'
-    DESCRIPTION = u"""
-Description here
-"""
+    DESCRIPTION = ""
     NAMES = ['autotag']
 
     def __init__(self, arg_parser):
@@ -25,19 +20,16 @@ Description here
 
         self.meta = None
 
-        #def UnicodeArg(arg):
-        #    return unicode(arg, LOCAL_ENCODING)
-
         # CLI options
         g.add_argument('-f', '--force', action='store_true',
                        help=ARGS_HELP['--force'])
         g.add_argument('--compilation', action='store_true',
                        help=ARGS_HELP['--compilation'])
-        g.add_argument('-G', '--genre', #type=UnicodeArg,
+        g.add_argument('-G', '--genre',
                        help=ARGS_HELP['--genre'])
-        g.add_argument('-E', '--eac', #type=UnicodeArg,
+        g.add_argument('-E', '--eac',
                        help=ARGS_HELP['--eac'])
-        g.add_argument('--skip-tests', #type=UnicodeArg,
+        g.add_argument('--skip-tests',
                        help=ARGS_HELP['--skip-tests'])
         g.add_argument('-v', '--verbose', action='store_true',
                        help=ARGS_HELP['--verbose'])
@@ -61,11 +53,15 @@ Description here
             # ensure args is set in classic plugin
             self.classic.args = self.args
 
+            # handle current directoty notation
+            if self.args.paths[0] == '.':
+                path = os.getcwd()
+            else:
+                path = self.args.paths[0]
+
             try:
                 # extract album metadata from directory name
-                self.parseDirectoryName(
-                    os.path.abspath(self.args.paths[0])
-                )
+                self.parseDirectoryName(path)
 
             except AppException as e:
                 printError(str(e))
@@ -75,31 +71,47 @@ Description here
             if os.path.basename(f) != 'folder.jpg':
                 printWarning('Unknown type: {}'.format(os.path.basename(f)))
         else:
-            self.tagFile(os.path.basename(f))
+            track_num, artist, title = self.smart_split(os.path.basename(f))
+            self.tagFile(os.path.basename(f), track_num, artist, title)
 
 
-    def tagFile(self, filename):
+    def smart_split(self, filename):
+        """
+        Extract title and track number from the filename:
+
+         - normal albums are named "01 - Track Name"
+         - compilations are named "01 - Artist Name - Track Name"
+        """
         parts = os.path.splitext(filename)[0].split(' - ')
 
-        # handle dashes in the track name
-        if len(parts) > 2:
-            parts = [parts[0], ' - '.join(parts[2:])]
-
-        if not self.audio_file.tag:
-            self.audio_file.initTag(version=id3.ID3_V2_4)
+        # split, find artists, albums, numbers, lowercase everything
+        # validate all numbers?
+        # rename files?
 
         if self.args.compilation:
-            # compilations are named "01i - Artist Name - Track Name"
             track_num = parts[0]
-            self.audio_file.tag.artist = parts[1]
-            self.audio_file.tag.title = parts[2]
+            artist = parts[1]
+            title = parts[2]
         else:
-            # normal albums are named "01 - Track Name"
-            track_num = parts[0]
-            self.audio_file.tag.artist = self.meta['artist']
-            self.audio_file.tag.title = parts[1]
+            if len(parts) == 2:
+                # correct naming
+                track_num = int(parts[0])
+                artist = self.meta['artist']
+                title = parts[1]
 
-        # extract GENRE
+            if len(parts) == 3:
+                # first part could be artist
+                if parts[0] == self.meta['artist']:
+                    track_num = int(parts[1])
+                    artist = self.meta['artist']
+                    title = parts[2]
+
+
+        return track_num, artist, title
+
+
+    def tagFile(self, filename, track_num, artist, title):
+        # TODO extract GENRE
         # if GENRE:
             # validate GENRE
 
@@ -113,6 +125,9 @@ Description here
             self.audio_file.initTag(id3.ID3_V2_4)
 
         # set the remainder of the tags
+        self.audio_file.tag.track_num = track_num
+        self.audio_file.tag.title = title
+        self.audio_file.tag.artist = artist
         self.audio_file.tag.album_artist = self.meta['album_artist']
         self.audio_file.tag.album = self.meta['album']
         self.audio_file.tag.track_num = (track_num, self.meta['total_num_tracks'])
@@ -154,9 +169,6 @@ Description here
             # check directory contains mp3s..
             if len(fnmatch.filter(os.listdir(path), '*.mp3')) == 0:
                 raise AppException("No MP3s found in '{}'".format(directory_name))
-            # handle dashes in the album name
-            elif len(parts) > 3:
-                parts = [parts[0], parts[1], ' - '.join(parts[2:])]
             else:
                 raise AppException("Badly formed directory name '{}'".format(directory_name))
 
