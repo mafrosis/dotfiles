@@ -30,6 +30,16 @@ base:
     - wakeonlan
     - zfs-on-linux
 
+  'G@host:kvothe':
+    - match: compound
+    - user
+    - disable-salt-minion
+    - docker
+    - linux-util
+    - mp3
+    - mpd
+    - mpd.scribble
+
   'G@host:locke':
     - match: compound
     - user
