@@ -1,5 +1,7 @@
 #! /bin/bash
 
+SALT_VERSION=${SALT_VERSION:-v2017.7.8}
+
 # install salt package
 if [[ $(uname) == 'Darwin' ]]; then
 	if ! command -v brew >/dev/null 2>&1; then
@@ -8,13 +10,18 @@ if [[ $(uname) == 'Darwin' ]]; then
 	fi
 	brew install saltstack
 
-	# configure just the salt-minion (no salt-master is setup)
-	if [[ ! -d /etc/salt ]]; then
-		sudo mkdir /etc/salt
-	fi
+elif [[ $(uname) == 'Linux' ]]; then
+	# install salt-minion via bootstrap
+	curl -L http://bootstrap.saltstack.org | sudo sh -s -- git "${SALT_VERSION}"
+fi
 
-	sudo touch /etc/salt/minion
-	sudo tee /etc/salt/minion > /dev/null <<EOF
+# configure the salt-minion
+if [[ ! -d /etc/salt ]]; then
+	sudo mkdir /etc/salt
+fi
+
+sudo mkdir -p /etc/salt
+sudo tee /etc/salt/minion > /dev/null <<EOF
 file_client: local
 state_output: mixed
 log_level: info
@@ -27,13 +34,8 @@ pillar_roots:
     - $HOME/dotfiles/salt/pillar
 EOF
 
-	# print the install salt version
-	salt-call --version
-
-elif [[ $(uname) == 'Linux' ]]; then
-	# install salt-minion via bootstrap
-	curl -L http://bootstrap.saltstack.org | sudo sh -s -- git v2017.7.8
-fi
+# print the install salt version
+salt-call --version
 
 # skip stow in top-level install.sh
 exit 255
