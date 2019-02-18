@@ -16,3 +16,4 @@ sabnzbd_basedir: /media/download/usenet
 {% endif %}
 
 bootstrap_dotfiles_cmd: ./install.sh -f zsh vim git tmux inputrc
+timezone: Australia/Melbourne

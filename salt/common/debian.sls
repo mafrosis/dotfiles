@@ -38,8 +38,4 @@ dbus:
     - require_in:
       - timezone: {{ pillar['timezone'] }}
 {% endif %}
-
-{{ pillar['timezone'] }}:
-  timezone.system:
-    - utc: true
 {% endif %}

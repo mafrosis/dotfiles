@@ -20,3 +20,9 @@ system-tools:
       - time
       - vim
       - whois
+
+{% if pillar.get('timezone', false) %}
+{{ pillar['timezone'] }}:
+  timezone.system:
+    - utc: true
+{% endif %}
