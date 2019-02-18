@@ -5,7 +5,6 @@ base:
 
   'G@id:vagrant':
     - match: compound
-    - user
     - disable-salt-minion
     - docker
     - linux-util
@@ -32,7 +31,6 @@ base:
 
   'G@host:kvothe':
     - match: compound
-    - user
     - disable-salt-minion
     - docker
     - linux-util
@@ -42,7 +40,6 @@ base:
 
   'G@host:locke':
     - match: compound
-    - user
     - disable-salt-minion
     - docker
     - locke

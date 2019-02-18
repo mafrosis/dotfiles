@@ -1,7 +1,4 @@
 base:
-  '*':
-    - mafro
-
   'G@id:vagrant':
     - match: compound
     - vagrant
