@@ -16,11 +16,12 @@ if [[ $(uname) == 'Darwin' ]]; then
 	sudo touch /etc/salt/minion
 	sudo tee /etc/salt/minion > /dev/null <<EOF
 file_client: local
+state_output: mixed
+log_level: info
 id: $(hostname -s)
 file_roots:
   base:
     - $HOME/dotfiles/salt
-    - $HOME/dotfiles/salt-formulae
 pillar_roots:
   base:
     - $HOME/dotfiles/salt/pillar
