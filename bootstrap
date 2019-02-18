@@ -1,2 +1,2 @@
 #! /bin/bash -e
-./install.sh zsh vim git tmux inputrc
+./install.sh zsh vim git python tmux inputrc
