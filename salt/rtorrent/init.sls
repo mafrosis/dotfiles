@@ -87,10 +87,16 @@ rtorrent.rc:
     - require:
       - file: /etc/rtorrent
 
-# install blank tmux config
+# install basic tmux config
 rtorrent-tmux-conf:
   file.managed:
     - name: /etc/rtorrent/tmux.conf
+    - contents: |
+        # set control char to v
+        set -g prefix C-v
+        unbind-key C-b
+        bind C-v send-prefix
+        bind-key C-v last-window
     - group: {{ rtorrent_group }}
     - require:
       - file: /etc/rtorrent
