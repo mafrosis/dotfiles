@@ -11,8 +11,13 @@ if [[ $(uname) == 'Darwin' ]]; then
 	brew install saltstack
 
 elif [[ $(uname) == 'Linux' ]]; then
-	# install salt-minion via bootstrap
-	curl -L http://bootstrap.saltstack.org | sudo sh -s -- git "${SALT_VERSION}"
+	if command -v salt-call >/dev/null 2>&1; then
+		echo 'Salt already installed!'
+	else
+		# install salt-minion via bootstrap
+		sudo -v
+		curl -L http://bootstrap.saltstack.org | sudo sh -s -- git "${SALT_VERSION}"
+	fi
 fi
 
 # configure the salt-minion
