@@ -2,7 +2,6 @@ include:
   - supervisor
 
 {% set user = pillar.get('login_user', 'vagrant') %}
-{% set sabnzbd_basedir = pillar.get('sabnzbd_basedir', '/home/'+user+'/usenet') %}
 {% set sabnzbd_user = pillar.get('sabnzbd_user', 'sabnzbd') %}
 {% set sabnzbd_group = pillar.get('sabnzbd_user', 'download') %}
 
@@ -27,7 +26,7 @@ create-sabnzbd-user:
     - require:
       - group: {{ sabnzbd_group }}
 
-{{ sabnzbd_basedir }}:
+/home/{{ user }}/usenet:
   file.directory:
     - user: {{ user }}
     - group: {{ sabnzbd_group }}
@@ -61,8 +60,8 @@ sabnzbd-config:
     - template: jinja
     - user: {{ sabnzbd_user }}
     - defaults:
-        download_dir: {{ sabnzbd_basedir }}/incomplete
-        complete_dir: {{ sabnzbd_basedir }}/complete
+        download_dir: /incomplete
+        complete_dir: /complete
         oznzb_key: "{{ pillar.get('oznzb_key', '') }}"
         sabnzbd_api_key: "{{ pillar.get('sabnzbd_api_key', '') }}"
         sabnzbd_nzb_key: "{{ pillar.get('sabnzbd_nzb_key', '') }}"
