@@ -1,6 +1,6 @@
 #! /bin/bash
 
-SALT_VERSION=${SALT_VERSION:-v2017.7.8}
+SALT_VERSION=${SALT_VERSION:-v2019.2.0}
 
 # install salt package
 if [[ $(uname) == 'Darwin' ]]; then
