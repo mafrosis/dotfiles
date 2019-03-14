@@ -6,4 +6,5 @@ mpd:
     - source: salt://mpd/mpd.conf
     - template: jinja
     - defaults:
+        user: {{ pillar['login_user'] }}
         bind_to_address: {{ salt['cmd.shell']("hostname -I | awk '/.*/ {print $1}'") }}
