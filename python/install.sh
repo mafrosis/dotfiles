@@ -41,6 +41,7 @@ $SUDO pip3 install -U pip setuptools
 # install a couple things via pip
 $SUDO pip3 install \
 	bs4 \
+	eyeD3 \
 	ipdb \
 	pyflakes \
 	requests

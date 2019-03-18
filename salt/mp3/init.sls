@@ -30,11 +30,6 @@ flac:
     - mode: 744
 
 
-eyeD3:
-  pip.installed:
-    - allow_external: eyeD3
-    - allow_unverified: eyeD3
-
 /home/{{ user }}/.eyeD3/plugins:
   file.directory:
     - user: {{ user }}
