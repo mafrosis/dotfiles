@@ -18,7 +18,7 @@ docker-apt-deps:
 docker-pkgrepo:
   pkgrepo.managed:
     - humanname: docker
-    - name: deb [arch=amd64] https://download.docker.com/linux/{{ grains['os']|lower }} {{ oscodename }} stable
+    - name: deb [arch={{ grains['osarch'] }}] https://download.docker.com/linux/{{ grains['os']|lower }} {{ oscodename }} stable
     - file: /etc/apt/sources.list.d/docker.list
     - key_url: https://download.docker.com/linux/{{ grains['os']|lower }}/gpg
     - require_in:
@@ -30,12 +30,21 @@ docker-install:
     - require:
       - pkg: docker-apt-deps
 
+{% if grains['osarch'] == 'armhf' %}
+
+docker-compose:
+  pip.installed
+
+{% else %}
+
 docker-compose-install:
   file.managed:
     - name: /usr/local/bin/docker-compose
     - source: https://github.com/docker/compose/releases/download/1.22.0/docker-compose-Linux-x86_64
     - source_hash: sha256=f679a24b93f291c3bffaff340467494f388c0c251649d640e661d509db9d57e9
     - mode: 755
+
+{% endif %}
 
 docker-adduser-group:
   group.present:
