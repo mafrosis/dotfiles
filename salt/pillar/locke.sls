@@ -13,6 +13,8 @@ login_user: mafro
 rtorrent_download_dir: /media/download/rtorrent
 sabnzbd_basedir: /media/download/usenet
 
+alsa_device: hw:0,7
+
 {% endif %}
 
 bootstrap_dotfiles_cmd: ./install.sh -f zsh vim git tmux inputrc
