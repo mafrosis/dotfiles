@@ -44,10 +44,6 @@ base:
     - docker
     - locke
     - kodi
-    - mp3
-    - mp3.beets
-    - mpd
-    - mpd.scribble
     - linux-util
     - linux-util.download-tools
 
