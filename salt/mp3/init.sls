@@ -3,6 +3,9 @@ include:
 
 {% set user = pillar.get('login_user', 'vagrant') %}
 
+alsa-utils:
+  pkg.installed
+
 lame:
   pkg.installed
 
