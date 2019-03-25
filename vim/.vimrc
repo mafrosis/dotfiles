@@ -1,4 +1,7 @@
 " Vim settings
+if has('python3')
+  silent! python3 1
+endif
 
 "---- General settings and fail safes-----------------------------------
 set nocompatible				" Not vi compatible
