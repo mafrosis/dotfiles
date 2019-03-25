@@ -46,6 +46,9 @@ done
 
 zstyle ':completion:*:(gvim|vim|vi):*' ignored-patterns '*.(o|a|so|swp|idx|out|toc|class|pdf|pyc|mp4|mkv|avi|mp3|flac|jpg|jpeg|gif|png)|__pycache__'
 
+source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
+
 
 ########## Bindkey ########################################
 
@@ -112,3 +115,4 @@ export MACHINE_DRIVER=vmwarefusion
 
 # awscli and friends
 export AWS_DEFAULT_REGION=eu-west-1
+if [ /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/kubectl ]; then source <(kubectl completion zsh); fi
