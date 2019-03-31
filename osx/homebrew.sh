@@ -31,6 +31,7 @@ brew install \
 	fdupes \
 	ffmpeg \
 	flac \
+	fzf \
 	gnu-sed \
 	httpie \
 	imagemagick \
@@ -46,6 +47,7 @@ brew install \
 	python3 \
 	pyenv \
 	shellcheck \
+	the_silver_searcher \
 	terminal-notifier \
 	unrar \
 	wakeonlan \
