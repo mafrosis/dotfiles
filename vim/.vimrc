@@ -84,11 +84,8 @@ nnoremap Q <nop>
 " Allow saving of files as sudo http://stackoverflow.com/a/7078429/425050
 cmap w!! w !sudo tee > /dev/null %
 
-nmap <leader>p2 :let g:syntastic_python_pyflakes_exe = 'python2 -m pyflakes'
-nmap <leader>p3 :let g:syntastic_python_pyflakes_exe = 'python3 -m pyflakes'
 
-
-"---- Code completion options ------------------------------------------
+"---- Code completion options -----------------------------------------
 " The same trick is needed to get ctrl+space to autocomplete in all environments
 if has("gui_running")
 	imap <C-Space> <C-x><C-o>
@@ -110,7 +107,7 @@ au BufNewFile,BufRead *.wsgi	setf python
 autocmd! BufNewFile,BufRead *.ino setlocal ft=arduino
 
 
-"---- Vundle ------------------------------------------------------------
+"---- Vundle ----------------------------------------------------------
 filetype off                   " required!
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -119,7 +116,7 @@ Plugin 'gmarik/Vundle.vim'
 " original repos on github
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'scrooloose/syntastic'
+Plugin 'w0rp/ale'
 Plugin 'saltstack/salt-vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-markdown'
@@ -134,7 +131,7 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 
 
-"---- Code folding ------------------------------------------------------
+"---- Code folding ----------------------------------------------------
 " Map to comma
 nnoremap , za
 
@@ -147,19 +144,12 @@ Plugin 'tmhedberg/SimpylFold'
 let g:SimpylFold_docstring_preview = 1
 
 
-"---- Syntastic -------------------------------------------------------
-let g:syntastic_check_on_open=1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_enable_signs=1
-let g:syntastic_python_checkers = ['pyflakes', 'python']
-let g:syntastic_python_pyflakes_exe = 'python3 -m pyflakes'
-let g:syntastic_python_flake8_args='--ignore=E501'
-let g:syntastic_mode_map = { 'mode': 'active',
-						   \ 'active_filetypes': [],
-						   \ 'passive_filetypes': ['java', 'sass', 'scss'] }
+"---- ALE -------------------------------------------------------------
+let g:ale_sign_column_always = 1
+let g:ale_linters = {'python': ['pyflakes']}
 
 
-"---- File type options ------------------------------------------------
+"---- File type options -----------------------------------------------
 " Individual filetype settings in ~/.vim/ftplugin/<type>.vim
 " These come after any Vundle highlight plugins
 syntax enable					" General file type syntax highlighting
@@ -232,3 +222,6 @@ let g:airline#extensions#whitespace#mixed_indent_algo = 1
 
 " hide branch name
 let g:airline#extensions#branch#enabled = 0
+
+" ALE integration
+let g:airline#extensions#ale#enabled = 1
