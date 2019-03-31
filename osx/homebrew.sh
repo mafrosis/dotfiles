@@ -37,12 +37,14 @@ brew install \
 	imagemagick \
 	jq \
 	lame \
+	libmagic \
 	nmap \
 	nvm \
 	mas \
 	m-cli \
 	mercurial \
 	mplayer \
+	pandoc \
 	python \
 	python3 \
 	pyenv \
