@@ -100,6 +100,9 @@ PLATFORM="linux"
 export VAGRANT_DEFAULT_PROVIDER="vmware_fusion"
 export VAGRANT_VMWARE_CLONE_DIRECTORY="~/.vagrant.d/machines"
 
+# gcloud CLI
+export PATH=$PATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin
+
 # fix the whacky coreutils ls quoting change - http://unix.stackexchange.com/a/262162/8504
 export QUOTING_STYLE=literal ls
 
