@@ -73,12 +73,12 @@ bindkey '^[[1;9X' backward-delete-word
 
 ########## Exports ########################################
 
-# Homebrew
-export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+# Homebrew AND since root inherits $PATH on Debian now with env_keep in sudoers, need /sbin in $PATH
+export PATH=$PATH:/usr/local/bin:/usr/local/sbin:/sbin
 
 # Android
 export ANDROID_HOME=/usr/local/share/android-sdk
-export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
+export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
 export EDITOR=vim
 export VISUAL=vim
@@ -86,9 +86,8 @@ export VISUAL=vim
 export TERM=xterm-256color
 
 # Golang via homebrew
-export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export GOPATH=$HOME/Development/go
-export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOPATH/bin:/usr/local/opt/go/libexec/bin
 
 # no virtualenv prompt; shown via prezto theme
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -100,9 +99,6 @@ PLATFORM="linux"
 # use vmware in vagrant / packer
 export VAGRANT_DEFAULT_PROVIDER="vmware_fusion"
 export VAGRANT_VMWARE_CLONE_DIRECTORY="~/.vagrant.d/machines"
-
-# since root inherits $PATH on Debian now with env_keep in sudoers, need /sbin in $PATH
-export PATH=$PATH:/sbin
 
 # fix the whacky coreutils ls quoting change - http://unix.stackexchange.com/a/262162/8504
 export QUOTING_STYLE=literal ls
