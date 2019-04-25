@@ -6,7 +6,7 @@ alias imginfo="identify -format '-- %f -- \nType: %m\nSize: %b bytes\nResolution
 alias imgres="identify -format '%f: %wpx x %hpx'"
 
 # tmux
-alias ta="tmux attach -d"
+alias ta="tmux new-session -AD -s main"
 
 # generate a UUID
 alias uuid="python -c 'import uuid; print uuid.uuid4()'"
