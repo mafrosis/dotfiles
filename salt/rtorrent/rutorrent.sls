@@ -1,5 +1,5 @@
 include:
-  - nginx_apps
+  - nginx.apps
   - rtorrent
 
 {% set rtorrent_user = pillar.get('rtorrent_user', 'rtorrent') %}

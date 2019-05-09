@@ -37,6 +37,7 @@ base:
     - mp3
     - mpd
     - mpd.scribble
+    - nginx.apps
 
   'G@host:locke':
     - match: compound
