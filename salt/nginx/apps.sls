@@ -1,6 +1,8 @@
 include:
   - nginx
 
+{% set nginx_port = pillar.get('nginx_port', '8880') %}
+
 extend:
   nginx:
     service.running:
@@ -17,6 +19,7 @@ extend:
     - template: jinja
     - defaults:
         host: {{ grains['host'] }}
+        port: {{ nginx_port }}
     - require:
       - pkg: nginx
 

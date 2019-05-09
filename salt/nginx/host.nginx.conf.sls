@@ -1,5 +1,5 @@
 server {
-	listen 80;
+	listen {{ port }};
 	server_name {{ host }};
 	root /srv/;
 	index index.html index.htm index.php;
