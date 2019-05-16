@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash -e
 
 SALT_VERSION=${SALT_VERSION:-v2019.2.0}
 

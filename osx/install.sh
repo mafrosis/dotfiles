@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash -e
 
 # bail if not Darwin
 if [[ $(uname) != 'Darwin' ]] ; then

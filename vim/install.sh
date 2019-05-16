@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash -e
 
 if [[ $(id -u) -gt 0 ]]; then
 	SUDO='sudo'

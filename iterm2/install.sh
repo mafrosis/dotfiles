@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash -e
 
 # install customised version of Hack font
 cp iterm2/HackMafro-Regular.otf /Library/Fonts
