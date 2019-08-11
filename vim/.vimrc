@@ -146,7 +146,7 @@ let g:SimpylFold_docstring_preview = 1
 
 "---- ALE -------------------------------------------------------------
 let g:ale_sign_column_always = 1
-let g:ale_linters = {'python': ['pyflakes']}
+let g:ale_linters = {'python': ['pyflakes'], 'go': ['goimports', 'golint', 'govet']}
 
 
 "---- File type options -----------------------------------------------
