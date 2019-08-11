@@ -24,6 +24,7 @@
 	lc = log --pretty=format:"%s\\ (%h)"
 	ls = log --pretty=format:"%C(yellow)%h\\ %C(red)%ad%C(green)%d\\ %C(reset)%s%C(cyan)\\ [%ae]" --decorate --date=short
 	ll = log --pretty=format:"%C(yellow)%h\\ %C(red)%ad%C(green)%d\\ %C(reset)%s%C(cyan)\\ [%ae]%C(reset)" --decorate --numstat --date=short
+	head = log --no-decorate --format='%h' -1
 	comend = commit --amend --no-edit
 	rc = rebase --continue
 	cp = cherry-pick
