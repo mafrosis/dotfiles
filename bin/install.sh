@@ -1,6 +1,4 @@
 #! /bin/bash -e
 
-# create bin directory in $HOME before stow symlinks it
-if [[ ! -d $HOME/bin ]]; then
-	mkdir $HOME/bin
-fi
+# create bin directory in $HOME before stow symlinks into it
+mkdir -p "$HOME/.local/bin"
