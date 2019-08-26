@@ -21,9 +21,6 @@ unsetopt AUTO_CD
 export GREP_COLOR='33;92'           # BSD
 export GREP_COLORS="mt=$GREP_COLOR" # GNU
 
-# PATH
-export PATH=$HOME/bin:$PATH
-
 
 ########### Aliases / Functions ###########################
 
@@ -74,11 +71,7 @@ bindkey '^[[1;9X' backward-delete-word
 ########## Exports ########################################
 
 # Homebrew AND since root inherits $PATH on Debian now with env_keep in sudoers, need /sbin in $PATH
-export PATH=$PATH:/usr/local/bin:/usr/local/sbin:/sbin
-
-# Android
-export ANDROID_HOME=/usr/local/share/android-sdk
-export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$HOME/.local/bin
 
 export EDITOR=vim
 export VISUAL=vim
