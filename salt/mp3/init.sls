@@ -12,20 +12,20 @@ lame:
 flac:
   pkg.installed
 
-/home/{{ user }}/bin:
+/home/{{ user }}/.local/bin:
   file.directory:
     - user: {{ user }}
     - group: {{ user }}
     - mode: 755
 
-/home/{{ user }}/bin/flac-to-mp3.sh:
+/home/{{ user }}/.local/bin/flac-to-mp3.sh:
   file.managed:
     - source: salt://mp3/flac-to-mp3.sh
     - user: {{ user }}
     - group: {{ user }}
     - mode: 744
 
-/home/{{ user }}/bin/sync-music.sh:
+/home/{{ user }}/.local/bin/sync-music.sh:
   file.managed:
     - source: salt://mp3/sync-music.sh
     - user: {{ user }}

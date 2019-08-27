@@ -32,13 +32,6 @@ plowmod-install:
     - require:
       - cmd: plowshare-install
 
-
-home-bin-dir-download-tools:
-  file.directory:
-    - name: /home/{{ user }}/bin
-    - user: {{ user }}
-    - group: {{ user }}
-
 youtube-dl:
   pip.installed:
     - upgrade: true

@@ -116,12 +116,12 @@ add-rtorrent-group-to-login-user:
 
 home-bin-rtorrent:
   file.directory:
-    - name: /home/{{ user }}/bin
+    - name: /home/{{ user }}/.local/bin
     - user: {{ user }}
     - group: {{ user }}
     - mode: 755
 
-/home/{{ user }}/bin/rtorrent-attach:
+/home/{{ user }}/.local/bin/rtorrent-attach:
   file.managed:
     - contents: |
         #! /bin/bash

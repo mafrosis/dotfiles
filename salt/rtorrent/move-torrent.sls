@@ -9,14 +9,15 @@ extend:
 
 
 # script moves completed torrents
-/home/rtorrent/bin:
+/home/rtorrent/.local/bin:
   file.directory:
     - user: rtorrent
     - group: rtorrent
     - mode: 770
+    - makedirs: true
 
 # script moves completed torrents
-/home/rtorrent/bin/move-torrent.sh:
+/home/rtorrent/.local/bin/move-torrent.sh:
   file.managed:
     - source: salt://rtorrent/move-torrent.sh
     - user: rtorrent
@@ -24,9 +25,9 @@ extend:
     - mode: 774
 
 # make script available for the login user to run
-/home/{{ pillar['login_user'] }}/bin/move-torrent.sh:
+/home/{{ pillar['login_user'] }}/.local/bin/move-torrent.sh:
   file.symlink:
-    - target: /home/rtorrent/bin/move-torrent.sh
+    - target: /home/rtorrent/.local/bin/move-torrent.sh
 
 /var/log/move-torrent.log:
   file.managed:
