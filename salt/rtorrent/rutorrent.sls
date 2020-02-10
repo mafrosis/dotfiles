@@ -56,6 +56,19 @@ rutorrent-chmod:
 # create an nginx config for rutorrent
 /etc/nginx/apps.conf.d/rutorrent.conf:
   file.managed:
-    - source: salt://rtorrent/rutorrent.nginx.conf
+    - contents: |
+       location /RPC2 {
+           include    scgi_params;
+           scgi_pass  localhost:5000;
+       }
+
+       location ~ \.php$ {
+           try_files $uri =404;
+
+           include        fastcgi_params;
+           fastcgi_pass   localhost:9000;
+           fastcgi_index  index.php;
+           fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+       }
     - require:
       - file: /etc/nginx/apps.conf.d
