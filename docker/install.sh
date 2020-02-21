@@ -15,10 +15,7 @@ function install_homebrew {
 # install missing Homebrew
 install_homebrew
 
-brew install \
-	docker \
-	docker-machine \
-	docker-compose
+brew cask install docker
 
 # skip stow in top-level install.sh
 exit 255
