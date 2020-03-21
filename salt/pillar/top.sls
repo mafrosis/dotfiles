@@ -22,3 +22,7 @@ base:
   'id:raspbmc':
     - match: grain
     - raspbmc
+
+  'G@host:ringil':
+    - match: compound
+    - ringil

@@ -51,3 +51,9 @@ base:
   'id:raspbmc':
     - match: grain
     - dev-user
+
+  'G@host:ringil':
+    - match: compound
+    - disable-salt-minion
+    - docker
+    - linux-util
