@@ -1,6 +1,6 @@
 #! /bin/bash -e
 
-SALT_VERSION=${SALT_VERSION:-v2019.2.0}
+SALT_VERSION=${SALT_VERSION:-v3000}
 
 # install salt package
 if [[ $(uname) == 'Darwin' ]]; then
@@ -16,7 +16,7 @@ elif [[ $(uname) == 'Linux' ]]; then
 	else
 		# install salt-minion via bootstrap
 		sudo -v
-		curl -L http://bootstrap.saltstack.org | sudo sh -s -- git "${SALT_VERSION}"
+		curl -L http://bootstrap.saltstack.org | sudo sh -s -- -x python3 git "${SALT_VERSION}"
 	fi
 fi
 
