@@ -38,6 +38,7 @@ base:
     - mpd
     - mpd.scribble
     - nginx.apps
+    - wifi
 
   'G@host:locke':
     - match: compound
