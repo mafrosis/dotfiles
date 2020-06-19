@@ -32,10 +32,10 @@ php-cgi:
   file.managed:
     - source: https://github.com/Novik/ruTorrent/archive/v3.8.tar.gz
     - source_hash: sha1=6519ade2c5b0af40c0869f326df86daf17e6cad3
+    - unless: test -f /srv/rutorrent/index.html
   cmd.wait:
-    - name: tar xzf /tmp/rutorrent-3.8.tar.gz
-    - onlyif: test -f /srv/rutorrent/index.html
-    - cwd: /srv
+    - name: tar xzf /tmp/rutorrent-3.8.tar.gz --strip=1
+    - cwd: /srv/rutorrent
     - watch:
       - file: /tmp/rutorrent-3.8.tar.gz
 
