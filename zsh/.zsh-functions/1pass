@@ -1,20 +1,88 @@
 #! /bin/bash
 
+USAGE='Usage: 1pass [-t TAG] [-k KEY [-f FIELDS]] [-s]
+  -k	lookup single entry by key
+  -t	lookup multiple entries by tag
+  -f	comma-separated fields to retrieve (only applies to KEY usage)
+  -s	force machine-safe output
+
+  Fetch secrets from 1password'
+
+# DEBUG mode controlled by env var
+if [[ -n $DEBUG ]]; then set -x; fi
+
 if ! command -v op &>/dev/null; then
 	echo '1password op tool is missing!'
+	echo 'Download from https://app-updates.agilebits.com/product_history/CLI'
 	return 4
 fi
 
 if [[ $# -eq 0 ]]; then
-	echo 'Usage: 1pass KEY'
+	echo "$USAGE"
 	return 1
 fi
 
-# shellcheck disable=SC2154
-if [[ -z $OP_SESSION_my ]]; then
-	EXPORT=$(op signin my | head -1)
-	echo "$EXPORT" >&2
-	eval "$EXPORT"
+KEY=
+TAG=
+FIELDS=password
+COMPACT=
+
+while getopts 'k:t:f:s' params
+do
+	case $params in
+		k ) KEY=$OPTARG;;
+		t ) TAG=$OPTARG;;
+		f ) FIELDS=$OPTARG;;
+		s ) COMPACT='-cMj';;
+		* ) echo "$USAGE" && return 1;;
+	esac
+done
+shift $((OPTIND-1))
+
+if [[ -z $KEY ]] && [[ -z $TAG ]]; then
+	echo 'You must supply -t TAG or -k KEY'
+	exit 2
 fi
 
-op get item "$1" | jq -ar '.details.sections[0].fields[] | select(.n | contains("password")) | .v'
+# if running without a TTY attached, JQ should print compact
+# https://stackoverflow.com/a/911213/425050
+if [ ! -t 1 ]; then
+	COMPACT='-cMj'
+fi
+
+function signin {
+	EXPORT="$(op signin my 2>&1 | head -1)"
+	if [[ $EXPORT == *'Account not found: my'* ]]; then
+		echo '1password account not configured, run:'
+		echo 'op signin https://my.1password.com services@mafro.net <secret_key>'
+	else
+		echo "$EXPORT" >&2
+		eval "$EXPORT"
+		printf "\\n"
+	fi
+}
+
+function lookup {
+	local RETRY=$1
+
+	set -o pipefail
+
+	if [[ -z $KEY ]]; then
+		OUT=$(op list items --tags "$TAG" | op get item - | jq '{(.overview.title|gsub("[ .]";"_")|ascii_downcase): (.details.fields[] | select(.designation=="password").value)}' | jq $COMPACT -n 'reduce inputs as $in (null; . + $in)')
+	else
+		OUT=$(op get item "$KEY" --fields "$FIELDS" --format CSV)
+	fi
+	# shellcheck disable=SC2181
+	if [ $? -eq 1 ] && [[ -z $RETRY ]]; then
+		signin
+		lookup 1
+	fi
+	echo "$OUT"
+}
+
+# shellcheck disable=SC2154
+if [[ -z $OP_SESSION_my ]]; then
+	signin
+fi
+
+lookup
