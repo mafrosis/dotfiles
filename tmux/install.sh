@@ -29,8 +29,11 @@ if [[ ! -d $HOME/tmux-powerline ]]; then
 	git clone https://github.com/mafrosis/tmux-powerline.git "$HOME/tmux-powerline"
 fi
 
-# install the tmux-powerline custom theme
-ln -sf "$HOME/dotfiles/tmux/powerline-theme.sh" "$HOME/tmux-powerline/themes/"
+# symlink all custom themes into tmux-powerline source
+for F in tmux/powerline-themes/*; do
+	echo "Installing powerline theme $F"
+	ln -sf "$HOME/dotfiles/$F" "$HOME/tmux-powerline/themes/"
+done
 
 # symlink all custom segments into tmux-powerline source
 for F in tmux/powerline-segments/*; do
