@@ -21,6 +21,8 @@ if [[ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]]; then
 	TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS=(
 		"hostname 33 0" \
 
+		"nordon 028 255" \
+		"nordoff 124 255" \
 		"zfs 101 255" \
 		"enc 36 255" \
 		"backup 166 255" \
