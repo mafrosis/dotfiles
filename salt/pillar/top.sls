@@ -17,7 +17,6 @@ base:
   'G@host:kvothe':
     - match: compound
     - kvothe
-    - kvothe-secrets
 
   'id:raspbmc':
     - match: grain

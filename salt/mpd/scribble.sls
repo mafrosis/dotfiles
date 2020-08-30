@@ -6,4 +6,4 @@ mpdscribble:
     - source: salt://mpd/mpdscribble.conf
     - template: jinja
     - defaults:
-        librefm_password: {{ pillar['librefm_password'] }}
+        librefm_password: {{ pillar['libre_fm'] }}
