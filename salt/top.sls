@@ -38,6 +38,7 @@ base:
     - mpd
     - mpd.scribble
     - nginx.apps
+    - ssh-via-oauth
     - wifi
 
   'G@host:locke':
