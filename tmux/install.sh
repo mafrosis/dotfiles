@@ -32,7 +32,8 @@ fi
 # install the tmux-powerline custom theme
 ln -sf "$HOME/dotfiles/tmux/powerline-theme.sh" "$HOME/tmux-powerline/themes/"
 
-# symlink all custom segments into tmux-powerline
-for F in tmux/.tmux-segments/*; do
+# symlink all custom segments into tmux-powerline source
+for F in tmux/powerline-segments/*; do
+	echo "Installing powerline segment $F"
 	ln -sf "$HOME/dotfiles/$F" "$HOME/tmux-powerline/segments/"
 done
