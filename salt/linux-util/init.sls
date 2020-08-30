@@ -10,6 +10,7 @@ linux-utils-pkgs:
       - cryptsetup
       - curl
       - disktype
+      - dkms
       - dnsutils
       - ethtool
       - hfsprogs
