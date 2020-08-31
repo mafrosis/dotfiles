@@ -36,7 +36,7 @@ else
 	echo "Syncing to $MPD_USERNAME@$MPD_HOSTNAME"
 
 	# pull playlists from the MPD server
-	rsync -avP --delete "$MPD_HOSTNAME:/home/$MPD_USERNAME/playlists/" /media/pools/music/playlists
+	rsync -avP "$MPD_HOSTNAME:/home/$MPD_USERNAME/playlists/" /media/pools/music/playlists
 
 	# push music to the MPD server
 	rsync -avP --delete /media/pools/music/mp3/ "$MPD_HOSTNAME:/home/$MPD_USERNAME/mp3"
