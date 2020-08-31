@@ -17,6 +17,7 @@ base:
     - match: compound
     - disable-salt-minion
     - docker
+    - grub-timeout-0
     - jorg
     - linux-util
     - linux-util.download-tools
@@ -46,6 +47,7 @@ base:
     - match: compound
     - disable-salt-minion
     - docker
+    - grub-timeout-0
     - locke
     - kodi
     - linux-util
