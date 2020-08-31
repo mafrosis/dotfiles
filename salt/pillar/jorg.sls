@@ -5,15 +5,13 @@ rtorrent_download_dir: /home/vagrant/torrent
 
 {% else %}
 
-# zfs from contrib no work with httpredir
-#deb_mirror_prefix: ftp.uk
-
-#hostname: monopoly
+hostname: jorg
 login_user: mafro
 rtorrent_download_dir: /media/download/rtorrent
 sabnzbd_basedir: /media/download/usenet
 
-#zpool_import: True
+rtorrent_download_rate: 5000
+rtorrent_upload_rate: 70
 
 samba_users:
   mafro:
@@ -25,10 +23,4 @@ samba_users:
 
 smb_workgroup: EGGS
 
-custom_segments:
-  enc: "36 255"
-  backup: "166 255"
-
 {% endif %}
-
-bootstrap_dotfiles_cmd: ./install.sh -f zsh vim git tmux inputrc

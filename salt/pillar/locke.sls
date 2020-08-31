@@ -17,5 +17,4 @@ alsa_device: hw:0,7
 
 {% endif %}
 
-bootstrap_dotfiles_cmd: ./install.sh -f zsh vim git tmux inputrc
 timezone: Australia/Melbourne

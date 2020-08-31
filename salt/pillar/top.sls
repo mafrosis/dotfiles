@@ -18,10 +18,6 @@ base:
     - match: compound
     - kvothe
 
-  'id:raspbmc':
-    - match: grain
-    - raspbmc
-
   'G@host:ringil':
     - match: compound
     - ringil
