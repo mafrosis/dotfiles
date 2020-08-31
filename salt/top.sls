@@ -50,10 +50,6 @@ base:
     - linux-util
     - linux-util.download-tools
 
-  'id:raspbmc':
-    - match: grain
-    - dev-user
-
   'G@host:ringil':
     - match: compound
     - disable-salt-minion
