@@ -60,6 +60,7 @@ sabnzbd-config:
     - template: jinja
     - user: {{ sabnzbd_user }}
     - defaults:
+        hostname: {{ pillar['hostname'] }}
         download_dir: /incomplete
         complete_dir: /complete
         oznzb_key: "{{ pillar.get('oznzb_key', '') }}"
