@@ -26,6 +26,7 @@ base:
     - rtorrent.move-torrent
     - sabnzbd
     - samba
+    - vpn
     - wakeonlan
     - zfs-on-linux
 

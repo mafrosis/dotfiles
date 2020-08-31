@@ -1,0 +1,17 @@
+#! /bin/bash
+
+# Lynx VPN, autoconnect & DNS
+nordvpn set technology NordLynx
+nordvpn set dns 192.168.1.1
+nordvpn set autoconnect enabled Australia
+
+# whitelisting
+nordvpn whitelist add port 22 protocol TCP
+nordvpn whitelist add port 53
+nordvpn whitelist add ports 137 138 protocol UDP
+nordvpn whitelist add port 139 protocol TCP
+nordvpn whitelist add port 445 protocol TCP
+
+# display
+nordvpn settings
+nordvpn c
