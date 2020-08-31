@@ -20,6 +20,7 @@ linux-utils-pkgs:
       - lvm2
       - man-db
       - ncdu
+      - p7zip-full
       - parted
       - pastebinit
       - rsync
@@ -30,13 +31,3 @@ linux-utils-pkgs:
       - zip
     - require:
       - file: apt-no-recommends
-
-{% if grains['os'] == "Debian" %}
-unrar:
-  pkg.installed:
-    - require:
-      - pkgrepo: nonfree-pkgrepo
-{% else %}
-unrar:
-  pkg.installed
-{% endif %}
