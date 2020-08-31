@@ -32,6 +32,6 @@ nordvpn-configure:
         nordvpn whitelist add ports 137 138 protocol UDP
         nordvpn whitelist add port 139 protocol TCP
         nordvpn whitelist add port 445 protocol TCP
-    - user: mafro
+    - runas: mafro
     - require:
       - pkg: nordvpn-install
