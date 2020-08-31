@@ -93,19 +93,27 @@ class AutotagPlugin(LoaderPlugin):
             artist = parts[1]
             title = parts[2]
         else:
-            if len(parts) == 2:
-                # correct naming
-                track_num = int(parts[0])
-                artist = self.meta['artist']
-                title = parts[1]
-
-            if len(parts) == 3:
-                # first part could be artist
-                if parts[0] == self.meta['artist']:
-                    track_num = int(parts[1])
+            try:
+                if len(parts) == 2:
+                    # handle "Track - Title"
+                    track_num = int(parts[0])
                     artist = self.meta['artist']
-                    title = parts[2]
+                    title = parts[1]
 
+                if len(parts) == 3:
+                    if parts[0] == self.meta['artist']:
+                        # handle "Artist - Track - Title"
+                        track_num = int(parts[1])
+                        artist = self.meta['artist']
+                        title = parts[2]
+                    else:
+                        # handle "Track - Title - Title"
+                        track_num = int(parts[0])
+                        artist = self.meta['artist']
+                        title = ' - '.join(parts[1:])
+
+            except ValueError as e:
+                print('Probably failed to parse TrackNum: {e}')
 
         return track_num, artist, title
 
