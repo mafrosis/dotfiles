@@ -38,7 +38,6 @@ base:
     - mp3
     - mpd
     - mpd.scribble
-    - nginx.apps
     - ssh-via-oauth
     - wifi
 
