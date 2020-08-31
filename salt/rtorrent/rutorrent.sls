@@ -1,14 +1,7 @@
 include:
-  - nginx.apps
   - rtorrent
 
 {% set rtorrent_user = pillar.get('rtorrent_user', 'rtorrent') %}
-
-extend:
-  nginx:
-    service.running:
-      - watch:
-        - file: /etc/nginx/apps.conf.d/rutorrent.conf
 
 
 php-cgi:
@@ -52,23 +45,3 @@ rutorrent-chmod:
       - mode
     - require:
       - cmd: /tmp/rutorrent-3.8.tar.gz
-
-# create an nginx config for rutorrent
-/etc/nginx/apps.conf.d/rutorrent.conf:
-  file.managed:
-    - contents: |
-       location /RPC2 {
-           include    scgi_params;
-           scgi_pass  localhost:5000;
-       }
-
-       location ~ \.php$ {
-           try_files $uri =404;
-
-           include        fastcgi_params;
-           fastcgi_pass   localhost:9000;
-           fastcgi_index  index.php;
-           fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
-       }
-    - require:
-      - file: /etc/nginx/apps.conf.d
