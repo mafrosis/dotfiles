@@ -5,6 +5,7 @@ docker-apt-deps:
       - ca-certificates
       - curl
       - gnupg2
+      - libffi-dev
       - software-properties-common
 
 {# HACK: docker didnt release into stable for bionic #}
