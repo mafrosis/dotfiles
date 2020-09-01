@@ -6,7 +6,6 @@ base:
   'G@host:jorg or G@id:jorg':
     - match: compound
     - jorg
-    - jorg-secrets
     - wakeonlan
 
   'G@host:locke':

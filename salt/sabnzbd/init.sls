@@ -63,9 +63,6 @@ sabnzbd-config:
         hostname: {{ pillar['hostname'] }}
         download_dir: /incomplete
         complete_dir: /complete
-        oznzb_key: "{{ pillar.get('oznzb_key', '') }}"
-        sabnzbd_api_key: "{{ pillar.get('sabnzbd_api_key', '') }}"
-        sabnzbd_nzb_key: "{{ pillar.get('sabnzbd_nzb_key', '') }}"
   cmd.wait:
     - name: supervisorctl restart sabnzbd
     - watch:
