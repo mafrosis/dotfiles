@@ -42,5 +42,9 @@ EOF
 # print the install salt version
 salt-call --version
 
+# stop and disable the minion service
+sudo systemctl stop salt-minion
+sudo systemctl disable salt-minion
+
 # skip stow in top-level install.sh
 exit 255
