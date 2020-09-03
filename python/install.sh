@@ -24,8 +24,8 @@ if ! command -v python3 >/dev/null 2>&1; then
 	fi
 fi
 
-# install distutils on ubuntu bionic
-if [[ $(lsb_release -cs) == 'bionic' ]]; then
+# install distutils on ubuntu bionic and debian buster
+if [[ $(lsb_release -cs) == 'bionic' ]] || [[ $(lsb_release -cs) == 'buster' ]]; then
 	$SUDO apt-get install -y python3-distutils
 fi
 
