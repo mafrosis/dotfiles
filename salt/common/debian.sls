@@ -8,9 +8,6 @@ required-packages:
       - apt-transport-https
       - coreutils
       - debconf-utils
-      {% if grains['os'] == 'Ubuntu' %}
-      - language-pack-en
-      {% endif %}
       - libffi-dev
       - libssl-dev
       - man-db
