@@ -17,6 +17,7 @@ system-tools:
       - bc
       - file
       - less
+      - ntp
       - time
       - vim
       - whois

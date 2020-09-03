@@ -7,4 +7,3 @@ required-packages:
     - names:
       - language-pack-en
       - make
-      - ntp

@@ -11,7 +11,6 @@ required-packages:
       - libffi-dev
       - libssl-dev
       - man-db
-      - ntp
       - python-apt
       - software-properties-common
       - swig
