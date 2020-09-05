@@ -88,34 +88,59 @@ class AutotagPlugin(LoaderPlugin):
         # validate all numbers?
         # rename files?
 
+        track_num = artist = title = None
+
         if self.args.compilation:
-            track_num = parts[0]
-            artist = parts[1]
-            title = parts[2]
+            if len(parts) == 2:
+                # Singles have no track number
+                # handle "Artist - Title"
+                track_num = 0
+                artist = parts[0]
+                title = parts[1]
+
+            elif len(parts) == 3:
+                # handle "TrackNum - Artist - Title"
+                track_num = parts[0]
+                artist = parts[1]
+                title = parts[2]
         else:
             try:
                 if len(parts) == 2:
-                    # handle "Track - Title"
-                    track_num = int(parts[0])
+                    # handle "TrackNum - Title"
+                    track_num = parts[0]
                     artist = self.meta['artist']
                     title = parts[1]
 
                 if len(parts) == 3:
                     if parts[0] == self.meta['artist']:
-                        # handle "Artist - Track - Title"
-                        track_num = int(parts[1])
+                        # handle "Artist - TrackNum - Title"
+                        track_num = parts[1]
                         artist = self.meta['artist']
                         title = parts[2]
                     else:
-                        # handle "Track - Title - Title"
-                        track_num = int(parts[0])
+                        # handle "TrackNum - Title1 - Title2"
+                        track_num = parts[0]
                         artist = self.meta['artist']
                         title = ' - '.join(parts[1:])
 
             except ValueError as e:
                 print('Probably failed to parse TrackNum: {e}')
 
-        return track_num, artist, title
+        if None in (track_num, artist, title):
+            print('')
+            print('Failed to parse filename:')
+            print(f'  {filename}')
+            print('')
+            print('Parseable filenames follow one of the following patterns:')
+            print('')
+            print('"TrackNum - Artist - Title"')
+            print('"Artist - TrackNum - Title"')
+            print('"TrackNum - Title"')
+            print('"TrackNum - Title1 - Title2"')
+            print('"Artist - Title" (only valid with --compilation)')
+            sys.exit(1)
+
+        return int(track_num), artist, title
 
 
     def tagFile(self, filename, track_num, artist, title):
@@ -128,7 +153,7 @@ class AutotagPlugin(LoaderPlugin):
             id3.Tag.remove(self.audio_file.path, id3.ID3_ANY_VERSION)
             printMsg("Tag removed from '{}'".format(filename))
 
-        # initialize 
+        # initialize
         if self.audio_file.tag is None:
             self.audio_file.initTag(id3.ID3_V2_4)
 
