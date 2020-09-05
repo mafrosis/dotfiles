@@ -19,6 +19,7 @@ base:
     - docker
     - grub-timeout-0
     - jorg
+    - jorg.monitoring
     - linux-util
     - linux-util.download-tools
     - mp3
