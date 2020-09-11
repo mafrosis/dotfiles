@@ -17,6 +17,4 @@ if ! command -v git >/dev/null 2>&1; then
 fi
 
 # create bin directory in $HOME before stow symlinks into it
-if [[ ! -d $HOME/bin ]]; then
-	mkdir $HOME/bin
-fi
+mkdir -p "$HOME/.local/bin"
