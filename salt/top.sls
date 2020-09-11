@@ -1,6 +1,7 @@
 base:
   '*':
     - common
+    - common.ssh
     - disable-salt-minion
 
   'G@id:vagrant':
