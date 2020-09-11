@@ -114,8 +114,8 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " original repos on github
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plugin 'itchyny/lightline.vim'
+Plugin 'maximbaz/lightline-ale'
 Plugin 'w0rp/ale'
 Plugin 'saltstack/salt-vim'
 Plugin 'airblade/vim-gitgutter'
@@ -195,33 +195,46 @@ highlight GitGutterDelete ctermfg=red
 highlight GitGutterChangeDelete ctermfg=yellow
 
 
-"---- Airline ---------------------------------------------------------
-" airline theme
-let g:airline_theme='powerlineish'
+"---- Lightline -------------------------------------------------------
+let g:lightline = {
+  \ 'component_function': {
+  \   'filename': 'LightlineFilename',
+  \ },
+  \ 'active': {
+  \   'left': [
+  \     ['mode', 'paste'],
+  \     ['readonly', 'filename', 'modified'],
+  \   ],
+  \   'right': [
+  \     ['linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok'],
+  \     ['percent'],
+  \     ['lineinfo'],
+  \     ['filetype', 'fileformat', 'fileencoding'],
+  \   ],
+  \ },
+\ }
 
-" enable airline tab bar
-let g:airline#extensions#tabline#enabled = 1
+let g:lightline.component_expand = {
+  \ 'linter_checking': 'lightline#ale#checking',
+  \ 'linter_infos': 'lightline#ale#infos',
+  \ 'linter_warnings': 'lightline#ale#warnings',
+  \ 'linter_errors': 'lightline#ale#errors',
+  \ 'linter_ok': 'lightline#ale#ok',
+\ }
 
-" hide tabbar title, tab number and close button
-let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline#extensions#tabline#show_close_button = 0
-" hide buffers list on right of tabline
-let g:airline#extensions#tabline#show_splits = 0
+let g:lightline.component_type = {
+  \ 'linter_checking': 'right',
+  \ 'linter_infos': 'right',
+  \ 'linter_warnings': 'warning',
+  \ 'linter_errors': 'error',
+  \ 'linter_ok': 'right',
+\ }
 
-" no powerline symbols in tabline
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
-let g:airline#extensions#tabline#right_sep = ''
-let g:airline#extensions#tabline#right_alt_sep = ''
-
-" disable airline whitespace checker
-let g:airline#extensions#whitespace#enabled = 0
-" whitespace algo allows tabs followed by spaces
-let g:airline#extensions#whitespace#mixed_indent_algo = 1
-
-" hide branch name
-let g:airline#extensions#branch#enabled = 0
-
-" ALE integration
-let g:airline#extensions#ale#enabled = 1
+function! LightlineFilename()
+  let root = fnamemodify(get(b:, 'git_dir'), ':h')
+  let path = expand('%:p')
+  if path[:len(root)-1] ==# root
+    return path[len(root)+1:]
+  endif
+  return expand('%')
+endfunction
