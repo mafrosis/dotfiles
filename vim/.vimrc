@@ -37,14 +37,8 @@ set wildmode=longest:full,full
 " ignore patterns for wildmenu
 set wildignore+=*.min.*,__pycache__,*.pyc
 
-
-"---- OS Specific options ----------------------------------------------
-if has('unix')
-	"Unix general settings
-	highlight LineNr guifg=red guibg=grey90
-	set t_Co=256							" Force 256 colours in GNU Screen
-	colorscheme ir_black_plus
-endif
+" theme
+colorscheme ir_black_plus
 
 
 "---- Mappings ---------------------------------------------------------
