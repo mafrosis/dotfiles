@@ -1,7 +1,18 @@
 #! /bin/zsh
 
-if [[ -f ~/.wakeonlan/$1 ]]; then
-	/usr/local/bin/wakeonlan -f ~/.wakeonlan/$1
+if [[ -x /usr/local/bin/wakeonlan ]]; then
+	WOLBIN=/usr/local/bin/wakeonlan
+elif [[ -x /usr/bin/wakeonlan ]]; then
+	WOLBIN=/usr/bin/wakeonlan
+elif [[ -x /bin/wakeonlan ]]; then
+	WOLBIN=/bin/wakeonlan
 else
-	/usr/local/bin/wakeonlan $@
+	echo 'wakeonlan: not found'
+	return 1
+fi
+
+if [[ -f ~/.wakeonlan/$1 ]]; then
+	$WOLBIN -f ~/.wakeonlan/$1
+else
+	$WOLBIN $@
 fi
