@@ -35,3 +35,6 @@ if [[ $? -eq 0 ]]; then
 		vim +PluginInstall +qall
 	fi
 fi
+
+# Create the persistent undo dir
+mkdir -p ~/.vim/undodir

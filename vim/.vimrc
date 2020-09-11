@@ -24,6 +24,9 @@ set shortmess=oI				" Disable intro messages, messages overwrite each other
 set bs=indent,eol,start		 	" Backspace over everything in insert mode
 set noshowmode					" Hide the default mode text (INSERT below the statusline)
 
+" Persistent undo
+set undodir=~/.vim/undodir
+set undofile
 
 "---- Path and wildmenu ------------------------------------------------
 " search current dir, followed by PWD
