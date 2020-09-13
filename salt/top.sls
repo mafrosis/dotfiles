@@ -5,6 +5,12 @@ base:
     - docker
     - disable-salt-minion
 
+  'G@os:Debian':
+    - common.debian
+
+  'G@os:Ubuntu':
+    - common.ubuntu
+
   'G@id:vagrant':
     - match: compound
     - linux-util
