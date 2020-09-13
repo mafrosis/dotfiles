@@ -25,6 +25,7 @@ base:
     - jorg
     - jorg.monitoring
     - linux-util
+    - linux-util.disk-tools
     - linux-util.download-tools
     - mp3
     - pools-perm-watchdog
@@ -53,6 +54,7 @@ base:
     - locke
     - kodi
     - linux-util
+    - linux-util.disk-tools
     - linux-util.download-tools
     - ssh-via-oauth
 
