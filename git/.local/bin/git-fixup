@@ -1,6 +1,6 @@
 #! /bin/bash
 
-USAGE='git fixup [-h] [-a] COMMIT|FILEPATH
+USAGE='git fixup [-h] COMMIT|FILEPATH
   -h	display this message
 
   Create a fixup commit with the supplied id, or a fixup commit against the
@@ -10,9 +10,11 @@ while getopts 'h' options
 do
 	case $options in
 		h ) echo "$USAGE" && exit 1;;
+		* ) echo "$USAGE" && exit 1;;
 	esac
 done
 shift $((OPTIND-1))
+
 
 if [[ -z $1 ]]; then
 	echo noop
@@ -28,10 +30,12 @@ if git cat-file -e "$1" 2>/dev/null; then
 	COMMIT_ID=$(git log -1 "$1" --oneline | awk '{ if (/fixup/) {print $3} else {print $1} }')
 else
 	# else is a file
-	# if target file is unstaged & modified, then stage it
-	if git ls-files --modified | grep "$1" 2>/dev/null; then
-		git add "$1"
-		echo "Staged $1"
+	# if target file is not staged & is modified, then stage it
+	if ! git diff --name-only --cached "$1" | grep "$1" &>/dev/null && \
+		git ls-files --modified | grep "$1" &>/dev/null; then
+
+		git add "$1" &>/dev/null
+		echo "Added unstaged $1"
 	fi
 
 	# fixup the last non-fixup commit to the file
