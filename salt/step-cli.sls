@@ -3,7 +3,10 @@
 install-step-cli:
   archive.extracted:
     - name: /tmp/step
-    {% if grains["osarch"] == "armhf" %}
+    {% if grains["cpuarch"] == "armv6l" %}
+    - source: https://storage.googleapis.com/step-ca-a48ea0-bins/step-{{ smallstep_version }}-armv6.tar.gz
+    - source_hash: md5=dd69c43e28b2f325d4235b762db779a1
+    {% elif grains["cpuarch"] == "armv7l" %}
     - source: https://github.com/smallstep/cli/releases/download/v{{ smallstep_version }}/step_linux_{{ smallstep_version }}_armv7.tar.gz
     - source_hash: md5=8a86343222df74152e2b769b2380acd8
     {% else %}
