@@ -16,5 +16,3 @@ sabnzbd_basedir: /media/download/usenet
 alsa_device: hw:0,7
 
 {% endif %}
-
-timezone: Australia/Melbourne

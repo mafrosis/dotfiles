@@ -14,8 +14,8 @@ system-tools:
       - vim
       - whois
 
-{% if pillar.get('timezone', false) %}
-{{ pillar['timezone'] }}:
+{% set timezone = pillar.get('timezone', 'Australia/Melbourne') %}
+
+{{ timezone }}:
   timezone.system:
     - utc: true
-{% endif %}
