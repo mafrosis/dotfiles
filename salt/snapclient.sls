@@ -1,4 +1,4 @@
-{% set snap_version = "0.20.0" %}
+{% set snap_version = "0.21.0" %}
 
 install-snapclient-deps:
   pkg.installed:
@@ -15,13 +15,13 @@ install-snapclient:
     - name: /tmp/snapclient_{{ snap_version }}-1_{{ grains["osarch"] }}.deb
     - source: https://github.com/badaix/snapcast/releases/download/v{{ snap_version }}/snapclient_{{ snap_version }}-1_{{ grains["osarch"] }}.deb
     {% if grains["osarch"] == "armhf" %}
-    - source_hash: md5=426c9ea8672214e220301703e6aadca5
+    - source_hash: md5=3312cc19d9226a3f47625efd319c4fa0
     {% else %}
-    - source_hash: md5=948dd8b6b83d33d0cfe0030d5fdb5893
+    - source_hash: md5=6c7779c4a7e6e559989bb0141352ab59
     {% endif %}
     - if_missing: /usr/bin/snapclient
   cmd.wait:
-    - name: dpkg -i /tmp/snapclient_0.20.0-1_{{ grains["osarch"] }}.deb
+    - name: dpkg -i /tmp/snapclient_{{ snap_version }}-1_{{ grains["osarch"] }}.deb
     - watch:
       - file: install-snapclient
 
