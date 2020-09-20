@@ -2,12 +2,11 @@ base:
   '*':
     - common
     - common.ssh
+    - docker
     - disable-salt-minion
 
   'G@id:vagrant':
     - match: compound
-    - disable-salt-minion
-    - docker
     - linux-util
     - linux-util.download-tools
     - mpd
@@ -16,8 +15,6 @@ base:
 
   'G@host:jorg':
     - match: compound
-    - disable-salt-minion
-    - docker
     - grub-timeout-0
     - jorg
     - jorg.monitoring
@@ -36,8 +33,6 @@ base:
 
   'G@host:kvothe':
     - match: compound
-    - disable-salt-minion
-    - docker
     - linux-util
     - mp3
     - mpd
@@ -47,8 +42,6 @@ base:
 
   'G@host:locke':
     - match: compound
-    - disable-salt-minion
-    - docker
     - grub-timeout-0
     - locke
     - kodi
@@ -57,6 +50,4 @@ base:
 
   'G@host:ringil':
     - match: compound
-    - disable-salt-minion
-    - docker
     - linux-util
