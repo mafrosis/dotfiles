@@ -20,3 +20,7 @@ base:
   'G@host:ringil':
     - match: compound
     - ringil
+
+  'G@host:whirrun':
+    - match: compound
+    - whirrun

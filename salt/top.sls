@@ -51,3 +51,9 @@ base:
   'G@host:ringil':
     - match: compound
     - linux-util
+
+  'G@host:whirrun':
+    - match: compound
+    - linux-util
+    - snapclient
+    - ssh-via-oauth
