@@ -26,6 +26,7 @@ base:
     - rtorrent.move-torrent
     - sabnzbd
     - samba
+    - ssh-via-oauth
     - usbmount
     - vpn
     - wakeonlan
@@ -47,10 +48,12 @@ base:
     - kodi
     - linux-util
     - linux-util.download-tools
+    - ssh-via-oauth
 
   'G@host:ringil':
     - match: compound
     - linux-util
+    - ssh-via-oauth
 
   'G@host:whirrun':
     - match: compound
