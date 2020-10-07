@@ -1,5 +1,8 @@
 #! /bin/bash -e
 
+# passed from /dotfiles/install.sh
+FORCE=${1:-0}
+
 SALT_VERSION=${SALT_VERSION:-v3001.1}
 
 # install salt package
@@ -11,7 +14,7 @@ if [[ $(uname) == 'Darwin' ]]; then
 	brew install saltstack
 
 elif [[ $(uname) == 'Linux' ]]; then
-	if command -v salt-call >/dev/null 2>&1; then
+	if [[ $FORCE -eq 0 ]] && command -v salt-call >/dev/null 2>&1; then
 		echo 'Salt already installed!'
 	else
 		# install salt-minion via bootstrap
