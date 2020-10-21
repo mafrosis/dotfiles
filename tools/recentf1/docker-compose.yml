@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  recentf1:
+    image: mafrosis/recentf1
+    restart: unless-stopped
+    build:
+      context: .
+    volumes:
+      - ./listf1.py:/srv/app/listf1.py:ro
+      - /media/pools/video/F1:/media:ro

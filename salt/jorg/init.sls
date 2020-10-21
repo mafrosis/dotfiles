@@ -16,8 +16,3 @@ firmware-misc-nonfree:
   pkg.installed:
     - require:
       - pkgrepo: nonfree-pkgrepo
-
-/usr/local/bin/listf1.py:
-  file.managed:
-    - source: salt://jorg/listf1.py
-    - mode: 744
