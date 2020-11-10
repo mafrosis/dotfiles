@@ -35,7 +35,7 @@ else
 		git ls-files --modified | grep "$1" &>/dev/null; then
 
 		git add "$1" &>/dev/null
-		echo "Added unstaged $1"
+		echo "Auto-staged $1"
 	fi
 
 	# fixup the last non-fixup commit to the file
