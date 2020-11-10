@@ -23,11 +23,8 @@ elif [[ $(uname) == 'Darwin' ]] && ! brew list | grep -q vim; then
 	brew install vim
 fi
 
-# retrieve the Vundle submodule
-git submodule update --init vim/.vim/bundle/Vundle.vim
-
-# install vim plugins with Vundle
-if [[ $? -eq 0 ]]; then
+# retrieve the Vundle submodule & install vim plugins with Vundle
+if git submodule update --init vim/.vim/bundle/Vundle.vim; then
 	# if either stdin or stdout is missing, redirect output
 	if [[ ! -t 0 || ! -t 1 ]]; then
 		vim +PluginInstall +qall &>/dev/null
