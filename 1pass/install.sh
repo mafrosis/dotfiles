@@ -1,6 +1,6 @@
 #! /bin/bash -ex
 
-VERSION=${VERSION:-v1.5.0}
+VERSION=${VERSION:-v1.8.0}
 
 # bail if Darwin, else specify machine arch
 if [[ $(uname) == 'Darwin' ]]; then
