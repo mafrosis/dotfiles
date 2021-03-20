@@ -65,12 +65,12 @@ base:
 
   'G@host:whirrun':
     - match: compound
-    - linux-util
+    - linux-util.minimal
     - snapclient
     - ssh-via-oauth
 
   'G@host:caul':
     - match: compound
-    - linux-util
+    - linux-util.minimal
     - snapclient
     - ssh-via-oauth
