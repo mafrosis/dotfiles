@@ -24,3 +24,7 @@ base:
   'G@host:whirrun':
     - match: compound
     - whirrun
+
+  'G@host:caul':
+    - match: compound
+    - caul

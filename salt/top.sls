@@ -68,3 +68,9 @@ base:
     - linux-util
     - snapclient
     - ssh-via-oauth
+
+  'G@host:caul':
+    - match: compound
+    - linux-util
+    - snapclient
+    - ssh-via-oauth
