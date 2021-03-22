@@ -10,6 +10,7 @@ USAGE='Usage: ffconv [OPTS] PATH
   -W	resize to this horizontal pixel size
   -H	resize to this vertical pixel size
   -s	encode start time (in 0:01:23 time format)
+  -e	encode end time (in 0:01:23 time format)
   -d	encode duration (in seconds)
   -h	display this message
 
@@ -35,10 +36,11 @@ NO_DUNZO=0
 NEW_WIDTH=0
 NEW_HEIGHT=0
 START_TIME=
+END_TIME=
 DURATION=
 START=
 
-while getopts 'c:fa:ATW:H:s:d:h:N' params
+while getopts 'c:fa:ATW:H:s:e:d:h:N' params
 do
 	case $params in
 		c ) CRF=$OPTARG;;
@@ -49,6 +51,7 @@ do
 		W ) NEW_WIDTH=$OPTARG;;
 		H ) NEW_HEIGHT=$OPTARG;;
 		s ) START_TIME=$OPTARG;;
+		e ) END_TIME=$OPTARG;;
 		d ) DURATION=$OPTARG;;
 		N ) NO_DUNZO=1;;
 		h ) echo "$USAGE" && return 1;;
@@ -106,20 +109,37 @@ if [[ ! -z $START_TIME || ! -z $DURATION ]]; then
 	FRAME_RATE=$(( $( echo "$VSTREAM_DATA" | grep r_frame_rate | cut -d = -f 2 ) ))
 fi
 
+function time_to_secs {
+	HOURS=$(echo "$1" | cut -d':' -f 1)
+	MINS=$(echo "$1" | cut -d':' -f 2)
+	SECS=$(echo "$1" | cut -d':' -f 3)
+
+	if [[ -z $SECS ]]; then
+		SECS="$MINS"
+		MINS="$HOURS"
+		HOURS=""
+	fi
+
+	echo $(( (HOURS*60*60) + (MINS*60) + $SECS ))
+}
+
 # fade in movie at specified time
 if [[ ! -z $START_TIME ]]; then
-	if [[ -z $DURATION ]]; then
-		DURATION='99:00:00.00'
+	if [[ ! -z $END_TIME ]]; then
+		DURATION=$(( $(time_to_secs $END_TIME) - $(time_to_secs $START_TIME) ))
 	fi
-	START="-ss $START_TIME -t $DURATION"
+	START="-ss $START_TIME"
 	VFILTER+=("fade=in:0:$FRAME_RATE")
+else
+	START="-ss 0:00:00"
+fi
 
-elif [[ ! -z $DURATION ]]; then
-	# extract number of frames and frame rate
+if [[ ! -z $DURATION ]]; then
+	# fade out after duration seconds
 	FRAMES=$( echo "$VSTREAM_DATA" | grep nb_frames | cut -d = -f 2 )
 	FADE_OUT_FRAME=$(( (FRAME_RATE * DURATION) - FRAME_RATE ))
 
-	START="-ss 0:00:00 -t $DURATION"
+	START="$START -t $DURATION"
 	VFILTER+=("fade=out:$FADE_OUT_FRAME:$FRAME_RATE")
 fi
 
