@@ -92,6 +92,19 @@ function fin() {
 	fi
 }
 
+function time_to_secs {
+	HOURS=$(echo "$1" | cut -d':' -f 1)
+	MINS=$(echo "$1" | cut -d':' -f 2)
+	SECS=$(echo "$1" | cut -d':' -f 3)
+
+	if [[ -z $SECS ]]; then
+		SECS="$MINS"
+		MINS="$HOURS"
+		HOURS=""
+	fi
+
+	echo $(( (HOURS*60*60) + (MINS*60) + $SECS ))
+}
 
 VCMD='-c:v copy'
 ACMD='-c:a copy'
@@ -108,20 +121,6 @@ set -A VFILTER 'yadif'
 if [[ ! -z $START_TIME || ! -z $DURATION ]]; then
 	FRAME_RATE=$(( $( echo "$VSTREAM_DATA" | grep r_frame_rate | cut -d = -f 2 ) ))
 fi
-
-function time_to_secs {
-	HOURS=$(echo "$1" | cut -d':' -f 1)
-	MINS=$(echo "$1" | cut -d':' -f 2)
-	SECS=$(echo "$1" | cut -d':' -f 3)
-
-	if [[ -z $SECS ]]; then
-		SECS="$MINS"
-		MINS="$HOURS"
-		HOURS=""
-	fi
-
-	echo $(( (HOURS*60*60) + (MINS*60) + $SECS ))
-}
 
 # fade in movie at specified time
 if [[ ! -z $START_TIME ]]; then
