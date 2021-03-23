@@ -12,6 +12,8 @@ USAGE='Usage: ffconv [OPTS] PATH
   -s	encode start time (in 0:01:23 time format)
   -e	encode end time (in 0:01:23 time format)
   -d	encode duration (in seconds)
+  -b	encode transport file for concatenating together
+  -B	concatenate all transport files for this movie
   -h	display this message
 
   Re-encode a movie to H264/MP4 using standard film presets'
@@ -39,8 +41,10 @@ START_TIME=
 END_TIME=
 DURATION=
 START=
+TRANSPORT_MODE=0
+CONCAT_MODE=0
 
-while getopts 'c:fa:ATW:H:s:e:d:h:N' params
+while getopts 'c:fa:ATW:H:s:e:d:h:NbB' params
 do
 	case $params in
 		c ) CRF=$OPTARG;;
@@ -80,12 +84,14 @@ function fin() {
 	local INPUT_FILE="$1"
 	local OUTPUT_FILE="$2"
 
-	# copy the EXIF date data
-	DATE="$(exiftool -t -s -d "%Y-%m-%d %H:%M:%S" -MediaCreateDate -CreateDate -FileModifyDate "$INPUT_FILE" | awk '!/0000:00:00/ {print $2" "$3}' | head -1)"
-	if [[ ! -z $DATE ]]; then
-		echo "Setting EXIF timestamp to $DATE"
-		exiftool "-AllDates=$DATE" -overwrite_original "$OUTPUT_FILE"
-		touch -d "$DATE" "$OUTPUT_FILE"
+	if [[ $TRANSPORT_MODE -eq 0 ]] && [[ $CONCAT_MODE -eq 0 ]]; then
+		# copy the EXIF date data
+		DATE="$(exiftool -t -s -d "%Y-%m-%d %H:%M:%S" -MediaCreateDate -CreateDate -FileModifyDate "$INPUT_FILE" | awk '!/0000:00:00/ {print $2" "$3}' | head -1)"
+		if [[ ! -z $DATE ]]; then
+			echo "Setting EXIF timestamp to $DATE"
+			exiftool "-AllDates=$DATE" -overwrite_original "$OUTPUT_FILE"
+			touch -d "$DATE" "$OUTPUT_FILE"
+		fi
 	fi
 
 	if [[ $NO_DUNZO -eq 0 ]]; then
@@ -108,6 +114,36 @@ function time_to_secs {
 	fi
 
 	echo $(( (HOURS*60*60) + (MINS*60) + $SECS ))
+}
+
+function get_transport_filename() {
+	setopt localoptions +o nomatch
+	setopt localoptions histsubstpattern
+
+	# replace spaces with underscores for the transport files
+	local BASE_FILE=${1:gs/[ ,]/_}
+
+	# increment suffix based on count of existing .ts files
+	COUNT=$(ls ${BASE_FILE%.*}*.ts 2>/dev/null | wc -l)
+	COUNT=$((COUNT+1))
+	SUFFIX=${(l:2::0:)COUNT}
+
+	echo "${BASE_FILE%.*}_${SUFFIX}.ts"
+}
+
+function gather_transport_files() {
+	setopt localoptions histsubstpattern
+
+	# replace spaces with underscores for the transport files
+	local BASE_FILE=${1:gs/[ ,]/_}
+
+	set -A CONCAT
+
+	for F in ${BASE_FILE%.*}*.ts; do
+		CONCAT+=("$F")
+	done
+
+	echo ${(j:|:)CONCAT}
 }
 
 ##################################################
@@ -204,16 +240,37 @@ elif [[ $INPUT_FILE =~ (.*)mp4$ ]]; then
 	SUFFIX='-reenc'
 fi
 
-OUTPUT_FILE="${1%.*}${SUFFIX}.mp4"
+# track input file for later trashing
+TRASH_FILE="$INPUT_FILE"
+
+if [[ $CONCAT_MODE -eq 1 ]]; then
+	INPUT_FILE="concat:$(gather_transport_files "$INPUT_FILE")"
+	TRANSPORT="-c copy -bsf:a aac_adtstoasc"
+	VCMD=''
+	ACMD=''
+	START=''
+	SUFFIX='-concat'
+fi
+
+if [[ $TRANSPORT_MODE -eq 1 ]]; then
+	# transport encode options
+	TRANSPORT='-bsf:v h264_mp4toannexb -f mpegts'
+
+	# set the output filename
+	OUTPUT_FILE="$(get_transport_filename "$INPUT_FILE")"
+else
+	# set the output filename
+	OUTPUT_FILE="${1%.*}${SUFFIX}.mp4"
+fi
 
 # build FFMPEG command
-FFMPEG="time ffmpeg $START -i \"$INPUT_FILE\" $VCMD $ACMD \"$OUTPUT_FILE\""
+FFMPEG="time ffmpeg $START -i \"$INPUT_FILE\" $VCMD $ACMD $TRANSPORT \"$OUTPUT_FILE\""
 echo "$FFMPEG"
 
 # if either stream needs converting, or --force supplied
 if [[ ! $VCMD =~ (.*)copy$ || ! $ACMD =~ (.*)copy$ || $FORCE -eq 1 ]]; then
 	if eval "$FFMPEG"; then
-		fin "$INPUT_FILE" "$OUTPUT_FILE"
+		fin "$TRASH_FILE" "$OUTPUT_FILE"
 	fi
 
 else
@@ -223,7 +280,7 @@ else
 	else
 		# switch container to MP4
 		if /usr/local/bin/ffmpeg -i "$INPUT_FILE" -c copy "${1%.*}.mp4"; then
-			fin "$INPUT_FILE" "$OUTPUT_FILE"
+			fin "$TRASH_FILE" "$OUTPUT_FILE"
 		fi
 	fi
 fi
