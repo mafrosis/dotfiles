@@ -54,10 +54,14 @@ do
 		e ) END_TIME=$OPTARG;;
 		d ) DURATION=$OPTARG;;
 		N ) NO_DUNZO=1;;
+		b ) TRANSPORT_MODE=1;;
+		B ) CONCAT_MODE=1;;
 		h ) echo "$USAGE" && return 1;;
 	esac
 done
 shift $((OPTIND-1))
+
+##################################################
 
 # validate file exists
 if [[ ! -f $1 ]]; then
@@ -106,13 +110,18 @@ function time_to_secs {
 	echo $(( (HOURS*60*60) + (MINS*60) + $SECS ))
 }
 
+##################################################
+
+# add first script parameter to a named variable
+local INPUT_FILE="$1"
+
 VCMD='-c:v copy'
 ACMD='-c:a copy'
 
 # analyse input file to determine existing stream codecs
-VSTREAM_DATA=$( ffprobe -i "$1" -show_streams -select_streams v:0 2>&1 )
+VSTREAM_DATA=$( ffprobe -i "$INPUT_FILE" -show_streams -select_streams v:0 2>&1 )
 VCODEC=$( echo "$VSTREAM_DATA" | grep codec_name | cut -d = -f 2 )
-ACODEC=$( ffprobe -i "$1" -show_streams -select_streams a:0 2>&1 | grep codec_name | cut -d = -f 2 )
+ACODEC=$( ffprobe -i "$INPUT_FILE" -show_streams -select_streams a:0 2>&1 | grep codec_name | cut -d = -f 2 )
 
 # filter array including baseline deinterlace filter
 set -A VFILTER 'yadif'
@@ -191,30 +200,30 @@ fi
 # include crf in output filename
 if [[ ! $VCMD =~ (.*)copy$ ]]; then
 	SUFFIX="-crf${CRF}"
-elif [[ $1 =~ (.*)mp4$ ]]; then
+elif [[ $INPUT_FILE =~ (.*)mp4$ ]]; then
 	SUFFIX='-reenc'
 fi
 
-OUTFILE="${1%.*}${SUFFIX}.mp4"
+OUTPUT_FILE="${1%.*}${SUFFIX}.mp4"
 
 # build FFMPEG command
-FFMPEG="time ffmpeg $START -i \"$1\" $VCMD $ACMD \"$OUTFILE\""
+FFMPEG="time ffmpeg $START -i \"$INPUT_FILE\" $VCMD $ACMD \"$OUTPUT_FILE\""
 echo "$FFMPEG"
 
 # if either stream needs converting, or --force supplied
 if [[ ! $VCMD =~ (.*)copy$ || ! $ACMD =~ (.*)copy$ || $FORCE -eq 1 ]]; then
 	if eval "$FFMPEG"; then
-		fin "$1" "$OUTFILE"
+		fin "$INPUT_FILE" "$OUTPUT_FILE"
 	fi
 
 else
 	# else if already MP4 do nothing
-	if [[ $1 =~ (.*)mp4$ ]]; then
+	if [[ $INPUT_FILE =~ (.*)mp4$ ]]; then
 		print 'Nothing to do'
 	else
 		# switch container to MP4
-		if /usr/local/bin/ffmpeg -i "$1" -c copy "${1%.*}.mp4"; then
-			fin "$1" "$OUTFILE"
+		if /usr/local/bin/ffmpeg -i "$INPUT_FILE" -c copy "${1%.*}.mp4"; then
+			fin "$INPUT_FILE" "$OUTPUT_FILE"
 		fi
 	fi
 fi
