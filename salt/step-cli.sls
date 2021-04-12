@@ -1,17 +1,17 @@
-{% set smallstep_version = "0.14.6" %}
+{% set smallstep_version = "0.15.14" %}
 
 install-step-cli:
   archive.extracted:
     - name: /tmp/step
     {% if grains["cpuarch"] == "armv6l" %}
-    - source: https://storage.googleapis.com/step-ca-a48ea0-bins/step-{{ smallstep_version }}-armv6.tar.gz
-    - source_hash: md5=dd69c43e28b2f325d4235b762db779a1
+    - source: salt://step-{{ smallstep_version }}-armv6.tar.gz
+    - source_hash: md5=f5dee2059ae790a5b8ca5376ade53141
     {% elif grains["cpuarch"] == "armv7l" %}
     - source: https://github.com/smallstep/cli/releases/download/v{{ smallstep_version }}/step_linux_{{ smallstep_version }}_armv7.tar.gz
-    - source_hash: md5=8a86343222df74152e2b769b2380acd8
+    - source_hash: md5=0f8379e2c678a44e7bbc91967330ef16
     {% else %}
     - source: https://github.com/smallstep/cli/releases/download/v{{ smallstep_version }}/step_linux_{{ smallstep_version }}_amd64.tar.gz
-    - source_hash: md5=76655578c0cb8a508377e587a52c3032
+    - source_hash: md5=b2ae7e0affaa066d98c8a01d19861631
     {% endif %}
     - if_missing: /usr/local/bin/step
   cmd.wait:
@@ -22,7 +22,7 @@ install-step-cli:
 {% for user in ['root', pillar["login_user"]]: %}
 bootstrap-step-for-{{ user }}:
   cmd.run:
-    - name: step ca bootstrap --force --ca-url https://ca.mafro.net --fingerprint {{ pillar["smallstep_ca_root_fingerprint"] }}
+    - name: step ca bootstrap --force --ca-url {{ pillar.get('smallstep_ca_host', 'https://ringil:8443') }} --fingerprint {{ pillar["smallstep_ca_root_fingerprint"] }}
     - runas: {{ user }}
     - require:
       - cmd: install-step-cli
