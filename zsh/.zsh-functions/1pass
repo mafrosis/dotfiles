@@ -8,19 +8,27 @@ USAGE='Usage: 1pass [-t TAG] [-k KEY [-f FIELDS]] [-s]
 
   Fetch secrets from 1password'
 
+function usage {
+	echo "$USAGE"
+	if command -v op >/dev/null 2>&1; then
+		echo "  op v$(op -v)"
+	else
+		echo "  op is not installed"
+	fi
+}
+
 # DEBUG mode controlled by env var
 if [[ -n $DEBUG ]]; then set -x; fi
 
-if ! command -v op &>/dev/null; then
-	echo '1password op tool is missing!'
-	echo 'Download from https://app-updates.agilebits.com/product_history/CLI'
+if [[ $# -eq 0 ]]; then
+	usage
+	return 1
+fi
+if ! command -v op >/dev/null 2>&1; then
+	usage
 	return 4
 fi
 
-if [[ $# -eq 0 ]]; then
-	echo "$USAGE"
-	return 1
-fi
 
 KEY=
 TAG=
@@ -34,7 +42,7 @@ do
 		t ) TAG=$OPTARG;;
 		f ) FIELDS=$OPTARG;;
 		s ) COMPACT='-cMj';;
-		* ) echo "$USAGE" && return 1;;
+		* ) usage && return 1;;
 	esac
 done
 shift $((OPTIND-1))
