@@ -1,6 +1,17 @@
-#! /bin/bash -ex
+#! /bin/bash -e
 
 VERSION=${VERSION:-v1.8.0}
+
+# DEBUG mode controlled by env var
+if [[ -n $DEBUG ]]; then set -x; fi
+
+# passed from /dotfiles/install.sh
+FORCE=${1:-0}
+
+if [[ $FORCE -eq 0 ]] && command -v op >/dev/null 2>&1; then
+	echo 'Already installed'
+	exit 3
+fi
 
 # bail if Darwin, else specify machine arch
 if [[ $(uname) == 'Darwin' ]]; then
