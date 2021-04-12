@@ -20,14 +20,14 @@ samba-common-bin:
         host: {{ grains['host'] }}
         workgroup: {{ pillar['smb_workgroup'] }}
 
-{% for user, args in pillar.get('samba_users', {}).iteritems() %}
+{% for user, args in pillar.get('samba_users', {}).items() %}
 create-samba-user-{{ user }}:
   group.present:
     - name: {{ user }}
   user.present:
     - name: {{ user }}
     - createhome: false
-    - gid_from_name: true
+    - usergroup: true
     - groups:
       {% for grp in args.get('groups', []) %}
       - {{ grp }}

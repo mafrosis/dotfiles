@@ -7,7 +7,7 @@ wakeonlan:
     - group: {{ pillar['login_user'] }}
     - mode: 700
 
-{% for hostname, mac_address in pillar['wakeonlan'].iteritems() %}
+{% for hostname, mac_address in pillar['wakeonlan'].items() %}
 /home/{{ pillar['login_user'] }}/.wakeonlan/{{ hostname }}:
   file.managed:
     - user: {{ pillar['login_user'] }}

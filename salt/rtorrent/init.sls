@@ -15,7 +15,7 @@ rtorrent:
     - name: {{ rtorrent_group }}
   user.present:
     - name: {{ rtorrent_user }}
-    - gid_from_name: true
+    - usergroup: true
     - groups:
       - video
     - remove_groups: false

@@ -6,7 +6,7 @@ create-xbmcswitch-user:
     - name: xbmcswitch
     - home: /home/xbmcswitch
     - shell: /bin/bash
-    - gid_from_name: true
+    - usergroup: true
     - remove_groups: false
 
 /opt/xbmcswitch:
