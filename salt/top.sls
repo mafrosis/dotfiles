@@ -33,7 +33,6 @@ base:
     - rtorrent.move-torrent
     - sabnzbd
     - samba
-    - ssh-via-oauth
     - usbmount
     - vpn
     - wakeonlan
@@ -45,7 +44,6 @@ base:
     - mp3
     - mpd
     - mpd.scribble
-    - ssh-via-oauth
     - wifi
 
   'G@host:locke':
@@ -56,21 +54,17 @@ base:
     - linux-util
     - linux-util.disk-tools
     - linux-util.download-tools
-    - ssh-via-oauth
 
   'G@host:ringil':
     - match: compound
     - linux-util
-    - ssh-via-oauth
 
   'G@host:whirrun':
     - match: compound
     - linux-util.minimal
     - snapclient
-    - ssh-via-oauth
 
   'G@host:caul':
     - match: compound
     - linux-util.minimal
     - snapclient
-    - ssh-via-oauth
