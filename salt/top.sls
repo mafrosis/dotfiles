@@ -44,6 +44,8 @@ base:
     - mp3
     - mpd
     - mpd.scribble
+    - snapclient
+    - snapserver
     - wifi
 
   'G@host:locke':
