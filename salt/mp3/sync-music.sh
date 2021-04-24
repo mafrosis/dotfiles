@@ -11,7 +11,7 @@ if command -v mpd &>/dev/null; then
 	echo "Syncing from $NAS_USERNAME@$NAS_HOSTNAME"
 
 	# pull music from NAS
-	rsync -avP --delete "$NAS_HOSTNAME:/media/pools/music/mp3/" "$HOME/mp3"
+	rsync -avP --delete "$NAS_USERNAME@$NAS_HOSTNAME:/media/pools/music/mp3/" "$HOME/mp3"
 
 	# set ownership on mpd directory
 	sudo chown "$MPD_USERNAME:audio" -R "$HOME/mp3"
@@ -36,8 +36,8 @@ else
 	echo "Syncing to $MPD_USERNAME@$MPD_HOSTNAME"
 
 	# pull playlists from the MPD server
-	rsync -avP "$MPD_HOSTNAME:/home/$MPD_USERNAME/playlists/" /media/pools/music/playlists
+	rsync -avP "$MPD_USERNAME@$MPD_HOSTNAME:/home/$MPD_USERNAME/playlists/" /media/pools/music/playlists
 
 	# push music to the MPD server
-	rsync -avP --delete /media/pools/music/mp3/ "$MPD_HOSTNAME:/home/$MPD_USERNAME/mp3"
+	rsync -avP --delete /media/pools/music/mp3/ "$MPD_USERNAME@$MPD_HOSTNAME:/home/$MPD_USERNAME/mp3"
 fi
