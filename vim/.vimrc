@@ -25,7 +25,7 @@ set bs=indent,eol,start		 	" Backspace over everything in insert mode
 set noshowmode					" Hide the default mode text (INSERT below the statusline)
 
 " Persistent undo
-set undodir=~/.vim/undodir
+set undodir=~/.vim-undo
 set undofile
 
 "---- Path and wildmenu ------------------------------------------------

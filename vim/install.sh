@@ -34,4 +34,4 @@ if git submodule update --init vim/.vim/bundle/Vundle.vim; then
 fi
 
 # Create the persistent undo dir
-mkdir -p ~/.vim/undodir
+mkdir -p ~/.vim-undo
