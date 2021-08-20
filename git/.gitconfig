@@ -6,7 +6,7 @@
 	eol = lf
 	whitespace = trailing-space,space-before-tab
 	excludesfile = ~/.gitignore
-	pager = less -F -X
+	pager = delta
 [color]
 	ui = auto
 	diff = auto
@@ -44,6 +44,7 @@
 [diff]
 	mnemonicprefix = true		# use i,w,c,o instead of a,b in diff
 	renames = copies			# attempt to spot file renames
+	diffFilter = delta --color-only
 [branch]
 	autosetupmerge = true		# auto track remote branches
 	autosetuprebase = always
@@ -59,3 +60,19 @@
 [rebase]
 	autosquash = true			# always look for fixup! and squash! commits
 	autostash = true			# auto stash/pop when rebasing
+
+[delta]
+	line-numbers = true
+	plus-color = "#012800"
+	minus-color = "#340001"
+	syntax-theme = mafro
+	features = custom-headers
+
+[delta "custom-headers"]
+	commit-decoration-style = bold yellow box ul
+	file-style = bold "#CCCC00"
+	file-decoration-style = "#999999" ul
+	hunk-header-decoration-style = "#999999" box
+
+[interactive]
+	diffFilter = delta --color-only
