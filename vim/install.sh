@@ -19,7 +19,7 @@ if [[ $(uname) == 'Linux' ]]; then
 		fi
 	fi
 
-elif [[ $(uname) == 'Darwin' ]] && ! brew list | grep -q vim; then
+elif [[ $(uname) == 'Darwin' ]] && ! brew list | grep vim >/dev/null; then
 	brew install vim
 fi
 
