@@ -99,6 +99,11 @@ export MACHINE_DRIVER=vmwarefusion
 # awscli and friends
 export AWS_DEFAULT_REGION=eu-west-1
 
+# Pretty manpages (bat)
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+# Syntax highlighting in bat with a custom theme
+export BAT_THEME=mafro
+
 # tmux inherits the environment from the parent shell, meaning the exports defined in this
 # file are appended twice to $PATH
 # the following trick ensures that PATH is not updated within tmux shells

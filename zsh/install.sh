@@ -19,6 +19,9 @@ if ! command -v zsh >/dev/null 2>&1; then
 	fi
 fi
 
+# install bat everywhere
+source "$(dirname "$0")/bat/install.sh"
+
 # special case for root: need copy of dotfiles in root's $HOME
 if [[ $(id -u) -eq 0 ]] && [[ ! -d /root/dotfiles ]]; then
 	git clone --recursive https://github.com/mafrosis/dotfiles.git /root/dotfiles
