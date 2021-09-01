@@ -4,16 +4,16 @@
 
 if ! command -v zsh >/dev/null 2>&1; then
 	echo 'wget is missing!'
-	exit 2
+	return 2
 fi
 
 if [[ $# != 1 ]]; then
 	echo 'You must supply a URL to spider..'
-	exit 1
+	return 1
 fi
 
 # parse the domain from the incoming URL
-PYTHON_CODE="'from urllib.parse import urlparse; print(urlparse('$1').netloc)'"
+PYTHON_CODE="from urllib.parse import urlparse; print(urlparse('$1').netloc)"
 DOMAIN=$(python3 -c "$PYTHON_CODE")
 
 wget --recursive \
