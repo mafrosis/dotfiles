@@ -1,0 +1,32 @@
+#! /bin/bash
+
+function cleanup {
+	rm -rf "${TMPDIR}"
+}
+# Register cleanup function on exit signal
+trap cleanup EXIT
+
+# Fetch a token via OIDC provisioner
+TOKEN=$(step ca token ha.mafro.net --provisioner Google)
+
+# Create temporary directory
+TMPDIR="$(mktemp -d)"
+
+# Generate a certificate PEM pair
+step ca certificate m@mafro.net \
+	"${TMPDIR}/client.crt" "${TMPDIR}/client.key" \
+	--token "${TOKEN}" \
+	--force
+
+# Convert Step-generated PEM cert/key to p12 format, with no password
+openssl pkcs12 -export -clcerts \
+	-inkey "${TMPDIR}/client.key" \
+	-in "${TMPDIR}/client.crt" \
+	-out "${TMPDIR}/step.p12" \
+   	-name "Step mTLS" \
+	-passout 'pass:eggs'
+
+# Import the p12 file into Keychain
+security import "${TMPDIR}/step.p12" \
+	-T /Applications/Google\ Chrome.app \
+	-P 'eggs'
