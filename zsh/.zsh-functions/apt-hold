@@ -1,0 +1,10 @@
+#! /bin/zsh
+
+USAGE='Usage: apt-hold PACKAGE'
+
+if [ $# -eq 0 ]; then
+	echo $USAGE
+	return 1
+fi
+
+echo "$1 hold" | sudo dpkg --set-selections
