@@ -43,6 +43,13 @@ set wildignore+=*.min.*,__pycache__,*.pyc
 " theme
 colorscheme ir_black_plus
 
+" 24-bit colour
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
+
 
 "---- Mappings ---------------------------------------------------------
 "NOTE: 	To see what a key sends use ctrl+k then keystroke while in insert mode
