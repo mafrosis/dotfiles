@@ -123,6 +123,7 @@ Plugin 'hashivim/vim-terraform'
 Plugin 'chase/vim-ansible-yaml'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'ekalinin/Dockerfile.vim'
+Bundle 'sonph/onehalf', {'rtp':'vim'}
 
 call vundle#end()            " required
 filetype plugin indent on    " required

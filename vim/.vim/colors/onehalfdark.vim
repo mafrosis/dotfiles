@@ -1,0 +1,1 @@
+../bundle/onehalf/vim/colors/onehalfdark.vim
