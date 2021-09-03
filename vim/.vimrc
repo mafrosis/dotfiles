@@ -123,6 +123,7 @@ Plugin 'hashivim/vim-terraform'
 Plugin 'chase/vim-ansible-yaml'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'ekalinin/Dockerfile.vim'
+Bundle 'isobit/vim-caddyfile'
 Bundle 'sonph/onehalf', {'rtp':'vim'}
 
 call vundle#end()            " required
