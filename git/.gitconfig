@@ -47,6 +47,8 @@
 [branch]
 	autosetupmerge = true		# auto track remote branches
 	autosetuprebase = always
+[init]
+	defaultBranch = main
 [push]
 	default = current			# push current branch to same name on remote
 [merge]
