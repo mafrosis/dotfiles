@@ -5,23 +5,15 @@ if [[ $(uname) == 'Darwin' ]]; then
 	return
 fi
 
-if [[ $(id -u) -gt 0 ]]; then
-	SUDO='sudo'
-else
-	SUDO=''
-fi
-
+# install tmux package
 if ! command -v tmux >/dev/null 2>&1; then
-
-	# install tmux package
 	if [[ $(uname) == 'Linux' ]]; then
 		if [[ $(id -u) -gt 0 ]]; then
-			$SUDO apt-get install -y tmux
+			sudo apt-get install -y tmux
 		else
 			apt-get install -y tmux
 		fi
 	fi
-
 fi
 
 # install tmux-powerline from git

@@ -1,26 +1,12 @@
 #! /bin/bash -e
 
-if [[ $(id -u) -gt 0 ]]; then
-	SUDO='sudo'
-else
-	SUDO=''
-fi
-
 # install vim package
-if [[ $(uname) == 'Linux' ]]; then
-
-	if ! command -v vim >/dev/null 2>&1; then
-		if [[ $(uname) =~ (.*)Debian(.*) ]]; then
-			$SUDO apt-get install -y vim-nox
-		elif [[ $(uname) =~ (.*)Ubuntu(.*) ]]; then
-			$SUDO apt-get install -y vim
-		elif [[ $(uname) =~ (.*)Linux(.*) ]]; then
-			$SUDO apt-get install -y vim-nox
-		fi
+if ! command -v vim >/dev/null 2>&1; then
+	if [[ $(uname) == Linux ]]; then
+		sudo apt-get install -y vim-nox
+	elif [[ $(uname) == 'Darwin' ]]; then
+		brew install vim
 	fi
-
-elif [[ $(uname) == 'Darwin' ]] && ! brew list | grep vim >/dev/null; then
-	brew install vim
 fi
 
 # retrieve the Vundle submodule & install vim plugins with Vundle

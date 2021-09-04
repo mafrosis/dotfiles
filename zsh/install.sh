@@ -1,27 +1,19 @@
 #! /bin/bash -e
 
-if [[ $(id -u) -gt 0 ]]; then
-	SUDO='sudo'
-else
-	SUDO=''
-fi
-
+# install ZSH package
 if ! command -v zsh >/dev/null 2>&1; then
-
-	# install ZSH package
 	if [[ $(uname) == 'Darwin' ]]; then
 		if ! command -v brew >/dev/null 2>&1; then
 			echo 'Run ./install.sh osx first to bootstrap OSX with Homebrew'
 			exit 3
 		fi
 		brew install zsh
-		$SUDO chsh -s /bin/zsh "$(whoami)"
+		sudo chsh -s /bin/zsh
 
 	elif [[ $(uname) == 'Linux' ]]; then
-		$SUDO apt-get install -y zsh
-		$SUDO usermod -s /bin/zsh "$(whoami)"
+		sudo apt-get install -y zsh
+		sudo usermod -s /bin/zsh "$(whoami)"
 	fi
-
 fi
 
 # special case for root: need copy of dotfiles in root's $HOME

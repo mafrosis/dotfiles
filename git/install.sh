@@ -1,8 +1,7 @@
 #! /bin/bash
 
+# install git package
 if ! command -v git >/dev/null 2>&1; then
-
-	# install git package
 	if [[ $(uname) == 'Darwin' ]]; then
 		if ! command -v brew >/dev/null 2>&1; then
 			echo 'Run ./install.sh osx first to bootstrap OSX with Homebrew'
@@ -11,9 +10,8 @@ if ! command -v git >/dev/null 2>&1; then
 		brew install git
 
 	elif [[ $(uname) == 'Linux' ]]; then
-		sudo aptitude install git
+		sudo apt-get install git
 	fi
-
 fi
 
 # create bin directory in $HOME before stow symlinks into it

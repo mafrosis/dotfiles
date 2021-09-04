@@ -35,19 +35,12 @@ if [[ $(uname) == 'Darwin' ]]; then
 	fi
 fi
 
-# determine if sudo necessary
-if [[ $(id -u) -gt 0 ]]; then
-	SUDO='sudo'
-else
-	SUDO=''
-fi
-
 # ensure stow is available
 if ! command -v stow >/dev/null 2>&1; then
 	if [[ $(uname) == 'Darwin' ]]; then
 		brew install stow
 	else
-		$SUDO apt-get install stow
+		sudo apt-get install stow
 	fi
 fi
 
@@ -100,10 +93,10 @@ do
 		if [[ $DRY_RUN -eq 1 ]]; then DR='-n'; else DR=''; fi
 
 		# use stow to create symlinks in $HOME
-		stow -v --ignore='install.sh' --ignore='.md$' "$app" $RESTOW --target="$HOME" $DR
-
-		if [[ $? -ne 0 && $DRY_RUN -eq 0 ]]; then
-			echo 'Stow returned a non-zero result. You may want to re-run with -f (force)'
+		if ! stow -v --ignore='install.sh' --ignore='.md$' "$app" $RESTOW --target="$HOME" $DR; then
+			if [[ $DRY_RUN -eq 0 ]]; then
+				echo 'Stow returned a non-zero result. You may want to re-run with -f (force)'
+			fi
 		fi
 	fi
 done
