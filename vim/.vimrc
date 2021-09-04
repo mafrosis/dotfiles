@@ -41,7 +41,8 @@ set wildmode=longest:full,full
 set wildignore+=*.min.*,__pycache__,*.pyc
 
 " theme
-colorscheme ir_black_plus
+colorscheme mafro
+let g:airline_theme='mafro'
 
 " 24-bit colour
 if exists('+termguicolors')
@@ -132,6 +133,7 @@ Plugin 'editorconfig/editorconfig-vim'
 Plugin 'ekalinin/Dockerfile.vim'
 Bundle 'isobit/vim-caddyfile'
 Bundle 'sonph/onehalf', {'rtp':'vim'}
+Bundle 'vim-python/python-syntax'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -148,6 +150,21 @@ set foldnestmax=1
 Plugin 'tmhedberg/SimpylFold'
 
 let g:SimpylFold_docstring_preview = 1
+
+
+"---- Python highlighting ---------------------------------------------
+
+let g:python_highlight_builtins = 1
+let g:python_highlight_exceptions = 1
+let g:python_highlight_string_formatting = 1
+let g:python_highlight_string_format = 1
+let g:python_highlight_string_templates = 1
+let g:python_highlight_indent_errors = 1
+let g:python_highlight_space_errors = 1
+let g:python_highlight_func_calls = 0
+let g:python_highlight_class_vars = 1
+let g:python_highlight_operators = 1
+let g:python_highlight_file_headers_as_comments = 1
 
 
 "---- ALE -------------------------------------------------------------
