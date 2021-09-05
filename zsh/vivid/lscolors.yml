@@ -1,0 +1,117 @@
+---
+colors:
+  # Theme colors
+  background_color: '000000'
+  khaki: "e6db74"
+  pink: "f92672"
+  green: "98c379"
+  orange: "fd971f"
+  red: "e06c75"
+  yellow: "e5c07b"
+  blue: "61afef"
+  purple: "c678dd"
+  cyan: "96cbfe"
+  brown: "a56221"
+  error: "ff6c60"
+  white: "dcdfe4"
+  black: "000000"
+  gray: "b6b6b6"
+  dimgray: "7a7070"
+  gold: "e2d139"
+  springgreen: "00ff87"
+  darkgray: "333333"
+
+core:
+  regular_file: {}
+
+  directory:
+    foreground: cyan
+
+  executable_file:
+    foreground: pink
+    font-style: bold
+
+  symlink:
+    foreground: pink
+
+  broken_symlink:
+    foreground: black
+    background: red
+  missing_symlink_target:
+    foreground: black
+    background: red
+
+  fifo:
+    foreground: black
+    background: cyan
+
+  socket:
+    foreground: black
+    background: pink
+
+  character_device:
+    foreground: pink
+    background: darkgray
+
+  block_device:
+    foreground: cyan
+    background: darkgray
+
+  normal_text:
+    {}
+
+  sticky:
+    {}
+
+  sticky_other_writable:
+    {}
+
+  other_writable:
+    {}
+
+text:
+  special:
+    foreground: black
+    background: khaki
+
+  todo:
+    font-style: bold
+
+  licenses:
+    foreground: gray
+
+  configuration:
+    foreground: green
+
+  other:
+    foreground: gold
+
+markup:
+  foreground: gold
+
+programming:
+  source:
+    foreground: springgreen
+
+  tooling:
+    foreground: green
+
+    continuous-integration:
+      foreground: khaki
+
+media:
+  foreground: orange
+
+office:
+  foreground: khaki
+
+archives:
+  foreground: pink
+  font-style: underline
+
+executable:
+  foreground: pink
+  font-style: bold
+
+unimportant:
+  foreground: dimgray
