@@ -51,6 +51,8 @@
 	defaultBranch = main
 [push]
 	default = current			# push current branch to same name on remote
+[pull]
+	rebase = true
 [merge]
 	stat = true					# show diffstat after merge
 	ff = only					# never merge!
