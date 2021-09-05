@@ -261,3 +261,8 @@ function! LightlineFilename()
   endif
   return expand('%')
 endfunction
+
+
+"---- vim-go ----------------------------------------------------------
+" don't keep popping up the quickfix window
+let g:go_list_type = ""
