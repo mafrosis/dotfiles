@@ -19,11 +19,6 @@ if ! command -v tmux >/dev/null 2>&1; then
 	fi
 fi
 
-# install tmux-powerline from git
-if [[ ! -d $HOME/tmux-powerline ]]; then
-	git clone https://github.com/mafrosis/tmux-powerline.git "$HOME/tmux-powerline"
-fi
-
 # symlink all custom themes into tmux-powerline source
 for F in tmux/powerline-themes/*; do
 	echo "Installing powerline theme $F"
