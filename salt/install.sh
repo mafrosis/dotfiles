@@ -1,5 +1,8 @@
 #! /bin/bash -e
 
+# DEBUG mode controlled by env var
+if [[ -n $DEBUG ]]; then set -x; fi
+
 # passed from /dotfiles/install.sh
 FORCE=${1:-0}
 

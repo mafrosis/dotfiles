@@ -1,5 +1,8 @@
 #! /bin/bash -e
 
+# DEBUG mode controlled by env var
+if [[ -n $DEBUG ]]; then set -x; fi
+
 # install customised version of Hack font
 cp iterm2/HackMafro-Regular.otf /Library/Fonts
 

@@ -1,5 +1,8 @@
 #! /bin/bash -e
 
+# DEBUG mode controlled by env var
+if [[ -n $DEBUG ]]; then set -x; fi
+
 # install ZSH package
 if ! command -v zsh >/dev/null 2>&1; then
 	if [[ $(uname) == 'Darwin' ]]; then

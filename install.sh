@@ -5,6 +5,9 @@ usage='Usage: ./install.sh [-n] [-f] app1 [app2 app3 ..]
   -n   dry-run; no filesystem changes
   -f   force overwrite of existing symlinks'
 
+# DEBUG mode controlled by env var
+if [[ -n $DEBUG ]]; then set -x; fi
+
 DRY_RUN=0
 FORCE=0
 

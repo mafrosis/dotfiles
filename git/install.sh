@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# DEBUG mode controlled by env var
+if [[ -n $DEBUG ]]; then set -x; fi
+
 # install git package
 if ! command -v git >/dev/null 2>&1; then
 	if [[ $(uname) == 'Darwin' ]]; then
@@ -10,7 +13,7 @@ if ! command -v git >/dev/null 2>&1; then
 		brew install git
 
 	elif [[ $(uname) == 'Linux' ]]; then
-		sudo apt-get install git
+		sudo apt-get install -y git
 	fi
 fi
 

@@ -1,5 +1,8 @@
 #! /bin/bash -e
 
+# DEBUG mode controlled by env var
+if [[ -n $DEBUG ]]; then set -x; fi
+
 # Ensure both python2+pip and python3+pip is available
 # Assume python2 installed by system and thus needs sudo
 
