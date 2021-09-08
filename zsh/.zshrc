@@ -85,10 +85,6 @@ export PATH=$PATH:$GOPATH/bin:/usr/local/opt/go/libexec/bin
 # no virtualenv prompt; shown via prezto theme
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-# tmux-powerline
-PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
-PLATFORM="linux"
-
 # use vmware in vagrant / packer
 export VAGRANT_DEFAULT_PROVIDER="vmware_fusion"
 export VAGRANT_VMWARE_CLONE_DIRECTORY="~/.vagrant.d/machines"
