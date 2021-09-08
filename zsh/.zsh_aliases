@@ -53,3 +53,6 @@ alias find-large-files='find . -xdev -type f -size +700M -exec ls -lah {} \; | g
 alias find-large-dirs='find . -mindepth 1 -xdev -type d -print0 | xargs -0 du -h | sort -rh | head -20'
 
 alias duh='du -h --max-depth=1'
+
+# Upgrade all the things
+alias apto='sudo apt-get update && sudo apt-get -y dist-upgrade && sudo apt -y autoremove'
