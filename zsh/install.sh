@@ -19,11 +19,12 @@ if ! command -v zsh >/dev/null 2>&1; then
 	fi
 fi
 
-# install bat, vivid, ag, fd everywhere
+# install bat, vivid, ag, fd, duf everywhere
 source "$(dirname "$0")/bat/install.sh"
 source "$(dirname "$0")/vivid/install.sh"
 source "$(dirname "$0")/ag/install.sh"
 source "$(dirname "$0")/fd/install.sh"
+source "$(dirname "$0")/duf/install.sh"
 
 # special case for root: need copy of dotfiles in root's $HOME
 if [[ $(id -u) -eq 0 ]] && [[ ! -d /root/dotfiles ]]; then
