@@ -49,7 +49,6 @@ brew install \
 	python3 \
 	pyenv \
 	shellcheck \
-	the_silver_searcher \
 	terminal-notifier \
 	unrar \
 	wakeonlan \
