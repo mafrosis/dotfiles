@@ -12,7 +12,9 @@ setopt NO_INC_APPEND_HISTORY
 setopt NO_SHARE_HISTORY
 
 # prevent 'vim' -> '.vim'
-setopt NOCORRECTALL
+# https://superuser.com/a/610025
+unsetopt correct_all
+setopt correct
 
 # don't automatically change directories
 unsetopt AUTO_CD
