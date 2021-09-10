@@ -9,7 +9,7 @@ alias imgres="identify -format '%f: %wpx x %hpx'"
 alias ta="tmux new-session -AD -s main"
 
 # generate a UUID
-alias uuid="python -c 'import uuid; print uuid.uuid4()'"
+alias uuid="python3 -c 'import uuid; print(uuid.uuid4())'"
 
 # view SSL cert info
 alias x509info="openssl x509 -noout -text -in"
