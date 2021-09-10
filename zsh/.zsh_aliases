@@ -34,6 +34,22 @@ alias ra='rsync -avhP'
 # quiet SSH
 alias sshq='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
+# interactive prompting for destructive commands
+alias cp="cp -i"
+alias ln="ln -i"
+alias mv="mv -i"
+alias rm="rm -i"
+
+# human sizes in du and df
+alias df='df -kh'
+alias du='du -kh'
+
+# common ls aliases
+alias ls='ls --color=auto --group-directories-first'
+alias ll='ls -lh'
+alias la='ll -A'
+alias lt='ll -tr'
+
 # docker aliases
 alias docker-rm-stopped='docker ps -a | awk '\''/Exit/ {print $1}'\'' | xargs docker rm'
 alias docker-rmi-dangling='docker rmi "$(docker images -f dangling=true -q)"'
