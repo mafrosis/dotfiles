@@ -174,31 +174,19 @@ let g:ale_linters = {'python': ['pylint'], 'go': ['goimports', 'golint', 'govet'
 
 "---- File type options -----------------------------------------------
 " Individual filetype settings in ~/.vim/ftplugin/<type>.vim
-" These come after any Vundle highlight plugins
-syntax enable					" General file type syntax highlighting
+syntax enable
+au filetype help :se nonu
 
-" Small changes that don't warrent an ftplugin file of their own
-au filetype help :se nonu		" turn off line numbers for help
-
-" Java
+" Indentation settings for some types
 autocmd FileType java setlocal shiftwidth=2 tabstop=2
-" HTML
 autocmd FileType html setlocal shiftwidth=2 tabstop=2
-" XHTML
 autocmd FileType xhtml setlocal shiftwidth=2 tabstop=2
-" HTML/Jinja templates
 autocmd FileType htmldjango setlocal shiftwidth=2 tabstop=2
-" Markdown
 autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 expandtab
-" YAML
 autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 expandtab
-" JSON
 autocmd FileType json setlocal shiftwidth=2 tabstop=2 cole=0
-" gitrebase
 autocmd FileType gitrebase set modelines=0
-" Terraform
 autocmd FileType terraform setlocal shiftwidth=2 tabstop=2 cole=0
-" Makefile
 autocmd FileType make setlocal noexpandtab shiftwidth=4 softtabstop=0
 
 
