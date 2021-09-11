@@ -12,8 +12,6 @@ fi
 
 ########### Globals ######################################
 
-# don't write history immediately; wait until exit
-setopt NO_INC_APPEND_HISTORY
 # don't share history between concurrent shells
 setopt NO_SHARE_HISTORY
 
@@ -71,6 +69,16 @@ bindkey '^[[1;9X' backward-delete-word
 # nvm
 #export NVM_DIR="$HOME/.nvm"
 #. "/usr/local/opt/nvm/nvm.sh"
+
+# junegunn/fzf
+export MOARPATH="$MOARPATH:$HOME/dotfiles/zsh/fzf/external/bin"
+
+export FZF_DEFAULT_OPTS='--height=40%'
+
+source "$HOME/dotfiles/zsh/fzf/external/shell/completion.zsh"
+source "$HOME/dotfiles/zsh/fzf/external/shell/key-bindings.zsh"
+
+alias fvim='vim $(fzf)'
 
 
 ########## Exports ########################################

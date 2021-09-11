@@ -134,6 +134,8 @@ Plugin 'ekalinin/Dockerfile.vim'
 Bundle 'isobit/vim-caddyfile'
 Bundle 'sonph/onehalf', {'rtp':'vim'}
 Bundle 'vim-python/python-syntax'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -170,6 +172,13 @@ let g:python_highlight_file_headers_as_comments = 1
 "---- ALE -------------------------------------------------------------
 let g:ale_sign_column_always = 1
 let g:ale_linters = {'python': ['pylint'], 'go': ['goimports', 'golint', 'govet']}
+
+
+"---- fzf -------------------------------------------------------------
+" Shortcut to fzf's GFiles
+nnoremap <leader>f :GFiles<Cr>
+" Shortcut to use fzf with ag search results
+nnoremap <leader>g :Ag<Cr>
 
 
 "---- File type options -----------------------------------------------

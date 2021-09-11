@@ -69,5 +69,5 @@ alias duh='du -h --max-depth=1'
 # if it meows like a cat
 alias cat=bat
 
-# Upgrade all the things
-alias apto='sudo apt-get update && sudo apt-get -y dist-upgrade && sudo apt -y autoremove'
+alias fzf='fzf-tmux --height=40% --preview '\''bat --color=always --line-range :100 {}'\'''
+alias fvim='vim $(fzf)'

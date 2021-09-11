@@ -31,7 +31,6 @@ brew install \
 	fdupes \
 	ffmpeg \
 	flac \
-	fzf \
 	gnu-sed \
 	httpie \
 	imagemagick \

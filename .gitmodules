@@ -10,3 +10,6 @@
 [submodule "tmux/tmux-powerline"]
 	path = tmux/tmux-powerline
 	url = https://github.com/mafrosis/tmux-powerline.git
+[submodule "zsh/fzf/external"]
+	path = zsh/fzf/external
+	url = https://github.com/junegunn/fzf.git
