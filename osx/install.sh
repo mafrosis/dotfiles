@@ -26,7 +26,7 @@ git submodule update --init osx/tools-osx
 # stow some handy scripts from morgant/tools-osx into ~/bin
 # add more by symlinking them into dotfiles/osx/bin
 cd "$HOME/dotfiles/osx" || exit 2
-stow -v bin $RESTOW --target="$HOME/bin" "$DRY_RUN"
+stow -v bin "$RESTOW" --target="$HOME/bin" "$DRY_RUN"
 
 
 # install Homebrew and apps
@@ -50,6 +50,7 @@ if [[ ! -f $HOME/.osx-set-defaults-done ]]; then
 		# shellcheck disable=SC1091
 		source set-defaults.sh
 		echo 'You will need to restart to make new macOS defaults take effect'
+		touch "$HOME/.osx-set-defaults-done"
 	else
 		echo 'Sudo failed, skipping OSX defaults'
 	fi
