@@ -9,9 +9,12 @@ fi
 
 function install_homebrew {
 	if ! command -v brew >/dev/null 2>&1; then
-		ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+		bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	fi
 }
+
+# DEBUG mode controlled by env var
+if [[ -n $DEBUG ]]; then set -x; fi
 
 # install missing Homebrew
 install_homebrew
@@ -49,7 +52,6 @@ brew install \
 	pyenv \
 	shellcheck \
 	terminal-notifier \
-	unrar \
 	wakeonlan \
 	youtube-dl
 
@@ -60,17 +62,17 @@ fi
 
 # install cask for Chrome, if not already installed
 if [[ ! -d /Applications/Google\ Chrome.app ]]; then
-	brew cask install google-chrome
+	brew install google-chrome
 fi
 
 # install cask for iTerm2, if not already installed
 if [[ ! -d /Applications/iTerm.app ]]; then
-	brew cask install iterm2
+	brew install iterm2
 fi
 
 # install baseline apps via Cask
-brew cask install \
-	1password 1password-cli \
+brew install \
+	1password-cli \
 	android-file-transfer \
 	dropbox \
 	firefox \
