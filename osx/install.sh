@@ -38,7 +38,7 @@ if [[ ! -L $HOME/Library/Preferences/com.manytricks.Moom.plist ]]; then
 	if [[ -f $HOME/Library/Preferences/com.manytricks.Moom.plist ]]; then
 		rm -f "$HOME/Library/Preferences/com.manytricks.Moom.plist"
 	fi
-	mas install "$(mas search moom | cut -d\  -f 1)"
+	mas install 419330170
 	ln -s "$HOME/dotfiles/osx/moom/com.manytricks.Moom.plist" "$HOME/Library/Preferences/com.manytricks.Moom.plist"
 	echo 'You will need to restart to load Moom prefs'
 fi
@@ -56,6 +56,12 @@ if [[ ! -f $HOME/.osx-set-defaults-done ]]; then
 	fi
 fi
 
+
+# install Pixelmator Pro via mas
+mas install 1289583905
+
+# install Monodraw via mas
+mas install 920404675
 
 # skip stow in top-level install.sh
 exit 255
