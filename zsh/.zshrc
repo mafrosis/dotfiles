@@ -97,18 +97,11 @@ export MOARPATH=$MOARPATH:$GOPATH/bin:/usr/local/opt/go/libexec/bin
 # no virtualenv prompt; shown via prezto theme
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-# use vmware in vagrant / packer
-export VAGRANT_DEFAULT_PROVIDER="vmware_fusion"
-export VAGRANT_VMWARE_CLONE_DIRECTORY="~/.vagrant.d/machines"
-
 # gcloud CLI
 export MOARPATH=$MOARPATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin
 
 # fix the whacky coreutils ls quoting change - http://unix.stackexchange.com/a/262162/8504
 export QUOTING_STYLE=literal ls
-
-# Docker exports
-export MACHINE_DRIVER=vmwarefusion
 
 # awscli and friends
 export AWS_DEFAULT_REGION=eu-west-1
