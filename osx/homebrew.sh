@@ -49,7 +49,6 @@ brew install \
 	pandoc \
 	shellcheck \
 	terminal-notifier \
-	wakeonlan \
 	youtube-dl
 
 # symlink a couple of missing shell commands from GNU coreutils
