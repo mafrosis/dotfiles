@@ -47,9 +47,6 @@ brew install \
 	mercurial \
 	mplayer \
 	pandoc \
-	python \
-	python3 \
-	pyenv \
 	shellcheck \
 	terminal-notifier \
 	wakeonlan \
