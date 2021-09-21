@@ -7,9 +7,6 @@
 [submodule "tools-osx"]
 	path = osx/tools-osx
 	url = https://github.com/morgant/tools-osx.git
-[submodule "bin/z"]
-	path = bin/z
-	url = https://github.com/mafrosis/z.git
 [submodule "tmux/tmux-powerline"]
 	path = tmux/tmux-powerline
 	url = https://github.com/mafrosis/tmux-powerline.git
