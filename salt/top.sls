@@ -63,10 +63,10 @@ base:
 
   'G@host:whirrun':
     - match: compound
-    - linux-util.minimal
+    - linux-util
     - snapclient
 
   'G@host:caul':
     - match: compound
-    - linux-util.minimal
+    - linux-util
     - snapclient

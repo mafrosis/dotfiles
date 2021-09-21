@@ -2,7 +2,7 @@ include:
   - apt
 
 
-linux-utils-pkgs:
+linux-utils-disk-tools-pkgs:
   pkg.latest:
     - names:
       - bmap-tools
