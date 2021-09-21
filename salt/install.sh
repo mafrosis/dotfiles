@@ -6,8 +6,6 @@ if [[ -n $DEBUG ]]; then set -x; fi
 # passed from /dotfiles/install.sh
 FORCE=${1:-0}
 
-SALT_VERSION=${SALT_VERSION:-v3001.1}
-
 # install salt package
 if [[ $(uname) == 'Darwin' ]]; then
 	if ! command -v brew >/dev/null 2>&1; then
@@ -20,9 +18,12 @@ elif [[ $(uname) == 'Linux' ]]; then
 	if [[ $FORCE -eq 0 ]] && command -v salt-call >/dev/null 2>&1; then
 		echo 'Salt already installed!'
 	else
-		# install salt-minion via bootstrap
-		sudo -v
-		curl -L http://bootstrap.saltstack.org | sudo sh -s -- -x python3 git "${SALT_VERSION}"
+		# install salt-minion via apt
+		sudo curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg \
+			https://repo.saltproject.io/py3/debian/10/amd64/latest/salt-archive-keyring.gpg
+		echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/py3/debian/10/amd64/latest buster main" | sudo tee /etc/apt/sources.list.d/salt.list
+		sudo apt update
+		sudo apt install salt-minion
 	fi
 fi
 
