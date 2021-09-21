@@ -9,6 +9,7 @@ system-tools:
       - bc
       - file
       - less
+      - make
       - ntp
       - time
       - vim
