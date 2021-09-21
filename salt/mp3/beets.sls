@@ -1,7 +1,7 @@
 include:
   - virtualenv
 
-{% set user = pillar.get('login_user', 'vagrant') %}
+{% set user = pillar['login_user'] %}
 
 libchromaprint0:
   pkg.installed

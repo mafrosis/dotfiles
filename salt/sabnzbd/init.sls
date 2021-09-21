@@ -1,7 +1,7 @@
 include:
   - supervisor
 
-{% set user = pillar.get('login_user', 'vagrant') %}
+{% set user = pillar['login_user'] %}
 {% set sabnzbd_user = pillar.get('sabnzbd_user', 'sabnzbd') %}
 {% set sabnzbd_group = pillar.get('sabnzbd_user', 'download') %}
 

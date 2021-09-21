@@ -1,10 +1,3 @@
-{% if grains.get('vmware', false) %}
-
-login_user: vagrant
-rtorrent_download_dir: /home/vagrant/torrent
-
-{% else %}
-
 hostname: jorg
 login_user: mafro
 rtorrent_download_dir: /media/download/rtorrent
@@ -33,5 +26,3 @@ usenet_servers:
     user: tw1417222
     num_conns: 8
     priority: 1
-
-{% endif %}

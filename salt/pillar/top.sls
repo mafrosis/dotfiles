@@ -1,8 +1,4 @@
 base:
-  'G@id:vagrant':
-    - match: compound
-    - vagrant
-
   'G@host:jorg or G@id:jorg':
     - match: compound
     - jorg

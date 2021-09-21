@@ -11,14 +11,6 @@ base:
   'G@os:Ubuntu':
     - common.ubuntu
 
-  'G@id:vagrant':
-    - match: compound
-    - linux-util
-    - linux-util.download-tools
-    - mpd
-    - rtorrent
-    - sabnzbd
-
   'G@host:jorg':
     - match: compound
     - grub-timeout-0

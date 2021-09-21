@@ -1,4 +1,4 @@
-{% set user = pillar.get('login_user', 'vagrant') %}
+{% set user = pillar['login_user'] %}
 
 alsa-utils:
   pkg.installed
