@@ -18,7 +18,6 @@ base:
     - jorg.monitoring
     - linux-util
     - linux-util.disk-tools
-    - linux-util.download-tools
     - mp3
     - pools-perm-watchdog
     - rtorrent
@@ -47,7 +46,6 @@ base:
     - kodi
     - linux-util
     - linux-util.disk-tools
-    - linux-util.download-tools
 
   'G@host:ringil':
     - match: compound
