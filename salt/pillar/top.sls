@@ -7,7 +7,6 @@ base:
   'G@host:locke':
     - match: compound
     - locke
-    - locke-secrets
 
   'G@host:kvothe':
     - match: compound
