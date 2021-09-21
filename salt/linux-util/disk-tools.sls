@@ -1,5 +1,6 @@
 include:
   - apt
+  - debian-repos.nonfree
 
 
 linux-utils-disk-tools-pkgs:
@@ -7,10 +8,14 @@ linux-utils-disk-tools-pkgs:
     - names:
       - bmap-tools
       - cryptsetup
-      - hfsprogs
       - lvm2
       - ncdu
       - parted
       - smartmontools
     - require:
       - file: apt-no-recommends
+
+hfsprogs:
+  pkg.latest:
+    - require:
+      - pkgrepo: nonfree-pkgrepo
