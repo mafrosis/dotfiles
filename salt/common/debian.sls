@@ -17,15 +17,6 @@ required-packages:
     - require:
       - file: apt-no-recommends
 
-esky:
-  pip.installed:
-    - require:
-      - pkg: required-packages
-
-pyOpenSSL:
-  pip.installed:
-    - upgrade: true
-
 
 {% if pillar.get('timezone', false) %}
 {% if grains.get('systemd', false) %}
