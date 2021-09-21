@@ -38,6 +38,15 @@ if [[ $(uname) == 'Darwin' ]]; then
 	fi
 fi
 
+# ensure curl is available
+if ! command -v curl >/dev/null 2>&1; then
+	if [[ $(uname) == 'Darwin' ]]; then
+		brew install curl
+	else
+		sudo apt-get install curl
+	fi
+fi
+
 # ensure stow is available
 if ! command -v stow >/dev/null 2>&1; then
 	if [[ $(uname) == 'Darwin' ]]; then
