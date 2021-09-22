@@ -1,7 +1,6 @@
 base:
   '*':
     - common
-    - common.ssh
     - docker
     - disable-salt-minion
 
