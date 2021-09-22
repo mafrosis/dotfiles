@@ -25,7 +25,6 @@ base:
     - samba
     - usbmount
     - vpn
-    - wakeonlan
     - zfs-on-linux
 
   'G@host:kvothe':

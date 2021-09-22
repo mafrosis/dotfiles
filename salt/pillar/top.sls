@@ -2,7 +2,6 @@ base:
   'G@host:jorg or G@id:jorg':
     - match: compound
     - jorg
-    - wakeonlan
 
   'G@host:locke':
     - match: compound
