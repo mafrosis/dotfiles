@@ -66,10 +66,6 @@ bindkey '^[[1;9X' backward-delete-word
 
 ########## Third-party ####################################
 
-# nvm
-#export NVM_DIR="$HOME/.nvm"
-#. "/usr/local/opt/nvm/nvm.sh"
-
 # junegunn/fzf
 export MOARPATH="$MOARPATH:$HOME/dotfiles/zsh/fzf/external/bin"
 
