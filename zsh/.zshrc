@@ -37,7 +37,7 @@ fpath=( ~/.zsh-functions "${fpath[@]}" )
 
 # autoload custom functions..
 for func in $(ls ~/.zsh-functions); do
-	autoload -Uz $func
+	autoload -Uz "$func"
 done
 
 
@@ -69,8 +69,7 @@ bindkey '^[[1;9X' backward-delete-word
 
 ########## Exports ########################################
 
-# Homebrew AND since root inherits $PATH on Debian now with env_keep in sudoers, need /sbin in $PATH
-export PATH=$PATH:$HOME/.local/bin
+export MOARPATH=$MOARPATH:$HOME/.local/bin
 
 export EDITOR=vim
 export VISUAL=vim
@@ -79,7 +78,7 @@ export TERM=xterm-256color
 
 # Golang via homebrew
 export GOPATH=$HOME/Development/go
-export PATH=$PATH:$GOPATH/bin:/usr/local/opt/go/libexec/bin
+export MOARPATH=$MOARPATH:$GOPATH/bin:/usr/local/opt/go/libexec/bin
 
 # no virtualenv prompt; shown via prezto theme
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -89,7 +88,7 @@ export VAGRANT_DEFAULT_PROVIDER="vmware_fusion"
 export VAGRANT_VMWARE_CLONE_DIRECTORY="~/.vagrant.d/machines"
 
 # gcloud CLI
-export PATH=$PATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin
+export MOARPATH=$MOARPATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin
 
 # fix the whacky coreutils ls quoting change - http://unix.stackexchange.com/a/262162/8504
 export QUOTING_STYLE=literal ls
@@ -99,3 +98,10 @@ export MACHINE_DRIVER=vmwarefusion
 
 # awscli and friends
 export AWS_DEFAULT_REGION=eu-west-1
+
+# tmux inherits the environment from the parent shell, meaning the exports defined in this
+# file are appended twice to $PATH
+# the following trick ensures that PATH is not updated within tmux shells
+if [[ -z $TMUX ]]; then
+	export PATH=${PATH}${MOARPATH}
+fi
