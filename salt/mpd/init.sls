@@ -4,7 +4,7 @@ mpd:
 /etc/mpd.conf:
   file.managed:
     - contents: |
-        music_directory     "/home/pi/mp3"
+        music_directory     "{{ pillar.get('mp3_dir', '/home/pi/mp3') }}"
         playlist_directory  "/home/pi/playlists"
         db_file             "/var/lib/mpd/tag_cache"
         log_file            "/var/log/mpd/mpd.log"
@@ -13,20 +13,22 @@ mpd:
         sticker_file        "/var/lib/mpd/sticker.sql"
 
         user                "mpd"
-        bind_to_address     "{{ salt['cmd.shell']("hostname -I | awk '/.*/ {print $1}'") }}"
+        bind_to_address     "{{ grains['ip4_interfaces']['eth0'][0] }}"
         bind_to_address     "/run/mpd/socket"
 
         metadata_to_use     "artist,albumartist,album,title,track,name,genre,date,composer,performer,disc"
         follow_outside_symlinks  "no"
 
-        zeroconf_name       "MPD (Kvothe)"
+        zeroconf_name       "MPD ({{ grains['host'] }})"
 
+        {% if pillar.get('alsa_device') %}
         audio_output {
           type        "alsa"
           name        "ALSA"
           device      "{{ pillar['alsa_device'] }}"
           mixer_type  "none"
         }
+        {% endif %}
         audio_output {
           type        "fifo"
           name        "snapserver"
