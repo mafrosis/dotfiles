@@ -3,7 +3,7 @@
 # DEBUG mode controlled by env var
 if [[ -n $DEBUG ]]; then set -x; fi
 
-SMALLSTEP_VERSION=${SMALLSTEP_VERSION:-'0.17.2'}
+SMALLSTEP_VERSION=${SMALLSTEP_VERSION:-'0.18.2'}
 
 # Install step cli tools
 if ! command -v step >/dev/null 2>&1; then

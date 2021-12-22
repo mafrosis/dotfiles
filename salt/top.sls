@@ -3,6 +3,7 @@ base:
     - common
     - docker
     - disable-salt-minion
+    - step-cli
 
   'G@os:Debian':
     - common.debian
