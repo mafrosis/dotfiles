@@ -1,3 +1,4 @@
 login_user: pi
-snapclient_sound_device_id: 22
+snapserver: ringil
+snapclient_sound_device_id: 9
 snapclient_mixer: hardware

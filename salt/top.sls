@@ -49,6 +49,10 @@ base:
   'G@host:ringil':
     - match: compound
     - linux-util
+    - mp3
+    - mpd
+    - mpd.scribble
+    - snapserver
 
   'G@host:whirrun':
     - match: compound

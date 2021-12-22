@@ -4,6 +4,7 @@ NAS_HOSTNAME=${NAS_HOSTNAME:-jorg}
 NAS_USERNAME=${NAS_USERNAME:-mafro}
 MPD_HOSTNAME=${MPD_HOSTNAME:-kvothe}
 MPD_USERNAME=${MPD_USERNAME:-pi}
+MPD_MP3DIR=${MPD_MP3DIR:-$HOME/mp3}
 
 if command -v mpd &>/dev/null; then
 	# mpd exists; script running on MPD host
@@ -11,14 +12,14 @@ if command -v mpd &>/dev/null; then
 	echo "Syncing from $NAS_USERNAME@$NAS_HOSTNAME"
 
 	# pull music from NAS
-	rsync -avP --delete "$NAS_USERNAME@$NAS_HOSTNAME:/media/pools/music/mp3/" "$HOME/mp3"
+	rsync -avP --delete "$NAS_USERNAME@$NAS_HOSTNAME:/media/pools/music/mp3/" "$MPD_MP3DIR"
 
 	# set ownership on mpd directory
-	sudo chown "$MPD_USERNAME:audio" -R "$HOME/mp3"
+	sudo chown "$MPD_USERNAME:audio" -R "$MPD_MP3DIR"
 
 	# set permissions on mpd directory
-	sudo find "$HOME/mp3" -type d -exec chmod 750 {} \;
-	sudo find "$HOME/mp3" -type f -exec chmod 640 {} \;
+	sudo find "$MPD_MP3DIR" -type d -exec chmod 750 {} \;
+	sudo find "$MPD_MP3DIR" -type f -exec chmod 640 {} \;
 
 else
 	# mpd doesn't exist; script running on NAS
