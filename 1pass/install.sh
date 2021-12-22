@@ -1,6 +1,6 @@
 #! /bin/bash -e
 
-VERSION=${VERSION:-v1.8.0}
+VERSION=${VERSION:-v1.12.3}
 
 # DEBUG mode controlled by env var
 if [[ -n $DEBUG ]]; then set -x; fi
