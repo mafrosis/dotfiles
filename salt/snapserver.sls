@@ -1,13 +1,13 @@
-{% set snap_version = "0.24.0" %}
+{% set snap_version = "0.26.0" %}
 
 install-snapserver:
   file.managed:
     - name: /tmp/snapserver_{{ snap_version }}-1_{{ grains["osarch"] }}.deb
     - source: https://github.com/badaix/snapcast/releases/download/v{{ snap_version }}/snapserver_{{ snap_version }}-1_{{ grains["osarch"] }}.deb
     {% if grains["osarch"] == "armhf" %}
-    - source_hash: md5=5a8f9b4524c3be3cf9c4ec5a38007927
+    - source_hash: md5=0d8efecbb83c25c6ab20bc9a4843f126
     {% else %}
-    - source_hash: md5=f10fd382968393cd28ce75186500a81e
+    - source_hash: md5=631795041a0dbf7cc5df1031d44283f5
     {% endif %}
   cmd.wait:
     - name: dpkg -i /tmp/snapserver_{{ snap_version }}-1_{{ grains["osarch"] }}.deb
