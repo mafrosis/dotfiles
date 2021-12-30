@@ -1,12 +1,6 @@
-supervisor-dependencies:
-  pkg.installed:
-    - name: python-pip
-
 supervisor-install:
-  pip.installed:
+  pkg.installed:
     - name: supervisor
-    - require:
-      - pkg: supervisor-dependencies
 
 supervisor-config-dir:
   file.directory:
@@ -43,7 +37,7 @@ supervisor:
   service.running:
     - enable: true
     - require:
-      - pip: supervisor-install
+      - pkg: supervisor-install
     - watch:
       - file: supervisor-config
       - file: supervisor-log-dir
