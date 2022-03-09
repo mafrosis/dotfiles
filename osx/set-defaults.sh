@@ -36,7 +36,7 @@ sudo nvram SystemAudioVolume=" "
 defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
 
 # Always show scrollbars
-defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
+defaults write NSGlobalDomain AppleShowScrollBars -string "WhenScrolling"
 # Possible values: `WhenScrolling`, `Automatic` and `Always`
 
 # Disable the over-the-top focus ring animation
@@ -154,10 +154,6 @@ defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
 # Disable press-and-hold for keys in favor of key repeat
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
-
-# Set a blazingly fast keyboard repeat rate
-defaults write NSGlobalDomain KeyRepeat -int 1
-defaults write NSGlobalDomain InitialKeyRepeat -int 10
 
 # Set language and text formats
 # Note: if you’re in the US, replace `EUR` with `USD`, `Centimeters` with
@@ -418,6 +414,9 @@ defaults write com.apple.dock showhidden -bool true
 
 # Don’t show recent applications in Dock
 defaults write com.apple.dock show-recents -bool false
+
+# Show the Cmd+Tab app switcher on all screens
+defaults write com.apple.dock appswitcher-all-displays -bool true
 
 # Disable the Launchpad gesture (pinch with thumb and three fingers)
 #defaults write com.apple.dock showLaunchpadGestureEnabled -int 0
