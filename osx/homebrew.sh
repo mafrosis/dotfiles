@@ -25,7 +25,7 @@ if [[ $1 == '--init' ]]; then
 fi
 
 # install a few essentials
-brew install \
+brew install -q \
 	awscli \
 	axel \
 	bash \
@@ -48,6 +48,7 @@ brew install \
 	mplayer \
 	pandoc \
 	shellcheck \
+	telnet \
 	terminal-notifier \
 	youtube-dl
 
@@ -72,7 +73,7 @@ brew install \
 	android-file-transfer \
 	dropbox \
 	firefox \
-	google-backup-and-sync \
+	google-drive \
 	keepassx \
 	qlstephen \
 	skype \
