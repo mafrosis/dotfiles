@@ -26,7 +26,7 @@ fi
 
 # Bootstrap step
 if [[ ! -f ~/.step/config/defaults.json ]]; then
-	SMALLSTEP_CA_HOST=${SMALLSTEP_CA_HOST:-'https://ca.mafro.net'}
+	SMALLSTEP_CA_HOST=${SMALLSTEP_CA_HOST:-'https://ca.mafro.net:4433'}
 
 	echo "Connecting to ${SMALLSTEP_CA_HOST}"
 

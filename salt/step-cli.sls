@@ -22,7 +22,7 @@ install-step-cli:
 {% for user in ['root', pillar["login_user"]]: %}
 bootstrap-step-for-{{ user }}:
   cmd.run:
-    - name: step ca bootstrap --force --ca-url {{ pillar.get('smallstep_ca_host', 'https://ringil:8443') }} --fingerprint {{ pillar["smallstep_ca_root_fingerprint"] }}
+    - name: step ca bootstrap --force --ca-url {{ pillar.get('smallstep_ca_host', 'https://ca.mafro.net:4433') }} --fingerprint {{ pillar["smallstep_ca_root_fingerprint"] }}
     - runas: {{ user }}
     - require:
       - cmd: install-step-cli
