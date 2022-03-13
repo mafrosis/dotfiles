@@ -1,4 +1,4 @@
-mpd_host = kvothe
+mpd_host = ringil
 mpd_port = 6600
 
 playlist_disable_highlight_delay = 5
