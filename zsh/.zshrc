@@ -1,6 +1,6 @@
 # LS_COLORS with a custom theme
 # export this before prezto is loaded, to ensure it's baked into zcompinit
-if command -v vivid >/dev/null 2>&1; then 
+if command -v vivid >/dev/null 2>&1; then
 	export LS_COLORS="$(vivid generate $HOME/dotfiles/zsh/vivid/lscolors.yml)"
 fi
 

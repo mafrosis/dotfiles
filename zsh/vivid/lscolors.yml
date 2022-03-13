@@ -57,17 +57,17 @@ core:
     foreground: cyan
     background: darkgray
 
-  normal_text:
-    {}
+  normal_text: {}
 
-  sticky:
-    {}
-
-  sticky_other_writable:
-    {}
-
-  other_writable:
-    {}
+  sticky: {}
+  sticky_other_writable: {}
+  other_writable: {}
+  reset_to_normal: {}
+  multi_hard_link: {}
+  door: {}
+  setuid: {}
+  setgid: {}
+  file_with_capability: {}
 
 text:
   special:
