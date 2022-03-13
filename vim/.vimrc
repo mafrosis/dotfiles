@@ -133,7 +133,6 @@ Plugin 'chase/vim-ansible-yaml'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'ekalinin/Dockerfile.vim'
 Bundle 'isobit/vim-caddyfile'
-Bundle 'sonph/onehalf', {'rtp':'vim'}
 Bundle 'vim-python/python-syntax'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
