@@ -2,6 +2,7 @@
 
 "---- General settings and fail safes-----------------------------------
 set nocompatible				" Not vi compatible
+set modelines=1					" Ensure modelines work
 set tabstop=4					" Set the tab size to 4
 set shiftwidth=4				" Set indent size
 set nu							" Turn on line numbers
