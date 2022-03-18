@@ -12,3 +12,10 @@ if [[ ! -f $HOME/dotfiles/ssh/.ssh/github.pky ]]; then
 	cat "$HOME/dotfiles/ssh/.ssh/github.pky.pub"
 	echo ''
 fi
+
+# On macOS, use openssh latest
+if [[ $(uname) == 'Darwin' ]]; then
+	brew install openssh
+
+	sudo ln -s /opt/homebrew/bin/ssh-agent /usr/local/bin
+fi
