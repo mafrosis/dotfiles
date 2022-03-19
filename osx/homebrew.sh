@@ -26,7 +26,6 @@ fi
 
 # install a few essentials
 brew install \
-	awscli \
 	axel \
 	bash \
 	coreutils \
@@ -40,12 +39,11 @@ brew install \
 	jq \
 	lame \
 	libmagic \
-	nmap \
-	nvm \
 	mas \
 	m-cli \
 	mercurial \
 	mplayer \
+	nmap \
 	pandoc \
 	shellcheck \
 	telnet \
