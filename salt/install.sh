@@ -20,8 +20,8 @@ elif [[ $(uname) == 'Linux' ]]; then
 	else
 		# install salt-minion via apt
 		sudo curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg \
-			https://repo.saltproject.io/py3/debian/10/amd64/latest/salt-archive-keyring.gpg
-		echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/py3/debian/10/amd64/latest buster main" | sudo tee /etc/apt/sources.list.d/salt.list
+			https://repo.saltproject.io/py3/debian/{{ grains['osrelease'] }}/amd64/latest/salt-archive-keyring.gpg
+		echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/py3/debian/{{ grains['osrelease'] }}/amd64/latest {{ grains['oscodename'] }} main" | sudo tee /etc/apt/sources.list.d/salt.list
 		sudo apt update
 		sudo apt install salt-minion
 	fi
