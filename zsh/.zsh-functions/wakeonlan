@@ -6,6 +6,8 @@ elif [[ -x /usr/bin/wakeonlan ]]; then
 	WOLBIN=/usr/bin/wakeonlan
 elif [[ -x /bin/wakeonlan ]]; then
 	WOLBIN=/bin/wakeonlan
+elif [[ -x /opt/homebrew/bin/wakeonlan ]]; then
+	WOLBIN=/opt/homebrew/bin/wakeonlan
 else
 	echo 'wakeonlan: not found'
 	return 1
