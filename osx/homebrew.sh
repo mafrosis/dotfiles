@@ -74,6 +74,8 @@ brew install \
 	google-drive \
 	keepassx \
 	qlstephen \
+	qlcolorcode \
+	qlvideo \
 	skype \
 	textmate \
 	vlc
