@@ -40,7 +40,7 @@ fi
 fpath=( ~/.zsh-functions "${fpath[@]}" )
 
 # autoload custom functions..
-for func in $(ls ~/.zsh-functions); do
+for func in $(/bin/ls ~/.zsh-functions); do
 	autoload -Uz "$func"
 done
 
@@ -112,4 +112,8 @@ export BAT_THEME=mafro
 # the following trick ensures that PATH is not updated within tmux shells
 if [[ -z $TMUX ]]; then
 	export PATH=${PATH}${MOARPATH}
+
+	# Ensure Homebrew binaries are found first on macOS
+	export PATH=/opt/homebrew/bin:$PATH
+	export PATH=/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH
 fi

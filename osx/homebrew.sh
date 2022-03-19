@@ -25,7 +25,7 @@ if [[ $1 == '--init' ]]; then
 fi
 
 # install a few essentials
-brew install -q \
+brew install \
 	awscli \
 	axel \
 	bash \
@@ -54,7 +54,7 @@ brew install -q \
 
 # symlink a couple of missing shell commands from GNU coreutils
 if [[ ! -L /usr/local/bin/tac ]]; then
-	ln -s /usr/local/bin/gtac /usr/local/bin/tac
+	sudo ln -s /opt/homebrew/bin/gtac /usr/local/bin
 fi
 
 # install cask for Chrome, if not already installed
