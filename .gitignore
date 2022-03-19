@@ -16,3 +16,5 @@ ipython/.ipython/profile_default/startup/
 tools/*/.venv
 tools/*/.env
 tools/*/.out
+
+osx/.osx-set-defaults-done

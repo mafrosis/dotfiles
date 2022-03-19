@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#! /usr/bin/env bash -x
 
 # Sets reasonable OS X defaults.
 #

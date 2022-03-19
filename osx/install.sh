@@ -30,8 +30,7 @@ stow -v bin "$RESTOW" --target="$HOME/bin" "$DRY_RUN"
 
 
 # install Homebrew and apps
-# shellcheck disable=SC1091
-source ./homebrew.sh
+./homebrew.sh
 
 # install Moom via mas
 if [[ ! -L $HOME/Library/Preferences/com.manytricks.Moom.plist ]]; then
@@ -44,13 +43,13 @@ if [[ ! -L $HOME/Library/Preferences/com.manytricks.Moom.plist ]]; then
 fi
 
 
-if [[ ! -f $HOME/.osx-set-defaults-done ]]; then
+if [[ ! -f $HOME/dotfiles/osx/.osx-set-defaults-done ]]; then
 	# setup OSX defaults; sudo is required
 	if sudo -v; then
 		# shellcheck disable=SC1091
 		source set-defaults.sh
 		echo 'You will need to restart to make new macOS defaults take effect'
-		touch "$HOME/.osx-set-defaults-done"
+		touch "$HOME/dotfiles/osx/.osx-set-defaults-done"
 	else
 		echo 'Sudo failed, skipping OSX defaults'
 	fi
