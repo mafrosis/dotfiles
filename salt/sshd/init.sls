@@ -1,3 +1,6 @@
+include:
+  - sshd.step-ca-host-certs
+
 # Add an include line to the sshd config
 /etc/ssh/sshd_config:
   file.blockreplace:
