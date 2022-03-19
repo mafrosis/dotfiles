@@ -3,22 +3,18 @@
 # DEBUG mode controlled by env var
 if [[ -n $DEBUG ]]; then set -x; fi
 
-# bail if not Darwin
-if [[ $(uname) != 'Darwin' ]] ; then
-	echo 'Currently only implemented for macOS'
-	exit 255
-fi
+if ! command -v docker >/dev/null 2>&1; then
+	if [[ $(uname) == 'Darwin' ]]; then
+		if ! command -v brew >/dev/null 2>&1; then
+			echo 'Run ./install.sh osx first to bootstrap OSX with Homebrew'
+			exit 3
+		fi
+		brew install homebrew/cask/docker
 
-function install_homebrew {
-	if ! command -v brew >/dev/null 2>&1; then
-		ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	elif [[ $(uname) == 'Linux' ]]; then
+		curl -fsSL https://get.docker.com | sudo bash
 	fi
-}
-
-# install missing Homebrew
-install_homebrew
-
-brew cask install docker
+fi
 
 # skip stow in top-level install.sh
 exit 255
