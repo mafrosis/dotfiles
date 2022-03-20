@@ -60,13 +60,14 @@ fi
 
 function signin {
 	EXPORT="$(op signin my 2>&1 | head -1)"
+
 	if [[ $EXPORT == *'Account not found: my'* ]]; then
 		echo '1password account not configured, run:'
 		echo 'op signin https://my.1password.com services@mafro.net <secret_key>'
 	else
 		echo "$EXPORT" >&2
 		eval "$EXPORT"
-		printf "\\n"
+		printf "\\n" 1>&2
 	fi
 }
 
@@ -84,6 +85,7 @@ function lookup {
 	if [ $? -eq 1 ] && [[ -z $RETRY ]]; then
 		signin
 		lookup 1
+		return
 	fi
 	echo "$OUT"
 }
