@@ -2,19 +2,18 @@
 
 install-step-cli:
   archive.extracted:
-    - name: /tmp/step
+    - name: /var/cache/dotfiles/step
     {% if grains["cpuarch"] == "armv7l" %}
-    # armv7
     - source: https://github.com/smallstep/cli/releases/download/v{{ smallstep_version }}/step_linux_{{ smallstep_version }}_armv7.tar.gz
-    - source_hash: sha256=ffde3d9253cf2fd688f3b0b3c4428869efede89adede14d7f0b75437b688623c
+    - source_hash_name: step_linux_{{ smallstep_version }}_armv7.tar.gz
     {% else %}
-    # amd64 (default)
     - source: https://github.com/smallstep/cli/releases/download/v{{ smallstep_version }}/step_linux_{{ smallstep_version }}_amd64.tar.gz
-    - source_hash: sha256=6f52d3be8b3b93242bb42f6f194ec0f8f779c8000927e23a07d07c509cb2bb82
+    - source_hash_name: step_linux_{{ smallstep_version }}_amd64.tar.gz
     {% endif %}
-    - if_missing: /usr/local/bin/step
+    - source_hash: https://github.com/smallstep/cli/releases/download/v{{ smallstep_version }}/checksums.txt
+    - source_hash_update: true
   cmd.wait:
-    - name: mv /tmp/step/step_{{ smallstep_version }}/bin/step /usr/local/bin/step
+    - name: cp /var/cache/dotfiles/step/step_{{ smallstep_version }}/bin/step /usr/local/bin/step
     - watch:
       - archive: install-step-cli
 
