@@ -1,16 +1,3 @@
-{% if grains['os'] == 'Debian' %}
-include:
-  - debian-repos.backports
-  - debian-repos.contrib
-  - debian-repos.nonfree
-
-{% elif grains['os'] == 'Ubuntu' %}
-team-xbmc-ppa:
-  pkgrepo.managed:
-    - name: ppa:team-xbmc/ppa
-
-{% endif %}
-
 kodi:
   user.present:
     - name: kodi
@@ -19,9 +6,6 @@ kodi:
       - audio
       - video
   pkg.installed:
-    {% if grains['os'] == 'Debian' %}
-    - fromrepo: {{ grains['oscodename'] }}-backports
-    {% endif %}
     - refresh: true
 
 add-mafro-to-video:
@@ -40,17 +24,25 @@ kodi-systemd-script:
         After = systemd-user-sessions.service sound.target
 
         [Service]
+        Type = simple
         User = kodi
         Group = video
-        Type = simple
-        ExecStart = /usr/bin/xinit /usr/bin/dbus-launch --exit-with-session /usr/bin/kodi-standalone -- :0 -nolisten tcp vt7
+        PAMName = login
+
+        TTYPath = /dev/tty1
+        ExecStart = startx /usr/bin/kodi-standalone -- :0 -nolisten tcp vt1
+        ExecStop=/usr/bin/killall --user kodi --exact --wait kodi.bin
+
         Restart = on-abort
         RestartSec = 5
+
+        StandardInput = tty
+        StandardOutput=journal
 
         [Install]
         WantedBy = multi-user.target
     - user: {{ pillar.get('login_user', 'root') }}
-    - mode: 744
+    - mode: 644
 
 kodi-service-enable:
   service.enabled:
@@ -58,45 +50,14 @@ kodi-service-enable:
     - require:
       - file: kodi-systemd-script
 
-linux-headers:
-  pkg.installed:
-    - name: linux-headers-{{ salt['cmd.shell']("uname -r|sed 's,[^-]*-[^-]*-,,'") }}
-
 xserver-xorg:
   pkg.installed
 
 xinit:
   pkg.installed
 
-dbus-x11:
+{% if grains['os'] == 'Debian' %}
+# Graphics driver for the Intel NUC
+xserver-xorg-video-intel:
   pkg.installed
-
-{% if grains['os'] == 'Ubuntu' %}
-xserver-xorg-legacy:
-  pkg.installed:
-    - require:
-      - pkg: xserver-xorg
 {% endif %}
-
-xwrapper-allowed-users:
-  file.replace:
-    - name: /etc/X11/Xwrapper.config
-    - pattern: "allowed_users=console"
-    - repl: "allowed_users=anybody"
-    - backup: false
-    - require:
-      - pkg: xserver-xorg
-
-{% if grains['os'] == 'Ubuntu' %}
-xwrapper-needs-root-rights:
-  file.append:
-    - name: /etc/X11/Xwrapper.config
-    - text: needs_root_rights=yes
-    - require:
-      - pkg: xserver-xorg-legacy
-{% endif %}
-
-disable-nouveau:
-  cmd.run:
-    - name: echo 0 > /sys/class/vtconsole/vtcon1/bind && rmmod nouveau && rmmod ttm && rmmod drm_kms_helper && rmmod drm
-    - onlyif: lsmod| grep nouveau
