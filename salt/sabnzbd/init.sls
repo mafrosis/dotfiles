@@ -32,25 +32,6 @@ create-sabnzbd-user:
     - group: {{ sabnzbd_group }}
     - dir_mode: 770
 
-sabnzbd-supervisor:
-  supervisord.running:
-    - name: sabnzbd
-    - update: true
-    - require:
-      - service: supervisor
-      - file: sabnzbd-supervisor-config
-
-sabnzbd-supervisor-config:
-  file.managed:
-    - name: /etc/supervisor/conf.d/sabnzbd.conf
-    - source: salt://sabnzbd/supervisord.conf
-    - template: jinja
-    - defaults:
-        download_gid: 1002
-        sabnzbd_uid: 1002
-    - require_in:
-      - service: supervisor
-
 # config file must be in sabnzbd user's $HOME, since it writes
 # files relative to the INI file path
 sabnzbd-config:
@@ -63,7 +44,3 @@ sabnzbd-config:
         hostname: {{ pillar['hostname'] }}
         download_dir: /incomplete
         complete_dir: /complete
-  cmd.wait:
-    - name: supervisorctl restart sabnzbd
-    - watch:
-      - file: sabnzbd-config
