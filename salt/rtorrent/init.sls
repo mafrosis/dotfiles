@@ -1,6 +1,5 @@
 include:
   - sudo
-  - supervisor
 
 {% set user = pillar['login_user'] %}
 {% set rtorrent_user = pillar.get('rtorrent_user', 'rtorrent') %}
@@ -80,10 +79,10 @@ rtorrent.rc:
     - template: jinja
     - group: {{ rtorrent_group }}
     - defaults:
-        download_rate: 0
-        upload_rate: 10
+        download_rate: 7000
+        upload_rate: 90
         download_dir: {{ pillar['rtorrent_download_dir'] }}
-        move_torrent: false
+        move_torrent: true
     - require:
       - file: /etc/rtorrent
 
