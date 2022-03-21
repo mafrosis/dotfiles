@@ -8,6 +8,8 @@ linux-utils-disk-tools-pkgs:
     - names:
       - bmap-tools
       - cryptsetup
+      - exfat-fuse
+      - exfat-utils
       - lvm2
       - ncdu
       - parted
