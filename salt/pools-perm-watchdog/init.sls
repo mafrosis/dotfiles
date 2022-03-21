@@ -1,9 +1,11 @@
 include:
   - supervisor
 
-pools-watchdog:
-  pip.installed:
-    - name: watchdog
+watchdog:
+  pip.installed
+
+argh:
+  pip.installed
 
 {% for pool_name in ('video', 'music', 'torrent') %}
 
