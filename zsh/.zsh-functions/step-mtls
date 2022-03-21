@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash -e
 
 function cleanup {
 	rm -rf "${TMPDIR}"
@@ -7,7 +7,7 @@ function cleanup {
 trap cleanup EXIT
 
 # Fetch a token via OIDC provisioner
-TOKEN=$(step ca token ha.mafro.net --provisioner Google)
+TOKEN=$(step ca token home.mafro.net --provisioner Google)
 
 # Create temporary directory
 TMPDIR="$(mktemp -d)"
@@ -18,7 +18,7 @@ step ca certificate m@mafro.net \
 	--token "${TOKEN}" \
 	--force
 
-# Convert Step-generated PEM cert/key to p12 format, with no password
+# Convert Step-generated PEM cert/key to p12 format
 openssl pkcs12 -export -clcerts \
 	-inkey "${TMPDIR}/client.key" \
 	-in "${TMPDIR}/client.crt" \
