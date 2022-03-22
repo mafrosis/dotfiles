@@ -37,7 +37,7 @@ create-samba-user-{{ user }}:
 
 set-samba-password-{{ user }}:
   cmd.run:
-    - name: echo -e "{{ args['pass'] }}\n{{ args['pass'] }}" | smbpasswd -s -a {{ user }}
+    - name: printf "{{ args['pass'] }}\n{{ args['pass'] }}" | smbpasswd -s -a {{ user }}
     - require:
       - user: create-samba-user-{{ user }}
 {% endfor %}
