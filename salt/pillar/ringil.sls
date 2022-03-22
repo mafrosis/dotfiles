@@ -1,4 +1,3 @@
-hostname: ringil
 login_user: pi
 timezone: Australia/Melbourne
 

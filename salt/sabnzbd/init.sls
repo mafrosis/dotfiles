@@ -41,6 +41,6 @@ sabnzbd-config:
     - template: jinja
     - user: {{ sabnzbd_user }}
     - defaults:
-        hostname: {{ pillar['hostname'] }}
+        hostname: {{ grains['host'] }}
         download_dir: /incomplete
         complete_dir: /complete
