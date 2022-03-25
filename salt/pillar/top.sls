@@ -1,4 +1,7 @@
 base:
+  '*':
+    - common
+
   'G@host:jorg or G@id:jorg':
     - match: compound
     - jorg

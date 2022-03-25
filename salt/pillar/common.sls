@@ -1,0 +1,1 @@
+snapserver: ringil
