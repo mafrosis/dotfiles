@@ -15,7 +15,7 @@ argh:
     - update: true
     - require:
       - service: supervisor
-      - pip: pools-watchdog
+      - pip: watchdog
       - file: {{ pool_name }}-perm-watchdog-supervisor-config
 
 {{ pool_name }}-perm-watchdog-supervisor-config:
@@ -24,7 +24,7 @@ argh:
     - source: salt://pools-perm-watchdog/supervisord.{{ pool_name }}.conf
     - template: jinja
     - require:
-      - pip: pools-watchdog
+      - pip: watchdog
     - require_in:
       - service: supervisor
 
