@@ -13,16 +13,17 @@ install-snapclient-deps:
 
 install-snapclient:
   file.managed:
-    - name: /tmp/snapclient_{{ snap_version }}-1_{{ grains["osarch"] }}.deb
+    - name: /var/cache/dotfiles/snapclient.deb
     - source: https://github.com/badaix/snapcast/releases/download/v{{ snap_version }}/snapclient_{{ snap_version }}-1_without-pulse_{{ grains["osarch"] }}.deb
     {% if grains["osarch"] == "armhf" %}
     - source_hash: md5=a54ca00097a30bf5e79b016fe423fc6d
     {% else %}
     - source_hash: md5=8525f197428a82aa06b618502e2f71cf
     {% endif %}
+    - source_hash_update: true
     - if_missing: /usr/bin/snapclient
   cmd.wait:
-    - name: dpkg -i /tmp/snapclient_{{ snap_version }}-1_{{ grains["osarch"] }}.deb
+    - name: dpkg -i /var/cache/dotfiles/snapclient.deb
     - watch:
       - file: install-snapclient
 
