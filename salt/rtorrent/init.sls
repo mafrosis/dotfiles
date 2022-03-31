@@ -63,7 +63,6 @@ rtorrent-download-dir:
     - makedirs: true
     - recurse:
       - group
-      - mode
     - require:
       - user: rtorrent
 
