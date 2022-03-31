@@ -17,11 +17,19 @@ install-step-cli:
     - watch:
       - archive: install-step-cli
 
-{% for user in ['root', pillar["login_user"]]: %}
+{% set user = pillar["login_user"] %}
+
 bootstrap-step-for-{{ user }}:
   cmd.run:
     - name: step ca bootstrap --force --ca-url {{ pillar.get('smallstep_ca_host', 'https://ca.mafro.net:4433') }} --fingerprint {{ pillar["smallstep_ca_root_fingerprint"] }}
+    - creates: /home/{{ user }}/.step/config/defaults.json
     - runas: {{ user }}
     - require:
       - cmd: install-step-cli
-{% endfor %}
+
+bootstrap-step-for-root:
+  cmd.run:
+    - name: step ca bootstrap --force --ca-url {{ pillar.get('smallstep_ca_host', 'https://ca.mafro.net:4433') }} --fingerprint {{ pillar["smallstep_ca_root_fingerprint"] }}
+    - creates: /root/.step/config/defaults.json
+    - require:
+      - cmd: install-step-cli
