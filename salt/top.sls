@@ -2,7 +2,6 @@ base:
   '*':
     - common
     - docker
-    - disable-salt-minion
     - sshd
     - step-cli
 
