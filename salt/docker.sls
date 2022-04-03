@@ -8,8 +8,8 @@ docker-apt-deps:
       - libffi-dev
       - software-properties-common
 
-{# HACK: docker didnt release into stable for bionic #}
-{# https://github.com/docker/for-linux/issues/290#issuecomment-393605253 #}
+# HACK: docker didnt release into stable for bionic
+# https://github.com/docker/for-linux/issues/290#issuecomment-393605253
 {% if grains['oscodename'] == 'bionic' %}
 {% set oscodename = 'artful' %}
 {% else %}
@@ -31,21 +31,8 @@ docker-install:
     - require:
       - pkg: docker-apt-deps
 
-{% if grains['osarch'] == 'armhf' %}
-
-docker-compose:
-  pip.installed
-
-{% else %}
-
-docker-compose-install:
-  file.managed:
-    - name: /usr/local/bin/docker-compose
-    - source: https://github.com/docker/compose/releases/download/1.22.0/docker-compose-Linux-x86_64
-    - source_hash: sha256=f679a24b93f291c3bffaff340467494f388c0c251649d640e661d509db9d57e9
-    - mode: 755
-
-{% endif %}
+docker-compose-plugin:
+  pkg.installed
 
 docker-adduser-group:
   group.present:
