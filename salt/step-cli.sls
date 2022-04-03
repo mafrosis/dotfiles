@@ -1,9 +1,9 @@
-{% set smallstep_version = "0.18.2" %}
+{% set smallstep_version = '0.18.2' %}
 
 install-step-cli:
   archive.extracted:
     - name: /var/cache/dotfiles/step
-    {% if grains["cpuarch"] == "armv7l" %}
+    {% if grains['cpuarch'] == 'armv7l' %}
     - source: https://github.com/smallstep/cli/releases/download/v{{ smallstep_version }}/step_linux_{{ smallstep_version }}_armv7.tar.gz
     - source_hash_name: step_linux_{{ smallstep_version }}_armv7.tar.gz
     {% else %}
@@ -17,19 +17,37 @@ install-step-cli:
     - watch:
       - archive: install-step-cli
 
-{% set user = pillar["login_user"] %}
+{% for user in ['root', pillar['login_user']]: %}
 
-bootstrap-step-for-{{ user }}:
-  cmd.run:
-    - name: step ca bootstrap --force --ca-url {{ pillar.get('smallstep_ca_host', 'https://ca.mafro.net:4433') }} --fingerprint {{ pillar["smallstep_ca_root_fingerprint"] }}
-    - creates: /home/{{ user }}/.step/config/defaults.json
-    - runas: {{ user }}
-    - require:
-      - cmd: install-step-cli
+{% if user == 'root': %}
+{% set home_path = '/root' %}
+{% else %}
+{% set home_path = '/home/'+pillar['login_user'] %}
+{% endif %}
 
-bootstrap-step-for-root:
-  cmd.run:
-    - name: step ca bootstrap --force --ca-url {{ pillar.get('smallstep_ca_host', 'https://ca.mafro.net:4433') }} --fingerprint {{ pillar["smallstep_ca_root_fingerprint"] }}
-    - creates: /root/.step/config/defaults.json
-    - require:
-      - cmd: install-step-cli
+step-cli-root-cert-{{ user }}:
+  file.managed:
+    - name: {{ home_path }}/.step/certs/root_ca.crt
+    - contents_pillar: smallstep_root_ca_cert
+    - mode: 600
+    - user: {{ user }}
+    - group: {{ user }}
+    - makedirs: true
+
+step-cli-defaults-{{ user }}:
+  file.serialize:
+    - name: {{ home_path }}/.step/config/defaults.json
+    - dir_mode: 700
+    - mode: 600
+    - user: {{ user }}
+    - group: {{ user }}
+    - makedirs: true
+
+    - dataset:
+        ca-url: '{{ pillar.get('smallstep_ca_host', 'https://ca.mafro.net:4433') }}'
+        fingerprint: '{{ pillar['smallstep_ca_root_fingerprint'] }}'
+        root: '{{ home_path }}/.step/certs/root_ca.crt'
+        redirect-url: ''
+    - serializer: json
+
+{% endfor %}

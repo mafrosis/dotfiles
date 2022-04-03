@@ -14,7 +14,8 @@ include:
     - env:
       - SMALLSTEP_CA_PASSWORD: "{{ pillar['smallstep_ca'] }}"
     - require:
-      - cmd: bootstrap-step-for-root
+      - file: step-cli-root-cert-root
+      - file: step-cli-defaults-root
 
 # Configure sshd to trust Step CA, and to use the SSH host cert
 /etc/ssh/sshd_config.d/step-ca.conf:
