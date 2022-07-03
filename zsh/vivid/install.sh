@@ -6,13 +6,8 @@ echo 'Installing vivid..'
 if ! command -v vivid >/dev/null 2>&1; then
 	if [[ $(uname) == 'Linux' ]]; then
 		if [[ $(uname -m) =~ arm(.*) ]]; then
-			if [[ $(uname -m) =~ armv6(.*) ]]; then
-				ARCH=armv6
-			elif [[ $(uname -m) =~ armv7(.*) ]]; then
-				ARCH=armv7
-			fi
-			curl -o /tmp/vivid -L https://github.com/mafrosis/vivid/releases/download/v0.8.0/vivid-${ARCH}
-			sudo chmod +x /tmp/vivid
+			curl -o /tmp/vivid.tgz -L https://github.com/sharkdp/vivid/releases/download/v0.8.0/vivid-v0.8.0-arm-unknown-linux-musleabihf.tar.gz
+			tar xzf /tmp/vivid.tgz -C /tmp --strip-components=1
 			sudo mv /tmp/vivid /usr/bin
 		else
 			# Assume amd64 by default
