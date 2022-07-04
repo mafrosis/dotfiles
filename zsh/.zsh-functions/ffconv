@@ -102,10 +102,10 @@ function fin() {
 		fi
 	fi
 
-	if [[ $NO_DUNZO -eq 0 ]]; then
+	if command -v dunzo >/dev/null 2>&1 && [[ $NO_DUNZO -eq 0 ]]; then
 		dunzo "Finished transcoding $OUTPUT_FILE" 'ffconv' "$PWD/$(dirname "$OUTPUT_FILE")"
 	fi
-	if [[ $DONT_TRASH -eq 0 ]]; then
+	if command -v trash >/dev/null 2>&1 && [[ $DONT_TRASH -eq 0 ]]; then
 		trash "$INPUT_FILE"
 	fi
 }
