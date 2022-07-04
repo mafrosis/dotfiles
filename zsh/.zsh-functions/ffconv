@@ -9,9 +9,10 @@ USAGE='Usage: ffconv [OPTS] PATH
   -N	hide the dunzo message
   -W	resize to this horizontal pixel size
   -H	resize to this vertical pixel size
-  -s	encode start time (in 0:01:23 time format)
-  -e	encode end time (in 0:01:23 time format)
-  -d	encode duration (in seconds)
+  -s	encode start time in 0:01:23 time format (default is 0s)
+  -e	encode end time in 0:01:23 time format (default is movie length)
+  -d	encode duration in seconds
+  -F	fade in/out duration in seconds (default is 1s)
   -b	encode transport file for concatenating together
   -B	concatenate all transport files for this movie
   -h	display this message
@@ -37,14 +38,15 @@ DONT_TRASH=0
 NO_DUNZO=0
 NEW_WIDTH=0
 NEW_HEIGHT=0
-START_TIME=
+START_TIME=0
 END_TIME=
 DURATION=
+FADE_DURATION=1
 START=
 TRANSPORT_MODE=0
 CONCAT_MODE=0
 
-while getopts 'c:fa:ATW:H:s:e:d:h:NbB' params
+while getopts 'c:fa:ATW:H:s:e:d:F:h:NbB' params
 do
 	case $params in
 		c ) CRF=$OPTARG;;
@@ -57,6 +59,7 @@ do
 		s ) START_TIME=$OPTARG;;
 		e ) END_TIME=$OPTARG;;
 		d ) DURATION=$OPTARG;;
+		F ) FADE_DURATION=$OPTARG;;
 		N ) NO_DUNZO=1;;
 		b ) TRANSPORT_MODE=1;;
 		B ) CONCAT_MODE=1;;
@@ -71,6 +74,11 @@ shift $((OPTIND-1))
 if [[ ! -f $1 ]]; then
 	echo 'File does not exist!'
 	exit 44
+fi
+
+if [[ ! -z $END_TIME ]] && [[ ! -z $DURATION ]]; then
+	echo 'You cannot pass both -e and -d'
+	exit 45
 fi
 
 # set NO_TRASH & NO_DUNZO on linux
@@ -162,29 +170,29 @@ ACODEC=$( ffprobe -i "$INPUT_FILE" -show_streams -select_streams a:0 2>&1 | grep
 # filter array including baseline deinterlace filter
 set -A VFILTER 'yadif'
 
-# extract frame rate for fade duration
-if [[ ! -z $START_TIME || ! -z $DURATION ]]; then
-	FRAME_RATE=$(( $( echo "$VSTREAM_DATA" | grep r_frame_rate | cut -d = -f 2 ) ))
+# if end time supplied, convert to DURATION in seconds
+# default START_TIME is zero
+if [[ ! -z $END_TIME ]]; then
+	DURATION=$(( $(time_to_secs $END_TIME) - $(time_to_secs $START_TIME) ))
 fi
 
-# fade in movie at specified time
+# set encode start time
 if [[ ! -z $START_TIME ]]; then
-	if [[ ! -z $END_TIME ]]; then
-		DURATION=$(( $(time_to_secs $END_TIME) - $(time_to_secs $START_TIME) ))
-	fi
 	START="-ss $START_TIME"
-	VFILTER+=("fade=in:0:$FRAME_RATE")
+
+	# fade in movie at specified time
+	VFILTER+=("fade=t=in:st=0:d=$FADE_DURATION")
 else
 	START="-ss 0:00:00"
 fi
 
+# set encode end time
 if [[ ! -z $DURATION ]]; then
-	# fade out after duration seconds
-	FRAMES=$( echo "$VSTREAM_DATA" | grep nb_frames | cut -d = -f 2 )
-	FADE_OUT_FRAME=$(( (FRAME_RATE * DURATION) - FRAME_RATE ))
-
 	START="$START -t $DURATION"
-	VFILTER+=("fade=out:$FADE_OUT_FRAME:$FRAME_RATE")
+
+	# fade out after duration seconds
+	FADE_OUT_START=$(( DURATION - FADE_DURATION ))
+	VFILTER+=("fade=t=out:st=$FADE_OUT_START:d=$FADE_DURATION")
 fi
 
 # convert to H264
