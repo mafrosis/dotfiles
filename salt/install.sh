@@ -18,10 +18,18 @@ elif [[ $(uname) == 'Linux' ]]; then
 	if [[ $FORCE -eq 0 ]] && command -v salt-call >/dev/null 2>&1; then
 		echo 'Salt already installed!'
 	else
+		if [[ $(uname -m) = aarch64 ]]; then
+			ARCH=arm64
+		else
+			ARCH=amd64
+		fi
+
+		source /etc/os-release
+
 		# install salt-minion via apt
 		sudo curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg \
-			https://repo.saltproject.io/py3/debian/{{ grains['osrelease'] }}/amd64/latest/salt-archive-keyring.gpg
-		echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/py3/debian/{{ grains['osrelease'] }}/amd64/latest {{ grains['oscodename'] }} main" | sudo tee /etc/apt/sources.list.d/salt.list
+			https://repo.saltproject.io/py3/debian/${VERSION_ID}/${ARCH}/latest/salt-archive-keyring.gpg
+		echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=${ARCH}] https://repo.saltproject.io/py3/debian/${VERSION_ID}/${ARCH}/latest ${VERSION_CODENAME} main" | sudo tee /etc/apt/sources.list.d/salt.list
 		sudo apt update
 		sudo apt install salt-minion
 	fi
