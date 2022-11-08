@@ -18,6 +18,8 @@ if ! command -v delta >/dev/null 2>&1; then
 		else
 			if [[ $(uname -m) =~ arm(.*) ]]; then
 				ARCH=armhf
+			elif [[ $(uname -m) = aarch64 ]]; then
+				ARCH=arm64
 			else
 				ARCH=amd64
 			fi

@@ -2,13 +2,15 @@
 
 echo 'Installing duf..'
 
-DUF_VERSION=${DUF_VERSION:-0.6.2}
+DUF_VERSION=${DUF_VERSION:-0.8.1}
 
 # Install duf package
 if ! command -v duf >/dev/null 2>&1; then
 	if [[ $(uname) == 'Linux' ]]; then
 		if [[ $(uname -m) =~ arm(.*) ]]; then
 			ARCH=armv7
+		elif [[ $(uname -m) = aarch64 ]]; then
+			ARCH=arm64
 		else
 			ARCH=amd64
 		fi

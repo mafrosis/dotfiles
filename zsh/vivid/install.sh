@@ -9,6 +9,9 @@ if ! command -v vivid >/dev/null 2>&1; then
 			curl -o /tmp/vivid.tgz -L https://github.com/sharkdp/vivid/releases/download/v0.8.0/vivid-v0.8.0-arm-unknown-linux-musleabihf.tar.gz
 			tar xzf /tmp/vivid.tgz -C /tmp --strip-components=1
 			sudo mv /tmp/vivid /usr/bin
+		elif [[ $(uname -m) = aarch64 ]]; then
+			curl -o /tmp/vivid.deb -L https://github.com/sharkdp/vivid/releases/download/v0.8.0/vivid_0.8.0_arm64.deb
+			sudo dpkg -i /tmp/vivid.deb
 		else
 			# Assume amd64 by default
 			curl -o /tmp/vivid.deb -L https://github.com/sharkdp/vivid/releases/download/v0.8.0/vivid_0.8.0_amd64.deb

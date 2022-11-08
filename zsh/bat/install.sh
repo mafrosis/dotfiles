@@ -2,13 +2,15 @@
 
 echo 'Installing bat..'
 
-BAT_VERSION=${BAT_VERSION:-0.18.3}
+BAT_VERSION=${BAT_VERSION:-0.22.1}
 
 # Install bat package
 if ! command -v bat >/dev/null 2>&1; then
 	if [[ $(uname) == 'Linux' ]]; then
 		if [[ $(uname -m) =~ arm(.*) ]]; then
 			ARCH=armhf
+		elif [[ $(uname -m) = aarch64 ]]; then
+			ARCH=arm64
 		else
 			ARCH=amd64
 		fi
