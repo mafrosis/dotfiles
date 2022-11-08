@@ -42,7 +42,7 @@ fi
 
 sudo mkdir -p /etc/salt
 sudo tee /etc/salt/minion > /dev/null <<EOF
-file_client: local
+master: ringil
 state_output: mixed
 log_level: info
 id: $(hostname -s)
