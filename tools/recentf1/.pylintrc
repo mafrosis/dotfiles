@@ -1,0 +1,2 @@
+[MESSAGES CONTROL]
+disable=bad-whitespace, invalid-name, missing-docstring, global-statement
