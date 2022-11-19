@@ -4,6 +4,7 @@ base:
     - docker
     - sshd
     - step-cli
+    - systemd-networkd
 
   'G@os:Debian':
     - common.debian
