@@ -27,11 +27,16 @@ install-snapclient:
     - watch:
       - file: install-snapclient
 
+snapclient:
+  service.unmasked:
+    - require:
+      - file: install-snapclient
+
 /etc/default/snapclient:
   file.managed:
     - contents: |
         START_SNAPCLIENT=true
-        SNAPCLIENT_OPTS="--host {{ pillar["snapserver"] }} --hostID {{ grains["host"] }} -s {{ pillar["snapclient_sound_device_id"] }} --mixer {{ pillar.get("snapclient_mixer", "software") }}"
+        SNAPCLIENT_OPTS="--host {{ pillar["snapserver"] }} --hostID {{ grains["host"] }} -s '{{ pillar["snapclient_sound_device_id"] }}' --mixer {{ pillar.get("snapclient_mixer", "software") }}"
   cmd.wait:
     - name: systemctl restart snapclient
     - watch:
