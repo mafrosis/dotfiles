@@ -1,4 +1,4 @@
-{% set smallstep_version = '0.18.2' %}
+{% set smallstep_version = '0.23.0' %}
 
 install-step-cli:
   archive.extracted:
@@ -6,6 +6,9 @@ install-step-cli:
     {% if grains['cpuarch'] == 'armv7l' %}
     - source: https://github.com/smallstep/cli/releases/download/v{{ smallstep_version }}/step_linux_{{ smallstep_version }}_armv7.tar.gz
     - source_hash_name: step_linux_{{ smallstep_version }}_armv7.tar.gz
+    {% elif grains['cpuarch'] == 'aarch64' %}
+    - source: https://github.com/smallstep/cli/releases/download/v{{ smallstep_version }}/step_linux_{{ smallstep_version }}_arm64.tar.gz
+    - source_hash_name: step_linux_{{ smallstep_version }}_arm64.tar.gz
     {% else %}
     - source: https://github.com/smallstep/cli/releases/download/v{{ smallstep_version }}/step_linux_{{ smallstep_version }}_amd64.tar.gz
     - source_hash_name: step_linux_{{ smallstep_version }}_amd64.tar.gz
