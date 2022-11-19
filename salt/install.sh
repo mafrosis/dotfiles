@@ -20,6 +20,8 @@ elif [[ $(uname) == 'Linux' ]]; then
 	else
 		if [[ $(uname -m) = aarch64 ]]; then
 			ARCH=arm64
+		elif [[ $(uname -m) = armv7l ]]; then
+			ARCH=armhf
 		else
 			ARCH=amd64
 		fi
