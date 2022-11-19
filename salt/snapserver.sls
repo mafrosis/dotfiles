@@ -5,9 +5,9 @@ install-snapserver:
     - name: /tmp/snapserver_{{ snap_version }}-1_{{ grains["osarch"] }}.deb
     - source: https://github.com/badaix/snapcast/releases/download/v{{ snap_version }}/snapserver_{{ snap_version }}-1_{{ grains["osarch"] }}.deb
     {% if grains["osarch"] == "armhf" %}
-    - source_hash: md5=0d8efecbb83c25c6ab20bc9a4843f126
-    {% else %}
-    - source_hash: md5=631795041a0dbf7cc5df1031d44283f5
+    - source_hash: md5=88be7e5b55ae7af8a4a35e76a088c7fc
+    {% elif grains["osarch"] == "amd64" %}
+    - source_hash: md5=42cc57c1b609677bbae907b37a3d8bbe
     {% endif %}
   cmd.wait:
     - name: dpkg -i /tmp/snapserver_{{ snap_version }}-1_{{ grains["osarch"] }}.deb
