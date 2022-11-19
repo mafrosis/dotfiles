@@ -1,7 +1,7 @@
 sudo:
   pkg.installed
 
-{% if grains['os'] == "Debian" and pillar.get('login_user', false) %}
+{% if pillar.get('login_user', false) %}
 
 /etc/sudoers.d/{{ pillar['login_user'] }}:
   file.managed:
