@@ -8,20 +8,17 @@ docker-apt-deps:
       - libffi-dev
       - software-properties-common
 
-# HACK: docker didnt release into stable for bionic
-# https://github.com/docker/for-linux/issues/290#issuecomment-393605253
-{% if grains['oscodename'] == 'bionic' %}
-{% set oscodename = 'artful' %}
-{% else %}
-{% set oscodename = grains['oscodename'] %}
-{% endif %}
+/etc/apt/keyrings/docker.gpg:
+  file.managed:
+    - source: https://download.docker.com/linux/debian/gpg
+    - source_hash: md5=1afae06b34a13c1b3d9cb61a26285a15
+    - makedirs: true
 
 docker-pkgrepo:
   pkgrepo.managed:
     - humanname: docker
-    - name: deb [arch={{ grains['osarch'] }}] https://download.docker.com/linux/{{ grains['os']|lower }} {{ oscodename }} stable
+    - name: deb [arch={{ grains['osarch'] }} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/{{ grains['os']|lower }} {{ grains['oscodename'] }} stable
     - file: /etc/apt/sources.list.d/docker.list
-    - key_url: https://download.docker.com/linux/{{ grains['os']|lower }}/gpg
     - require_in:
       - pkg: docker-install
 
