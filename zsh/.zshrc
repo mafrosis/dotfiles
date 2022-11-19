@@ -117,3 +117,5 @@ if [[ -z $TMUX ]]; then
 	export PATH=/opt/homebrew/bin:$PATH
 	export PATH=/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH
 fi
+
+export DOCKER_HOST=unix:///run/user/1000/docker.sock

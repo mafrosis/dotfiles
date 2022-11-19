@@ -7,6 +7,9 @@ docker-apt-deps:
       - gnupg2
       - libffi-dev
       - software-properties-common
+      - fuse-overlayfs
+      - dbus-user-session
+      - uidmap
 
 /etc/apt/keyrings/docker.gpg:
   file.managed:
