@@ -58,9 +58,9 @@ systemd-networkd:
 
         [DHCPv4]
         {% if grains['host'] == 'ringil' %}
-        UseDomains=true
-        {% else %}
         UseDNS=false
+        {% else %}
+        UseDomains=true
         {% endif %}
   service.running:
     - enable: true
@@ -98,5 +98,12 @@ extend:
     service.running:
       - watch:
         - file: /etc/systemd/resolved.conf.d/dns.conf
+
+# Update the resolv.conf symlink to use non-stub server config
+# https://github.com/systemd/systemd/issues/14700
+/etc/resolv.conf:
+  file.symlink:
+    - target: /run/systemd/resolve/resolv.conf
+    - force: true
 
 {% endif %}
