@@ -35,9 +35,26 @@ docker:
     - names:
       - docker-ce
       - docker-compose-plugin
+  service.running:
+    - watch:
+      - file: /etc/docker/daemon.json
 
 docker-adduser-group:
   group.present:
     - name: docker
     - addusers:
       - {{ pillar['login_user'] }}
+
+/etc/docker/daemon.json:
+  file.serialize:
+    - serializer: json
+    - mode: 644
+    - makedirs: true
+    - dataset:
+        {% if grains['host'] == 'ringil' %}
+        data-root: '/media/mnt/docker-data'
+        exec-root: '/media/mnt/docker-exec'
+        {% endif %}
+        default-address-pools:
+          - base: '172.16.0.0/12'
+            size: 24
