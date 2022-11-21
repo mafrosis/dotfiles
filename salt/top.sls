@@ -58,6 +58,7 @@ base:
     - mpd
     - mpd.scribble
     - snapserver
+    - yubikey
 
   'G@host:whirrun':
     - match: compound
