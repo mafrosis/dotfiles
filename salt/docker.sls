@@ -28,16 +28,13 @@ docker-pkgrepo:
     - name: deb [arch={{ grains['osarch'] }} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian {{ grains['oscodename'] }} stable
     - file: /etc/apt/sources.list.d/docker.list
     - require_in:
-      - pkg: docker-install
+      - pkg: docker
 
-docker-install:
+docker:
   pkg.installed:
-    - name: docker-ce
-    - require:
-      - pkg: docker-apt-deps
-
-docker-compose-plugin:
-  pkg.installed
+    - names:
+      - docker-ce
+      - docker-compose-plugin
 
 docker-adduser-group:
   group.present:
