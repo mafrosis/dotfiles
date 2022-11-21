@@ -7,6 +7,7 @@ system-tools:
     - names:
       - at
       - bc
+      - disktype
       - file
       - less
       - make
