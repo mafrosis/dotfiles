@@ -22,9 +22,8 @@ nordvpn-install:
 nordvpn-configure:
   cmd.run:
     - name: |
-        # technology & whitelisting
         nordvpn set technology NordLynx
-        nordvpn set dns 192.168.1.167
+        nordvpn set dns 192.168.1.198
 
         # whitelisting
         nordvpn whitelist add port 22 protocol TCP
