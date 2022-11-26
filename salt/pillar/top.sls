@@ -25,3 +25,7 @@ base:
   'G@host:caul':
     - match: compound
     - caul
+
+  'G@host:rand':
+    - match: compound
+    - rand

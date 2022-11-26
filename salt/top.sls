@@ -69,3 +69,7 @@ base:
     - match: compound
     - linux-util
     - snapclient
+
+  'G@host:rand':
+    - match: compound
+    - linux-util
