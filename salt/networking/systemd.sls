@@ -72,18 +72,26 @@ systemd-networkd:
 libnss-resolve:
   pkg.installed
 
+# Force synlink /etc/resolv.conf to systemd-resolved config
+/etc/resolv.conf:
+  file.symlink:
+    - target: /run/systemd/resolve/stub-resolv.conf
+    - force: true
+
 systemd-resolved:
   service.running:
     - enable: true
     - restart: true
     - watch:
       - file: /etc/systemd/network/00-wired.network
+      - file: /etc/resolv.conf
 
 
 # Special DNS configuration for ringil, which hosts the pihole DNS server
 {% if grains['host'] == 'ringil' %}
 
 # Configure systemd-resolved to use Cloudflare public DNS
+# Disable the stub server which binds port 53; pihole uses port 53
 /etc/systemd/resolved.conf.d/dns.conf:
   file.managed:
     - makedirs: true
@@ -99,11 +107,10 @@ extend:
       - watch:
         - file: /etc/systemd/resolved.conf.d/dns.conf
 
-# Update the resolv.conf symlink to use non-stub server config
-# https://github.com/systemd/systemd/issues/14700
-/etc/resolv.conf:
-  file.symlink:
-    - target: /run/systemd/resolve/resolv.conf
-    - force: true
+  # Do not use the stub resolver on ringil
+  # https://github.com/systemd/systemd/issues/14700
+  /etc/resolv.conf:
+    file.symlink:
+      - target: /run/systemd/resolve/resolv.conf
 
 {% endif %}
