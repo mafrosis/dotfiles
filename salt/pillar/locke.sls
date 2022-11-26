@@ -1,5 +1,3 @@
 login_user: mafro
-rtorrent_download_dir: /media/download/rtorrent
-sabnzbd_basedir: /media/download/usenet
 
-alsa_device: hw:0,7
+snapclient_sound_device_id: hw:CARD=DSD,DEV=0
