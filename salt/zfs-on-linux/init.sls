@@ -1,3 +1,7 @@
+include:
+  - zfs-on-linux.auto-snapshot
+
+
 {% if grains['os'] == 'Debian' %}
 
 zfs-kernel-headers:
