@@ -1,3 +1,6 @@
+include:
+  - kodi.sudoers
+
 kodi:
   user.present:
     - name: kodi
