@@ -1,24 +1,16 @@
 include:
   - kodi.sudoers
 
+
 kodi:
+  pkg:
+    - installed
   user.present:
     - name: kodi
     - gid: video
     - groups:
       - audio
       - video
-  pkg.installed:
-    - refresh: true
-
-add-mafro-to-video:
-  user.present:
-    - name: mafro
-    - remove_groups: false
-    - groups:
-      - video
-
-kodi-systemd-script:
   file.managed:
     - name: /etc/systemd/system/kodi.service
     - contents: |
@@ -34,24 +26,32 @@ kodi-systemd-script:
 
         TTYPath = /dev/tty1
         ExecStart = startx /usr/bin/kodi-standalone -- :0 -nolisten tcp vt1
-        ExecStop=/usr/bin/killall --user kodi --exact --wait kodi.bin
+        ExecStop = /usr/bin/killall --user kodi --exact --wait kodi.bin
 
         Restart = on-abort
         RestartSec = 5
 
         StandardInput = tty
-        StandardOutput=journal
+        StandardOutput = journal
 
         [Install]
         WantedBy = multi-user.target
     - user: {{ pillar.get('login_user', 'root') }}
     - mode: 644
-
-kodi-service-enable:
-  service.enabled:
-    - name: kodi
+  service.running:
+    - enable: true
+    - watch:
+      - file: kodi
     - require:
-      - file: kodi-systemd-script
+      - pkg: kodi
+      - user: kodi
+
+add-mafro-to-video:
+  user.present:
+    - name: mafro
+    - remove_groups: false
+    - groups:
+      - video
 
 xserver-xorg:
   pkg.installed
