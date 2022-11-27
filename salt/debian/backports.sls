@@ -1,5 +1,5 @@
 {% if grains['os'] == "Debian" %}
-backports-pkgrepo:
+debian-backports:
   pkgrepo.managed:
     - humanname: {{ grains['oscodename'] }} Backports
     - name: deb http://{{ pillar.get('deb_mirror_prefix', 'httpredir') }}.debian.org/debian {{ grains['oscodename'] }}-backports main

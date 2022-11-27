@@ -1,6 +1,6 @@
 include:
   - apt
-  - debian-repos.nonfree
+  - debian.nonfree
 
 
 linux-utils-disk-tools-pkgs:
@@ -20,4 +20,4 @@ linux-utils-disk-tools-pkgs:
 hfsprogs:
   pkg.latest:
     - require:
-      - pkgrepo: nonfree-pkgrepo
+      - pkgrepo: debian-nonfree

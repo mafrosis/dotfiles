@@ -1,5 +1,5 @@
 {% if grains['os'] == "Debian" %}
-contrib-pkgrepo:
+debian-contrib:
   pkgrepo.managed:
     - humanname: Debian Contrib
     - name: deb http://{{ pillar.get('deb_mirror_prefix', 'httpredir') }}.debian.org/debian {{ grains['oscodename'] }} contrib

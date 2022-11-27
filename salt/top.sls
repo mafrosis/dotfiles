@@ -41,8 +41,6 @@ base:
 
   'G@host:locke':
     - match: compound
-    - debian-repos.backports
-    - debian-repos.contrib
     - grub-timeout-0
     - locke
     - kodi

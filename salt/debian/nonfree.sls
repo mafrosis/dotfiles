@@ -1,5 +1,5 @@
 {% if grains['os'] == "Debian" %}
-nonfree-pkgrepo:
+debian-nonfree:
   pkgrepo.managed:
     - humanname: Debian Non-Free
     - name: deb http://{{ pillar.get('deb_mirror_prefix', 'httpredir') }}.debian.org/debian {{ grains['oscodename'] }} non-free

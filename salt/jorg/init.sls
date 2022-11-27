@@ -1,5 +1,5 @@
 include:
-  - debian-repos.nonfree
+  - debian.nonfree
 
 
 firmware-misc-nonfree:
