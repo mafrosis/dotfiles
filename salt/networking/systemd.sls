@@ -45,7 +45,7 @@ systemd-networkd-apt-hold-pkgs:
       - raspberrypi-net-mods
       - openresolv
 
-# Create networkd config
+# Create networkd config for wired device
 systemd-networkd:
   file.managed:
     - name: /etc/systemd/network/00-wired.network

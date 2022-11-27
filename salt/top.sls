@@ -61,13 +61,16 @@ base:
   'G@host:whirrun':
     - match: compound
     - linux-util
+    - networking.wireless
     - snapclient
 
   'G@host:caul':
     - match: compound
     - linux-util
+    - networking.wireless
     - snapclient
 
   'G@host:rand':
     - match: compound
     - linux-util
+    - networking.wireless
