@@ -4,6 +4,7 @@ samba:
 smbd:
   service.running:
     - enable: true
+    - restart: true
     - require:
       - pkg: samba
     - watch:

@@ -36,6 +36,7 @@ docker:
       - docker-ce
       - docker-compose-plugin
   service.running:
+    - restart: true
     - watch:
       - file: /etc/docker/daemon.json
 
