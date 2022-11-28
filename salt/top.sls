@@ -20,7 +20,6 @@ base:
     - linux-util
     - linux-util.disk-tools
     - mp3
-    - pools-perm-watchdog
     - rtorrent
     - rtorrent.move-torrent
     - sabnzbd
