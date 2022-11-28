@@ -1,10 +1,11 @@
 include:
   - kodi.sudoers
+  - debian.backports
 
 
 kodi:
-  pkg:
-    - installed
+  pkg.latest:
+    - fromrepo: debian-backports
   user.present:
     - name: kodi
     - gid: video
