@@ -1,0 +1,29 @@
+services:
+  watch-torrent:
+    image: mafrosis/watchdog
+    command: --patterns="*.torrent" --wait --command='if [ ! -z "$$watch_src_path" ] && [ "$$watch_event_type" = 'created' ]; then echo "$$watch_src_path" && chown 1001:1001 "$$watch_src_path"; fi' /watch
+    restart: unless-stopped
+    build:
+      context: .
+    volumes:
+      - /home/mafro/watch:/watch
+
+  watch-music:
+    image: mafrosis/watchdog
+    command: --patterns="*.mp3;*.jpg" --wait --recursive --command='if [ ! -z "$$watch_src_path" ]; then if [ "$$watch_event_type" = 'created' ]; then echo "$$watch_src_path" && chown -R 1000:29 "$$(dirname "$$watch_src_path")"; elif [ "$$watch_event_type" = 'moved' ]; then echo "$$watch_dest_path" && chown -R 1000:29 "$$(dirname "$$watch_dest_path")"; fi; fi' /watch
+    restart: unless-stopped
+    build:
+      context: .
+    volumes:
+      - /media/pools/music:/watch
+
+  watch-video:
+    image: mafrosis/watchdog
+    command: --patterns="*.mp4;*.mkv;*.srt;*.avi;*.m2ts;*.dts;*.m4a;*.m4v;*.mov" --wait --recursive --command='if [ ! -z "$$watch_src_path" ]; then if [ "$$watch_event_type" = 'created' ]; then echo "$$watch_src_path" && chgrp -R 44 "$$(dirname "$$watch_src_path")"; elif [ "$$watch_event_type" = 'moved' ]; then echo "$$watch_dest_path" && chown -R 1000:44 "$$(dirname "$$watch_dest_path")"; fi; fi' /watch
+    restart: unless-stopped
+    build:
+      context: .
+    volumes:
+      - /media/pools/tv:/watch/tv
+      - /media/pools/video:/watch/video
+      - /media/pools/movies:/watch/movies
