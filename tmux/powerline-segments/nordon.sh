@@ -1,4 +1,7 @@
 run_segment() {
-	nordvpn status | grep Current | head -1 | cut -d' ' -f 3
+	HOSTNAME=$(nordvpn status | grep Hostname | cut -d' ' -f 2)
+	if [[ -n $HOSTNAME ]]; then
+		echo "$HOSTNAME"
+	fi
 	return 0
 }
