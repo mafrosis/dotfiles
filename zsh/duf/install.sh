@@ -1,11 +1,19 @@
 #! /bin/bash -e
 
+# DEBUG mode controlled by env var
+if [[ -n $DEBUG ]]; then set -x; fi
+
 echo 'Installing duf..'
 
 DUF_VERSION=${DUF_VERSION:-0.8.1}
 
+# passed from /dotfiles/install.sh
+FORCE=${1:-0}
+
 # Install duf package
-if ! command -v duf >/dev/null 2>&1; then
+if [[ $FORCE -eq 0 ]] && command -v duf >/dev/null 2>&1; then
+	echo 'duf already installed!'
+else
 	if [[ $(uname) == 'Linux' ]]; then
 		if [[ $(uname -m) =~ arm(.*) ]]; then
 			ARCH=armv7

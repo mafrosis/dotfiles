@@ -1,11 +1,19 @@
 #! /bin/bash -e
 
+# DEBUG mode controlled by env var
+if [[ -n $DEBUG ]]; then set -x; fi
+
 echo 'Installing fzf..'
 
-FZF_VERSION=${FZF_VERSION:-0.27.2}
+FZF_VERSION=${FZF_VERSION:-0.35.1}
+
+# passed from /dotfiles/install.sh
+FORCE=${1:-0}
 
 # Install fzf package
-if ! command -v fzf >/dev/null 2>&1; then
+if [[ $FORCE -eq 0 ]] && command -v fzf >/dev/null 2>&1; then
+	echo 'fzf already installed!'
+else
 	if [[ $(uname) == 'Linux' ]]; then
 		if [[ $(uname -m) =~ arm(.*) ]]; then
 			ARCH=armv7

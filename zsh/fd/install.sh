@@ -3,7 +3,9 @@
 echo 'Installing fd..'
 
 # Install fd package
-if ! command -v fd >/dev/null 2>&1; then
+if command -v fd >/dev/null 2>&1; then
+	echo 'fd already installed!'
+else
 	if [[ $(uname -a) =~ (.*)(Ubuntu|Debian)(.*) ]]; then
 		sudo apt install fd-find
 

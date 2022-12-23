@@ -3,10 +3,15 @@
 # DEBUG mode controlled by env var
 if [[ -n $DEBUG ]]; then set -x; fi
 
-DELTA_VERSION=${DELTA_VERSION:-0.8.3}
+DELTA_VERSION=${DELTA_VERSION:-0.15.1}
+
+# passed from /dotfiles/install.sh
+FORCE=${1:-0}
 
 # install git-delta
-if ! command -v delta >/dev/null 2>&1; then
+if [[ $FORCE -eq 0 ]] && command -v delta >/dev/null 2>&1; then
+	echo 'git-delta already installed!'
+else
 	if [[ $(uname) == 'Linux' ]]; then
 		if [[ $(uname -m) = x86_64 ]]; then
 			# Special case for Linux on x86

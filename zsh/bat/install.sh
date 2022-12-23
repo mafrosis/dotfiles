@@ -1,11 +1,19 @@
 #! /bin/bash -e
 
+# DEBUG mode controlled by env var
+if [[ -n $DEBUG ]]; then set -x; fi
+
 echo 'Installing bat..'
 
 BAT_VERSION=${BAT_VERSION:-0.22.1}
 
+# passed from /dotfiles/install.sh
+FORCE=${1:-0}
+
 # Install bat package
-if ! command -v bat >/dev/null 2>&1; then
+if [[ $FORCE -eq 0 ]] && command -v bat >/dev/null 2>&1; then
+	echo 'bat already installed!'
+else
 	if [[ $(uname) == 'Linux' ]]; then
 		if [[ $(uname -m) =~ arm(.*) ]]; then
 			ARCH=armhf
