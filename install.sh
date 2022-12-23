@@ -69,6 +69,11 @@ function delete_symlinks {
 
 for app in "$@"
 do
+	if [[ ! -d $1 ]]; then
+		echo "Subdirectory $app does not exist!"
+		continue
+	fi
+
 	if [[ $FORCE -eq 1 ]]; then
 		# forcefully delete any conflicts in stow
 		IFS=$(echo -en "\n\b")
