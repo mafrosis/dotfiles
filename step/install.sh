@@ -12,6 +12,8 @@ if ! command -v step >/dev/null 2>&1; then
 			ARCH=armv7l
 		elif [[ $(uname -m) =~ arm6(.*) ]]; then
 			ARCH=armv6l
+		elif [[ $(uname -m) = aarch64 ]]; then
+			ARCH=arm64
 		else
 			ARCH=amd64
 		fi
