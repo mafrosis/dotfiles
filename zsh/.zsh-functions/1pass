@@ -1,9 +1,8 @@
 #! /bin/bash
 
-USAGE='Usage: 1pass [-t TAG] [-k KEY [-f FIELDS]] [-s]
+USAGE='Usage: 1pass [-t TAG] [-k KEY] [-s]
   -k	lookup single entry by key
   -t	lookup multiple entries by tag
-  -f	comma-separated fields to retrieve (only applies to KEY usage)
   -s	force machine-safe output
 
   Fetch secrets from 1password'
@@ -32,7 +31,6 @@ fi
 
 KEY=
 TAG=
-FIELDS=password
 COMPACT=
 
 while getopts 'k:t:f:s' params
@@ -40,7 +38,6 @@ do
 	case $params in
 		k ) KEY=$OPTARG;;
 		t ) TAG=$OPTARG;;
-		f ) FIELDS=$OPTARG;;
 		s ) COMPACT='-cMj';;
 		* ) usage && return 1;;
 	esac
@@ -80,6 +77,7 @@ function lookup {
 		OUT=$(op list items --tags "$TAG" | op get item - | jq '{(.overview.title|gsub("[ .]";"_")|ascii_downcase): (.details.fields[] | select(.designation=="password").value)}' | jq $COMPACT -n 'reduce inputs as $in (null; . + $in)')
 	else
 		OUT=$(op get item "$KEY" --fields "$FIELDS" --format CSV)
+		OUT=$(op item get "$KEY" --format json --fields 'label=password' | jq -r .value)
 	fi
 	# shellcheck disable=SC2181
 	if [ $? -eq 1 ] && [[ -z $RETRY ]]; then
