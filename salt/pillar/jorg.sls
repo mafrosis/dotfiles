@@ -1,7 +1,6 @@
 login_user: mafro
-rtorrent_download_dir: /media/download/rtorrent
-sabnzbd_basedir: /media/download/usenet
 
+rtorrent_download_dir: /media/download/rtorrent
 rtorrent_download_rate: 5000
 rtorrent_upload_rate: 70
 
