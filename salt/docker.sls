@@ -52,9 +52,8 @@ docker-adduser-group:
     - mode: 644
     - makedirs: true
     - dataset:
-        {% if grains['host'] == 'ringil' %}
-        data-root: '/media/mnt/docker-data'
-        exec-root: '/media/mnt/docker-exec'
+        {% if grains['host'] == 'locke' %}
+        data-root: '/home/mafro/docker-data'
         {% endif %}
         default-address-pools:
           - base: '172.16.0.0/12'

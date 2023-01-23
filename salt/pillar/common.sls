@@ -1,1 +1,1 @@
-snapserver: ringil
+snapserver: locke

@@ -1,3 +1,6 @@
 login_user: mafro
 
-snapclient_sound_device_id: hw:CARD=DSD,DEV=0
+mp3_dir: /home/mafro/music
+
+# Use local hostname resolution for CA access from locke, as it hosts the CA
+smallstep_ca_host: https://locke:4433

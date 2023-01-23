@@ -57,7 +57,7 @@ systemd-networkd:
         DHCP=ipv4
 
         [DHCPv4]
-        {% if grains['host'] == 'ringil' %}
+        {% if grains['host'] == 'locke' %}
         UseDNS=false
         {% else %}
         UseDomains=true
@@ -87,8 +87,8 @@ systemd-resolved:
       - file: /etc/resolv.conf
 
 
-# Special DNS configuration for ringil, which hosts the pihole DNS server
-{% if grains['host'] == 'ringil' %}
+# Special DNS configuration for locke, which hosts the pihole DNS server
+{% if grains['host'] == 'locke' %}
 
 # Configure systemd-resolved to use Cloudflare public DNS
 # Disable the stub server which binds port 53; pihole uses port 53
@@ -107,7 +107,7 @@ extend:
       - watch:
         - file: /etc/systemd/resolved.conf.d/dns.conf
 
-  # Do not use the stub resolver on ringil
+  # Do not use the stub resolver on locke
   # https://github.com/systemd/systemd/issues/14700
   /etc/resolv.conf:
     file.symlink:

@@ -38,17 +38,14 @@ base:
     - snapserver
     - wifi
 
-  'G@host:locke':
+  'G@host:ringil':
     - match: compound
-    - grub-timeout-0
-    - locke
     - kodi
     - linux-util
-    - linux-util.disk-tools
-    - mp3
-    - snapclient
+    - networking.wireless
+    - snapcast.client
 
-  'G@host:ringil':
+  'G@host:locke':
     - match: compound
     - linux-util
     - mp3

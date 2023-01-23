@@ -13,7 +13,7 @@ mpd:
         sticker_file        "/var/lib/mpd/sticker.sql"
 
         user                "mpd"
-        bind_to_address     "{{ grains['ip4_interfaces']['eth0'][0] }}"
+        bind_to_address     "{{ grains['ipv4'][1] }}"
         bind_to_address     "/run/mpd/socket"
 
         metadata_to_use     "artist,albumartist,album,title,track,name,genre,date,composer,performer,disc"
