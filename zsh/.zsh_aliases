@@ -78,3 +78,5 @@ alias dcps='docker compose ps'
 alias dcl='docker compose logs -f --tail=200'
 
 alias recentf1-hup='docker kill --signal=SIGHUP $(docker ps | grep recentf1 | cut -d\  -f 1)'
+
+alias informa='docker compose -f /media/mnt/apps/informa/docker-compose.yml run --rm informa'
