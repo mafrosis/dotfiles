@@ -28,16 +28,6 @@ base:
     - vpn
     - zfs-on-linux
 
-  'G@host:kvothe':
-    - match: compound
-    - linux-util
-    - mp3
-    - mpd
-    - mpd.scribble
-    - snapclient
-    - snapserver
-    - wifi
-
   'G@host:ringil':
     - match: compound
     - kodi
@@ -70,3 +60,9 @@ base:
     - match: compound
     - linux-util
     - networking.wireless
+
+  'G@host:kvothe':
+    - match: compound
+    - linux-util
+    - networking.wireless
+    - snapclient

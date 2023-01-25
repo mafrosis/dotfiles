@@ -1,4 +1,3 @@
 login_user: pi
 
-alsa_device: hw:sndallodigione
-snapclient_sound_device_id: iec958:CARD=sndallodigione
+snapclient_sound_device_id: hw:CARD=DSD,DEV=0
