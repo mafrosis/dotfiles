@@ -5,4 +5,4 @@ include:
 firmware-misc-nonfree:
   pkg.installed:
     - require:
-      - pkgrepo: nonfree-pkgrepo
+      - pkgrepo: debian-nonfree
