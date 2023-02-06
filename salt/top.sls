@@ -42,20 +42,20 @@ base:
     - mpd
     - mpd.scribble
     - networking.wired
-    - snapserver
+    - snapcast.server
     - yubikey
 
   'G@host:whirrun':
     - match: compound
     - linux-util
     - networking.wireless
-    - snapclient
+    - snapcast.client
 
   'G@host:caul':
     - match: compound
     - linux-util
     - networking.wireless
-    - snapclient
+    - snapcast.client
 
   'G@host:rand':
     - match: compound
@@ -66,4 +66,4 @@ base:
     - match: compound
     - linux-util
     - networking.wireless
-    - snapclient
+    - snapcast.client

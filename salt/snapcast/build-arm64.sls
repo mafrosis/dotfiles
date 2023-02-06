@@ -18,9 +18,9 @@ snapcast-build-apt-deps:
       - libvorbis-dev
 
 snapcast-build:
-  git.latest:
-    - name: git://github.com/badaix/snapcast
-    - rev: v0.27.0
+  git.cloned:
+    - name: https://github.com/badaix/snapcast
+    - branch: v0.27.0
     - target: /tmp/snapcast
     - runas: {{ user }}
   cmd.wait:
