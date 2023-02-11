@@ -50,3 +50,6 @@ fi
 
 # Ensure step known_hosts directory present
 mkdir -p ~/.step/ssh/
+
+# Create step completion file
+step completion zsh > ~/.step/zsh_completion

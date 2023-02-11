@@ -28,18 +28,16 @@ install-step-cli:
 {% set home_path = '/home/'+pillar['login_user'] %}
 {% endif %}
 
-step-cli-root-cert-{{ user }}:
+{{ home_path }}/.step/certs/root_ca.crt:
   file.managed:
-    - name: {{ home_path }}/.step/certs/root_ca.crt
     - contents_pillar: smallstep_root_ca_cert
     - mode: 600
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: true
 
-step-cli-defaults-{{ user }}:
+{{ home_path }}/.step/config/defaults.json:
   file.serialize:
-    - name: {{ home_path }}/.step/config/defaults.json
     - dir_mode: 700
     - mode: 600
     - user: {{ user }}
@@ -53,4 +51,7 @@ step-cli-defaults-{{ user }}:
         redirect-url: ''
     - serializer: json
 
+step completion zsh > {{ home_path }}/.step/zsh_completion:
+  cmd.run:
+    - user: {{ user }}
 {% endfor %}

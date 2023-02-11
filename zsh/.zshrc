@@ -76,6 +76,7 @@ source "$HOME/dotfiles/zsh/fzf/external/shell/key-bindings.zsh"
 
 alias fvim='vim $(fzf)'
 
+source "$HOME/.step/zsh_completion"
 
 ########## Exports ########################################
 
