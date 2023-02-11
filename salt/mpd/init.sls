@@ -5,7 +5,7 @@ mpd:
   file.managed:
     - contents: |
         music_directory     "{{ pillar.get('mp3_dir', '/home/pi/mp3') }}"
-        playlist_directory  "/home/pi/playlists"
+        playlist_directory  "{{ pillar.get('playlist_dir', '/home/pi/playlists') }}"
         db_file             "/var/lib/mpd/tag_cache"
         log_file            "/var/log/mpd/mpd.log"
         pid_file            "/run/mpd/pid"
