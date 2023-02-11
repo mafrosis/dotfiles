@@ -53,4 +53,7 @@ step-cli-defaults-{{ user }}:
         redirect-url: ''
     - serializer: json
 
+step completion zsh > {{ home_path }}/.step/zsh_completion:
+  cmd.run:
+    - user: {{ user }}
 {% endfor %}
