@@ -2,6 +2,7 @@ base:
   '*':
     - common
     - docker
+    - linux-util
     - sshd
     - step-cli
 
@@ -16,7 +17,6 @@ base:
     - grub-timeout-0
     - jorg
     - jorg.monitoring
-    - linux-util
     - linux-util.disk-tools
     - mp3
     - networking.wired
@@ -31,13 +31,11 @@ base:
   'G@host:ringil':
     - match: compound
     - kodi
-    - linux-util
     - networking.wireless
     - snapcast.client
 
   'G@host:locke':
     - match: compound
-    - linux-util
     - mp3
     - mpd
     - mpd.scribble
@@ -47,23 +45,19 @@ base:
 
   'G@host:whirrun':
     - match: compound
-    - linux-util
     - networking.wireless
     - snapcast.client
 
   'G@host:caul':
     - match: compound
-    - linux-util
     - networking.wireless
     - snapcast.client
 
   'G@host:rand':
     - match: compound
-    - linux-util
     - networking.wireless
 
   'G@host:kvothe':
     - match: compound
-    - linux-util
     - networking.wireless
     - snapcast.client
