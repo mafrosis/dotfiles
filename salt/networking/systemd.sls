@@ -45,28 +45,10 @@ systemd-networkd-apt-hold-pkgs:
       - raspberrypi-net-mods
       - openresolv
 
-# Create networkd config for wired device
 systemd-networkd:
-  file.managed:
-    - name: /etc/systemd/network/00-wired.network
-    - contents: |
-        [Match]
-        Name=e*
-
-        [Network]
-        DHCP=ipv4
-
-        [DHCPv4]
-        {% if grains['host'] == 'locke' %}
-        UseDNS=false
-        {% else %}
-        UseDomains=true
-        {% endif %}
   service.running:
     - enable: true
     - restart: true
-    - watch:
-      - file: systemd-networkd
 
 # Install NSS interface to systemd-resolved
 libnss-resolve:
@@ -83,7 +65,6 @@ systemd-resolved:
     - enable: true
     - restart: true
     - watch:
-      - file: /etc/systemd/network/00-wired.network
       - file: /etc/resolv.conf
 
 

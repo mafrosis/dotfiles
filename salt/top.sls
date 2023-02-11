@@ -4,7 +4,6 @@ base:
     - docker
     - sshd
     - step-cli
-    - networking
 
   'G@os:Debian':
     - common.debian
@@ -20,6 +19,7 @@ base:
     - linux-util
     - linux-util.disk-tools
     - mp3
+    - networking.wired
     - rtorrent
     - rtorrent.move-torrent
     - sabnzbd
@@ -41,6 +41,7 @@ base:
     - mp3
     - mpd
     - mpd.scribble
+    - networking.wired
     - snapserver
     - yubikey
 
