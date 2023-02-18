@@ -82,6 +82,10 @@ class AutotagPlugin(LoaderPlugin):
          - normal albums are named "01 - Track Name"
          - compilations are named "01 - Artist Name - Track Name"
         """
+        # handle dodgy dashes
+        filename = filename.replace('–', '-')
+
+        # split filename into parts
         parts = os.path.splitext(filename)[0].split(' - ')
 
         # split, find artists, albums, numbers, lowercase everything
@@ -124,7 +128,7 @@ class AutotagPlugin(LoaderPlugin):
                         title = ' - '.join(parts[1:])
 
             except ValueError as e:
-                print('Probably failed to parse TrackNum: {e}')
+                print(f'Probably failed to parse TrackNum: {e}')
 
         if None in (track_num, artist, title):
             print('')
