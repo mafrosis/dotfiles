@@ -2,9 +2,9 @@
 
 NAS_HOSTNAME=${NAS_HOSTNAME:-jorg}
 NAS_USERNAME=${NAS_USERNAME:-mafro}
-MPD_HOSTNAME=${MPD_HOSTNAME:-kvothe}
-MPD_USERNAME=${MPD_USERNAME:-pi}
-MPD_MP3DIR=${MPD_MP3DIR:-$HOME/mp3}
+MPD_HOSTNAME=${MPD_HOSTNAME:-locke}
+MPD_USERNAME=${MPD_USERNAME:-mafro}
+MPD_MP3DIR=${MPD_MP3DIR:-$HOME/music}
 
 if command -v mpd &>/dev/null; then
 	# mpd exists; script running on MPD host
