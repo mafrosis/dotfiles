@@ -3,7 +3,7 @@
 USAGE='diskinfo.sh [-v] [-h] [device]
 
   -v	verbose printing
-  -S	support SMART via USB (passes `-d sat` to smartctl)
+  -S	support SMART via USB
   -h	show this help'
 
 # ensure run as root
@@ -28,47 +28,74 @@ done
 shift $((OPTIND-1))
 
 
+# DEBUG mode controlled by env var
+if [[ -n $DEBUG ]]; then set -x; fi
+
 # install dependencies
 if ! command -v smartctl &>/dev/null || ! command -v disktype &>/dev/null; then
-	aptitude install smartmontools disktype
+	sudo apt install -y smartmontools disktype
 	if [[ $? -eq 1 ]]; then
 		echo 'Unable to install smartctl and disktype'
 		exit 2
 	fi
 fi
 
+function lookup_byid {
+	if [[ -z $1 ]]; then
+		return
+	fi
+	for D in /dev/disk/by-id/wwn-0x*; do
+		DT="$(disktype "$D" | awk '/Disk GUID/ {print $3}')"
+		if [[ $1 == "$DT" ]]; then
+			echo "$D"
+			break
+		fi
+	done
+}
+
 function query_disk {
 	# extract hardware info from smartctl
 	# shellcheck disable=SC2086
 	INFO="$(smartctl $SMART_SAT --info "$1")"
+	FAMILY="$(echo "$INFO" | grep 'Family' | cut -d' ' -f 3- | xargs)"
 	MODEL="$(echo "$INFO" | grep 'Device Model' | cut -d' ' -f 3- | xargs)"
 	SERIAL="$(echo "$INFO" | awk '/Serial Number/ {print $3}')"
 	FIRMWARE="$(echo "$INFO" | awk '/Firmware/ {print $3}')"
 	SIZE="$(echo "$INFO" | awk '/User Capacity/ {print substr($5,2) substr($6,1,length($6)-1)}')"
+	MOUNT="$(lsblk "$1" | awk '{print "MOUNT="$NF}' | grep -i '/' | cut -f 2 -d = | head -1)"
+	UUID="$(disktype "$1" | awk '/Disk GUID/ {print $3}')"
+	WWN="$(lookup_byid "$UUID")"
 
 	# display disk header
-	echo "========== $1 =========="
-	echo -e "Model:\t\t$MODEL"
+	echo "========================"
+	echo -e "Family:\\t\\t$FAMILY"
+	echo -e "Model:\\t\\t$MODEL"
 	if [[ $VERBOSE -eq 1 ]]; then
-		echo -e "Serial:\t\t$SERIAL" | grep --color "$SERIAL"
+		echo -e "Serial:\\t\\t$SERIAL" | grep --color "$SERIAL"
 	else
-		echo -e "Serial\t\t$SERIAL"
+		echo -e "Serial\\t\\t$SERIAL"
 	fi
-	echo -e "Firmware:\t$FIRMWARE"
-	echo -e "Size:\t\t$SIZE"
+	echo -e "Firmware:\\t$FIRMWARE"
+	echo -e "Size:\\t\\t$SIZE"
+	if [[ -n $WWN ]]; then
+		echo -e "Device:\\t\\t$1  $WWN"
+	fi
+	if [[ -n $MOUNT ]]; then
+		echo -e "Mountpoint:\\t$MOUNT"
+	fi
 
 	if [[ $VERBOSE -eq 0 ]]; then
 		echo '' && return
 	fi
 
 	# print partition info from disktype
-	echo -e "\n---- Partitions ----------"
+	echo -e "\\n---- Partitions ----------"
 	disktype "$1" | awk 'NF && ! /^--/'
 
 	# extra ZFS info
 	if command -v zfs &>/dev/null; then
 		# iterate zpools
-		zpool list | awk '! /^NAME/ {print $1}' | while read POOL;
+		zpool list | awk '! /^NAME/ {print $1}' | while read -r POOL;
 		do
 			# display info if this disk in pool
 			if zpool status "$POOL" | grep -q "$SERIAL"; then
@@ -87,14 +114,14 @@ function query_disk {
 
 	# extra LVM info
 	if command -v lvm &>/dev/null; then
-		if [[ ! -z "$(pvdisplay 2>/dev/null | awk -v var="$1" '$0 ~ var')" ]]; then
+		if [[ -n $(pvdisplay 2>/dev/null | awk -v var="$1" '$0 ~ var') ]]; then
 			echo -e "\n---- LVM Volumes ---------"
 
 			# iterate Volume Groups on this device
-			pvdisplay "$1" | awk '/VG Name/ {print $3}' | while read VG_NAME;
+			pvdisplay "$1" | awk '/VG Name/ {print $3}' | while read -r VG_NAME;
 			do
 				# iterate Logical Volumes
-				lvdisplay "$VG_NAME" | awk '/LV Path/ {print $3}' | while read LV_PATH;
+				lvdisplay "$VG_NAME" | awk '/LV Path/ {print $3}' | while read -r LV_PATH;
 				do 
 					LV_NAME="$(lvdisplay "$LV_PATH" | awk '/LV Name/ {print $3}')"
 					LV_SIZE="$(lvdisplay "$LV_PATH" | awk '/LV Size/ {print $3$4}')"
@@ -119,7 +146,7 @@ if [[ $# -eq 1 ]]; then
 else
 	# query all disks
 	# shellcheck disable=SC2086
-	smartctl $SMART_SAT --scan | cut -d\  -f 1 | while read DEVICE;
+	smartctl $SMART_SAT --scan | cut -d\  -f 1 | while read -r DEVICE;
 	do
 		query_disk "$DEVICE"
 	done
