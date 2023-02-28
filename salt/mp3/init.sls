@@ -1,13 +1,12 @@
 {% set user = pillar['login_user'] %}
 
-alsa-utils:
-  pkg.installed
-
-lame:
-  pkg.installed
-
-flac:
-  pkg.installed
+mp3-pkgs:
+  pkg.installed:
+    - names:
+      - alsa-utils
+      - flac
+      - lame
+      - opus
 
 /home/{{ user }}/.local/bin:
   file.directory:
