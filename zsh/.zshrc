@@ -1,12 +1,21 @@
+# vim: ft=zsh
+#
+# Defines the shell helpers and options for typical CLI usage.
+# Loaded by all interactive shells.
+#
+# Authors:
+#   Matt Black <dev@mafro.net>
+#
+
 # LS_COLORS with a custom theme
 # export this before prezto is loaded, to ensure it's baked into zcompinit
 if command -v vivid >/dev/null 2>&1; then
-	export LS_COLORS="$(vivid generate $HOME/dotfiles/zsh/vivid/lscolors.yml)"
+	export LS_COLORS="$(vivid generate ${HOME}/dotfiles/zsh/vivid/lscolors.yml)"
 fi
 
 # :D
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+if [[ -s ${HOME}/.zprezto/init.zsh ]]; then
+  source ${HOME}/.zprezto/init.zsh
 fi
 
 
@@ -31,8 +40,8 @@ export GREP_COLORS="mt=$GREP_COLOR" # GNU
 ########### Aliases / Functions ###########################
 
 # import aliases
-if [[ -f $HOME/.zsh_aliases ]]; then
-	source $HOME/.zsh_aliases
+if [[ -f ${HOME}/.zsh_aliases ]]; then
+	source ${HOME}/.zsh_aliases
 fi
 
 # add custom functions to the FPATH
@@ -45,7 +54,7 @@ for func in $(/bin/ls ~/.zsh-functions); do
 done
 
 
-########## Completion Extensions ##########################
+########## Completion #####################################
 
 zstyle ':completion:*:(gvim|vim|vi):*' ignored-patterns '*.(o|a|so|swp|idx|out|toc|class|pdf|pyc|mp4|mkv|avi|mp3|flac|jpg|jpeg|gif|png)|__pycache__'
 
@@ -67,54 +76,15 @@ bindkey '^[[1;9X' backward-delete-word
 ########## Third-party ####################################
 
 # junegunn/fzf
-export MOARPATH="$MOARPATH:$HOME/dotfiles/zsh/fzf/external/bin"
+export PATH=${PATH}:${HOME}/dotfiles/zsh/fzf/external/bin
 
 export FZF_DEFAULT_OPTS='--height=40%'
 
-source "$HOME/dotfiles/zsh/fzf/external/shell/completion.zsh"
-source "$HOME/dotfiles/zsh/fzf/external/shell/key-bindings.zsh"
+source ${HOME}/dotfiles/zsh/fzf/external/shell/completion.zsh
+source ${HOME}/dotfiles/zsh/fzf/external/shell/key-bindings.zsh
 
 alias fvim='vim $(fzf)'
 
-source "$HOME/.step/zsh_completion"
-
-########## Exports ########################################
-
-export MOARPATH=$MOARPATH:$HOME/.local/bin
-
-export EDITOR=vim
-export VISUAL=vim
-
-export TERM=xterm-256color
-
-# Golang via homebrew
-export GOPATH=$HOME/Development/go
-export MOARPATH=$MOARPATH:$GOPATH/bin:/usr/local/opt/go/libexec/bin
-
-# no virtualenv prompt; shown via prezto theme
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-
-# gcloud CLI
-export MOARPATH=$MOARPATH:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin
-
-# fix the whacky coreutils ls quoting change - http://unix.stackexchange.com/a/262162/8504
-export QUOTING_STYLE=literal ls
-
-# awscli and friends
-export AWS_DEFAULT_REGION=eu-west-1
-
-# Pretty manpages (bat)
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-# Syntax highlighting in bat with a custom theme
-export BAT_THEME=mafro
-
-# tmux inherits the environment from the parent shell, meaning the exports defined in this
-# file are appended twice to $PATH
-# the following trick ensures that PATH is not updated within tmux shells
-if [[ -z $TMUX ]]; then
-	export PATH=${PATH}${MOARPATH}
-
-	# Ensure Homebrew binaries are found first on macOS
-	export PATH=/opt/homebrew/bin:$PATH
-	export PATH=/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH
+if [[ -d ${HOME}/.step/zsh_completion ]]; then
+	source ${HOME}/.step/zsh_completion
 fi
