@@ -70,7 +70,7 @@ if [[ ! -f $1 ]]; then
 	exit 44
 fi
 
-if [[ ! -z $END_TIME ]] && [[ ! -z $DURATION ]]; then
+if [[ -n $END_TIME && -n $DURATION ]]; then
 	echo 'You cannot pass both -e and -d'
 	exit 45
 fi
@@ -97,7 +97,7 @@ function fin() {
 	if [[ $TRANSPORT_MODE -eq 0 ]] && [[ $CONCAT_MODE -eq 0 ]]; then
 		# copy the EXIF date data
 		DATE="$(exiftool -t -s -d "%Y-%m-%d %H:%M:%S" -MediaCreateDate -CreateDate -FileModifyDate "$INPUT_FILE" | awk '!/0000:00:00/ {print $2" "$3}' | head -1)"
-		if [[ ! -z $DATE ]]; then
+		if [[ -n $DATE ]]; then
 			echo "Setting EXIF timestamp to $DATE"
 			exiftool "-AllDates=$DATE" -overwrite_original "$OUTPUT_FILE"
 			touch -d "$DATE" "$OUTPUT_FILE"
@@ -174,7 +174,7 @@ set -A VFILTER 'yadif'
 
 # if end time supplied, convert to DURATION in seconds
 # default START_TIME is zero
-if [[ ! -z $END_TIME ]]; then
+if [[ -n $END_TIME ]]; then
 	DURATION=$(( $(time_to_secs $END_TIME) - $(time_to_secs $START_TIME) ))
 fi
 
@@ -189,7 +189,7 @@ else
 fi
 
 # set encode end time
-if [[ ! -z $DURATION ]]; then
+if [[ -n $DURATION ]]; then
 	START="$START -t $DURATION"
 
 	# fade out after duration seconds
@@ -198,7 +198,7 @@ if [[ ! -z $DURATION ]]; then
 fi
 
 # convert to H264
-if [[ $VCODEC != 'h264' || ! -z $START || $NEW_WIDTH -gt 0 || $NEW_HEIGHT -gt 0 || $FORCE -eq 1 ]]; then
+if [[ $VCODEC != 'h264' || -n $START || $NEW_WIDTH -gt 0 || $NEW_HEIGHT -gt 0 || $FORCE -eq 1 ]]; then
 	# scale filter
 	if [[ $NEW_WIDTH -gt 0 && $NEW_HEIGHT -gt 0 ]]; then
 		VFILTER+=("scale=$NEW_WIDTH:$NEW_HEIGHT")
