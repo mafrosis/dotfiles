@@ -6,7 +6,6 @@ USAGE='Usage: ffconv [OPTS] PATH
   -a	audio quality [0-100]
   -A	drop audio channel
   -T	don'"'"'t trash the input file
-  -N	hide the dunzo message
   -W	resize to this horizontal pixel size
   -H	resize to this vertical pixel size
   -s	encode start time in 0:01:23 time format (default is 0s)
@@ -29,7 +28,6 @@ FORCE=0
 AUDIOQ=
 DROP_AUDIO=0
 DONT_TRASH=0
-NO_DUNZO=0
 NEW_WIDTH=0
 NEW_HEIGHT=0
 START_TIME=0
@@ -54,7 +52,6 @@ do
 		e ) END_TIME=$OPTARG;;
 		d ) DURATION=$OPTARG;;
 		F ) FADE_DURATION=$OPTARG;;
-		N ) NO_DUNZO=1;;
 		b ) TRANSPORT_MODE=1;;
 		B ) CONCAT_MODE=1;;
 		h ) echo "$USAGE" && return 1;;
@@ -82,10 +79,9 @@ if command -v gtouch >/dev/null 2>&1; then
 	}
 fi
 
-# set NO_TRASH & NO_DUNZO on linux
+# set NO_TRASH on linux
 if [[ $(uname) == 'Linux' ]]; then
 	DONT_TRASH=1
-	NO_DUNZO=1
 fi
 
 ##################################################
@@ -104,9 +100,6 @@ function fin() {
 		fi
 	fi
 
-	if command -v dunzo >/dev/null 2>&1 && [[ $NO_DUNZO -eq 0 ]]; then
-		dunzo "Finished transcoding $OUTPUT_FILE" 'ffconv' "$PWD/$(dirname "$OUTPUT_FILE")"
-	fi
 	if command -v trash >/dev/null 2>&1 && [[ $DONT_TRASH -eq 0 ]]; then
 		trash "$INPUT_FILE"
 	fi
