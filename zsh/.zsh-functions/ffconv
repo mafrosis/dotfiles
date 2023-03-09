@@ -24,12 +24,6 @@ if [[ $# -eq 0 ]]; then
 	return 1
 fi
 
-if [[ -x /usr/local/bin/gtouch ]]; then
-	function touch {
-		gtouch "$@"
-	}
-fi
-
 CRF=21
 FORCE=0
 AUDIOQ=
@@ -81,12 +75,20 @@ if [[ ! -z $END_TIME ]] && [[ ! -z $DURATION ]]; then
 	exit 45
 fi
 
+# Alias GNU touch for this script, when it's present (via Homebrew)
+if command -v gtouch >/dev/null 2>&1; then
+	function touch {
+		gtouch $@
+	}
+fi
+
 # set NO_TRASH & NO_DUNZO on linux
 if [[ $(uname) == 'Linux' ]]; then
 	DONT_TRASH=1
 	NO_DUNZO=1
 fi
 
+##################################################
 
 function fin() {
 	local INPUT_FILE="$1"
