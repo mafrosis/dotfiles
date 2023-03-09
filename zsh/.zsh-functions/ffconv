@@ -83,6 +83,17 @@ fi
 
 ##################################################
 
+function info {
+	>&2 echo -e "\e[32m$1\e[0m"
+}
+
+function debug {
+	# DEBUG logging controlled by env var
+	if [[ -n $DEBUG ]]; then
+		>&2 echo -e "\e[33m$1\e[0m"
+	fi
+}
+
 function fin() {
 	local input_file=$1
 	local output_file=$2
@@ -146,18 +157,72 @@ function gather_transport_files() {
 	echo ${(j:|:)concat}
 }
 
+function get_target_bitrate {
+	##
+	# Determine target bitrate for a h264_videotoolbox encode
+	#
+	local width=$1
+	local height=$2
+	local source_bitrate=$3
+
+	debug "get_target_bitrate $width $height $source_bitrate"
+
+	# Define target bitrate for given resolutions
+	# https://stackoverflow.com/a/72277037/425050
+	declare -A bitrates
+	bitrates[720]=5250000
+	bitrates[1080]=7500000
+	bitrates[2160]=25000000
+
+	# Multiply target bitrate by Q coefficient
+	local integer target_bitrate=$(( bitrates[$width] ))
+	debug "TARGET1: ${target_bitrate}"
+
+	# Handle landscape movies
+	if [[ $target_bitrate -eq 0 ]]; then
+		target_bitrate=$(( bitrates[$height] ))
+		debug "TARGET2: ${target_bitrate}"
+	fi
+
+	# If target is greater than the source movie, select the source movie bitrate
+	# If target is zero, select the source movie bitrate
+	if [[ $target_bitrate -gt $source_bitrate || $target_bitrate -eq 0 ]]; then
+		target_bitrate=$source_bitrate
+		debug "TARGET3: ${target_bitrate}"
+	fi
+	echo $target_bitrate
+}
+
 ##################################################
 
 # add first script parameter to a named variable
-INPUT_FILE="$1"
+INPUT_FILE=$1
 
 VCMD='-c:v copy'
 ACMD='-c:a copy'
 
-# analyse input file to determine existing stream codecs
-VSTREAM_DATA=$( ffprobe -i "$INPUT_FILE" -show_streams -select_streams v:0 2>&1 )
-VCODEC=$( echo "$VSTREAM_DATA" | grep codec_name | cut -d = -f 2 )
-ACODEC=$( ffprobe -i "$INPUT_FILE" -show_streams -select_streams a:0 2>&1 | grep codec_name | cut -d = -f 2 )
+# Query video stream zero for codec, resolution & bitrate of source file
+vstream_probe=$( ffprobe -v error -select_streams v -show_entries stream=codec_name,width,height,bit_rate -of csv=p=0 "$INPUT_FILE" | head -1 )
+debug "VSTREAM_PROBE: $vstream_probe"
+
+# Split into component vars
+vstream_meta=(${(s/,/)vstream_probe})
+VCODEC=$vstream_meta[1]
+WIDTH=$vstream_meta[2]
+HEIGHT=$vstream_meta[3]
+SOURCE_BITRATE=$vstream_meta[4]
+
+# Query audio stream zero for codec
+astream_probe=$( ffprobe -v error -select_streams a -show_entries stream=codec_name -of csv=p=0 "$INPUT_FILE" | head -1 )
+debug "ASTREAM_PROBE: $astream_probe"
+# Split into component vars
+astream_meta=(${(s/,/)astream_probe})
+ACODEC=$astream_meta[1]
+
+info "${INPUT_FILE:t} ${VCODEC} ${WIDTH}x${HEIGHT} ${SOURCE_BITRATE} ${ACODEC}"
+
+TARGET_BITRATE=$(get_target_bitrate $WIDTH $HEIGHT $SOURCE_BITRATE)
+debug "TARGET_BITRATE: ${TARGET_BITRATE}"
 
 # filter array including baseline deinterlace filter
 set -A VFILTER 'yadif'
@@ -194,12 +259,8 @@ if [[ $VCODEC != 'h264' || -n $START || $NEW_WIDTH -gt 0 || $NEW_HEIGHT -gt 0 ||
 		VFILTER+=("scale=$NEW_WIDTH:$NEW_HEIGHT")
 
 	elif [[ $NEW_WIDTH -gt 0 ]]; then
-		# extract movie resolution
-		WIDTH=$( echo "$VSTREAM_DATA" | grep '^width' | cut -d = -f 2 )
-		HEIGHT=$( echo "$VSTREAM_DATA" | grep '^height' | cut -d = -f 2 )
-
 		# calculate new height
-		integer NEW_HEIGHT=$(( NEW_WIDTH * HEIGHT / WIDTH ))
+		integer NEW_HEIGHT=$(( int(NEW_WIDTH * HEIGHT / WIDTH) ))
 		# ensure is divisible by 2
 		if [[ $(( NEW_HEIGHT % 2 )) -eq 1 ]]; then
 			(( NEW_HEIGHT -= 1 ))
@@ -208,12 +269,8 @@ if [[ $VCODEC != 'h264' || -n $START || $NEW_WIDTH -gt 0 || $NEW_HEIGHT -gt 0 ||
 		VFILTER+=("scale=$NEW_WIDTH:$NEW_HEIGHT")
 
 	elif [[ $NEW_HEIGHT -gt 0 ]]; then
-		# extract movie resolution
-		WIDTH=$( echo "$VSTREAM_DATA" | grep '^width' | cut -d = -f 2 )
-		HEIGHT=$( echo "$VSTREAM_DATA" | grep '^height' | cut -d = -f 2 )
-
 		# calculate new width
-		integer NEW_WIDTH=$(( NEW_HEIGHT * WIDTH / HEIGHT ))
+		integer NEW_WIDTH=$(( int(NEW_HEIGHT * WIDTH / HEIGHT) ))
 		# ensure is divisible by 2
 		if [[ $(( NEW_WIDTH % 2 )) -eq 1 ]]; then
 			(( NEW_WIDTH -= 1 ))
@@ -223,7 +280,7 @@ if [[ $VCODEC != 'h264' || -n $START || $NEW_WIDTH -gt 0 || $NEW_HEIGHT -gt 0 ||
 	fi
 
 	# create encode options string
-	VCMD="-c:v h264_videotoolbox -filter:v '${(j:,:)VFILTER}'"
+	VCMD="-c:v h264_videotoolbox -b:v ${TARGET_BITRATE} -filter:v '${(j:,:)VFILTER}'"
 fi
 
 if [[ $DROP_AUDIO -eq 1 ]]; then
@@ -242,7 +299,7 @@ fi
 
 # Name the new file with target bitrate
 if [[ ! $VCMD =~ (.*)copy$ ]]; then
-	SUFFIX='.h264'
+	SUFFIX=".h264_$(( TARGET_BITRATE / 1000 ))"
 fi
 
 # track input file for later trashing
