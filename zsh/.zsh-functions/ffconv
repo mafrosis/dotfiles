@@ -171,8 +171,8 @@ if [[ -n $END_TIME ]]; then
 	DURATION=$(( $(time_to_secs $END_TIME) - $(time_to_secs $START_TIME) ))
 fi
 
-# set encode start time
-if [[ ! -z $START_TIME ]]; then
+# Set encode start time
+if [[ $START_TIME -gt 0 ]]; then
 	START="-ss $START_TIME"
 
 	# fade in movie at specified time
