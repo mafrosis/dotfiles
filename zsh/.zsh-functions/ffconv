@@ -32,7 +32,7 @@ fi
 
 CRF=21
 FORCE=0
-AUDIOQ=70
+AUDIOQ=
 DROP_AUDIO=0
 DONT_TRASH=0
 NO_DUNZO=0
@@ -51,7 +51,7 @@ do
 	case $params in
 		c ) CRF=$OPTARG;;
 		f ) FORCE=1;;
-		a ) AUDIOQ=1;;
+		a ) AUDIOQ=$OPTARG;;
 		A ) DROP_AUDIO=1;;
 		T ) DONT_TRASH=1;;
 		W ) NEW_WIDTH=$OPTARG;;
@@ -234,11 +234,18 @@ if [[ $VCODEC != 'h264' || ! -z $START || $NEW_WIDTH -gt 0 || $NEW_HEIGHT -gt 0 
 	VCMD="-c:v libx264 -tune film -filter:v '${(j:,:)VFILTER}' -crf $CRF"
 fi
 
-# completely drop audio
 if [[ $DROP_AUDIO -eq 1 ]]; then
+	# Completely drop audio
 	ACMD='-an'
+
 elif [[ $ACODEC != 'aac' ]]; then
-	ACMD="-c:a aac -q:a $AUDIOQ"
+	# Convert to AAC audiotoolbox
+	ACMD='-c:a aac_at'
+
+	# Set audio stream quality
+	if [[ -n $AUDIOQ ]]; then
+		ACMD="${ACMD} -q:a ${AUDIOQ}"
+	fi
 fi
 
 # include crf in output filename
