@@ -14,6 +14,7 @@ USAGE='Usage: ffconv [OPTS] PATH
   -F	fade in/out duration in seconds (default is 1s)
   -b	encode transport file for concatenating together
   -B	concatenate all transport files for this movie
+  -q	quiet; nothing on stderr/stdout
   -h	display this message
 
   Re-encode a movie to H264/MP4 with simpler CLI'
@@ -32,8 +33,9 @@ FADE_DURATION=1
 START=
 TRANSPORT_MODE=0
 CONCAT_MODE=0
+QUIET=0
 
-while getopts 'fc:a:ATW:H:s:e:d:F:h:NbB' params
+while getopts 'fc:a:ATW:H:s:e:d:F:bBqh' params
 do
 	case $params in
 		f ) FORCE=1;;
@@ -49,7 +51,9 @@ do
 		F ) FADE_DURATION=$OPTARG;;
 		b ) TRANSPORT_MODE=1;;
 		B ) CONCAT_MODE=1;;
+		q ) QUIET=1;;
 		h ) echo "$USAGE" && return 1;;
+		* ) echo "$USAGE" && return 1;;
 	esac
 done
 shift $((OPTIND-1))
@@ -95,7 +99,10 @@ fi
 zmodload zsh/mathfunc
 
 function info {
-	>&2 echo -e "\e[32m$1\e[0m"
+	# INFO logging skipped in quiet mode
+	if [[ $QUIET -eq 0 ]]; then
+		>&2 echo -e "\e[32m$1\e[0m"
+	fi
 }
 
 function debug {
@@ -103,6 +110,10 @@ function debug {
 	if [[ -n $DEBUG ]]; then
 		>&2 echo -e "\e[33m$1\e[0m"
 	fi
+}
+
+function warn {
+	>&2 echo -e "\e[35m$1\e[0m"
 }
 
 function fin() {
@@ -122,7 +133,9 @@ function fin() {
 	fi
 
 	if command -v trash >/dev/null 2>&1 && [[ $DONT_TRASH -eq 0 ]]; then
-		trash "$input_file"
+		if trash $input_file 1>/dev/null; then
+			info "Moved $input_file to the trash"
+		fi
 	fi
 
 	# Echo new filename on stdout for wrapping scripts
@@ -143,7 +156,7 @@ function read_exif_date {
 		dt2=$(date --date='TZ="Australia/Melbourne" '$dt' Z' +%Y%m%d_%H%M%S)
 
 		# Log
-		info "Converted ${filepath:t} into AEST. '$dt' -> '$dt2'. Please validate."
+		warn "Converted ${filepath:t} into AEST. '$dt' -> '$dt2'. Please validate."
 		dt=$dt2
 	fi
 
@@ -244,9 +257,16 @@ function call_ffmpeg {
 	local source_file=$2
 	local output_file=$3
 
+	if [[ $QUIET -eq 0 ]]; then
+		local ffquiet=''
+		local time='time'
+	else
+		local ffquiet='-hide_banner -loglevel quiet -stats'
+		local time=''
+	fi
 	debug "CMD: ffmpeg $ffmpeg_params"
 
-	if eval "$time ffmpeg $ffmpeg_params"; then
+	if eval "$time ffmpeg $ffquiet $ffmpeg_params"; then
 		fin $source_file $output_file
 	fi
 }
