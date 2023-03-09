@@ -1,7 +1,6 @@
 #! /bin/zsh
 
 USAGE='Usage: ffconv [OPTS] PATH
-  -c	manually set the CRF value
   -f	force a re-encode, even if already using H264/AAC streams
   -a	audio quality [0-100]
   -A	drop audio channel
@@ -16,14 +15,8 @@ USAGE='Usage: ffconv [OPTS] PATH
   -B	concatenate all transport files for this movie
   -h	display this message
 
-  Re-encode a movie to H264/MP4 using standard film presets'
+  Re-encode a movie to H264/MP4 with simpler CLI'
 
-if [[ $# -eq 0 ]]; then
-	echo "$USAGE"
-	return 1
-fi
-
-CRF=21
 FORCE=0
 AUDIOQ=
 DROP_AUDIO=0
@@ -38,10 +31,9 @@ START=
 TRANSPORT_MODE=0
 CONCAT_MODE=0
 
-while getopts 'c:fa:ATW:H:s:e:d:F:h:NbB' params
+while getopts 'fa:ATW:H:s:e:d:F:h:NbB' params
 do
 	case $params in
-		c ) CRF=$OPTARG;;
 		f ) FORCE=1;;
 		a ) AUDIOQ=$OPTARG;;
 		A ) DROP_AUDIO=1;;
@@ -61,7 +53,12 @@ shift $((OPTIND-1))
 
 ##################################################
 
-# validate file exists
+if [[ $# -eq 0 ]]; then
+	echo $USAGE
+	return 1
+fi
+
+# Validate file exists
 if [[ ! -f $1 ]]; then
 	echo 'File does not exist!'
 	exit 44
@@ -226,7 +223,7 @@ if [[ $VCODEC != 'h264' || -n $START || $NEW_WIDTH -gt 0 || $NEW_HEIGHT -gt 0 ||
 	fi
 
 	# create encode options string
-	VCMD="-c:v libx264 -tune film -filter:v '${(j:,:)VFILTER}' -crf $CRF"
+	VCMD="-c:v h264_videotoolbox -filter:v '${(j:,:)VFILTER}'"
 fi
 
 if [[ $DROP_AUDIO -eq 1 ]]; then
@@ -243,11 +240,9 @@ elif [[ $ACODEC != 'aac' ]]; then
 	fi
 fi
 
-# include crf in output filename
+# Name the new file with target bitrate
 if [[ ! $VCMD =~ (.*)copy$ ]]; then
-	SUFFIX="-crf${CRF}"
-elif [[ $INPUT_FILE =~ (.*)mp4$ ]]; then
-	SUFFIX='-reenc'
+	SUFFIX='.h264'
 fi
 
 # track input file for later trashing
