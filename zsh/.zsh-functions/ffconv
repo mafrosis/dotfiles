@@ -72,12 +72,14 @@ if [[ -n $END_TIME && -n $DURATION ]]; then
 	exit 45
 fi
 
-# Alias GNU touch for this script, when it's present (via Homebrew)
-if command -v gtouch >/dev/null 2>&1; then
-	function touch {
-		gtouch $@
-	}
-fi
+# Alias GNU commands for this script, which are provided by coreutils in Homebrew
+for cmd in touch date; do
+	if command -v g${cmd} >/dev/null 2>&1; then
+		function ${cmd} {
+			g${cmd} $@
+		}
+	fi
+done
 
 # set NO_TRASH on linux
 if [[ $(uname) == 'Linux' ]]; then
@@ -104,18 +106,47 @@ function fin() {
 	local output_file=$2
 
 	if [[ $TRANSPORT_MODE -eq 0 ]] && [[ $CONCAT_MODE -eq 0 ]]; then
-		# copy the EXIF date data
-		local date="$(exiftool -t -s -d "%Y-%m-%d %H:%M:%S" -MediaCreateDate -CreateDate -FileModifyDate "$input_file" | awk '!/0000:00:00/ {print $2" "$3}' | head -1)"
-		if [[ -n $date ]]; then
-			echo "Setting EXIF timestamp to $date"
-			exiftool "-AllDates=$date" -overwrite_original "$output_file"
-			touch -d "$date" "$output_file"
+		# Extract EXIF from the input file
+		exif_date=$(read_exif_date $input_file)
+
+		if [[ -n $exif_date ]]; then
+			info "Setting EXIF timestamp to $exif_date"
+			write_exif_date $output_file $exif_date
 		fi
 	fi
 
 	if command -v trash >/dev/null 2>&1 && [[ $DONT_TRASH -eq 0 ]]; then
 		trash "$input_file"
 	fi
+}
+
+function read_exif_date {
+	local filepath=$1
+
+	# Try DateTimeOriginal first, as it's in local TZ
+	dt=$(exiftool -m -s2 -d "%Y%m%d_%H%M%S" -DateTimeOriginal $filepath | cut -d' ' -f2)
+
+	if [[ -z $dt ]]; then
+		# Fallback to CreateDate, which is in UTC and must be adjusted
+		dt=$(exiftool -m -s2 -d "%Y%m%d %H:%M:%S" -CreateDate $filepath | cut -d' ' -f2,3)
+
+		# Convert from UTC to AEST
+		dt2=$(date --date='TZ="Australia/Melbourne" '$dt' Z' +%Y%m%d_%H%M%S)
+
+		# Log
+		info "Converted ${filepath:t} into AEST. '$dt' -> '$dt2'. Please validate."
+		dt=$dt2
+	fi
+
+	echo $dt
+}
+
+function write_exif_date {
+	local filepath=$1
+	local date=$2
+
+	# Write all dates in the EXIF
+	exiftool -q -AllDates=$date -overwrite_original $filepath
 }
 
 function time_to_secs {
