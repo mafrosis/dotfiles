@@ -81,7 +81,7 @@ for cmd in touch date; do
 	fi
 done
 
-# set NO_TRASH on linux
+# Set NO_TRASH on linux
 if [[ $(uname) == 'Linux' ]]; then
 	DONT_TRASH=1
 fi
@@ -167,10 +167,10 @@ function get_transport_filename() {
 	setopt localoptions +o nomatch
 	setopt localoptions histsubstpattern
 
-	# replace spaces with underscores for the transport files
+	# Replace spaces with underscores for the transport files
 	local base_file=${1:gs/[ ,]/_}
 
-	# increment suffix based on count of existing .ts files
+	# Increment suffix based on count of existing .ts files
 	count=$(ls ${base_file%.*}*.ts 2>/dev/null | wc -l)
 	count=$((count+1))
 	suffix=${(l:2::0:)count}
@@ -181,7 +181,7 @@ function get_transport_filename() {
 function gather_transport_files() {
 	setopt localoptions histsubstpattern
 
-	# replace spaces with underscores for the transport files
+	# Replace spaces with underscores for the transport files
 	local base_file=${1:gs/[ ,]/_}
 
 	set -A concat
@@ -232,7 +232,7 @@ function get_target_bitrate {
 
 ##################################################
 
-# add first script parameter to a named variable
+# Add first script parameter to a named variable
 INPUT_FILE=$1
 
 VCMD='-c:v copy'
@@ -262,11 +262,11 @@ debug "QUAL COEFF: ${QCOEFF}"
 TARGET_BITRATE=$(get_target_bitrate $WIDTH $HEIGHT $SOURCE_BITRATE $QCOEFF)
 debug "TARGET_BITRATE: ${TARGET_BITRATE} q=${QCOEFF}"
 
-# filter array including baseline deinterlace filter
+# Init filter array including baseline deinterlace filter
 set -A VFILTER 'yadif'
 
-# if end time supplied, convert to DURATION in seconds
-# default START_TIME is zero
+# If end time supplied, convert to DURATION in seconds
+# Default START_TIME is zero
 if [[ -n $END_TIME ]]; then
 	DURATION=$(( $(time_to_secs $END_TIME) - $(time_to_secs $START_TIME) ))
 fi
@@ -275,31 +275,31 @@ fi
 if [[ $START_TIME -gt 0 ]]; then
 	START="-ss $START_TIME"
 
-	# fade in movie at specified time
+	# Fade in movie at specified time
 	VFILTER+=("fade=t=in:st=0:d=$FADE_DURATION")
 else
 	START="-ss 0:00:00"
 fi
 
-# set encode end time
+# Set encode end time
 if [[ -n $DURATION ]]; then
 	START="$START -t $DURATION"
 
-	# fade out after duration seconds
+	# Fade out after duration seconds
 	FADE_OUT_START=$(( DURATION - FADE_DURATION ))
 	VFILTER+=("fade=t=out:st=$FADE_OUT_START:d=$FADE_DURATION")
 fi
 
-# convert to H264
+# Convert to H264
 if [[ $VCODEC != 'h264' || -n $START || $NEW_WIDTH -gt 0 || $NEW_HEIGHT -gt 0 || $FORCE -eq 1 ]]; then
-	# scale filter
+	# Scale filter
 	if [[ $NEW_WIDTH -gt 0 && $NEW_HEIGHT -gt 0 ]]; then
 		VFILTER+=("scale=$NEW_WIDTH:$NEW_HEIGHT")
 
 	elif [[ $NEW_WIDTH -gt 0 ]]; then
-		# calculate new height
+		# Calculate new height
 		integer NEW_HEIGHT=$(( int(NEW_WIDTH * HEIGHT / WIDTH) ))
-		# ensure is divisible by 2
+		# Ensure is divisible by 2
 		if [[ $(( NEW_HEIGHT % 2 )) -eq 1 ]]; then
 			(( NEW_HEIGHT -= 1 ))
 		fi
@@ -307,9 +307,9 @@ if [[ $VCODEC != 'h264' || -n $START || $NEW_WIDTH -gt 0 || $NEW_HEIGHT -gt 0 ||
 		VFILTER+=("scale=$NEW_WIDTH:$NEW_HEIGHT")
 
 	elif [[ $NEW_HEIGHT -gt 0 ]]; then
-		# calculate new width
+		# Calculate new width
 		integer NEW_WIDTH=$(( int(NEW_HEIGHT * WIDTH / HEIGHT) ))
-		# ensure is divisible by 2
+		# Ensure is divisible by 2
 		if [[ $(( NEW_WIDTH % 2 )) -eq 1 ]]; then
 			(( NEW_WIDTH -= 1 ))
 		fi
@@ -317,7 +317,7 @@ if [[ $VCODEC != 'h264' || -n $START || $NEW_WIDTH -gt 0 || $NEW_HEIGHT -gt 0 ||
 		VFILTER+=("scale=$NEW_WIDTH:$NEW_HEIGHT")
 	fi
 
-	# create encode options string
+	# Create encode options string
 	VCMD="-c:v h264_videotoolbox -b:v ${TARGET_BITRATE} -filter:v '${(j:,:)VFILTER}'"
 fi
 
@@ -340,7 +340,7 @@ if [[ ! $VCMD =~ (.*)copy$ ]]; then
 	SUFFIX=".h264_$(( TARGET_BITRATE / 1000 ))"
 fi
 
-# track input file for later trashing
+# Track input file for later trashing
 TRASH_FILE="$INPUT_FILE"
 
 if [[ $CONCAT_MODE -eq 1 ]]; then
@@ -353,32 +353,32 @@ if [[ $CONCAT_MODE -eq 1 ]]; then
 fi
 
 if [[ $TRANSPORT_MODE -eq 1 ]]; then
-	# transport encode options
+	# Transport encode options
 	TRANSPORT='-bsf:v h264_mp4toannexb -f mpegts'
 
-	# set the output filename
+	# Set the output filename
 	OUTPUT_FILE="$(get_transport_filename "$INPUT_FILE")"
 else
-	# set the output filename
+	# Set the output filename
 	OUTPUT_FILE="${1%.*}${SUFFIX}.mp4"
 fi
 
-# build FFMPEG command
+# Build FFMPEG command
 FFMPEG="time ffmpeg $START -i \"$INPUT_FILE\" $VCMD $ACMD $TRANSPORT \"$OUTPUT_FILE\""
 echo "$FFMPEG"
 
-# if either stream needs converting, or --force supplied
+# If either stream needs converting, or --force supplied
 if [[ ! $VCMD =~ (.*)copy$ || ! $ACMD =~ (.*)copy$ || $FORCE -eq 1 ]]; then
 	if eval "$FFMPEG"; then
 		fin "$TRASH_FILE" "$OUTPUT_FILE"
 	fi
 
 else
-	# else if already MP4 do nothing
+	# Else if already MP4 do nothing
 	if [[ $INPUT_FILE =~ (.*)mp4$ ]]; then
 		print 'Nothing to do'
 	else
-		# switch container to MP4
+		# Switch container to MP4
 		if /usr/local/bin/ffmpeg -i "$INPUT_FILE" -c copy "${1%.*}.mp4"; then
 			fin "$TRASH_FILE" "$OUTPUT_FILE"
 		fi
