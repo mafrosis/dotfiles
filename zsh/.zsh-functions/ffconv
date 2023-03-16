@@ -105,6 +105,8 @@ function fin() {
 	local input_file=$1
 	local output_file=$2
 
+	debug "FIN: $input_file $output_file"
+
 	if [[ $TRANSPORT_MODE -eq 0 ]] && [[ $CONCAT_MODE -eq 0 ]]; then
 		# Extract EXIF from the input file
 		exif_date=$(read_exif_date $input_file)
@@ -118,6 +120,9 @@ function fin() {
 	if command -v trash >/dev/null 2>&1 && [[ $DONT_TRASH -eq 0 ]]; then
 		trash "$input_file"
 	fi
+
+	# Echo new filename on stdout for wrapping scripts
+	echo $output_file
 }
 
 function read_exif_date {
