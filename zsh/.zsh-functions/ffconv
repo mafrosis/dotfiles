@@ -2,6 +2,7 @@
 
 USAGE='Usage: ffconv [OPTS] PATH
   -f	force a re-encode, even if already using H264/AAC streams
+  -c	bitrate co-efficient [0.0-1.0]
   -a	audio quality [0-100]
   -A	drop audio channel
   -T	don'"'"'t trash the input file
@@ -18,6 +19,7 @@ USAGE='Usage: ffconv [OPTS] PATH
   Re-encode a movie to H264/MP4 with simpler CLI'
 
 FORCE=0
+QCOEFF=1.0
 AUDIOQ=
 DROP_AUDIO=0
 DONT_TRASH=0
@@ -31,10 +33,11 @@ START=
 TRANSPORT_MODE=0
 CONCAT_MODE=0
 
-while getopts 'fa:ATW:H:s:e:d:F:h:NbB' params
+while getopts 'fc:a:ATW:H:s:e:d:F:h:NbB' params
 do
 	case $params in
 		f ) FORCE=1;;
+		c ) QCOEFF=$OPTARG;;
 		a ) AUDIOQ=$OPTARG;;
 		A ) DROP_AUDIO=1;;
 		T ) DONT_TRASH=1;;
@@ -82,6 +85,8 @@ if [[ $(uname) == 'Linux' ]]; then
 fi
 
 ##################################################
+
+zmodload zsh/mathfunc
 
 function info {
 	>&2 echo -e "\e[32m$1\e[0m"
@@ -164,6 +169,7 @@ function get_target_bitrate {
 	local width=$1
 	local height=$2
 	local source_bitrate=$3
+	local qcoeff=$4
 
 	debug "get_target_bitrate $width $height $source_bitrate"
 
@@ -175,19 +181,19 @@ function get_target_bitrate {
 	bitrates[2160]=25000000
 
 	# Multiply target bitrate by Q coefficient
-	local integer target_bitrate=$(( bitrates[$width] ))
+	local integer target_bitrate=$(( int(bitrates[$width] * qcoeff) ))
 	debug "TARGET1: ${target_bitrate}"
 
 	# Handle landscape movies
 	if [[ $target_bitrate -eq 0 ]]; then
-		target_bitrate=$(( bitrates[$height] ))
+		target_bitrate=$(( int(bitrates[$height] * qcoeff) ))
 		debug "TARGET2: ${target_bitrate}"
 	fi
 
 	# If target is greater than the source movie, select the source movie bitrate
 	# If target is zero, select the source movie bitrate
 	if [[ $target_bitrate -gt $source_bitrate || $target_bitrate -eq 0 ]]; then
-		target_bitrate=$source_bitrate
+		target_bitrate=$(( int(source_bitrate * qcoeff) ))
 		debug "TARGET3: ${target_bitrate}"
 	fi
 	echo $target_bitrate
@@ -220,9 +226,10 @@ astream_meta=(${(s/,/)astream_probe})
 ACODEC=$astream_meta[1]
 
 info "${INPUT_FILE:t} ${VCODEC} ${WIDTH}x${HEIGHT} ${SOURCE_BITRATE} ${ACODEC}"
+debug "QUAL COEFF: ${QCOEFF}"
 
-TARGET_BITRATE=$(get_target_bitrate $WIDTH $HEIGHT $SOURCE_BITRATE)
-debug "TARGET_BITRATE: ${TARGET_BITRATE}"
+TARGET_BITRATE=$(get_target_bitrate $WIDTH $HEIGHT $SOURCE_BITRATE $QCOEFF)
+debug "TARGET_BITRATE: ${TARGET_BITRATE} q=${QCOEFF}"
 
 # filter array including baseline deinterlace filter
 set -A VFILTER 'yadif'
