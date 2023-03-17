@@ -239,6 +239,18 @@ function get_target_bitrate {
 	echo $target_bitrate
 }
 
+function call_ffmpeg {
+	local ffmpeg_params=$1
+	local source_file=$2
+	local output_file=$3
+
+	debug "CMD: ffmpeg $ffmpeg_params"
+
+	if eval "$time ffmpeg $ffmpeg_params"; then
+		fin $source_file $output_file
+	fi
+}
+
 ##################################################
 
 # Add first script parameter to a named variable
@@ -372,24 +384,12 @@ else
 	OUTPUT_FILE="${1%.*}${SUFFIX}.mp4"
 fi
 
-# Build FFMPEG command
-FFMPEG="time ffmpeg $START -i \"$INPUT_FILE\" $VCMD $ACMD $TRANSPORT \"$OUTPUT_FILE\""
-echo "$FFMPEG"
+# Build ffmpeg params
+FFMPEG_PARAMS="$START -i '$INPUT_FILE' $VCMD $ACMD $TRANSPORT '$OUTPUT_FILE'"
 
-# If either stream needs converting, or --force supplied
 if [[ ! $VCMD =~ (.*)copy$ || ! $ACMD =~ (.*)copy$ || $FORCE -eq 1 ]]; then
-	if eval "$FFMPEG"; then
-		fin "$TRASH_FILE" "$OUTPUT_FILE"
-	fi
-
+	# If either stream needs converting, or --force supplied
+	call_ffmpeg $FFMPEG_PARAMS $TRASH_FILE $OUTPUT_FILE
 else
-	# Else if already MP4 do nothing
-	if [[ $INPUT_FILE =~ (.*)mp4$ ]]; then
-		print 'Nothing to do'
-	else
-		# Switch container to MP4
-		if /usr/local/bin/ffmpeg -i "$INPUT_FILE" -c copy "${1%.*}.mp4"; then
-			fin "$TRASH_FILE" "$OUTPUT_FILE"
-		fi
-	fi
+	print 'Nothing to do'
 fi
