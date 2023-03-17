@@ -281,7 +281,7 @@ if [[ -n $END_TIME ]]; then
 fi
 
 # Set encode start time
-if [[ $START_TIME -gt 0 ]]; then
+if [[ $START_TIME -gt 0 || $TRANSPORT_MODE -eq 1 ]]; then
 	START="-ss $START_TIME"
 
 	# Fade in movie at specified time
