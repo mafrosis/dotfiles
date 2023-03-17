@@ -304,7 +304,7 @@ TARGET_BITRATE=$(get_target_bitrate $WIDTH $HEIGHT $SOURCE_BITRATE $QCOEFF)
 debug "TARGET_BITRATE: ${TARGET_BITRATE} q=${QCOEFF}"
 
 # Init filter array including baseline deinterlace filter
-set -A VFILTER 'yadif'
+VFILTER=('yadif')
 
 # If end time supplied, convert to DURATION in seconds
 # Default START_TIME is zero
