@@ -57,19 +57,23 @@ shift $((OPTIND-1))
 ##################################################
 
 if [[ $# -eq 0 ]]; then
-	echo $USAGE
+	print $USAGE
 	return 1
 fi
 
+function error {
+	>&2 print "\e[31m$1\e[0m"
+}
+
 # Validate file exists
 if [[ ! -f $1 ]]; then
-	echo 'File does not exist!'
-	exit 44
+	error 'File does not exist!'
+	return 44
 fi
 
 if [[ -n $END_TIME && -n $DURATION ]]; then
-	echo 'You cannot pass both -e and -d'
-	exit 45
+	error 'You cannot pass both -e and -d'
+	return 45
 fi
 
 # Alias GNU commands for this script, which are provided by coreutils in Homebrew
