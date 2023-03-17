@@ -87,36 +87,36 @@ fi
 ##################################################
 
 function fin() {
-	local INPUT_FILE="$1"
-	local OUTPUT_FILE="$2"
+	local input_file=$1
+	local output_file=$2
 
 	if [[ $TRANSPORT_MODE -eq 0 ]] && [[ $CONCAT_MODE -eq 0 ]]; then
 		# copy the EXIF date data
-		DATE="$(exiftool -t -s -d "%Y-%m-%d %H:%M:%S" -MediaCreateDate -CreateDate -FileModifyDate "$INPUT_FILE" | awk '!/0000:00:00/ {print $2" "$3}' | head -1)"
-		if [[ -n $DATE ]]; then
-			echo "Setting EXIF timestamp to $DATE"
-			exiftool "-AllDates=$DATE" -overwrite_original "$OUTPUT_FILE"
-			touch -d "$DATE" "$OUTPUT_FILE"
+		local date="$(exiftool -t -s -d "%Y-%m-%d %H:%M:%S" -MediaCreateDate -CreateDate -FileModifyDate "$input_file" | awk '!/0000:00:00/ {print $2" "$3}' | head -1)"
+		if [[ -n $date ]]; then
+			echo "Setting EXIF timestamp to $date"
+			exiftool "-AllDates=$date" -overwrite_original "$output_file"
+			touch -d "$date" "$output_file"
 		fi
 	fi
 
 	if command -v trash >/dev/null 2>&1 && [[ $DONT_TRASH -eq 0 ]]; then
-		trash "$INPUT_FILE"
+		trash "$input_file"
 	fi
 }
 
 function time_to_secs {
-	HOURS=$(echo "$1" | cut -d':' -f 1)
-	MINS=$(echo "$1" | cut -d':' -f 2)
-	SECS=$(echo "$1" | cut -d':' -f 3)
+	hours=$(echo $1 | cut -d':' -f 1)
+	mins=$(echo $1 | cut -d':' -f 2)
+	secs=$(echo $1 | cut -d':' -f 3)
 
-	if [[ -z $SECS ]]; then
-		SECS="$MINS"
-		MINS="$HOURS"
-		HOURS=""
+	if [[ -z $secs ]]; then
+		secs=$mins
+		mins=$hours
+		hours=
 	fi
 
-	echo $(( (HOURS*60*60) + (MINS*60) + $SECS ))
+	echo $(( (hours*60*60) + (mins*60) + secs ))
 }
 
 function get_transport_filename() {
@@ -124,35 +124,35 @@ function get_transport_filename() {
 	setopt localoptions histsubstpattern
 
 	# replace spaces with underscores for the transport files
-	local BASE_FILE=${1:gs/[ ,]/_}
+	local base_file=${1:gs/[ ,]/_}
 
 	# increment suffix based on count of existing .ts files
-	COUNT=$(ls ${BASE_FILE%.*}*.ts 2>/dev/null | wc -l)
-	COUNT=$((COUNT+1))
-	SUFFIX=${(l:2::0:)COUNT}
+	count=$(ls ${base_file%.*}*.ts 2>/dev/null | wc -l)
+	count=$((count+1))
+	suffix=${(l:2::0:)count}
 
-	echo "${BASE_FILE%.*}_${SUFFIX}.ts"
+	echo "${base_file%.*}_${suffix}.ts"
 }
 
 function gather_transport_files() {
 	setopt localoptions histsubstpattern
 
 	# replace spaces with underscores for the transport files
-	local BASE_FILE=${1:gs/[ ,]/_}
+	local base_file=${1:gs/[ ,]/_}
 
-	set -A CONCAT
+	set -A concat
 
-	for F in ${BASE_FILE%.*}*.ts; do
-		CONCAT+=("$F")
+	for F in ${base_file%.*}*.ts; do
+		concat+=("$F")
 	done
 
-	echo ${(j:|:)CONCAT}
+	echo ${(j:|:)concat}
 }
 
 ##################################################
 
 # add first script parameter to a named variable
-local INPUT_FILE="$1"
+INPUT_FILE="$1"
 
 VCMD='-c:v copy'
 ACMD='-c:a copy'
