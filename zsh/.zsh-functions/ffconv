@@ -70,7 +70,7 @@ function error {
 }
 
 # Validate file exists
-if [[ ! -f $1 ]]; then
+if [[ $CONCAT_MODE -eq 0 && ! -f $1 ]]; then
 	error 'File does not exist!'
 	return 44
 fi
@@ -133,7 +133,8 @@ function fin() {
 	fi
 
 	if command -v trash >/dev/null 2>&1 && [[ $DONT_TRASH -eq 0 ]]; then
-		if trash $input_file 1>/dev/null; then
+		# Expand globs in this variable with the tilde parameter flag (GLOB_SUBST)
+		if trash $~input_file 1>/dev/null; then
 			info "Moved $input_file to the trash"
 		else
 			error "Failed moving $input_file to the trash"
@@ -187,34 +188,67 @@ function time_to_secs {
 	echo $(( (hours*60*60) + (mins*60) + secs ))
 }
 
-function get_transport_filename() {
-	setopt localoptions +o nomatch
-	setopt localoptions histsubstpattern
+function make_transport_filename {
+	##
+	# Return the next transport filename, by incrementing to one above the
+	# highest file present
+	#
+	local input_file=$1
+	local filename_stem=$(get_transport_filename_stem $input_file)
 
-	# Replace spaces with underscores for the transport files
-	local base_file=${1:gs/[ ,]/_}
+	# Ensure no errors from no matches during glob expansion
+	setopt localoptions nullglob
 
-	# Increment suffix based on count of existing .ts files
-	count=$(ls ${base_file%.*}*.ts 2>/dev/null | wc -l)
-	count=$((count+1))
-	suffix=${(l:2::0:)count}
+	# Create an array of existing transport files with this filename stem
+	transport_files=($filename_stem*.ts)
 
-	echo "${base_file%.*}_${suffix}.ts"
+	if [[ -z $transport_files ]]; then
+		# If no files are present, this is the first transport file
+		count=1
+	else
+		# Otherwise increment the count
+		count=$(( ${#transport_files}+1 ))
+	fi
+
+	local stem="${filename_stem%.*}_${(l:2::0:)count}.ts"
+	debug "make_transport_filename $stem"
+	echo $stem
 }
 
-function gather_transport_files() {
-	setopt localoptions histsubstpattern
+function get_transport_filename_stem {
+	##
+	# Find the base filename which is used to locate transport files and to name
+	# the concatenated output movie
+	#
+	local search_file=$1
 
-	# Replace spaces with underscores for the transport files
-	local base_file=${1:gs/[ ,]/_}
+	# Pattern match for transport file passed as a parameter
+	if [[ $search_file =~ (.*)_[0-9][0-9].ts$ ]]; then
+		local base_file=${search_file[0,-7]}
+	else
+		# Assume original source passed as a parameter
+		local base_file=${search_file%.*}
+	fi
 
-	set -A concat
+	debug "get_transport_filename_stem: $search_file $base_file"
+	echo $base_file
+}
 
-	for F in ${base_file%.*}*.ts; do
-		concat+=("$F")
+function gather_transport_files {
+	##
+	# Return a | separated list of transport filenames for concatenation
+	#
+	local filename_stem=$1
+
+	# Ensure no errors from no matches during glob expansion
+	setopt localoptions nullglob
+
+	local concat=()
+	for F in ${filename_stem}*.ts; do
+		concat+=($F)
 	done
 
-	echo ${(j:|:)concat}
+	echo "${(j:|:)concat}"
 }
 
 function get_target_bitrate {
@@ -277,6 +311,24 @@ function call_ffmpeg {
 
 # Add first script parameter to a named variable
 INPUT_FILE=$1
+
+# Concat mode takes multiple .ts files created in Transport mode, and concatenates them together
+if [[ $CONCAT_MODE -eq 1 ]]; then
+	FILENAME_STEM=$(get_transport_filename_stem $INPUT_FILE)
+	INPUT_CONCAT="concat:$(gather_transport_files $FILENAME_STEM)"
+	if [[ $INPUT_CONCAT =~ ^concat:$ ]]; then
+		error "No transport files found for stem '$FILENAME_STEM'"
+		return 46
+	fi
+	debug "CONCAT_MODE: $INPUT_CONCAT"
+	OUTPUT_FILE=${FILENAME_STEM}-concat.mp4
+
+	# Build ffmpeg params
+	FFMPEG_PARAMS="-i '$INPUT_CONCAT' -c copy -bsf:a aac_adtstoasc '$OUTPUT_FILE'"
+
+	call_ffmpeg $FFMPEG_PARAMS "$FILENAME_STEM*.ts" $OUTPUT_FILE
+	return 0
+fi
 
 VCMD='-c:v copy'
 ACMD='-c:a copy'
@@ -383,27 +435,15 @@ if [[ ! $VCMD =~ (.*)copy$ ]]; then
 	SUFFIX=".h264_$(( TARGET_BITRATE / 1000 ))"
 fi
 
-# Track input file for later trashing
-TRASH_FILE="$INPUT_FILE"
-
-if [[ $CONCAT_MODE -eq 1 ]]; then
-	INPUT_FILE="concat:$(gather_transport_files "$INPUT_FILE")"
-	TRANSPORT="-c copy -bsf:a aac_adtstoasc"
-	VCMD=''
-	ACMD=''
-	START=''
-	SUFFIX='-concat'
-fi
-
 if [[ $TRANSPORT_MODE -eq 1 ]]; then
 	# Transport encode options
 	TRANSPORT='-bsf:v h264_mp4toannexb -f mpegts'
 
 	# Set the output filename
-	OUTPUT_FILE="$(get_transport_filename "$INPUT_FILE")"
+	OUTPUT_FILE=$(make_transport_filename $INPUT_FILE)
 else
 	# Set the output filename
-	OUTPUT_FILE="${1%.*}${SUFFIX}.mp4"
+	OUTPUT_FILE="${INPUT_FILE%.*}${SUFFIX}.mp4"
 fi
 
 # Build ffmpeg params
@@ -411,7 +451,7 @@ FFMPEG_PARAMS="$START -i '$INPUT_FILE' $VCMD $ACMD $TRANSPORT '$OUTPUT_FILE'"
 
 if [[ ! $VCMD =~ (.*)copy$ || ! $ACMD =~ (.*)copy$ || $FORCE -eq 1 ]]; then
 	# If either stream needs converting, or --force supplied
-	call_ffmpeg $FFMPEG_PARAMS $TRASH_FILE $OUTPUT_FILE
+	call_ffmpeg $FFMPEG_PARAMS $INPUT_FILE $OUTPUT_FILE
 else
 	print 'Nothing to do'
 fi
