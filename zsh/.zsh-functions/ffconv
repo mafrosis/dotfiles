@@ -135,6 +135,8 @@ function fin() {
 	if command -v trash >/dev/null 2>&1 && [[ $DONT_TRASH -eq 0 ]]; then
 		if trash $input_file 1>/dev/null; then
 			info "Moved $input_file to the trash"
+		else
+			error "Failed moving $input_file to the trash"
 		fi
 	fi
 
