@@ -122,14 +122,32 @@ function fin() {
 
 	debug "FIN: $input_file $output_file"
 
-	if [[ $TRANSPORT_MODE -eq 0 ]] && [[ $CONCAT_MODE -eq 0 ]]; then
-		# Extract EXIF from the input file
-		exif_date=$(read_exif_date $input_file)
+	# Ensure no errors from no matches during glob expansion
+	setopt localoptions nullglob
 
-		if [[ -n $exif_date ]]; then
+	if [[ $CONCAT_MODE -eq 1 ]]; then
+		# Read EXIF from file created earlier
+		local exif_date=$(cat ${output_file[0,-12]}.exif)
+	else
+		# Extract EXIF from the input file
+		local exif_date=$(read_exif_date $input_file)
+	fi
+
+	if [[ -n $exif_date ]]; then
+		if [[ $TRANSPORT_MODE -eq 1 ]]; then
+			# In transport mode, write the EXIF to a file, as .ts does not support metadata
+			local exif_file=${input_file%.*}.exif
+
+			if [[ ! -f $exif_file ]]; then
+				debug "FIN: wrote $exif_date to $exif_file"
+				echo $exif_date > $exif_file
+			fi
+		else
 			info "Setting EXIF timestamp to $exif_date"
 			write_exif_date $output_file $exif_date
 		fi
+	else
+		error 'No EXIF date value!'
 	fi
 
 	if command -v trash >/dev/null 2>&1 && [[ $DONT_TRASH -eq 0 ]]; then
@@ -326,7 +344,7 @@ if [[ $CONCAT_MODE -eq 1 ]]; then
 	# Build ffmpeg params
 	FFMPEG_PARAMS="-i '$INPUT_CONCAT' -c copy -bsf:a aac_adtstoasc '$OUTPUT_FILE'"
 
-	call_ffmpeg $FFMPEG_PARAMS "$FILENAME_STEM*.ts" $OUTPUT_FILE
+	call_ffmpeg $FFMPEG_PARAMS "$FILENAME_STEM*.(ts|exif)" $OUTPUT_FILE
 	return 0
 fi
 
