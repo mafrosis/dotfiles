@@ -1,0 +1,190 @@
+#! /bin/zsh
+
+USAGE='Usage: fix-exif [OPTS] PATH
+  -x	update the EXIF from the filename (normal behaviour is the reverse)
+  -o	set the output archive directory (default: "_")
+  -n	dry run; no files will be modified
+  -i	interactive mode
+  -h	display this message
+
+  Process a directory of photos and videos for long term storage'
+
+if [[ $# -eq 0 ]]; then
+	print "$USAGE"
+	return 1
+fi
+
+MODE_NORMAL=1
+MODE_RENAME=2
+MODE=$MODE_NORMAL
+FULLAUTO=1
+OUTPUT_PATH='_'
+DRYRUN=0
+
+while getopts 'xo:nih' params
+do
+	case $params in
+		x ) MODE=$MODE_RENAME;;
+		o ) OUTPUT_PATH=$OPTARG;;
+		n ) DRYRUN=1;;
+		i ) FULLAUTO=0;;
+		h ) print "$USAGE" && return 1;;
+		* ) print "$USAGE" && return 1;;
+	esac
+done
+shift $((OPTIND-1))
+
+##################################################
+
+# Add first script parameter to a named variable
+INPUT_DIR="$1"
+
+# Validate path exists
+if [[ ! -d $INPUT_DIR ]]; then
+	print 'Directory does not exist!'
+	return 44
+fi
+
+# Alias GNU date for this script, when it's present via Homebrew
+if command -v gdate >/dev/null 2>&1; then
+	function date {
+		gdate "$@"
+	}
+fi
+
+##################################################
+
+function info {
+	>&2 print "\e[32m$1\e[0m"
+}
+function warn {
+	>&2 print "\e[33m$1\e[0m"
+}
+
+function process {
+	local filepath=$1
+	local filename=${filepath:t}
+	local ext=${filename:e}
+	local fn=${filename:t:r}
+	local exif_date=
+
+	if [[ $MODE -eq $MODE_RENAME && $fn =~ ^MAD_(.*) ]]; then
+		# Extract EXIF from the input file
+		exif_date=$(read_exif_date $filepath)
+
+		# Check EXIF matches filename
+		if [[ $fn != "MAD_$exif_date" ]]; then
+			if [[ $FULLAUTO -eq 1 ]] || prompt_no "Update EXIF in $filepath from $exif_date to ${fn[5,-1]}?"; then
+				write_exif_date $filepath ${fn[5,-1]}
+			fi
+			return
+		fi
+	fi
+
+	# Skip files which are prefixed appropriately
+	if [[ $fn =~ MAD_(.*) ]]; then
+		return
+	fi
+
+	# Dumbest progress indicator ever
+	print -n .
+
+	# Transcode movies before rename
+	if [[ $ext == mp4 && ! $fn =~ (.*).h264_(.*)$ && ! $fn =~ (.*)-concat$ ]]; then
+		filename=$(ffconv -fqT $filename)
+		echo "Transcoded $filename"
+
+		# Update the filepath
+		filepath=$(dirname $filepath)/${filename%.*}.mp4
+	fi
+
+	# Extract EXIF from filepath
+	exif_date=$(read_exif_date $filepath)
+
+	if [[ $ext == 'jpeg' ]]; then
+		ext='jpg'
+	fi
+    new_filename="MAD_$exif_date.$ext"
+
+	# Rename and archive
+	archive_file $filepath $new_filename
+}
+
+function prompt_no {
+	local message=$1
+
+	>&2 print "\n$message [y/N]"
+	read -r y
+	if [[ $y == y ]]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
+function archive_file {
+	local input_file=$1
+	local archive_filename=$2
+
+	if [[ $DRYRUN -eq 1 ]]; then
+		info "DRYRUN: Skipped copy $input_file to $OUTPUT_PATH/$archive_filename"
+		return
+
+	elif [[ ! -d $OUTPUT_PATH ]]; then
+		# Ensure output directory
+		mkdir -p $OUTPUT_PATH
+		info "Output directory created: $OUTPUT_PATH"
+	fi
+
+	if [[ $FULLAUTO -eq 1 ]] || prompt_no "Archive $input_file as $archive_filename?"; then
+		# Rename and chmod
+		cp $input_file $OUTPUT_PATH/$archive_filename
+		chmod 644 $OUTPUT_PATH/$archive_filename
+
+		info "Copied $input_file to $archive_filename in $OUTPUT_PATH"
+	fi
+}
+
+function read_exif_date {
+	local filepath=$1
+
+	# Try DateTimeOriginal first, as it's in local TZ
+	dt=$(exiftool -m -s2 -d "%Y%m%d_%H%M%S" -DateTimeOriginal $filepath | cut -d' ' -f2)
+
+	if [[ -z $dt ]]; then
+		# Fallback to CreateDate, which is in UTC and must be adjusted
+		dt=$(exiftool -m -s2 -d "%Y%m%d %H:%M:%S" -CreateDate $filepath | cut -d' ' -f2,3)
+
+		# Convert from UTC to AEST
+		dt=$(date --date='TZ="Australia/Melbourne" '$dt' Z' +%Y%m%d_%H%M%S)
+	fi
+
+	print $dt
+}
+
+function write_exif_date {
+	local filepath=$1
+	local date=$2
+
+	# Write all dates in the EXIF
+	exiftool -m -AllDates=$date -overwrite_original $filepath >/dev/null
+
+	# Update file modification timestamp
+	touch -d "${date[0,4]}-${date[5,6]}-${date[7,8]} ${date[10,11]}:${date[12,13]}:${date[14,15]}" $filepath
+}
+
+##################################################
+
+function main {
+	local files=()
+	for F in ${INPUT_DIR}/*.(jpg|jpeg|mp4); do
+		files+=($F)
+	done
+
+	print "Processing ${#files} files in $INPUT_DIR"
+
+	for F in $files; do
+		process $F
+	done
+}
+main; return $?
