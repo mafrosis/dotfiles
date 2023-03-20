@@ -1,0 +1,51 @@
+#! /bin/zsh
+
+##################################################
+
+function prompt_no {
+	local message=$1
+
+	echo "\n$message [y/N]"
+	read -r y
+	if [[ $y == y ]]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
+##################################################
+
+function main {
+	for F in *.flac; do
+		if flac -d $F; then
+			return 2
+		fi
+	done
+
+	for F in *.wav; do
+		if lame -V0 $F ${F%.*}.mp3; then
+			return 3
+		fi
+	done
+
+	# cleanup
+	rm -f -- *.wav
+
+	# remove source files?
+	if prompt_no "Do you want to delete the source FLACs in $(pwd)? [y/N]"; then
+		rm -f -- *.flac
+	fi
+
+	if [ -f Folder.jpg ]; then
+		mv Folder.jpg folder.jpg
+	elif [ ! -f folder.jpg ]; then
+		echo 'Album art not found.'
+	fi
+
+	# auto-tag?
+	if prompt_no 'Do you want run auto-tag now? [y/N]'; then
+		eyeD3 --plugin autotag .
+	fi
+}
+return main
