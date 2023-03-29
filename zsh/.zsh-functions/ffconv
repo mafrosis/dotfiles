@@ -365,6 +365,14 @@ WIDTH=$vstream_meta[2]
 HEIGHT=$vstream_meta[3]
 SOURCE_BITRATE=$vstream_meta[4]
 
+if [[ $SOURCE_BITRATE = 'N/A' ]]; then
+	vformat_probe=$( ffprobe -v error -show_format -show_entries format=bit_rate -of csv=p=0 "$INPUT_FILE" | head -1 )
+	debug "VFORMAT_PROBE: $vformat_probe"
+
+	vformat_meta=(${(s/,/)vformat_probe})
+	SOURCE_BITRATE=$vformat_meta[1]
+fi
+
 # Query audio stream zero for codec
 astream_probe=$( ffprobe -v error -select_streams a -show_entries stream=codec_name -of csv=p=0 "$INPUT_FILE" | head -1 )
 debug "ASTREAM_PROBE: $astream_probe"
