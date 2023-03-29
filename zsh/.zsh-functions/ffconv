@@ -193,9 +193,12 @@ function write_exif_date {
 }
 
 function time_to_secs {
-	hours=$(echo $1 | cut -d':' -f 1)
-	mins=$(echo $1 | cut -d':' -f 2)
-	secs=$(echo $1 | cut -d':' -f 3)
+	local timestr=$1
+	local timeparts=(${(s/:/)timestr})
+
+	hours=${timeparts[1]}
+	mins=${timeparts[2]}
+	secs=${timeparts[3]}
 
 	if [[ -z $secs ]]; then
 		secs=$mins
