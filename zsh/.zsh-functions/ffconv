@@ -26,7 +26,7 @@ DROP_AUDIO=0
 DONT_TRASH=0
 NEW_WIDTH=0
 NEW_HEIGHT=0
-START_TIME=0
+START_TIME=
 END_TIME=
 DURATION=
 FADE_DURATION=1
@@ -389,14 +389,20 @@ debug "TARGET_BITRATE: ${TARGET_BITRATE} q=${QCOEFF}"
 # Init filter array including baseline deinterlace filter
 VFILTER=('yadif')
 
-# If end time supplied, convert to DURATION in seconds
-# Default START_TIME is zero
-if [[ -n $END_TIME ]]; then
-	DURATION=$(( $(time_to_secs $END_TIME) - $(time_to_secs $START_TIME) ))
+# If start time supplied, convert to number of seconds
+if [[ -n $START_TIME ]]; then
+	START_TIME=$(time_to_secs $START_TIME)
+else
+	START_TIME=0
 fi
 
-# Set encode start time
+# If end time supplied, convert to duration in seconds
+if [[ -n $END_TIME ]]; then
+	DURATION=$(( $(time_to_secs $END_TIME) - $START_TIME ))
+fi
+
 if [[ $START_TIME -gt 0 || $TRANSPORT_MODE -eq 1 ]]; then
+	# Set encode start time
 	START="-ss $START_TIME"
 
 	# Fade in movie at specified time
@@ -415,7 +421,7 @@ if [[ -n $DURATION ]]; then
 fi
 
 # Convert to H264
-if [[ $VCODEC != 'h264' || -n $START || $NEW_WIDTH -gt 0 || $NEW_HEIGHT -gt 0 || $FORCE -eq 1 ]]; then
+if [[ $VCODEC != 'h264' || $START_TIME -gt 0 || $NEW_WIDTH -gt 0 || $NEW_HEIGHT -gt 0 || $FORCE -eq 1 ]]; then
 	# Scale filter
 	if [[ $NEW_WIDTH -gt 0 && $NEW_HEIGHT -gt 0 ]]; then
 		VFILTER+=("scale=$NEW_WIDTH:$NEW_HEIGHT")
