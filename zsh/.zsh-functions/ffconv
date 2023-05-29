@@ -81,11 +81,13 @@ if [[ -n $END_TIME && -n $DURATION ]]; then
 fi
 
 # Alias GNU commands for this script, which are provided by coreutils in Homebrew
-for cmd in touch date; do
-	if command -v g${cmd} >/dev/null 2>&1; then
-		function ${cmd} {
-			g${cmd} $@
-		}
+for _cmd in touch date; do
+	if command -v g${_cmd} >/dev/null 2>&1; then
+		eval "
+			function ${_cmd} {
+				g${_cmd} \"\$@\"
+			}
+		"
 	fi
 done
 
