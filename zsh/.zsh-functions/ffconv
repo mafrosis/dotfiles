@@ -129,7 +129,10 @@ function fin() {
 
 	if [[ $CONCAT_MODE -eq 1 ]]; then
 		# Read EXIF from file created earlier
-		local exif_date=$(cat ${output_file[0,-12]}.exif)
+		local exif_file=${output_file[0,-12]}.exif
+		if [[ -f $exif_file ]]; then
+			local exif_date=$(cat ${output_file[0,-12]}.exif)
+		fi
 	else
 		# Extract EXIF from the input file
 		local exif_date=$(read_exif_date $input_file)
