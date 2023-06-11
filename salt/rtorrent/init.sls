@@ -123,7 +123,7 @@ home-bin-rtorrent:
   file.managed:
     - contents: |
         #! /bin/bash
-        tmux -S /tmp/rtorrent.sock attach
+        sudo -u rtorrent tmux -S /tmp/rtorrent.sock attach
     - user: {{ user }}
     - group: {{ user }}
     - mode: 700
