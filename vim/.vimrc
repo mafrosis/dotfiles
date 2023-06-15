@@ -17,7 +17,6 @@ set nowritebackup				"
 set noswapfile					" No .swp files
 set laststatus=2				" always have a status bar at the bottom.
 set mouse=a						" Allow mouse where possible
-set ttymouse=xterm2				" Enable the mouse through GNU screen
 set background=dark				" Default. Background may be overridden is OS settings
 set showtabline=2				" Always show the tab line
 set guioptions-=T				" Turn off toolbars, but leave on menues
@@ -28,6 +27,13 @@ set noshowmode					" Hide the default mode text (INSERT below the statusline)
 " Persistent undo
 set undodir=~/.vim-undo
 set undofile
+
+" https://superuser.com/a/656062
+if has("mouse_sgr")
+	set ttymouse=sgr				" Modern mouse control chars
+else
+	set ttymouse=xterm2				" Enable the mouse through GNU screen
+end
 
 "---- Path and wildmenu ------------------------------------------------
 " search current dir, followed by PWD
