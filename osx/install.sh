@@ -17,8 +17,8 @@ if [[ ! -d $HOME/bin ]]; then
 	mkdir "$HOME/bin"
 fi
 
-# accept xcode license
-sudo xcodebuild -license accept
+# use xcode CLI tools
+sudo xcode-select -switch /Library/Developer/CommandLineTools
 
 # retrieve the morgant/tools-osx submodule
 git submodule update --init osx/tools-osx
