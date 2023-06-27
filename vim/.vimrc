@@ -142,6 +142,9 @@ Bundle 'isobit/vim-caddyfile'
 Bundle 'vim-python/python-syntax'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
+Plugin 'lifepillar/pgsql.vim.git'
+Plugin 'towolf/vim-helm'
+Plugin 'itspriddle/vim-shellcheck'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -203,6 +206,9 @@ autocmd FileType json setlocal shiftwidth=2 tabstop=2 cole=0
 autocmd FileType gitrebase set modelines=0
 autocmd FileType terraform setlocal shiftwidth=2 tabstop=2 cole=0
 autocmd FileType make setlocal noexpandtab shiftwidth=4 softtabstop=0
+
+" Filetype overrides
+au BufRead,BufNewFile *.tpl set filetype=helm
 
 
 "---- GitGutter -------------------------------------------------------
