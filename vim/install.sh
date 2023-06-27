@@ -11,9 +11,9 @@ fi
 
 if [[ $(uname) == 'Darwin' ]]; then
 	# Use Homebrew vim over Apple vim (for +termguicolors)
-	if vim --version | grep 'macOS version'; then
+	if ! vim --version | grep -q 'macOS version'; then
 		brew install vim
-		ln -s /opt/homebrew/bin/vim /usr/local/bin
+		sudo ln -s /opt/homebrew/bin/vim /usr/local/bin
 	fi
 fi
 
