@@ -140,7 +140,7 @@ call s:h("Statement", s:blue, "", "")
 call s:h("Conditional", s:blue, "", "")
 call s:h("Repeat", s:cyan, "", "")
 call s:h("Label", s:cyan, "", "")
-call s:h("Operator", s:fg, "", "")
+call s:h("Operator", s:yellow, "", "")
 call s:h("Keyword", s:brown, "", "")
 call s:h("Exception", s:purple, "", "")
 
