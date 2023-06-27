@@ -46,14 +46,9 @@ brew install \
 	nmap \
 	pandoc \
 	shellcheck \
-	telnet \
+	inetutils \
 	terminal-notifier \
 	youtube-dl
-
-# symlink a couple of missing shell commands from GNU coreutils
-if [[ ! -L /usr/local/bin/tac ]]; then
-	sudo ln -s /opt/homebrew/bin/gtac /usr/local/bin
-fi
 
 # install cask for Chrome, if not already installed
 if [[ ! -d /Applications/Google\ Chrome.app ]]; then
@@ -69,7 +64,6 @@ fi
 brew install \
 	1password-cli \
 	android-file-transfer \
-	dropbox \
 	firefox \
 	google-drive \
 	keepassx \
