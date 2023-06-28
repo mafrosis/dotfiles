@@ -45,6 +45,7 @@ brew install \
 	mplayer \
 	nmap \
 	pandoc \
+	screenresolution \
 	shellcheck \
 	inetutils \
 	terminal-notifier \
