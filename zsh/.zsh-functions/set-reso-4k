@@ -1,0 +1,13 @@
+#! /bin/zsh
+
+# Required parameters:
+# @raycast.schemaVersion 1
+# @raycast.title Set Reso 4K
+# @raycast.mode compact
+
+
+if [[ $(screenresolution get 2>&1 | grep Display | wc -l) -eq 2 ]]; then
+	screenresolution set skip '3840x2160x32@60'
+else
+	screenresolution set '3840x2160x32@60'
+fi
