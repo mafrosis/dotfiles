@@ -5,6 +5,7 @@ USAGE='Usage: fix-exif [OPTS] PATH
   -o	set the output archive directory (default: "_")
   -n	dry run; no files will be modified
   -i	interactive mode
+  -R	no re-encode to H264 with ffconv
   -h	display this message
 
   Process a directory of photos and videos for long term storage'
@@ -18,16 +19,18 @@ MODE_NORMAL=1
 MODE_RENAME=2
 MODE=$MODE_NORMAL
 FULLAUTO=1
+REENCODE=1
 OUTPUT_PATH='_'
 DRYRUN=0
 
-while getopts 'xo:nih' params
+while getopts 'xo:niRh' params
 do
 	case $params in
 		x ) MODE=$MODE_RENAME;;
 		o ) OUTPUT_PATH=$OPTARG;;
 		n ) DRYRUN=1;;
 		i ) FULLAUTO=0;;
+		R ) REENCODE=0;;
 		h ) print "$USAGE" && return 1;;
 		* ) print "$USAGE" && return 1;;
 	esac
@@ -90,7 +93,7 @@ function process {
 	print -n .
 
 	# Transcode movies before rename
-	if [[ $ext == mp4 && ! $fn =~ (.*).h264_(.*)$ && ! $fn =~ (.*)-concat$ ]]; then
+	if [[ $REENCODE -eq 1 && $ext == mp4 && ! $fn =~ (.*).h264_(.*)$ && ! $fn =~ (.*)-concat$ ]]; then
 		filename=$(ffconv -fqT $filename)
 		echo "Transcoded $filename"
 
