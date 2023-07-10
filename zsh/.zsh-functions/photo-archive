@@ -6,6 +6,7 @@ USAGE='Usage: fix-exif [OPTS] PATH
   -n	dry run; no files will be modified
   -i	interactive mode
   -R	no re-encode to H264 with ffconv
+  -v	verbose logging, no progress bar
   -h	display this message
 
   Process a directory of photos and videos for long term storage'
@@ -22,8 +23,9 @@ FULLAUTO=1
 REENCODE=1
 OUTPUT_PATH='_'
 DRYRUN=0
+VERBOSE=
 
-while getopts 'xo:niRh' params
+while getopts 'xo:niRvh' params
 do
 	case $params in
 		x ) MODE=$MODE_RENAME;;
@@ -31,6 +33,7 @@ do
 		n ) DRYRUN=1;;
 		i ) FULLAUTO=0;;
 		R ) REENCODE=0;;
+		v ) VERBOSE=1;;
 		h ) print "$USAGE" && return 1;;
 		* ) print "$USAGE" && return 1;;
 	esac
@@ -55,13 +58,22 @@ if command -v gdate >/dev/null 2>&1; then
 	}
 fi
 
+# Ensure verbose is set when in interactive mode
+if [[ $FULLAUTO -eq 0 ]]; then
+	VERBOSE=1
+fi
+
 ##################################################
 
 function info {
-	>&2 print "\e[32m$1\e[0m"
+	if [[ -n $VERBOSE ]]; then
+		>&2 print "\e[32m$1\e[0m"
+	fi
 }
 function warn {
-	>&2 print "\e[33m$1\e[0m"
+	if [[ -n $VERBOSE ]]; then
+		>&2 print "\e[33m$1\e[0m"
+	fi
 }
 
 function process {
@@ -80,22 +92,23 @@ function process {
 			if [[ $FULLAUTO -eq 1 ]] || prompt_no "Update EXIF in $filepath from $exif_date to ${fn[5,-1]}?"; then
 				write_exif_date $filepath ${fn[5,-1]}
 			fi
+			print 'R'
 			return
 		fi
 	fi
 
 	# Skip files which are prefixed appropriately
 	if [[ $fn =~ MAD_(.*) ]]; then
+		print '_'
 		return
 	fi
 
-	# Dumbest progress indicator ever
-	print -n .
-
 	# Transcode movies before rename
 	if [[ $REENCODE -eq 1 && $ext == mp4 && ! $fn =~ (.*).h264_(.*)$ && ! $fn =~ (.*)-concat$ ]]; then
-		filename=$(ffconv -fqT $filename)
-		echo "Transcoded $filename"
+		if ! filename=$(ffconv -fqT $filename); then
+			return
+		fi
+		info "Transcoded $filename"
 
 		# Update the filepath
 		filepath=$(dirname $filepath)/${filename%.*}.mp4
@@ -110,7 +123,7 @@ function process {
     new_filename="MAD_$exif_date.$ext"
 
 	# Rename and archive
-	archive_file $filepath $new_filename
+	print $(archive_file $filepath $new_filename)
 }
 
 function prompt_no {
@@ -131,12 +144,8 @@ function archive_file {
 
 	if [[ $DRYRUN -eq 1 ]]; then
 		info "DRYRUN: Skipped copy $input_file to $OUTPUT_PATH/$archive_filename"
+		print '~'
 		return
-
-	elif [[ ! -d $OUTPUT_PATH ]]; then
-		# Ensure output directory
-		mkdir -p $OUTPUT_PATH
-		info "Output directory created: $OUTPUT_PATH"
 	fi
 
 	if [[ $FULLAUTO -eq 1 ]] || prompt_no "Archive $input_file as $archive_filename?"; then
@@ -145,6 +154,7 @@ function archive_file {
 		chmod 644 $OUTPUT_PATH/$archive_filename
 
 		info "Copied $input_file to $archive_filename in $OUTPUT_PATH"
+		print '.'
 	fi
 }
 
@@ -187,7 +197,11 @@ function main {
 	print "Processing ${#files} files in $INPUT_DIR"
 
 	for F in $files; do
-		process $F
+		prog=$(process $F)
+
+		# Display single char progress indicator returned by process()
+		if [[ -z $VERBOSE ]]; then print -n $prog; fi
 	done
+	if [[ -z $VERBOSE ]]; then print; fi
 }
 main; return $?
