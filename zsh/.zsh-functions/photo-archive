@@ -45,8 +45,12 @@ shift $((OPTIND-1))
 # Add first script parameter to a named variable
 INPUT_DIR="$1"
 
+# Use current directory as input when unspecified
+if [[ -z $INPUT_DIR ]]; then
+	INPUT_DIR='.'
+
 # Validate path exists
-if [[ ! -d $INPUT_DIR ]]; then
+elif [[ ! -d $INPUT_DIR ]]; then
 	print 'Directory does not exist!'
 	return 44
 fi
