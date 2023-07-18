@@ -336,6 +336,9 @@ function call_ffmpeg {
 
 	if eval "$time ffmpeg $ffquiet $ffmpeg_params"; then
 		fin $source_file $output_file
+	else
+		# Exit code on ffmpeg failure
+		return 2
 	fi
 }
 
