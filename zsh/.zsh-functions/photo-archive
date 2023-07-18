@@ -109,13 +109,13 @@ function process {
 
 	# Transcode movies before rename
 	if [[ $REENCODE -eq 1 && $ext == mp4 && ! $fn =~ (.*).h264_(.*)$ && ! $fn =~ (.*)-concat$ ]]; then
-		if ! filename=$(ffconv -fqT $filename); then
+		if ! new_filename=$(ffconv -fqT $filepath); then
 			return
 		fi
-		info "Transcoded $filename"
+		info "Transcoded ${new_filename:t}"
 
 		# Update the filepath
-		filepath=$(dirname $filepath)/${filename%.*}.mp4
+		filepath=${new_filename%.*}.mp4
 	fi
 
 	# Extract EXIF from filepath
