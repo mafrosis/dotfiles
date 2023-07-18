@@ -199,6 +199,12 @@ function main {
 	done
 
 	print "Processing ${#files} files in $INPUT_DIR"
+	print "Output directory is $OUTPUT_PATH"
+	if [[ ! -d $OUTPUT_PATH ]]; then
+		mkdir -p $OUTPUT_PATH
+	elif [[ $OUTPUT_PATH == '_' ]]; then
+		warn 'Default output dir "_" already exists!'
+	fi
 
 	for F in $files; do
 		prog=$(process $F)
