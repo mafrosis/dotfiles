@@ -58,8 +58,8 @@ do
 		N ) SKIP_IF_EXISTS=1;;
 		Y ) OVERWRITE_IF_EXISTS=1;;
 		q ) QUIET=1;;
-		h ) echo "$USAGE" && return 1;;
-		* ) echo "$USAGE" && return 1;;
+		h ) print "$USAGE" && return 1;;
+		* ) print "$USAGE" && return 1;;
 	esac
 done
 shift $((OPTIND-1))
@@ -109,19 +109,19 @@ zmodload zsh/mathfunc
 function info {
 	# INFO logging skipped in quiet mode
 	if [[ $QUIET -eq 0 ]]; then
-		>&2 echo -e "\e[32m$1\e[0m"
+		>&2 print "\e[32m$1\e[0m"
 	fi
 }
 
 function debug {
 	# DEBUG logging controlled by env var
 	if [[ -n $DEBUG ]]; then
-		>&2 echo -e "\e[33m$1\e[0m"
+		>&2 print "\e[33m$1\e[0m"
 	fi
 }
 
 function warn {
-	>&2 echo -e "\e[35m$1\e[0m"
+	>&2 print "\e[35m$1\e[0m"
 }
 
 function fin() {
@@ -151,7 +151,7 @@ function fin() {
 
 			if [[ ! -f $exif_file ]]; then
 				debug "FIN: wrote $exif_date to $exif_file"
-				echo $exif_date > $exif_file
+				print $exif_date > $exif_file
 			fi
 		else
 			info "Setting EXIF timestamp to $exif_date"
@@ -171,7 +171,7 @@ function fin() {
 	fi
 
 	# Echo new filename on stdout for wrapping scripts
-	echo $output_file
+	print $output_file
 }
 
 function read_exif_date {
@@ -192,7 +192,7 @@ function read_exif_date {
 		dt=$dt2
 	fi
 
-	echo $dt
+	print $dt
 }
 
 function write_exif_date {
@@ -217,7 +217,7 @@ function time_to_secs {
 		hours=
 	fi
 
-	echo $(( (hours*60*60) + (mins*60) + secs ))
+	print $(( (hours*60*60) + (mins*60) + secs ))
 }
 
 function make_transport_filename {
@@ -244,7 +244,7 @@ function make_transport_filename {
 
 	local stem="${filename_stem%.*}_${(l:2::0:)count}.ts"
 	debug "make_transport_filename $stem"
-	echo $stem
+	print $stem
 }
 
 function get_transport_filename_stem {
@@ -263,7 +263,7 @@ function get_transport_filename_stem {
 	fi
 
 	debug "get_transport_filename_stem: $search_file $base_file"
-	echo $base_file
+	print $base_file
 }
 
 function gather_transport_files {
@@ -280,7 +280,7 @@ function gather_transport_files {
 		concat+=($F)
 	done
 
-	echo "${(j:|:)concat}"
+	print "${(j:|:)concat}"
 }
 
 function get_target_bitrate {
@@ -317,7 +317,7 @@ function get_target_bitrate {
 		target_bitrate=$(( int(source_bitrate * qcoeff) ))
 		debug "TARGET3: ${target_bitrate}"
 	fi
-	echo $target_bitrate
+	print $target_bitrate
 }
 
 function call_ffmpeg {
