@@ -146,6 +146,12 @@ function archive_file {
 	local input_file=$1
 	local archive_filename=$2
 
+	if [[ -f $OUTPUT_PATH/$archive_filename ]]; then
+		error "EXISTS: target $OUTPUT_PATH/$archive_filename already exists for $input_file"
+		print 'E'
+		return
+	fi
+
 	if [[ $DRYRUN -eq 1 ]]; then
 		info "DRYRUN: Skipped copy $input_file to $OUTPUT_PATH/$archive_filename"
 		print '~'
