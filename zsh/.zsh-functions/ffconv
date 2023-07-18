@@ -14,6 +14,8 @@ USAGE='Usage: ffconv [OPTS] PATH
   -F	fade in/out duration in seconds (default is 1s)
   -b	encode transport file for concatenating together
   -B	concatenate all transport files for this movie
+  -N	abort if target file exists (no prompt)
+  -Y	overwrite if target file exists (no prompt)
   -q	quiet; nothing on stderr/stdout
   -h	display this message
 
@@ -33,9 +35,11 @@ FADE_DURATION=1
 START=
 TRANSPORT_MODE=0
 CONCAT_MODE=0
+SKIP_IF_EXISTS=0
+OVERWRITE_IF_EXISTS=0
 QUIET=0
 
-while getopts 'fc:a:ATW:H:s:e:d:F:bBqh' params
+while getopts 'fc:a:ATW:H:s:e:d:F:bBNYqh' params
 do
 	case $params in
 		f ) FORCE=1;;
@@ -51,6 +55,8 @@ do
 		F ) FADE_DURATION=$OPTARG;;
 		b ) TRANSPORT_MODE=1;;
 		B ) CONCAT_MODE=1;;
+		N ) SKIP_IF_EXISTS=1;;
+		Y ) OVERWRITE_IF_EXISTS=1;;
 		q ) QUIET=1;;
 		h ) echo "$USAGE" && return 1;;
 		* ) echo "$USAGE" && return 1;;
@@ -486,8 +492,17 @@ else
 	OUTPUT_FILE="${INPUT_FILE%.*}${SUFFIX}.mp4"
 fi
 
+# Target file exists behaviour
+if [[ $SKIP_IF_EXISTS -eq 1 ]]; then
+	YESNO='-n'
+elif [[ $OVERWRITE_IF_EXISTS -eq 1 ]]; then
+	YESNO='-y'
+else
+	YESNO=''
+fi
+
 # Build ffmpeg params
-FFMPEG_PARAMS="$START -i '$INPUT_FILE' $VCMD $ACMD $TRANSPORT '$OUTPUT_FILE'"
+FFMPEG_PARAMS="$START ${YESNO} -i '$INPUT_FILE' $VCMD $ACMD $TRANSPORT '$OUTPUT_FILE'"
 
 if [[ ! $VCMD =~ (.*)copy$ || ! $ACMD =~ (.*)copy$ || $FORCE -eq 1 ]]; then
 	# If either stream needs converting, or --force supplied
