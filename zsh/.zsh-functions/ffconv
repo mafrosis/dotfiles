@@ -370,7 +370,7 @@ VCMD='-c:v copy'
 ACMD='-c:a copy'
 
 # Query video stream zero for codec, resolution & bitrate of source file
-vstream_probe=$( ffprobe -v error -select_streams v -show_entries stream=codec_name,width,height,bit_rate -of csv=p=0 "$INPUT_FILE" | head -1 )
+vstream_probe=$( ffprobe -v error -select_streams v -show_entries stream=codec_name,width,height,bit_rate:format_tags=encodedby -of csv=p=0 "$INPUT_FILE" | head -2 | paste -s -d, - )
 debug "VSTREAM_PROBE: $vstream_probe"
 
 # Split into component vars
@@ -379,6 +379,12 @@ VCODEC=$vstream_meta[1]
 WIDTH=$vstream_meta[2]
 HEIGHT=$vstream_meta[3]
 SOURCE_BITRATE=$vstream_meta[4]
+ENCODEDBY=$vstream_meta[5]
+
+if [[ $ENCODEDBY = ffconv ]]; then
+	error 'File already encoded via ffconv, aborting'
+	return 3
+fi
 
 if [[ $SOURCE_BITRATE = 'N/A' ]]; then
 	vformat_probe=$( ffprobe -v error -show_format -show_entries format=bit_rate -of csv=p=0 "$INPUT_FILE" | head -1 )
@@ -506,7 +512,8 @@ else
 fi
 
 # Build ffmpeg params
-FFMPEG_PARAMS="${START} ${YESNO} -i '${INPUT_FILE}' ${VCMD} ${ACMD} ${TRANSPORT}"
+META="-metadata encodedby='ffconv' -movflags use_metadata_tags"
+FFMPEG_PARAMS="${START} ${YESNO} -i '${INPUT_FILE}' ${META} ${VCMD} ${ACMD} ${TRANSPORT}"
 
 # If either stream needs converting, or --force supplied
 if [[ ! $VCMD =~ (.*)copy$ || ! $ACMD =~ (.*)copy$ || $FORCE -eq 1 ]]; then
