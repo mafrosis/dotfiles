@@ -401,11 +401,14 @@ debug "ASTREAM_PROBE: $astream_probe"
 astream_meta=(${(s/,/)astream_probe})
 ACODEC=$astream_meta[1]
 
-info "${INPUT_FILE:t} ${VCODEC} ${WIDTH}x${HEIGHT} ${SOURCE_BITRATE} ${ACODEC}"
-debug "QUAL COEFF: ${QCOEFF}"
-
 TARGET_BITRATE=$(get_target_bitrate $WIDTH $HEIGHT $SOURCE_BITRATE $QCOEFF)
 debug "TARGET_BITRATE: ${TARGET_BITRATE} q=${QCOEFF}"
+
+# Always print the encode oneliner, even in quiet mode
+t=$QUIET
+QUIET=0
+info "${INPUT_FILE:t} ${VCODEC} ${WIDTH}x${HEIGHT} ${SOURCE_BITRATE} ${ACODEC}"
+QUIET=$t
 
 # Init filter array including baseline deinterlace filter
 VFILTER=('yadif')
