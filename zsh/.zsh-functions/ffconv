@@ -177,8 +177,8 @@ function fin() {
 function read_exif_date {
 	local filepath=$1
 
-	# Try DateTimeOriginal first, as it's in local TZ
-	dt=$(exiftool -m -s2 -d "%Y%m%d_%H%M%S" -DateTimeOriginal $filepath | cut -d' ' -f2)
+	# Try DateTimeOriginal & FileModifyDate first, as they're in local TZ
+	dt=$(exiftool -m -s2 -d "%Y%m%d_%H%M%S" -DateTimeOriginal -FileModifyDate $filepath | head -1 | cut -d' ' -f2)
 
 	if [[ -z $dt ]]; then
 		# Fallback to CreateDate, which is in UTC and must be adjusted
