@@ -332,9 +332,9 @@ function call_ffmpeg {
 		local ffquiet='-hide_banner -loglevel quiet -stats'
 		local time=''
 	fi
-	debug "CMD: ffmpeg $ffmpeg_params"
+	debug "CMD: ffmpeg $ffmpeg_params '$output_file'"
 
-	if eval "$time ffmpeg $ffquiet $ffmpeg_params"; then
+	if eval "$time ffmpeg $ffquiet $ffmpeg_params '$output_file'"; then
 		fin $source_file $output_file
 	else
 		# Exit code on ffmpeg failure
@@ -359,9 +359,10 @@ if [[ $CONCAT_MODE -eq 1 ]]; then
 	OUTPUT_FILE=${FILENAME_STEM}-concat.mp4
 
 	# Build ffmpeg params
-	FFMPEG_PARAMS="-i '$INPUT_CONCAT' -c copy -bsf:a aac_adtstoasc '$OUTPUT_FILE'"
+	FFMPEG_PARAMS="-i '$INPUT_CONCAT' -c copy -bsf:a aac_adtstoasc"
 
-	call_ffmpeg $FFMPEG_PARAMS "$FILENAME_STEM*.(ts|exif)" $OUTPUT_FILE
+	# Add an asterisk to ensure cleanup of all source files after conversion
+	call_ffmpeg ${FFMPEG_PARAMS} "${FILENAME_STEM}*.(ts|exif)" ${OUTPUT_FILE}
 	return 0
 fi
 
@@ -505,11 +506,11 @@ else
 fi
 
 # Build ffmpeg params
-FFMPEG_PARAMS="$START ${YESNO} -i '$INPUT_FILE' $VCMD $ACMD $TRANSPORT '$OUTPUT_FILE'"
+FFMPEG_PARAMS="${START} ${YESNO} -i '${INPUT_FILE}' ${VCMD} ${ACMD} ${TRANSPORT}"
 
+# If either stream needs converting, or --force supplied
 if [[ ! $VCMD =~ (.*)copy$ || ! $ACMD =~ (.*)copy$ || $FORCE -eq 1 ]]; then
-	# If either stream needs converting, or --force supplied
-	call_ffmpeg $FFMPEG_PARAMS $INPUT_FILE $OUTPUT_FILE
+	call_ffmpeg ${FFMPEG_PARAMS} ${INPUT_FILE} ${OUTPUT_FILE}
 else
 	print 'Nothing to do'
 fi
