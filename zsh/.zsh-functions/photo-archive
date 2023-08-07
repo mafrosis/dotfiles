@@ -1,6 +1,6 @@
 #! /bin/zsh
 
-USAGE='Usage: fix-exif [OPTS] PATH
+USAGE='Usage: photo-archive [OPTS] PATH
   -x	update the EXIF from the filename (normal behaviour is the reverse)
   -o	set the output archive directory (default: "_")
   -n	dry run; no files will be modified
@@ -67,6 +67,11 @@ if [[ $FULLAUTO -eq 0 ]]; then
 	VERBOSE=1
 fi
 
+# Ensure no movie transcoding when using dry run
+if [[ $DRYRUN -eq 1 ]]; then
+	REENCODE=0
+fi
+
 ##################################################
 
 function info {
@@ -77,6 +82,11 @@ function info {
 function warn {
 	if [[ -n $VERBOSE ]]; then
 		>&2 print "\e[33m$1\e[0m"
+	fi
+}
+function error {
+	if [[ -n $VERBOSE ]]; then
+		>&2 print "\e[31m$1\e[0m"
 	fi
 }
 
@@ -108,14 +118,24 @@ function process {
 	fi
 
 	# Transcode movies before rename
-	if [[ $REENCODE -eq 1 && $ext == mp4 && ! $fn =~ (.*).h264_(.*)$ && ! $fn =~ (.*)-concat$ ]]; then
-		if ! new_filename=$(ffconv -fqT $filepath); then
+	if [[ $REENCODE -eq 1 && $ext == mp4 ]]; then
+		new_filename=$(ffconv -fqTN $filepath)
+		RET=$?
+
+		if [[ $RET -eq 0 ]]; then
+			# Update the filepath with the transcoded filename
+			info "Transcoded ${new_filename:t}"
+			filepath=${new_filename%.*}.mp4
+
+		elif [[ $RET -eq 3 ]]; then
+			error 'File already encoded via ffconv, aborting'
+			print 'T'
+
+		elif [[ $RET -eq 2 ]]; then
+			error "Failed transcode of ${filename}"
+			print 'F'
 			return
 		fi
-		info "Transcoded ${new_filename:t}"
-
-		# Update the filepath
-		filepath=${new_filename%.*}.mp4
 	fi
 
 	# Extract EXIF from filepath
