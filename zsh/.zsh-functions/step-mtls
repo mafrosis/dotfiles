@@ -1,32 +1,38 @@
-#! /bin/bash -e
+#! /bin/zsh -e
+
+# DEBUG mode controlled by env var
+if [[ -n $DEBUG ]]; then set -x; fi
 
 function cleanup {
-	rm -rf "${TMPDIR}"
+	rm -rf ${TMPDIR}
 }
-# Register cleanup function on exit signal
-trap cleanup EXIT
+# Register cleanup function on exit signal, if not in debug
+if [[ -z $DEBUG ]]; then
+	trap cleanup EXIT
+fi
 
 # Fetch a token via OIDC provisioner
-TOKEN=$(step ca token home.mafro.net --provisioner Google)
+TOKEN=$(step ca token home.mafro.net --provisioner Google --san home.mafro.net)
 
 # Create temporary directory
-TMPDIR="$(mktemp -d)"
+TMPDIR=$(mktemp -d)
 
 # Generate a certificate PEM pair
-step ca certificate m@mafro.net \
-	"${TMPDIR}/client.crt" "${TMPDIR}/client.key" \
-	--token "${TOKEN}" \
+step ca certificate home.mafro.net \
+	${TMPDIR}/client.crt ${TMPDIR}/client.key \
+	--token ${TOKEN} \
 	--force
 
 # Convert Step-generated PEM cert/key to p12 format
-openssl pkcs12 -export -clcerts \
-	-inkey "${TMPDIR}/client.key" \
-	-in "${TMPDIR}/client.crt" \
-	-out "${TMPDIR}/step.p12" \
-   	-name "Step mTLS" \
+openssl pkcs12 -export -legacy \
+	-inkey ${TMPDIR}/client.key \
+	-in ${TMPDIR}/client.crt \
+	-out ${TMPDIR}/step-mtls.p12 \
+   	-name 'Step mTLS' \
 	-passout 'pass:eggs'
 
 # Import the p12 file into Keychain
-security import "${TMPDIR}/step.p12" \
+security import ${TMPDIR}/step-mtls.p12 \
 	-T /Applications/Google\ Chrome.app \
+	-T /Applications/Firefox.app \
 	-P 'eggs'
