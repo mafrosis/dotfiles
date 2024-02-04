@@ -1,0 +1,7 @@
+#! /bin/zsh
+
+if [[ -f venv/bin/activate ]]; then
+	source venv/bin/activate
+else
+	print 'No venv present; run pyinit'
+fi
