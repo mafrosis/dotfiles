@@ -1,0 +1,11 @@
+#! /bin/zsh
+
+if command -v deactivate >/dev/null 2>&1; then
+	deactivate
+fi
+
+if [[ -f venv/bin/activate ]]; then
+	rm -rf venv
+else
+	print 'No venv present!'
+fi
