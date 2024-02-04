@@ -1,0 +1,23 @@
+#!/bin/zsh
+
+function cleanup {
+	rm -rf ${TMPDIR}
+}
+trap cleanup EXIT
+
+# Capture current directory
+PWD=$(pwd)
+
+# Create temporary directory
+TMPDIR=$(mktemp -d)
+
+git clone -q https://github.com/mafrosis/pytemplate.git ${TMPDIR}/pytemplate
+pushd ${TMPDIR}/pytemplate
+
+if [[ -d $1 ]]; then
+	cookiecutter -o $1 .
+else
+	cookiecutter -o ${PWD} .
+fi
+
+popd
