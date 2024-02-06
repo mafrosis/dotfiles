@@ -11,7 +11,7 @@ else
 
 		# symlink to "fd"
 		mkdir -p ~/.local/bin
-		ln -s "$(command -v fdfind)" ~/.local/bin/fd
+		ln -sf "$(command -v fdfind)" ~/.local/bin/fd
 
 	elif [[ $(uname) == 'Darwin' ]]; then
 		brew install fd
