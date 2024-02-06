@@ -32,9 +32,7 @@ fi
 
 # Setup custom theme
 mkdir -p "$(bat --config-dir)/themes"
-if [[ ! -L "$(bat --config-dir)/themes/mafro.tmTheme" ]]; then
-	ln -s "$HOME/dotfiles/zsh/bat/mafro.tmTheme" "$(bat --config-dir)/themes"
-fi
+ln -sf "$HOME/dotfiles/zsh/bat/mafro.tmTheme" "$(bat --config-dir)/themes"
 
 # Build the bat cache
 bat cache --build
