@@ -45,7 +45,7 @@ fi
 
 sudo mkdir -p /etc/salt
 sudo tee /etc/salt/minion > /dev/null <<EOF
-master: ringil
+master: locke
 state_output: mixed
 log_level: info
 id: $(hostname -s)
