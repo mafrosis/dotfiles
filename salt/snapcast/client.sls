@@ -17,8 +17,8 @@ install-snapclient-deps:
 install-snapclient:
   file.managed:
     - name: /tmp/snapclient.tgz
-    - source: https://github.com/mafrosis/snapcast/releases/download/v{{ snap_version }}/snapclient_{{ snap_version }}-1_arm64.tgz
-    - source_hash: md5=8c1608e5532fd0d7b454ada187c85b4e
+    - source: https://github.com/badaix/snapcast/releases/download/v{{ snap_version }}/snapclient_{{ snap_version }}-1_arm64.tgz
+    - source_hash: md5=9d1ead73e678fa2f51a70a933b0bf017
   cmd.wait:
     - name: tar xzf /tmp/snapclient.tgz && mv /tmp/snapclient /usr/bin/snapclient
     - cwd: /tmp
