@@ -73,9 +73,13 @@ alias fzf='fzf-tmux --height=40% --preview '\''bat --color=always --line-range :
 alias fvim='vim $(fzf)'
 
 alias dcr='docker compose restart'
-alias dcdu='docker compose down && docker compose up -d'
+alias dcp='docker compose pull'
+alias dcu='docker compose up -d'
+alias dcul='docker compose up -d && docker compose logs -f --tail=200'
+alias dcbu='docker compose up --build -d'
 alias dcps='docker compose ps'
 alias dcl='docker compose logs -f --tail=200'
+alias dcd='docker compose down'
 
 alias recentf1-hup='docker kill --signal=SIGHUP $(docker ps | grep recentf1 | cut -d\  -f 1)'
 
