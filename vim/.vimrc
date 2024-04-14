@@ -180,8 +180,8 @@ let g:python_highlight_file_headers_as_comments = 1
 
 "---- ALE -------------------------------------------------------------
 let g:ale_sign_column_always = 1
-let g:ale_linters = {'python': ['pylint'], 'go': ['goimports', 'golint', 'govet']}
-
+let g:ale_linters = {'python': ['ruff', 'pylint'], 'go': ['goimports', 'golint', 'govet']}
+let g:ale_fixers = {'python': ['ruff']}
 
 "---- fzf -------------------------------------------------------------
 " Shortcut to fzf's GFiles
