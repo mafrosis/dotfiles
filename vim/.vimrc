@@ -145,6 +145,9 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'lifepillar/pgsql.vim.git'
 Plugin 'towolf/vim-helm'
 Plugin 'itspriddle/vim-shellcheck'
+Plugin 'davidbeckingsale/writegood.vim'
+Plugin 'github/copilot.vim'
+Plugin 'madox2/vim-ai'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -180,8 +183,8 @@ let g:python_highlight_file_headers_as_comments = 1
 
 "---- ALE -------------------------------------------------------------
 let g:ale_sign_column_always = 1
-let g:ale_linters = {'python': ['pylint'], 'go': ['goimports', 'golint', 'govet']}
-
+let g:ale_linters = {'python': ['ruff'], 'go': ['goimports', 'golint', 'govet']}
+let g:ale_fixers = {'python': ['ruff']}
 
 "---- fzf -------------------------------------------------------------
 " Shortcut to fzf's GFiles
