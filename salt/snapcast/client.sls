@@ -1,74 +1,22 @@
-{% set snap_version = "0.27.0" %}
+{% set snap_version = "0.28.0" %}
 
-install-snapclient-deps:
-  pkg.installed:
-    - names:
-      - libasound2
-      - libavahi-client3
-      - libflac8
-      - libogg0
-      - libopus0
-      - libpulse0
-      - libsoxr0
-      - libvorbis0a
-
-{% if grains["osarch"] == "arm64" %}
-
-install-snapclient:
-  file.managed:
-    - name: /tmp/snapclient.tgz
-    - source: https://github.com/badaix/snapcast/releases/download/v{{ snap_version }}/snapclient_{{ snap_version }}-1_arm64.tgz
-    - source_hash: md5=9d1ead73e678fa2f51a70a933b0bf017
-  cmd.wait:
-    - name: tar xzf /tmp/snapclient.tgz && mv /tmp/snapclient /usr/bin/snapclient
-    - cwd: /tmp
-    - watch:
-      - file: install-snapclient
-
-snapclient-user:
-  user.present:
-    - name: snapclient
-    - system: true
-    - home: /var/lib/snapclient
-    - createhome: false
-    - groups:
-      - audio
-
-/var/lib/snapclient:
-  file.directory:
-    - user: snapclient
-    - group: snapclient
-    - mode: 0750
-
-extend:
-  snapclient:
-    file.managed:
-      - name: /lib/systemd/system/snapclient.service
-      - source: https://github.com/badaix/snapos/raw/v{{ snap_version }}/debian/snapclient.service
-      - source_hash: md5=be19554e8811e696391ec0826fbec02f
-    service.running:
-      - watch:
-        - file: snapclient
-
-{% else %}
-
-install-snapclient:
-  file.managed:
-    - name: /var/cache/dotfiles/snapclient.deb
-    - source: https://github.com/badaix/snapcast/releases/download/v{{ snap_version }}/snapclient_{{ snap_version }}-1_without-pulse_{{ grains["osarch"] }}.deb
-    {% if grains["osarch"] == "armhf" %}
-    - source_hash: md5=45e7a6d5aeeaa45c0bd2dc080d326a8b
-    {% elif grains["osarch"] == "amd64" %}
-    - source_hash: md5=776dc542a268051d93f5409ea4923f0d
+install-snapcast:
+  archive.extracted:
+    - name: /var/cache/dotfiles/snapcast
+    - source: https://github.com/badaix/snapcast/releases/download/v{{ snap_version }}/snapcast_{{ snap_version }}_{{ grains["osarch"] }}-debian-{{ grains["oscodename"] }}.zip
+    {% if grains['osarch'] == 'amd64' %}
+    - source_hash: md5=659eb06d9ab7008678e3476d1bc056cd
+    {% elif grains['osarch'] == 'armhf' %}
+    - source_hash: md5=00b9480b1603475dc131dc0dd57ec6fd
+    {% elif grains['osarch'] == 'arm64' %}
+    - source_hash: md5=73784084301b4233724be8ae23acde3a
     {% endif %}
     - source_hash_update: true
-    - if_missing: /usr/bin/snapclient
+    - enforce_toplevel: false
   cmd.wait:
-    - name: dpkg -i --force-confold /var/cache/dotfiles/snapclient.deb
+    - name: dpkg -i --force-confold /var/cache/dotfiles/snapcast/snapclient_{{ snap_version }}-1_without-pulse_{{ grains["osarch"] }}.deb
     - watch:
-      - file: install-snapclient
-
-{% endif %}
+      - archive: install-snapcast
 
 /etc/default/snapclient:
   file.managed:
