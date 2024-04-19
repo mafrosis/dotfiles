@@ -1,18 +1,20 @@
-{% set snap_version = "0.27.0" %}
+{% set snap_version = "0.28.0" %}
 
-install-snapserver:
-  file.managed:
-    - name: /tmp/snapserver_{{ snap_version }}-1_{{ grains["osarch"] }}.deb
-    - source: https://github.com/badaix/snapcast/releases/download/v{{ snap_version }}/snapserver_{{ snap_version }}-1_{{ grains["osarch"] }}.deb
-    {% if grains["osarch"] == "armhf" %}
-    - source_hash: md5=c05a0b17b08cfa4cdcab56c46157039e
-    {% elif grains["osarch"] == "amd64" %}
-    - source_hash: md5=378b6f2befd13c95a24c5736692b6ebc
+install-snapcast:
+  archive.extracted:
+    - name: /var/cache/dotfiles/snapcast
+    - source: https://github.com/badaix/snapcast/releases/download/v{{ snap_version }}/snapcast_{{ snap_version }}_{{ grains["osarch"] }}-debian-{{ grains["oscodename"] }}.zip
+    {% if grains['osarch'] == 'amd64' %}
+    - source_hash: md5=659eb06d9ab7008678e3476d1bc056cd
+    {% elif grains['osarch'] == 'arm64' %}
+    - source_hash: md5=73784084301b4233724be8ae23acde3a
     {% endif %}
+    - source_hash_update: true
+    - enforce_toplevel: false
   cmd.wait:
-    - name: dpkg -i --force-confold /tmp/snapserver_{{ snap_version }}-1_{{ grains["osarch"] }}.deb
+    - name: dpkg -i --force-confold /var/cache/dotfiles/snapcast/snapserver_{{ snap_version }}-1_{{ grains["osarch"] }}.deb
     - watch:
-      - file: install-snapserver
+      - archive: install-snapcast
 
 /etc/snapserver.conf:
   file.managed:
