@@ -1,6 +1,36 @@
 #! /bin/zsh
 
+USAGE='Usage: flac-to-mp3 [OPTS] [PATH]
+
+  PATH	directory of FLACs (defaults to $pwd if omitted)
+
+  OPTS
+  -y	answer yes to all prompts (non-interactive mode)
+  -f	same as -y
+  -h	display this message
+
+  Convert a directory of FLACs into MP3s.'
+
+YES_MODE=0
+
+while getopts 'yfh' params
+do
+	case $params in
+		y ) YES_MODE=1;;
+		f ) YES_MODE=1;;
+		h ) print "$USAGE" && return 1;;
+		* ) print "$USAGE" && return 1;;
+	esac
+done
+shift $((OPTIND-1))
+
 ##################################################
+
+function error {
+	if [[ -n $VERBOSE ]]; then
+		>&2 print "\e[31m$1\e[0m"
+	fi
+}
 
 function prompt_no {
 	local message=$1
@@ -18,13 +48,15 @@ function prompt_no {
 
 function main {
 	for F in *.flac; do
-		if flac -d $F; then
+		if ! flac -df $F; then
+			error "Failed to decode $F"
 			return 2
 		fi
 	done
 
 	for F in *.wav; do
-		if lame -V0 $F ${F%.*}.mp3; then
+		if ! lame -V0 $F ${F:r}.mp3; then
+			error "Failed to encode ${F:r}.mp3"
 			return 3
 		fi
 	done
@@ -33,7 +65,7 @@ function main {
 	rm -f -- *.wav
 
 	# remove source files?
-	if prompt_no "Do you want to delete the source FLACs in $(pwd)? [y/N]"; then
+	if [[ $YES_MODE -eq 1 ]] || prompt_no "Do you want to delete the source FLACs in $(pwd)?"; then
 		rm -f -- *.flac
 	fi
 
@@ -44,8 +76,8 @@ function main {
 	fi
 
 	# auto-tag?
-	if prompt_no 'Do you want run auto-tag now? [y/N]'; then
+	if [[ $YES_MODE -eq 1 ]] || prompt_no 'Do you want run auto-tag now?'; then
 		eyeD3 --plugin autotag .
 	fi
 }
-return main
+main; return $?
