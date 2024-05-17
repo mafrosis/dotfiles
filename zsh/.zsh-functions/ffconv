@@ -17,6 +17,7 @@ USAGE='Usage: ffconv [OPTS] PATH
   -N	abort if target file exists (no prompt)
   -Y	overwrite if target file exists (no prompt)
   -q	quiet; nothing on stderr/stdout
+  -v	verbosity level; 0 (quiet), 1 (status oneliner), 2 (normal), 3 (debug)
   -h	display this message
 
   Re-encode a movie to H264/MP4 with simpler CLI'
@@ -38,8 +39,9 @@ CONCAT_MODE=0
 SKIP_IF_EXISTS=0
 OVERWRITE_IF_EXISTS=0
 QUIET=0
+VERBOSE=2
 
-while getopts 'fc:a:ATW:H:s:e:d:F:bBNYqh' params
+while getopts 'fc:a:ATW:H:s:e:d:F:bBNYqv:h' params
 do
 	case $params in
 		f ) FORCE=1;;
@@ -58,6 +60,7 @@ do
 		N ) SKIP_IF_EXISTS=1;;
 		Y ) OVERWRITE_IF_EXISTS=1;;
 		q ) QUIET=1;;
+		v ) VERBOSE=$OPTARG;;
 		h ) print "$USAGE" && return 1;;
 		* ) print "$USAGE" && return 1;;
 	esac
@@ -72,7 +75,9 @@ if [[ $# -eq 0 ]]; then
 fi
 
 function error {
-	>&2 print "\e[31m$1\e[0m"
+	if [[ $VERBOSE -gt 0 ]]; then
+		>&2 print "\e[31m$1\e[0m"
+	fi
 }
 
 # Validate file exists
@@ -102,14 +107,25 @@ if [[ $(uname) == 'Linux' ]]; then
 	DONT_TRASH=1
 fi
 
+if [[ $QUIET -eq 1 ]]; then
+	# Set VERBOSE=0 if -q flag passed
+	VERBOSE=0
+elif [[ $VERBOSE -eq 3 ]]; then
+	# Set DEBUG=1 if verbosity is level 3
+	DEBUG=1
+fi
+
 ##################################################
 
 zmodload zsh/mathfunc
 
 function info {
-	# INFO logging skipped in quiet mode
-	if [[ $QUIET -eq 0 ]]; then
-		>&2 print "\e[32m$1\e[0m"
+	local msg=$1
+	local force_print=$2
+
+	# INFO logging when VERBOSE>1
+	if [[ $VERBOSE -gt 1 || -n $force_print ]]; then
+		>&2 print "\e[32m${msg}\e[0m"
 	fi
 }
 
@@ -124,7 +140,7 @@ function warn {
 	>&2 print "\e[35m$1\e[0m"
 }
 
-function fin() {
+function fin {
 	local input_file=$1
 	local output_file=$2
 
@@ -325,12 +341,12 @@ function call_ffmpeg {
 	local source_file=$2
 	local output_file=$3
 
-	if [[ $QUIET -eq 0 ]]; then
-		local ffquiet=''
-		local time='time'
-	else
-		local ffquiet='-hide_banner -loglevel quiet -stats'
+	if [[ $VERBOSE -eq 0 ]]; then
+		local ffquiet='-hide_banner -loglevel quiet'
 		local time=''
+	elif [[ $VERBOSE -gt 1 ]]; then
+		local ffquiet='-stats'
+		local time='time'
 	fi
 	debug "CMD: ffmpeg $ffmpeg_params '$output_file'"
 
@@ -370,7 +386,7 @@ VCMD='-c:v copy'
 ACMD='-c:a copy'
 
 # Query video stream zero for codec, resolution & bitrate of source file
-vstream_probe=$( ffprobe -v error -select_streams v -show_entries stream=codec_name,width,height,bit_rate:format_tags=encodedby -of csv=p=0 "$INPUT_FILE" | head -2 | paste -s -d, - )
+vstream_probe=$( ffprobe -v error -select_streams v -show_entries stream=codec_name,width,height,bit_rate:format_tags=encodedby -of csv=p=0 $INPUT_FILE | head -2 | paste -s -d, - )
 debug "VSTREAM_PROBE: $vstream_probe"
 
 # Split into component vars
@@ -404,11 +420,10 @@ ACODEC=$astream_meta[1]
 TARGET_BITRATE=$(get_target_bitrate $WIDTH $HEIGHT $SOURCE_BITRATE $QCOEFF)
 debug "TARGET_BITRATE: ${TARGET_BITRATE} q=${QCOEFF}"
 
-# Always print the encode oneliner, even in quiet mode
-t=$QUIET
-QUIET=0
-info "${INPUT_FILE:t} ${VCODEC} ${WIDTH}x${HEIGHT} ${SOURCE_BITRATE} ${ACODEC}"
-QUIET=$t
+# Print the encode oneliner when verbosity is greater than zero
+if [[ $VERBOSE -gt 0 ]]; then
+	info "${INPUT_FILE:t} ${VCODEC} ${WIDTH}x${HEIGHT} ${SOURCE_BITRATE} ${ACODEC}" 1
+fi
 
 # Init filter array including baseline deinterlace filter
 VFILTER=('yadif')
