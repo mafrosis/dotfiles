@@ -1,6 +1,6 @@
 #! /bin/zsh
 
-USAGE='Usage: fix-exif [OPTS] PATH
+USAGE='Usage: photo-archive [OPTS] PATH
   -x	update the EXIF from the filename (normal behaviour is the reverse)
   -o	set the output archive directory (default: "_")
   -n	dry run; no files will be modified
@@ -127,12 +127,11 @@ function process {
 			info "Transcoded ${new_filename:t}"
 			filepath=${new_filename%.*}.mp4
 
-		elif [[ $RET -ne 3 ]]; then
+		elif [[ $RET -eq 3 ]]; then
 			error 'File already encoded via ffconv, aborting'
 			print 'T'
-			return
 
-		elif [[ $RET -ne 2 ]]; then
+		elif [[ $RET -eq 2 ]]; then
 			error "Failed transcode of ${filename}"
 			print 'F'
 			return
