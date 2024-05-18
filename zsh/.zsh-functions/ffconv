@@ -201,7 +201,7 @@ function read_exif_date {
 		dt=$(exiftool -m -s2 -d "%Y%m%d %H:%M:%S" -CreateDate $filepath | cut -d' ' -f2,3)
 
 		# Convert from UTC to AEST
-		dt2=$(date --date='TZ="Australia/Melbourne" '$dt' Z' +%Y%m%d_%H%M%S)
+		dt2=$(TZ='Australia/Melbourne' date --date="$dt Z" +%Y%m%d_%H%M%S)
 
 		# Log
 		warn "Converted ${filepath:t} into AEST. '$dt' -> '$dt2'. Please validate."
