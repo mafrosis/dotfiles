@@ -151,10 +151,8 @@ function process {
 	if [[ $ext == 'jpeg' ]]; then
 		ext='jpg'
 	fi
-    new_filename="MAD_$exif_date.$ext"
 
-	# Rename and archive
-	print $(archive_file $filepath $new_filename)
+	print $(archive_file $filepath $exif_date)
 }
 
 function prompt_no {
@@ -171,7 +169,8 @@ function prompt_no {
 
 function archive_file {
 	local input_file=$1
-	local archive_filename=$2
+	local exif_date=$2
+	local archive_filename="MAD_$exif_date.$ext"
 
 	if [[ -f $OUTPUT_PATH/$archive_filename ]]; then
 		error "EXISTS: target $OUTPUT_PATH/$archive_filename already exists for $input_file"
@@ -189,6 +188,9 @@ function archive_file {
 		# Rename and chmod
 		cp $input_file $OUTPUT_PATH/$archive_filename
 		chmod 644 $OUTPUT_PATH/$archive_filename
+
+		# Set EXIF and file modification times
+		write_exif_date $OUTPUT_PATH/$archive_filename $exif_date
 
 		info "Copied $input_file to $archive_filename in $OUTPUT_PATH"
 		print '.'
