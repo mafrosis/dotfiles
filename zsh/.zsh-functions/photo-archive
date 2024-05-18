@@ -119,17 +119,24 @@ function process {
 
 	# Transcode movies before rename
 	if [[ $REENCODE -eq 1 && $ext == mp4 ]]; then
-		new_filename=$(ffconv -fqTN $filepath)
+		new_filepath=$(ffconv -fqTN $filepath)
 		RET=$?
 
 		if [[ $RET -eq 0 ]]; then
-			# Update the filepath with the transcoded filename
-			info "Transcoded ${new_filename:t}"
-			filepath=${new_filename%.*}.mp4
-
-		elif [[ $RET -eq 3 ]]; then
-			error 'File already encoded via ffconv, aborting'
 			print 'T'
+
+			original_size=$(stat $filepath | cut -d' ' -f 8)
+			reencode_size=$(stat $new_filepath | cut -d' ' -f 8)
+
+			# Verify the re-encoded file size is smaller
+			if [[ $original_size -lt $reencode_size ]]; then
+				info 'Abandoned reencode as bigger than original'
+				rm -f $new_filepath
+			else
+				# Update the filepath with the transcoded filename
+				info "Transcoded ${new_filepath:t}"
+				filepath=${new_filepath%.*}.mp4
+			fi
 
 		elif [[ $RET -eq 2 ]]; then
 			error "Failed transcode of ${filename}"
