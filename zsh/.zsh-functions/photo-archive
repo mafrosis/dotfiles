@@ -97,18 +97,22 @@ function process {
 	local fn=${filename:t:r}
 	local exif_date=
 
-	if [[ $MODE -eq $MODE_RENAME && $fn =~ ^MAD_(.*) ]]; then
-		# Extract EXIF from the input file
-		exif_date=$(read_exif_date $filepath)
+	if [[ $MODE -eq $MODE_RENAME ]]; then
+		if [[ $fn =~ ^MAD_(.*) ]]; then
+			# Extract EXIF from the input file
+			exif_date=$(read_exif_date $filepath)
 
-		# Check EXIF matches filename
-		if [[ $fn != "MAD_$exif_date" ]]; then
-			if [[ $FULLAUTO -eq 1 ]] || prompt_no "Update EXIF in $filepath from $exif_date to ${fn[5,-1]}?"; then
-				write_exif_date $filepath ${fn[5,-1]}
+			# Check EXIF matches filename
+			if [[ $fn != "MAD_$exif_date" ]]; then
+				if [[ $DRYRUN -eq 0 ]] || prompt_no "Update EXIF in $filepath from $exif_date to ${fn[5,-1]}?"; then
+					write_exif_date $filepath ${fn[5,-1]}
+				fi
+				print 'R'
+			else
+				print '.'
 			fi
-			print 'R'
-			return
 		fi
+		return
 	fi
 
 	# Skip files which are prefixed appropriately
@@ -234,11 +238,14 @@ function main {
 	done
 
 	print "Processing ${#files} files in $INPUT_DIR"
-	print "Output directory is $OUTPUT_PATH"
-	if [[ ! -d $OUTPUT_PATH ]]; then
-		mkdir -p $OUTPUT_PATH
-	elif [[ $OUTPUT_PATH == '_' ]]; then
-		warn 'Default output dir "_" already exists!'
+
+	if [[ $MODE -eq $MODE_NORMAL ]]; then
+		print "Output directory is $OUTPUT_PATH"
+		if [[ ! -d $OUTPUT_PATH ]]; then
+			mkdir -p $OUTPUT_PATH
+		elif [[ $OUTPUT_PATH == '_' ]]; then
+			warn 'Default output dir "_" already exists!'
+		fi
 	fi
 
 	for F in $files; do
