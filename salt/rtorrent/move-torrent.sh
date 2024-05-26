@@ -41,12 +41,12 @@ if [[ $LABEL == 'movie' ]]; then
 	rsync -avhP "$SOURCE_PATH" "$DEST"
 
 elif [[ $LABEL == 'music' ]]; then
-	DEST='/media/pools/music/mp3/DJ'
+	DEST='/media/zpool/music/mp3/DJ'
 	rsync -avhP "$SOURCE_PATH" "$DEST"
 
 elif [[ $LABEL == 'F1' ]]; then
-	DEST='/media/pools/video/F1'
-	rsync -avhP "$SOURCE_PATH" "$DEST"
+	DEST='/media/zpool/tv/video/F1'
+	rsync -avhP --exclude "03.Post*mp4" --exclude "01.Pre*mp4" "$SOURCE_PATH" "$DEST"
 
 	sleep 2
 
@@ -54,7 +54,7 @@ elif [[ $LABEL == 'F1' ]]; then
 	docker kill --signal=SIGHUP "$(docker ps | grep recentf1 | cut -d\  -f 1)"
 
 	# Clean up irrelevant files
-	find /media/pools/video/F1 \( -name "03.*mp4" -or -name "01.*mp4" \) -delete
+	find /media/zpool/tv/video/F1 \( -name "03.Post*mp4" -or -name "01.Pre*mp4" \) -delete
 else
 	exit 44
 fi
