@@ -10,4 +10,4 @@ services:
       - DEBUG
     volumes:
       - ./listf1.py:/srv/app/listf1.py:ro
-      - /media/pools/video/F1:/media:ro
+      - /media/zpool/tv/video/F1:/media:ro
