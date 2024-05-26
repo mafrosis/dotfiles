@@ -15,7 +15,7 @@ services:
     build:
       context: .
     volumes:
-      - /media/pools/music:/watch
+      - /media/zpool/music:/watch
 
   watch-video:
     image: mafrosis/watchdog
@@ -24,6 +24,5 @@ services:
     build:
       context: .
     volumes:
-      - /media/pools/tv:/watch/tv
-      - /media/pools/video:/watch/video
-      - /media/pools/movies:/watch/movies
+      - /media/zpool/tv:/watch/tv
+      - /media/zpool/movies:/watch/movies
