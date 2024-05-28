@@ -3,7 +3,7 @@ run_segment() {
 	if ! sudo -l -n | grep -q 'password is required'; then
 
 		# display zpool state
-		sudo zpool status | grep 'state:' | cut -d' ' -f 3
+		sudo zpool status firkin | grep 'state:' | cut -d' ' -f 3
 
 	fi
 	return 0
