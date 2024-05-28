@@ -24,8 +24,6 @@ if [[ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]]; then
 		"nordon 028 255" \
 		"nordoff 124 255" \
 		"zfs 101 255" \
-		"enc 36 255" \
-		"backup 166 255" \
 
 		"load 237 167" \
 		"time 235 136 ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
