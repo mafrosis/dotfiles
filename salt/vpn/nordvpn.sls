@@ -19,22 +19,56 @@ nordvpn-install:
     - require:
       - pkg: nordvpn-apt-deps
 
-nordvpn-configure:
+nordvpn-config-tech:
+  cmd.run:
+    - name: nordvpn set technology NordLynx
+    - unless: nordvpn settings | grep NORDLYNX
+    - runas: mafro
+
+nordvpn-config-dns:
+  cmd.run:
+    - name: nordvpn set dns 192.168.1.198
+    - unless: "nordvpn settings | grep 'DNS: 192.168.1.198'"
+    - runas: mafro
+
+nordvpn-config-lan-discovery:
+  cmd.run:
+    - name: nordvpn set lan-discovery on
+    - unless: "nordvpn settings | grep 'LAN Discovery: enabled'"
+    - runas: mafro
+
+nordvpn-config-allow-ssh:
+  cmd.run:
+    - name: nordvpn whitelist add port 22 protocol TCP
+    - unless: nordvpn settings | grep '22 (TCP)'
+    - runas: mafro
+
+nordvpn-config-allow-dns:
+  cmd.run:
+    - name: nordvpn whitelist add port 53
+    - unless: nordvpn settings | grep '53 (UDP|TCP)'
+    - runas: mafro
+
+nordvpn-config-allow-salt:
+  cmd.run:
+    - name: nordvpn whitelist add ports 4505 4506 protocol TCP
+    - unless: nordvpn settings | grep '4505 - 4506 (TCP)'
+    - runas: mafro
+
+nordvpn-config-allow-mqtt:
+  cmd.run:
+    - name: nordvpn whitelist add port 1883 protocol TCP
+    - unless: nordvpn settings | grep '1883 (TCP)'
+    - runas: mafro
+
+nordvpn-config-allow-samba:
   cmd.run:
     - name: |
-        nordvpn set technology NordLynx
-        nordvpn set dns 192.168.1.198
-
-        # whitelisting
-        nordvpn whitelist add port 22 protocol TCP
-        nordvpn whitelist add port 53
         nordvpn whitelist add ports 137 138 protocol UDP
         nordvpn whitelist add port 139 protocol TCP
         nordvpn whitelist add port 445 protocol TCP
-        nordvpn whitelist add subnet 192.168.1.1/24
+    - unless: nordvpn settings | grep '445 (TCP)'
     - runas: mafro
-    - require:
-      - pkg: nordvpn-install
 
 /etc/systemd/system/nordvpn-connect.service:
   file.managed:
