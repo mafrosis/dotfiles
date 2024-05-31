@@ -2,8 +2,6 @@ include:
   - zfs-on-linux.auto-snapshot
 
 
-{% if grains['os'] == 'Debian' %}
-
 zfs-kernel-headers:
   pkg.installed:
     - name: linux-headers-{{ grains['kernelrelease'] }}
@@ -16,29 +14,18 @@ zol-install:
     - require:
       - pkg: zfs-kernel-headers
 
-{% elif grains['oscodename'] == 'xenial' %}
+zfs.target:
+  service.enabled
 
-zol-install:
-  pkg.installed:
-    - name: zfsutils-linux
+zfs-import.target:
+  service.enabled
 
-{% endif %}
+zfs-import-cache.service:
+  service.enabled
 
+zfs-mount.service:
+  service.enabled
 
-{% if pillar.get('zpool_import', false) %}
-
-zpool-import-all:
-  cmd.run:
-    - name: zpool import -a -N
-    - onlyif: zfs list 2>&1 | grep 'no datasets available'
-    - require:
-      - pkg: zol-install
-
-zpool-mount-all:
-  cmd.run:
-    - name: zfs mount -a
-    - require:
-      - cmd: zpool-import-all
-    - order: 1
-
-{% endif %}
+# Samba/NFS not handled by ZFS
+zfs-share.service:
+  service.disabled
