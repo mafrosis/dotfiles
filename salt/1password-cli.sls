@@ -24,7 +24,7 @@
   pkgrepo.managed:
     - humanname: 1pass
     - name: deb [arch={{ grains['osarch'] }} signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/{{ grains['osarch'] }} stable main
-    - file: /etc/apt/sources.list.d/1pass.list
+    - file: /etc/apt/sources.list.d/1password.list
     - require_in:
       - pkg: 1password-cli
 
