@@ -5,7 +5,7 @@ if [[ -n $DEBUG ]]; then set -x; fi
 
 echo 'Installing bat..'
 
-BAT_VERSION=${BAT_VERSION:-0.22.1}
+BAT_VERSION=${BAT_VERSION:-0.24.0}
 
 # passed from /dotfiles/install.sh
 FORCE=${1:-0}
