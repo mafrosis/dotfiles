@@ -1,8 +1,10 @@
 sudo:
   pkg.installed
 
+
 {% if pillar.get('login_user', false) %}
 
+# Grant no password sudo for Pillar "login_user"
 /etc/sudoers.d/{{ pillar['login_user'] }}:
   file.managed:
     - contents: |
