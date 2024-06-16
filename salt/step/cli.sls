@@ -1,3 +1,6 @@
+include:
+  - step.root-ca-cert
+
 {% set smallstep_version = '0.23.0' %}
 
 install-step-cli:
@@ -20,6 +23,14 @@ install-step-cli:
     - watch:
       - archive: install-step-cli
 
+step-ca-group:
+  user.present:
+    - name: {{ pillar['login_user'] }}
+    - optional_groups:
+      - step-ca
+    - require:
+      - group: step-ca
+
 {% for user in ['root', pillar['login_user']]: %}
 
 {% if user == 'root': %}
@@ -27,15 +38,6 @@ install-step-cli:
 {% else %}
 {% set home_path = '/home/'+pillar['login_user'] %}
 {% endif %}
-
-step-cli-root-cert-{{ user }}:
-  file.managed:
-    - name: {{ home_path }}/.step/certs/root_ca.crt
-    - contents_pillar: smallstep_root_ca_cert
-    - mode: 600
-    - user: {{ user }}
-    - group: {{ user }}
-    - makedirs: true
 
 step-cli-defaults-{{ user }}:
   file.serialize:
@@ -49,7 +51,7 @@ step-cli-defaults-{{ user }}:
     - dataset:
         ca-url: '{{ pillar.get('smallstep_ca_host', 'https://ca.mafro.net:4433') }}'
         fingerprint: '{{ pillar['smallstep_ca_root_fingerprint'] }}'
-        root: '{{ home_path }}/.step/certs/root_ca.crt'
+        root: '/etc/step_root_ca.crt'
         redirect-url: ''
     - serializer: json
 

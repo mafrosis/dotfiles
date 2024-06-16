@@ -1,5 +1,5 @@
 include:
-  - step-cli
+  - step.cli
 
 # Add CA public cert to sshd
 /etc/ssh/mafro-ca.pub:
@@ -14,7 +14,7 @@ include:
     - env:
       - SMALLSTEP_CA_PASSWORD: "{{ pillar['smallstep_ca'] }}"
     - require:
-      - file: step-cli-root-cert-root
+      - file: /etc/step_root_ca.crt
       - file: step-cli-defaults-root
 
 # Configure sshd to trust Step CA, and to use the SSH host cert

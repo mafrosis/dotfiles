@@ -4,7 +4,7 @@ base:
     - docker
     - linux-util
     - sshd
-    - step-cli
+    - step.cli
 
   'G@os:Debian':
     - common.debian
