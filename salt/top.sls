@@ -16,6 +16,7 @@ base:
     - match: compound
     - grub-timeout-0
     - jorg
+    - jorg.caddy
     - jorg.monitoring
     - linux-util.disk-tools
     - mp3
