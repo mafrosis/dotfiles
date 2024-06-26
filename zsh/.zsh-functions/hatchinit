@@ -1,0 +1,5 @@
+curl -LO https://raw.githubusercontent.com/mafrosis/pytemplate/main/%7B%7Bcookiecutter.project_name%7D%7D/pyproject.toml
+sed -i "s/{{cookiecutter.project_name}}/${$(pwd):t}/g" pyproject.toml
+sed -i 's/dynamic = \["version"\]/version = "0.0.1"/' pyproject.toml
+sed -i '/\[tool.hatch.version\]/d' pyproject.toml
+sed -i '/path = "homeassistant-config\/__init__.py"/d' pyproject.toml
