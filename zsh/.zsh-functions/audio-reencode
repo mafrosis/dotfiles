@@ -1,0 +1,153 @@
+#! /bin/zsh
+
+USAGE='Usage: audio-reencode [OPTS] FROM_FMT TO_FMT PATH
+  -h	display this message
+
+  Re-encode from FROM_FMT to TO_FMT in PATH'
+
+while getopts 'h' params
+do
+	case $params in
+		h ) echo "$USAGE" && return 1;;
+		* ) echo "$USAGE" && return 1;;
+	esac
+done
+shift $((OPTIND-1))
+
+##################################################
+
+if [[ $# -eq 0 ]]; then
+	echo $USAGE
+	return 1
+fi
+
+function error {
+	>&2 echo -e "\e[31m$1\e[0m"
+}
+
+function debug {
+	# DEBUG logging controlled by env var
+	if [[ -n $DEBUG ]]; then
+		>&2 echo -e "\e[33m$1\e[0m"
+	fi
+}
+
+function prompt_no {
+	local message=$1
+
+	>&2 echo "\n$message [y/N]"
+	read -r y
+	if [[ $y == y ]]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
+function cleanup {
+	if [[ -d ${_TMPDIR} ]]; then
+		rm -rf ${_TMPDIR}
+	fi
+}
+trap cleanup EXIT
+
+##################################################
+
+function flac_to_mp3 {
+	local filename=${1:t:r}
+	debug "$0 '${filename}'"
+
+	# Decode flac
+	if ! flac -d --output-name ${_TMPDIR}/${filename}.wav ${filename}.flac; then
+		error "Failed FLAC decode on $filename"
+		return 2
+	fi
+
+	# Encode mp3
+	if ! lame -V0 ${_TMPDIR}/${filename}.wav ${filename}.mp3; then
+		error "Failed LAME encode on $filename"
+		return 3
+	fi
+}
+
+function mp3_to_opus {
+	local filename=${1:t:r}
+	local source_path=${1:h}
+
+	debug "$0 '${filename}'"
+
+	# Decode mp3
+	if ! lame --decode --out-dir $_TMPDIR ${source_path}/${filename}.mp3; then
+		error "Failed LAME decode on $filename"
+		return 2
+	fi
+
+	# Use eyeD3 to get tags
+	local tagout=$(eyeD3 $1)
+
+	# Create array of params
+	local tag_params=(--title="$(echo $tagout | grep title | cut -d' ' -f 2-)")
+	tag_params+=(--artist="$(echo $tagout | grep artist | cut -d' ' -f 2-)")
+	tag_params+=(--album="$(echo $tagout | grep album | cut -d' ' -f 2-)")
+	tag_params+=(--date=$(echo $tagout | grep 'recording date' | cut -d' ' -f 3-))
+	tag_params+=(--tracknumber=$(echo $tagout | awk '/track/ {print $2}'))
+
+	if [[ -f folder.jpg ]]; then
+		tag_params+=('--picture=|image/jpeg|||folder.jpg')
+	fi
+
+	# Encode opus
+	if ! opusenc ${tag_params} $_TMPDIR/${filename}.wav $_TMPDIR/${filename}.opus; then
+		error "Failed Opus encode on $filename"
+		return 3
+	fi
+
+	mv $_TMPDIR/${filename}.opus ${source_path}
+}
+
+##################################################
+
+function main {
+	local decode_from=$1
+	local encode_to=$2
+	local source_path=$3
+
+	debug "Convert $decode_from to $encode_to, in $source_path"
+
+	# Set source path to current directory if dot is passed
+	if [[ $source_path == '.' ]]; then
+		source_path=$(pwd)
+	fi
+
+	# Create temporary directory
+	_TMPDIR=$(mktemp -d)
+	debug "TMPDIR: $_TMPDIR"
+
+	# Verify files present in target directory
+	files=(*.${decode_from}(NY1))
+	if [[ ${#files} -eq 0 ]]; then
+		error "No files found in $source_path with extension .$decode_from"
+		return 4
+	fi
+
+	if [ -f ${source_path}/Folder.jpg ]; then
+		mv ${source_path}/Folder.jpg ${source_path}/folder.jpg
+	elif [ ! -f ${source_path}/folder.jpg ]; then
+		error 'Album art not found'
+	fi
+
+	for f in ${source_path}/*.${decode_from}; do
+		( ${decode_from}_to_${encode_to} ${f} )
+	done
+
+	# Remove source files?
+	if prompt_no "Do you want to delete the ${decode_from} files in ${source_path}?"; then
+		rm -f -- ${source_path}/*.${decode_from}(N)
+	fi
+
+	# Auto tag?
+	if [[ $encode_to == 'mp3' ]] && prompt_no 'Do you want run auto-tag now?'; then
+		eyeD3 --plugin autotag ${source_path}
+	fi
+}
+main $1 $2 $3; return $?
