@@ -12,7 +12,7 @@ if ! command -v python3 >/dev/null 2>&1; then
 	info '## Installing python3'
 
 	if [[ $(uname) == 'Darwin' ]]; then
-		brew install python3
+		brew install python3 pipx
 
 	elif [[ $(uname) == 'Linux' ]]; then
 		sudo apt-get install -y python3 python3-dev pipx
@@ -27,5 +27,8 @@ fi
 
 info '## Ensuring & upgrading pip'
 python -m ensurepip --upgrade
+
+info '## Install hatch'
+pipx install hatch
 
 info '## fin'
