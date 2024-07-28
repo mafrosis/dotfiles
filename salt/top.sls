@@ -19,7 +19,6 @@ base:
     - jorg.caddy
     - jorg.monitoring
     - linux-util.disk-tools
-    - mp3
     - networking.wired
     - rtorrent
     - rtorrent.move-torrent
@@ -36,7 +35,6 @@ base:
 
   'G@host:locke':
     - match: compound
-    - mp3
     - mpd
     - mpd.scribble
     - networking.wired
