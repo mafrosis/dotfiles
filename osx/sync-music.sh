@@ -1,1 +1,0 @@
-../salt/mp3/sync-music.sh
