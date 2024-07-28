@@ -21,3 +21,5 @@ osx/.osx-set-defaults-done
 
 git/.local/bin/flac-to-mp3.sh
 git/.local/bin/sync-music.sh
+
+*.pyc
