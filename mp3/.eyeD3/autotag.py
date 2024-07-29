@@ -115,7 +115,7 @@ class AutotagPlugin(LoaderPlugin):
                     artist = self.meta['artist']
                     title = parts[1]
 
-                if len(parts) == 3:
+                elif len(parts) == 3:
                     if parts[0] == self.meta['artist']:
                         # handle "Artist - TrackNum - Title"
                         track_num = parts[1]
@@ -126,6 +126,11 @@ class AutotagPlugin(LoaderPlugin):
                         track_num = parts[0]
                         artist = self.meta['artist']
                         title = ' - '.join(parts[1:])
+
+                else:
+                    track_num = parts[0]
+                    artist = self.meta['artist']
+                    title = ' - '.join(parts[1:])
 
             except ValueError as e:
                 print(f'Probably failed to parse TrackNum: {e}')
