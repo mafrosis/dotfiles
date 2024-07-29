@@ -70,6 +70,17 @@ function flac_to_mp3 {
 	fi
 }
 
+function wav_to_mp3 {
+	local filename=${1:t:r}
+	debug "$0 '${filename}'"
+
+	# Encode mp3
+	if ! lame -V0 ${filename}.wav ${filename}.mp3; then
+		error "Failed LAME encode on $filename"
+		return 3
+	fi
+}
+
 function mp3_to_opus {
 	local filename=${1:t:r}
 	local source_path=${1:h}
