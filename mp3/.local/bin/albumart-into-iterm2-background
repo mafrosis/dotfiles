@@ -1,0 +1,16 @@
+#! /bin/zsh
+
+# Fetch album art for current track
+if curl -o /tmp/ncmpcpp.jpg "https://informa.mafro.net/mp3/art/$(mpc -h locke --format %file% current | base64)" &>/dev/null; then
+	# On success, clear the current iterm2 window background
+	printf '\e]1337;SetBackgroundImageFile=\007'
+fi
+
+if [[ ! -f /tmp/ncmpcpp.jpg ]] || [[ $(wc -c /tmp/ncmpcpp.jpg | awk '{print $1}') -eq 0 ]]; then
+	# Clear the current iterm2 window background
+	printf '\e]1337;SetBackgroundImageFile=\007'
+	return
+fi
+
+# Set /tmp/ncmpcpp.jpg into the current iterm2 window background
+printf '\e]1337;SetBackgroundImageFile=L3RtcC9uY21wY3BwLmpwZwo=\007'
