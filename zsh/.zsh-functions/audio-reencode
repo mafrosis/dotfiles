@@ -25,6 +25,10 @@ function error {
 	>&2 echo -e "\e[31m$1\e[0m"
 }
 
+function info {
+	>&2 echo -e "\e[32m$1\e[0m"
+}
+
 function debug {
 	# DEBUG logging controlled by env var
 	if [[ -n $DEBUG ]]; then
@@ -70,6 +74,17 @@ function flac_to_mp3 {
 	fi
 }
 
+function wav_to_mp3 {
+	local filename=${1:t:r}
+	debug "$0 '${filename}'"
+
+	# Encode mp3
+	if ! lame -V0 ${filename}.wav ${filename}.mp3; then
+		error "Failed LAME encode on $filename"
+		return 3
+	fi
+}
+
 function mp3_to_opus {
 	local filename=${1:t:r}
 	local source_path=${1:h}
@@ -90,7 +105,7 @@ function mp3_to_opus {
 	tag_params+=(--artist="$(echo $tagout | grep artist | cut -d' ' -f 2-)")
 	tag_params+=(--album="$(echo $tagout | grep album | cut -d' ' -f 2-)")
 	tag_params+=(--date=$(echo $tagout | grep 'recording date' | cut -d' ' -f 3-))
-	tag_params+=(--tracknumber=$(echo $tagout | awk '/track/ {print $2}'))
+	tag_params+=(--tracknumber=$(echo $tagout | awk '/^track: / {print $2}'))
 
 	if [[ -f folder.jpg ]]; then
 		tag_params+=('--picture=|image/jpeg|||folder.jpg')
@@ -138,6 +153,7 @@ function main {
 
 	for f in ${source_path}/*.${decode_from}; do
 		( ${decode_from}_to_${encode_to} ${f} )
+		info "Converted ${f}"
 	done
 
 	# Remove source files?
