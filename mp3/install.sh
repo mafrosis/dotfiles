@@ -7,7 +7,14 @@ function info {
 	>&2 print "\e[32m$1\e[0m"
 }
 
-requires=(lame flac opus-tools)
+if [[ $(uname) == 'Darwin' ]]; then
+	if ! command -v brew >/dev/null 2>&1; then
+		echo 'Run ./install.sh osx first to bootstrap OSX with Homebrew'
+		exit 3
+	fi
+fi
+
+requires=(lame flac opus-tools ncmpcpp)
 
 for app in $requires; do
 	if ! command -v lame >/dev/null 2>&1; then
