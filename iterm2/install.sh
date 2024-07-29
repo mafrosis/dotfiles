@@ -1,4 +1,4 @@
-#! /bin/bash -e
+#! /bin/zsh -e
 
 # DEBUG mode controlled by env var
 if [[ -n $DEBUG ]]; then set -x; fi

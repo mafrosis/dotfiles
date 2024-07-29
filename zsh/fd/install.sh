@@ -1,4 +1,4 @@
-#! /bin/bash -e
+#! /bin/zsh -e
 
 echo 'Installing fd..'
 
