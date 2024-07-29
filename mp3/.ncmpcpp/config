@@ -11,3 +11,5 @@ search_engine_display_mode = columns
 user_interface = alternative
 header_visibility = no
 ignore_leading_the = yes
+
+execute_on_song_change = albumart-into-iterm2-background
