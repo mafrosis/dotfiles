@@ -35,6 +35,7 @@ base:
 
   'G@host:locke':
     - match: compound
+    - autofs
     - mpd
     - mpd.scribble
     - networking.wired
