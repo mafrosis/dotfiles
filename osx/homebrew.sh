@@ -49,7 +49,7 @@ brew install \
 	shellcheck \
 	inetutils \
 	terminal-notifier \
-	youtube-dl
+	yt-dlp
 
 # install cask for Chrome, if not already installed
 if [[ ! -d /Applications/Google\ Chrome.app ]]; then
@@ -63,15 +63,21 @@ fi
 
 # install baseline apps via Cask
 brew install \
+	1password \
 	1password-cli \
 	android-file-transfer \
+	bartender \
+	daisydisk \
+	drawio \
 	firefox \
 	google-drive \
 	keepassx \
+	nordvpn \
 	qlstephen \
 	qlcolorcode \
 	qlvideo \
-	skype \
+	raycast \
+	syncthing \
 	textmate \
 	vlc
 
