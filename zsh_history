@@ -1,0 +1,35 @@
+: 1726949620:0;git submodules update --init
+: 1726949628:1;git submodule update --init
+: 1726949638:0;ls prezto/
+: 1726950148:0;ssh
+: 1726950168:0;cd prezto
+: 1726950175:0;cd modules
+: 1726950385:0;cat .zshrc
+: 1726950416:0;ls -l
+: 1726950428:0;cd
+: 1726950433:0;ls -la
+: 1726950597:0;cat .zlogin
+: 1726950605:0;ll
+: 1726950643:0;ls
+: 1726950657:1;f . "no such module"
+: 1726950672:28;vim prezto/init.zsh
+: 1726996898:0;zmv
+: 1726997107:0;ls dotfiles/prezto/modules/ssh
+: 1726997173:0;git sui
+: 1726997179:0;cd dotfiles
+: 1726997186:661;bash
+: 1726997894:0;ls dotfiles/prezto
+: 1726997900:0;ls dotfiles/prezto/modules
+: 1726997916:0;ls dotfiles/prezto/modules/prompt
+: 1727001060:0;la
+: 1727001221:0;ssh-agent
+: 1727001225:33;vim dotfiles/prezto/modules/ssh/init.zsh
+: 1727001268:5;vim .zlogin
+: 1727001483:0;set -x
+: 1727001532:0;source dotfiles/prezto/modules/prompt/init.zsh
+: 1727001695:310;vim dotfiles/prezto/init.zsh
+: 1727002013:14;vim .zshrc
+: 1727002531:0;ls /data/data/com.termux/files/home/.zprezto/modules
+: 1727002547:0;ls /data/data/com.termux/files/home/.zprezto/modules/prompt
+: 1727002827:32;vim .zpreztorc
+: 1727002862:0;exit
