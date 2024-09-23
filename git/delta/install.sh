@@ -12,7 +12,10 @@ FORCE=${1:-0}
 if [[ $FORCE -eq 0 ]] && command -v delta >/dev/null 2>&1; then
 	echo 'git-delta already installed!'
 else
-	if [[ $(uname) == 'Linux' ]]; then
+	if [[ -n TERMUX_VERSION ]]; then
+		pkg install -y git-delta
+
+	elif [[ $(uname) == 'Linux' ]]; then
 		if [[ $(uname -m) = x86_64 ]]; then
 			# Special case for Linux on x86
 			# https://github.com/dandavison/delta/issues/504#issuecomment-805392519

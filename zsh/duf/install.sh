@@ -14,7 +14,10 @@ FORCE=${1:-0}
 if [[ $FORCE -eq 0 ]] && command -v duf >/dev/null 2>&1; then
 	echo 'duf already installed!'
 else
-	if [[ $(uname) == 'Linux' ]]; then
+	if [[ -n $TERMUX_VERSION ]]; then
+		pkg install duf
+
+	elif [[ $(uname) == 'Linux' ]]; then
 		if [[ $(uname -m) =~ arm(.*) ]]; then
 			ARCH=armv7
 		elif [[ $(uname -m) = aarch64 ]]; then
