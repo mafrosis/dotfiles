@@ -14,19 +14,23 @@ FORCE=${1:-0}
 if [[ $FORCE -eq 0 ]] && command -v bat >/dev/null 2>&1; then
 	echo 'bat already installed!'
 else
-	if [[ $(uname) == 'Linux' ]]; then
-		if [[ $(uname -m) =~ arm(.*) ]]; then
-			ARCH=armhf
-		elif [[ $(uname -m) = aarch64 ]]; then
-			ARCH=arm64
-		else
-			ARCH=amd64
-		fi
-		curl -o /tmp/bat.deb -L "https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat_${BAT_VERSION}_${ARCH}.deb"
-		sudo dpkg -i /tmp/bat.deb
+	if [[ -n $TERMUX_VERSION ]]; then
+		pkg install bat
 
 	elif [[ $(uname) == 'Darwin' ]]; then
 		brew install bat
+
+	elif [[ $(uname) == 'Linux' ]]; then
+		if [[ $(uname -m) =~ arm(.*) ]]; then
+			ARCH=armhf
+		elif [[ $(uname -m) = aarch64 ]]; then
+			ARCH=aarch64
+		else
+			ARCH=amd64
+		fi
+		curl -o ${TMPDIR}/bat.deb -L "https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat_${BAT_VERSION}_${ARCH}.deb"
+		sudo dpkg -i ${TMPDIR}/bat.deb
+
 	fi
 fi
 

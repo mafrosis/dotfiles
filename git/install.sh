@@ -11,6 +11,9 @@ if ! command -v git >/dev/null 2>&1; then
 		fi
 		brew install git
 
+	elif [[ -n TERMUX_VERSION ]]; then
+		pkg install -y git
+
 	elif [[ $(uname) == 'Linux' ]]; then
 		sudo apt-get install -y git
 	fi

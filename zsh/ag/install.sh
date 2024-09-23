@@ -6,7 +6,10 @@ echo 'Installing ag..'
 if command -v ag >/dev/null 2>&1; then
 	echo 'ag already installed!'
 else
-	if [[ $(uname) == 'Linux' ]]; then
+	if [[ -n $TERMUX_VERSION ]]; then
+		pkg install silversearcher-ag
+
+	elif [[ $(uname) == 'Linux' ]]; then
 		sudo apt-get install -y silversearcher-ag
 
 	elif [[ $(uname) == 'Darwin' ]]; then

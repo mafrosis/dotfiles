@@ -23,7 +23,7 @@ done
 shift $((OPTIND-1))
 
 
-if [[ $(id -u) -gt 0 ]] && ! command -v sudo >/dev/null 2>&1; then
+if [[ -z TERMUX_VERSION ]] && [[ $(id -u) -gt 0 ]] && ! command -v sudo >/dev/null 2>&1; then
 	echo 'Please install sudo and try again'
 	exit 44
 fi
@@ -42,6 +42,8 @@ fi
 if ! command -v curl >/dev/null 2>&1; then
 	if [[ $(uname) == 'Darwin' ]]; then
 		brew install curl
+	elif [[ -n TERMUX_VERSION ]]; then
+		pkg install curl
 	else
 		sudo apt-get install curl
 	fi
@@ -51,6 +53,8 @@ fi
 if ! command -v stow >/dev/null 2>&1; then
 	if [[ $(uname) == 'Darwin' ]]; then
 		brew install stow
+	elif [[ -n TERMUX_VERSION ]]; then
+		pkg install stow
 	else
 		sudo apt-get install stow
 	fi

@@ -6,7 +6,10 @@ echo 'Installing fd..'
 if command -v fd >/dev/null 2>&1; then
 	echo 'fd already installed!'
 else
-	if [[ $(uname -a) =~ (.*)(Ubuntu|Debian)(.*) ]]; then
+	if [[ -n $TERMUX_VERSION ]]; then
+		pkg install fd
+
+	elif [[ $(uname -a) =~ (.*)(Ubuntu|Debian)(.*) ]]; then
 		sudo apt install fd-find
 
 		# symlink to "fd"
