@@ -7,7 +7,11 @@ function info {
 	>&2 print "\e[32m$1\e[0m"
 }
 
-if [[ $(uname) == 'Darwin' ]]; then
+if [[ -n TERMUX_VERSION ]]; then
+	pkg install -y python3
+	pip install pipx
+
+elif [[ $(uname) == 'Darwin' ]]; then
 	# On macos, need to replace system python with Homebrew
 	if python3 --help | grep /Library/Developer/CommandLineTools; then
 		info '## Installing python3 & pipx'

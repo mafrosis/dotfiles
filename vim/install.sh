@@ -3,13 +3,15 @@
 # DEBUG mode controlled by env var
 if [[ -n $DEBUG ]]; then set -x; fi
 
-if [[ $(uname) == Linux ]]; then
+if [[ -n TERMUX_VERSION ]]; then
+	pkg install -y vim
+
+elif [[ $(uname) == Linux ]]; then
 	if ! command -v vim >/dev/null 2>&1; then
 		sudo apt-get install -y vim-nox
 	fi
-fi
 
-if [[ $(uname) == 'Darwin' ]]; then
+elif [[ $(uname) == 'Darwin' ]]; then
 	# Use Homebrew vim over Apple vim (for +termguicolors)
 	if vim --version | grep -q 'macOS version'; then
 		brew install vim

@@ -8,6 +8,9 @@ if ! command -v tmux >/dev/null 2>&1; then
 	if [[ $(uname) == 'Darwin' ]]; then
 		brew install tmux
 
+	elif [[ -n TERMUX_VERSION ]]; then
+		pkg install -y tmux
+
 	elif [[ $(uname) == 'Linux' ]]; then
 		if [[ $(id -u) -gt 0 ]]; then
 			sudo apt-get install -y tmux
