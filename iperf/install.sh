@@ -11,7 +11,7 @@ if ! command -v iperf3 >/dev/null 2>&1; then
 		fi
 		brew install iperf3
 
-	elif [[ -n TERMUX_VERSION ]]; then
+	elif [[ -n $TERMUX_VERSION ]]; then
 		pkg install -y iperf3
 
 	elif [[ $(uname) == 'Linux' ]]; then

@@ -11,7 +11,10 @@ FORCE=${1:-0}
 if [[ $FORCE -eq 0 ]] && command -v vivid >/dev/null 2>&1; then
 	echo 'vivid already installed!'
 else
-	if [[ $(uname) == 'Linux' ]]; then
+	if [[ -n $TERMUX_VERSION ]]; then
+		pkg install vivid
+	
+	elif [[ $(uname) == 'Linux' ]]; then
 		if [[ $(uname -m) =~ arm(.*) ]]; then
 			curl -o /tmp/vivid.tgz -L https://github.com/sharkdp/vivid/releases/download/v${VIVID_VERSION}/vivid-v${VIVID_VERSION}-arm-unknown-linux-musleabihf.tar.gz
 			tar xzf /tmp/vivid.tgz -C /tmp --strip-components=1

@@ -18,6 +18,10 @@ if ! command -v zsh >/dev/null 2>&1; then
 			sudo mkdir /usr/local/bin
 		fi
 
+	elif [[ -n $TERMUX_VERSION ]]; then
+		pkg install -y zsh
+		chsh -s /bin/zsh
+
 	elif [[ $(uname) == 'Linux' ]]; then
 		sudo apt-get install -y zsh
 		sudo usermod -s /bin/zsh "$(whoami)"
