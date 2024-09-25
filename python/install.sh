@@ -18,10 +18,7 @@ if ! command -v python3 >/dev/null 2>&1; then
 		fi
 
 	elif [[ $(uname) == 'Linux' ]]; then
-		if [[ $PYTHON3 -eq 0 ]]; then
-			sudo apt-get install -y python3 python3-dev pipx
-			PYTHON3=1
-		fi
+		sudo apt-get install -y python3 python3-dev pipx
 	fi
 fi
 
