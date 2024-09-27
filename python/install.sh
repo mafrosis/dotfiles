@@ -11,7 +11,11 @@ function info {
 if ! command -v python3 >/dev/null 2>&1; then
 	info '## Installing python3'
 
-	if [[ $(uname) == 'Darwin' ]]; then
+	if [[ -n TERMUX_VERSION ]]; then
+		pkg install -y python3
+		pip install pipx
+
+	elif [[ $(uname) == 'Darwin' ]]; then
 		brew install python3 pipx
 
 	elif [[ $(uname) == 'Linux' ]]; then
