@@ -1,2 +1,16 @@
 #! /bin/bash -e
+
+if ! command -v sudo >/dev/null 2>&1; then
+	# Will run only under Linux as macOS comes with sudo
+	su root
+	apt install -y sudo
+	/sbin/adduser mafro sudo
+fi
+
+if ! command -v git >/dev/null 2>&1; then
+	if ! apt-get install -y git; then
+		apt-get update && apt-get install -y git
+	fi
+fi
+
 ./install.sh zsh vim git python tmux inputrc
