@@ -1,11 +1,4 @@
 #! /bin/bash
-if ! command -v git >/dev/null 2>&1; then
-	apt-get install -y git
-	if [[ $? -gt 0 ]]; then
-		apt-get update
-		apt-get install -y git
-	fi
-fi
 git clone --recursive https://github.com/mafrosis/dotfiles.git "$HOME/dotfiles"
 cd "$HOME/dotfiles" || exit 2
 bash "$HOME/dotfiles/bootstrap"
