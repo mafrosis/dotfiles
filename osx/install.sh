@@ -32,16 +32,6 @@ stow -v bin "$RESTOW" --target="$HOME/bin" "$DRY_RUN"
 # install Homebrew and apps
 ./homebrew.sh
 
-# install Moom via mas
-if [[ ! -L $HOME/Library/Preferences/com.manytricks.Moom.plist ]]; then
-	if [[ -f $HOME/Library/Preferences/com.manytricks.Moom.plist ]]; then
-		rm -f "$HOME/Library/Preferences/com.manytricks.Moom.plist"
-	fi
-	mas install 419330170
-	ln -s "$HOME/dotfiles/osx/moom/com.manytricks.Moom.plist" "$HOME/Library/Preferences/com.manytricks.Moom.plist"
-	echo 'You will need to restart to load Moom prefs'
-fi
-
 
 if [[ ! -f $HOME/dotfiles/osx/.osx-set-defaults-done ]]; then
 	# setup OSX defaults; sudo is required
