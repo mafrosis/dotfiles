@@ -13,6 +13,11 @@ if ! command -v zsh >/dev/null 2>&1; then
 		brew install zsh
 		sudo chsh -s /bin/zsh
 
+		# Ensure /usr/local/bin, missing on new macOS
+		if [[ ! -d /usr/local/bin ]]; then
+			sudo mkdir /usr/local/bin
+		fi
+
 	elif [[ $(uname) == 'Linux' ]]; then
 		sudo apt-get install -y zsh
 		sudo usermod -s /bin/zsh "$(whoami)"
