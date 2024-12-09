@@ -1,6 +1,6 @@
 #! /bin/bash -e
 
-if ! command -v sudo >/dev/null 2>&1; then
+if [[ -z "$TERMUX_VERSION" ]] && ! command -v sudo >/dev/null 2>&1; then
 	# Will run only under Linux as macOS comes with sudo
 	su root
 	apt install -y sudo
