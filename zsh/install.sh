@@ -19,6 +19,11 @@ if ! command -v zsh >/dev/null 2>&1; then
 	fi
 fi
 
+# Ensure /usr/local/bin, missing on new macOS
+if [[ ! -d /usr/local/bin ]]; then
+	mkdir /usr/local/bin
+fi
+
 # install bat, vivid, ag, fd, duf, fzf everywhere
 source "$(dirname "$0")/bat/install.sh"
 source "$(dirname "$0")/vivid/install.sh"
