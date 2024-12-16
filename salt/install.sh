@@ -30,9 +30,9 @@ elif [[ $(uname) == 'Linux' ]]; then
 		source /etc/os-release
 
 		# install salt-minion via apt
-		sudo curl -fsSL -o /etc/apt/keyrings/salt-archive-keyring-2023.gpg \
-			https://repo.saltproject.io/salt/py3/debian/${VERSION_ID}/${ARCH}/SALT-PROJECT-GPG-PUBKEY-2023.gpg
-		echo "deb [signed-by=/etc/apt/keyrings/salt-archive-keyring-2023.gpg arch=${ARCH}] https://repo.saltproject.io/salt/py3/debian/${VERSION_ID}/${ARCH}/latest ${VERSION_CODENAME} main" | sudo tee /etc/apt/sources.list.d/salt.list
+		curl -fsSL https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public | sudo tee /etc/apt/keyrings/salt-archive-keyring.pgp
+		curl -fsSL https://github.com/saltstack/salt-install-guide/releases/latest/download/salt.sources | sudo tee /etc/apt/sources.list.d/salt.sources
+		rm -f /etc/apt/sources.list.d/salt.list
 		sudo apt update
 		sudo apt install salt-minion
 	fi
