@@ -13,10 +13,6 @@ ncmpcpp/.ncmpcpp/error.log
 ipython/.ipython/profile_default/history.sqlite
 ipython/.ipython/profile_default/startup/
 
-tools/*/.venv
-tools/*/.env
-tools/*/.out
-
 osx/.osx-set-defaults-done
 
 git/.local/bin/flac-to-mp3.sh

@@ -1,0 +1,19 @@
+---
+volumes:
+  sabnzbd-data: {}
+
+services:
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:${SABNZBD_VERSION}
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Melbourne
+    volumes:
+      - sabnzbd-data:/config
+      - ./sabnzbd.ini:/config/sabnzbd.ini:ro
+      - /media/download/usenet/complete:/complete
+      - /media/download/usenet/incomplete:/incomplete
+    ports:
+      - 8080:8080
