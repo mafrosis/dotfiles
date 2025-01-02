@@ -1,3 +1,4 @@
+---
 services:
   watch-torrent:
     image: mafrosis/watchdog
