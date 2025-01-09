@@ -81,5 +81,11 @@ brew install \
 	textmate \
 	vlc
 
+# install Mac App Store apps
+mas install 1470584107 # Dato
+mas install 920404675 # Monodraw
+mas install 562211012 # Yomu ebook reader
+mas install 1168254295 # AmorphousDiskMark
+
 # remove all the dirty temp files
 brew cleanup
