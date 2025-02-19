@@ -30,4 +30,8 @@ for app in $requires; do
 done
 
 info '## Installing eyeD3 globally'
-pipx install eyeD3
+if ! command -v pipx >/dev/null 2>&1; then
+	echo 'Missing pipx'
+else
+	pipx install eyeD3
+fi
