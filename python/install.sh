@@ -25,9 +25,6 @@ if ! command -v python >/dev/null 2>&1; then
 	sudo ln -sf $(which python3) /usr/local/bin/python
 fi
 
-info '## Ensuring & upgrading pip'
-python -m ensurepip --upgrade
-
 info '## Install hatch'
 pipx install hatch
 
