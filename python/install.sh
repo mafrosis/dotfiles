@@ -7,14 +7,17 @@ function info {
 	>&2 print "\e[32m$1\e[0m"
 }
 
-# Install python3 package if missing
-if ! command -v python3 >/dev/null 2>&1; then
-	info '## Installing python3'
-
-	if [[ $(uname) == 'Darwin' ]]; then
+if [[ $(uname) == 'Darwin' ]]; then
+	# On macos, need to replace system python with Homebrew
+	if python3 --help | grep /Library/Developer/CommandLineTools; then
+		info '## Installing python3 & pipx'
 		brew install python3 pipx
+	fi
 
-	elif [[ $(uname) == 'Linux' ]]; then
+elif [[ $(uname) == 'Linux' ]]; then
+	# Install python3 package if missing
+	if ! command -v python3 >/dev/null 2>&1; then
+		info '## Installing python3 & pipx'
 		sudo apt-get install -y python3 python3-dev pipx
 	fi
 fi
