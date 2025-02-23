@@ -1,0 +1,40 @@
+mode = "aware"
+project = ""
+shell = ""
+
+[dirs]
+project = []
+python = "isolated"
+data = "~/.config/hatch"
+cache = "~/.cache/hatch"
+
+[dirs.env]
+
+[projects]
+
+[publish.index]
+repo = "main"
+
+[template]
+name = "Matt Black"
+email = "github@mafro.net"
+
+[template.licenses]
+headers = true
+default = [
+    "MIT",
+]
+
+[template.plugins.default]
+tests = true
+ci = false
+src-layout = true
+
+[terminal.styles]
+info = "bold"
+success = "bold cyan"
+error = "bold red"
+warning = "bold yellow"
+waiting = "bold magenta"
+debug = "bold"
+spinner = "simpleDotsScrolling"
