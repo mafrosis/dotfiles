@@ -9,7 +9,7 @@ if ! command -v docker >/dev/null 2>&1; then
 			echo 'Run ./install.sh osx first to bootstrap OSX with Homebrew'
 			exit 3
 		fi
-		brew install homebrew/cask/docker
+		brew install --cask docker
 
 	elif [[ $(uname) == 'Linux' ]]; then
 		# add docker APT repo
