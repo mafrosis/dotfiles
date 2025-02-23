@@ -21,7 +21,7 @@ fi
 
 # Ensure /usr/local/bin, missing on new macOS
 if [[ ! -d /usr/local/bin ]]; then
-	mkdir /usr/local/bin
+	sudo mkdir /usr/local/bin
 fi
 
 # install bat, vivid, ag, fd, duf, fzf everywhere
