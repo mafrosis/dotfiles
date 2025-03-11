@@ -1,7 +1,8 @@
 #! /bin/zsh
 
 USAGE='Usage: ffconv [OPTS] PATH
-  -f	force a re-encode, even if already using H264/AAC streams
+  -f	force a re-encode, even if already using h264/HEVC & AAC streams
+  -5    Use HEVC instead of default h264
   -c	bitrate co-efficient [0.0-1.0]
   -a	audio quality [0-100]
   -A	drop audio channel
@@ -20,7 +21,7 @@ USAGE='Usage: ffconv [OPTS] PATH
   -v	verbosity level; 0 (quiet), 1 (status oneliner), 2 (normal), 3 (debug)
   -h	display this message
 
-  Re-encode a movie to H264/MP4 with simpler CLI'
+  Re-encode a movie to MP4 with h264/HEVC via simple CLI'
 
 FORCE=0
 QCOEFF=1.0
@@ -40,11 +41,13 @@ SKIP_IF_EXISTS=0
 OVERWRITE_IF_EXISTS=0
 QUIET=0
 VERBOSE=2
+CODEC=h264
 
-while getopts 'fc:a:ATW:H:s:e:d:F:bBnyqv:h' params
+while getopts 'f5c:a:ATW:H:s:e:d:F:bBnyqv:h' params
 do
 	case $params in
 		f ) FORCE=1;;
+		5 ) CODEC=hevc;;
 		c ) QCOEFF=$OPTARG;;
 		a ) AUDIOQ=$OPTARG;;
 		A ) DROP_AUDIO=1;;
@@ -471,8 +474,8 @@ if [[ -n $DURATION ]]; then
 	VFILTER+=("fade=t=out:st=$FADE_OUT_START:d=$FADE_DURATION")
 fi
 
-# Convert to H264
-if [[ $VCODEC != 'h264' || $START_TIME -gt 0 || $NEW_WIDTH -gt 0 || $NEW_HEIGHT -gt 0 || $FORCE -eq 1 ]]; then
+# Convert to H264/HEVC
+if [[ $VCODEC != $CODEC || $START_TIME -gt 0 || $NEW_WIDTH -gt 0 || $NEW_HEIGHT -gt 0 || $FORCE -eq 1 ]]; then
 	# Scale filter
 	if [[ $NEW_WIDTH -gt 0 && $NEW_HEIGHT -gt 0 ]]; then
 		VFILTER+=("scale=$NEW_WIDTH:$NEW_HEIGHT")
@@ -499,7 +502,12 @@ if [[ $VCODEC != 'h264' || $START_TIME -gt 0 || $NEW_WIDTH -gt 0 || $NEW_HEIGHT 
 	fi
 
 	# Create encode options string
-	VCMD="-c:v h264_videotoolbox -b:v ${TARGET_BITRATE} -filter:v '${(j:,:)VFILTER}'"
+	VCMD="-c:v ${CODEC}_videotoolbox -b:v ${TARGET_BITRATE} -filter:v '${(j:,:)VFILTER}'"
+
+	# MP4 muxing tag for HEVC
+	if [[ $CODEC == 'hevc' ]]; then
+		VCMD="${VCMD} -tag:v hvc1"
+	fi
 fi
 
 if [[ $DROP_AUDIO -eq 1 ]]; then
@@ -518,7 +526,7 @@ fi
 
 # Name the new file with target bitrate
 if [[ ! $VCMD =~ (.*)copy$ ]]; then
-	SUFFIX=".h264_$(( TARGET_BITRATE / 1000 ))"
+	SUFFIX=".${CODEC}_$(( TARGET_BITRATE / 1000 ))"
 fi
 
 if [[ $TRANSPORT_MODE -eq 1 ]]; then
@@ -535,6 +543,8 @@ fi
 # Build ffmpeg params
 META="-metadata encodedby='ffconv' -movflags use_metadata_tags"
 FFMPEG_PARAMS="${START} ${OVERW} -i '${INPUT_FILE}' ${META} ${VCMD} ${ACMD} ${TRANSPORT}"
+
+debug "PARAMS: ${FFMPEG_PARAMS}"
 
 if [[ $VCMD =~ (.*)copy$ && $ACMD =~ (.*)copy$ ]]; then
 	# Abort if neither stream needs converting
