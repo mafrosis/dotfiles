@@ -14,8 +14,8 @@ USAGE='Usage: ffconv [OPTS] PATH
   -F	fade in/out duration in seconds (default is 1s)
   -b	encode transport file for concatenating together
   -B	concatenate all transport files for this movie
-  -N	abort if target file exists (no prompt)
-  -Y	overwrite if target file exists (no prompt)
+  -n	abort if target file exists (no prompt)
+  -y	overwrite if target file exists (no prompt)
   -q	quiet; nothing on stderr/stdout
   -v	verbosity level; 0 (quiet), 1 (status oneliner), 2 (normal), 3 (debug)
   -h	display this message
@@ -41,7 +41,7 @@ OVERWRITE_IF_EXISTS=0
 QUIET=0
 VERBOSE=2
 
-while getopts 'fc:a:ATW:H:s:e:d:F:bBNYqv:h' params
+while getopts 'fc:a:ATW:H:s:e:d:F:bBnyqv:h' params
 do
 	case $params in
 		f ) FORCE=1;;
@@ -57,8 +57,8 @@ do
 		F ) FADE_DURATION=$OPTARG;;
 		b ) TRANSPORT_MODE=1;;
 		B ) CONCAT_MODE=1;;
-		N ) SKIP_IF_EXISTS=1;;
-		Y ) OVERWRITE_IF_EXISTS=1;;
+		n ) SKIP_IF_EXISTS=1;;
+		y ) OVERWRITE_IF_EXISTS=1;;
 		q ) QUIET=1;;
 		v ) VERBOSE=$OPTARG;;
 		h ) print "$USAGE" && return 1;;
@@ -138,6 +138,18 @@ function debug {
 
 function warn {
 	>&2 print "\e[35m$1\e[0m"
+}
+
+function prompt_no {
+	local message=$1
+
+	>&2 echo "\n$message [y/N]"
+	read -r y
+	if [[ $y == y ]]; then
+		return 0
+	else
+		return 1
+	fi
 }
 
 function fin {
@@ -520,22 +532,31 @@ else
 	OUTPUT_FILE="${INPUT_FILE%.*}${SUFFIX}.mp4"
 fi
 
-# Target file exists behaviour
-if [[ $SKIP_IF_EXISTS -eq 1 ]]; then
-	YESNO='-n'
-elif [[ $OVERWRITE_IF_EXISTS -eq 1 ]]; then
-	YESNO='-y'
-else
-	YESNO=''
-fi
-
 # Build ffmpeg params
 META="-metadata encodedby='ffconv' -movflags use_metadata_tags"
-FFMPEG_PARAMS="${START} ${YESNO} -i '${INPUT_FILE}' ${META} ${VCMD} ${ACMD} ${TRANSPORT}"
+FFMPEG_PARAMS="${START} ${OVERW} -i '${INPUT_FILE}' ${META} ${VCMD} ${ACMD} ${TRANSPORT}"
 
-# If either stream needs converting, or --force supplied
-if [[ ! $VCMD =~ (.*)copy$ || ! $ACMD =~ (.*)copy$ || $FORCE -eq 1 ]]; then
-	call_ffmpeg ${FFMPEG_PARAMS} ${INPUT_FILE} ${OUTPUT_FILE}
+if [[ $VCMD =~ (.*)copy$ && $ACMD =~ (.*)copy$ ]]; then
+	# Abort if neither stream needs converting
+	print 'Exiting.. Nothing to do'
+	return 0
+
+elif [[ -f $OUTPUT_FILE ]]; then
+
+	if [[ $SKIP_IF_EXISTS -eq 1 ]]; then
+		print 'Exiting.. Output file already exists and skip flag specified (-n)'
+		return 4
+
+	elif [[ $OVERWRITE_IF_EXISTS -eq 1 ]]; then
+		# Tell ffmpeg to overwrite
+		call_ffmpeg "${FFMPEG_PARAMS} -y" ${INPUT_FILE} ${OUTPUT_FILE}
+	else
+		if prompt_no "File '${OUTPUT_FILE}' already exists. Overwrite?"; then
+			call_ffmpeg "${FFMPEG_PARAMS} -y" ${INPUT_FILE} ${OUTPUT_FILE}
+		fi
+		return 0
+	fi
+
 else
-	print 'Nothing to do'
+	call_ffmpeg ${FFMPEG_PARAMS} ${INPUT_FILE} ${OUTPUT_FILE}
 fi
