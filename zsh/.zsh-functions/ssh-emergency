@@ -1,0 +1,41 @@
+#! /bin/zsh
+
+function cleanup {
+	rm -rf ${TMPDIR}
+}
+# Register cleanup function on exit signal
+trap cleanup EXIT
+
+# Create temporary directory
+TMPDIR=$(mktemp -d)
+
+# Pull the public key and key handle from the Yubikey into ssh-agent, and /tmp
+ssh-add -K
+ssh-add -L | grep 'sk-ecdsa' | tail -1 > ${TMPDIR}/sk-user-ca.pub
+
+echo "Breakglass public key written to ${TMPDIR}/sk-user-ca.pub"
+
+# Generate keypair for the breakglass cert
+ssh-keygen -t ecdsa -f ${TMPDIR}/emergency -N ''
+
+# Sign public key using private key on the Yubikey (signing generates a certificate)
+ssh-keygen -Us ${TMPDIR}/sk-user-ca.pub \
+	-I breakglass.mafro.net \
+	-n pi,mafro \
+	-V -5m:+60m \
+	${TMPDIR}/emergency
+
+ls $TMPDIR
+
+if [[ -f ${TMPDIR}/emergency-cert.pub ]]; then
+	cp ${TMPDIR}/emergency-cert.pub /tmp
+	chmod 600 /tmp/emergency-cert.pub
+
+	echo 'Certificate identity ready at: /tmp/emergency-cert.pub'
+	echo 'Use:'
+	echo 'ssh -i /tmp/emergency-cert.pub mafro@hostname'
+	echo ''
+	echo 'Remember to press the Yubikey again!'
+else
+	echo 'Failed. Did you press the Yubikey?'
+fi
