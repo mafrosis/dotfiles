@@ -87,8 +87,8 @@ Arithmetic is done inside double curved brackets.
 Filesystem
 ----------
 
-Selecting files in the filesystem. Known as _globbing_, or filename generation. Additionally apply
-an extra layer of filters with [glob qualifiers](https://zsh.sourceforge.io/Guide/zshguide05.html#l141).
+Selecting files in the filesystem. Known as _globbing_, or filename generation. Apply extra filtering
+with [glob qualifiers](https://zsh.sourceforge.io/Guide/zshguide05.html#l141) and/or [modifiers](https://zsh.sourceforge.io/Guide/zshguide05.html#l118).
 
 To run the `Demo` commands, setup some test files with this command:
 ```
@@ -115,6 +115,30 @@ mkdir t && cd t && mkdir -p dir1/sdir1 dir2/sdir2/sdir3 && touch cmd1 cmd2 file1
 | [Path extension](https://zsh.sourceforge.io/Guide/zshguide05.html#l118) | `TEST=/foo/bar.baz; print ${TEST:e}` | `baz`
 | [Path drop extension](https://zsh.sourceforge.io/Guide/zshguide05.html#l118) | `TEST=/foo/bar.baz; print ${TEST:r}` | `/foo/bar`
 | [Path filename & drop extension](https://zsh.sourceforge.io/Guide/zshguide05.html#l118) | `TEST=/foo/bar.baz; print ${TEST:t:r}` | `bar`
+
+
+### Finding files
+
+The recursive double-glob an effective replacement for `find`. The built-in globbing flags allow to
+replace most of the common use-cases when searching for files.
+
+Globbing flags `(o)` and `(O)` sort in normal or reverse order of _other_ things:
+
+* `n` is for names - so `(on)` gives the default order while `(On)` is reverse order
+* `L` file size
+* `l` number of links
+* `m` and modified time
+* `a` access time
+* `c` inode changed time
+* `d` refers to subdirectory depth (useful with recursive globbing to show a file tree ordered depth-first)
+
+| Description | Demo | Note |
+| - | - | - | - |
+| [Sort by name](https://zsh.sourceforge.io/Guide/zshguide05.html#l141) | `print -l **/*.yaml(on)` | Equivalent to just `(n)`, as `(o)` is the default lexical ordering
+| [Sort by name, reversed](https://zsh.sourceforge.io/Guide/zshguide05.html#l141) | `print -l **/*.yaml(On)` |
+| [Sort by modified time](https://zsh.sourceforge.io/Guide/zshguide05.html#l141) | `print -l **/*.yaml(om)` |
+| [20 most recently modified files](https://zsh.sourceforge.io/Guide/zshguide05.html#l141) | `print -l **/*.yaml(om[1,20])` |
+| [10 largest files](https://zsh.sourceforge.io/Guide/zshguide05.html#l141) | `print -l **/*.yaml(OL[1,10])` |
 
 
 Scripting
@@ -197,19 +221,17 @@ RET=$(demo); print $?; print $RET
 
 ### Logging and returning
 
-Since functions can return values via `stdout`, any logging must be done on `stderr`.
+As a function can only return a string via `stdout`, any script logging must be done on `stderr`.
+Following is a helper function you might find useful.
 
-A log function using `echo` which makes it portable to `bash`:
 ```
 function log {
-	>&2 echo -e "\e[35m$1\e[0m"
+	>&2 print "\e[35m$1\e[0m"
 }
 ```
 
-TODO setopt localoption
 
-
-Shell History
+[Shell History](https://zsh.sourceforge.io/Guide/zshguide03.html#l55)
 ----------
 
 Other things you can do with history, besides the well known `sudo !!`. These are also available in
@@ -267,7 +289,6 @@ For a more lengthy explanation, read [security implications of forgetting to quo
 | - | - | - | - |
 | Perform word splitting | `$=var` | `TEST="foo bar baz"; TEST=($=TEST); print ${#TEST}` | 3
 | Perform globbing | `$~var` | `touch /tmp/foobar; TEST=/tmp/foo*; print ${~TEST}` | `/tmp/foobar`
-| Perform both | `$=~var` | 
 
 
 ### Echo or Print?
