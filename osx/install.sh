@@ -45,12 +45,5 @@ if [[ ! -f $HOME/dotfiles/osx/.osx-set-defaults-done ]]; then
 	fi
 fi
 
-
-# install Pixelmator Pro via mas
-mas install 1289583905
-
-# install Monodraw via mas
-mas install 920404675
-
 # skip stow in top-level install.sh
 exit 255
