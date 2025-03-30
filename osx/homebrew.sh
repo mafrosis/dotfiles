@@ -86,6 +86,9 @@ mas install 1470584107 # Dato
 mas install 920404675 # Monodraw
 mas install 562211012 # Yomu ebook reader
 mas install 1168254295 # AmorphousDiskMark
+mas install 1289583905 # Pixelmator Pro
+mas install 920404675 # Monodraw
+
 
 # remove all the dirty temp files
 brew cleanup
