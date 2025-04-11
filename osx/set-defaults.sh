@@ -28,6 +28,13 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 # Disable the sound effects on boot
 sudo nvram SystemAudioVolume=" "
+sudo nvram StartupMute=%01
+
+# Disable system sounds
+defaults write com.apple.systemsound 'com.apple.sound.uiaudio.enabled' -int 0
+
+# Disable audio feedback when volume is changed
+defaults write com.apple.sound.beep.feedback -bool false
 
 # Disable transparency in the menu bar and elsewhere on Yosemite
 #defaults write com.apple.universalaccess reduceTransparency -bool true
