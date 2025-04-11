@@ -32,17 +32,14 @@ brew install \
 	exiftool \
 	fdupes \
 	ffmpeg \
-	flac \
 	gnu-sed \
 	httpie \
 	imagemagick \
 	jq \
-	lame \
 	libmagic \
 	mas \
 	m-cli \
 	mercurial \
-	mplayer \
 	nmap \
 	pandoc \
 	screenresolution \
