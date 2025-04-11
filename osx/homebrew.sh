@@ -25,28 +25,22 @@ if [[ $1 == '--init' ]]; then
 fi
 
 # install a few essentials
-brew install \
-	axel \
-	bash \
-	coreutils \
-	exiftool \
-	fdupes \
-	ffmpeg \
-	gnu-sed \
-	httpie \
-	imagemagick \
-	jq \
-	libmagic \
-	mas \
-	m-cli \
-	mercurial \
-	nmap \
-	pandoc \
-	screenresolution \
-	shellcheck \
-	inetutils \
-	terminal-notifier \
-	yt-dlp
+brew install bash
+brew install coreutils
+brew install exiftool
+brew install fdupes
+brew install ffmpeg
+brew install gnu-sed
+brew install imagemagick
+brew install jq
+brew install libmagic
+brew install mas
+brew install nmap
+brew install pandoc
+brew install screenresolution
+brew install shellcheck
+brew install inetutils
+brew install yt-dlp
 
 # install cask for Chrome, if not already installed
 if [[ ! -d /Applications/Google\ Chrome.app ]]; then
@@ -59,24 +53,20 @@ if [[ ! -d /Applications/iTerm.app ]]; then
 fi
 
 # install baseline apps via Cask
-brew install \
-	1password \
-	1password-cli \
-	android-file-transfer \
-	bartender \
-	daisydisk \
-	drawio \
-	firefox \
-	google-drive \
-	keepassx \
-	nordvpn \
-	qlstephen \
-	qlcolorcode \
-	qlvideo \
-	raycast \
-	syncthing \
-	textmate \
-	vlc
+brew install 1password
+brew install 1password-cli
+brew install firefox
+brew install google-drive
+brew install nordvpn
+brew install numi
+brew install qlmarkdown
+brew install qlstephen
+brew install qlcolorcode
+brew install qlvideo
+brew install raycast
+brew install syncthing
+brew install textmate
+brew install vlc
 
 # install Mac App Store apps
 mas install 1470584107 # Dato
@@ -84,7 +74,6 @@ mas install 920404675 # Monodraw
 mas install 562211012 # Yomu ebook reader
 mas install 1168254295 # AmorphousDiskMark
 mas install 1289583905 # Pixelmator Pro
-mas install 920404675 # Monodraw
 
 
 # remove all the dirty temp files
