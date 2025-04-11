@@ -5,7 +5,7 @@ playlist_disable_highlight_delay = 5
 
 media_library_primary_tag = album_artist
 
-song_columns_list_format = (7f)[]{l} (25)[]{a} (40)[]{t} (30)[]{b}
+song_columns_list_format = (7f)[]{l} (25)[]{a} (40)[]{t} (30)[]{b} (30)[]{y}
 
 search_engine_display_mode = columns
 user_interface = alternative
