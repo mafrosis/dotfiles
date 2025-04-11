@@ -85,4 +85,4 @@ alias recentf1-hup='docker kill --signal=SIGHUP $(docker ps | grep recentf1 | cu
 
 alias informa='docker compose -f /media/mnt/apps/informa/docker-compose.yml run --rm informa'
 
-alias fdupes='fdupes --cache'
+alias fdupes='fdupes --cache -r'
