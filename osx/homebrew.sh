@@ -24,6 +24,9 @@ if [[ $1 == '--init' ]]; then
 	exit 0;
 fi
 
+export HOMEBREW_NO_ENV_HINTS=1
+export HOMEBREW_NO_INSTALL_CLEANUP=1
+
 # install a few essentials
 brew install bash
 brew install coreutils
@@ -64,16 +67,26 @@ brew install qlstephen
 brew install qlcolorcode
 brew install qlvideo
 brew install raycast
-brew install syncthing
+brew install --cask syncthing
 brew install textmate
 brew install vlc
 
 # install Mac App Store apps
-mas install 1470584107 # Dato
-mas install 920404675 # Monodraw
-mas install 562211012 # Yomu ebook reader
-mas install 1168254295 # AmorphousDiskMark
-mas install 1289583905 # Pixelmator Pro
+if [[ ! -d /Applications/Dato.app ]]; then
+	mas install 1470584107 # Dato
+fi
+if [[ ! -d /Applications/Monodraw.app ]]; then
+	mas install 920404675 # Monodraw
+fi
+if [[ ! -d /Applications/Yomu.app ]]; then
+	mas install 562211012 # Yomu ebook reader
+fi
+if [[ ! -d /Applications/AmorphousDiskMark.app ]]; then
+	mas install 1168254295 # AmorphousDiskMark
+fi
+if [[ ! -d "/Applications/Pixelmator Pro.app" ]]; then
+	mas install 1289583905 # Pixelmator Pro
+fi
 
 
 # remove all the dirty temp files
