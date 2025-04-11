@@ -17,5 +17,5 @@ fi
 if [[ $(uname) == 'Darwin' ]]; then
 	brew install openssh
 
-	sudo ln -s /opt/homebrew/bin/ssh-agent /usr/local/bin
+	sudo ln -sf /opt/homebrew/bin/ssh-agent /usr/local/bin
 fi
