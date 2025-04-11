@@ -14,7 +14,7 @@ if [[ $(uname) == 'Darwin' ]]; then
 	fi
 fi
 
-requires=(lame flac opus-tools ncmpcpp)
+requires=(lame flac opus-tools ncmpcpp mplayer)
 
 for app in $requires; do
 	if ! command -v lame >/dev/null 2>&1; then
