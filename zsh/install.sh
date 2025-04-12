@@ -1,4 +1,4 @@
-#! /bin/zsh -e
+#! /bin/bash -e
 
 # DEBUG mode controlled by env var
 if [[ -n $DEBUG ]]; then set -x; fi
@@ -13,6 +13,11 @@ if ! command -v zsh >/dev/null 2>&1; then
 		brew install zsh
 		sudo chsh -s /bin/zsh
 
+		# ensure /usr/local/bin, missing on new macos
+		if [[ ! -d /usr/local/bin ]]; then
+			sudo mkdir /usr/local/bin
+		fi
+
 	elif [[ -n TERMUX_VERSION ]]; then
 		pkg install -y zsh
 		chsh -s /bin/zsh
@@ -21,11 +26,6 @@ if ! command -v zsh >/dev/null 2>&1; then
 		sudo apt-get install -y zsh
 		sudo usermod -s /bin/zsh "$(whoami)"
 	fi
-fi
-
-# Ensure /usr/local/bin, missing on new macOS
-if [[ ! -d /usr/local/bin ]]; then
-	sudo mkdir /usr/local/bin
 fi
 
 # install bat, vivid, ag, fd, duf, fzf everywhere

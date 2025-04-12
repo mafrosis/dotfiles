@@ -15,7 +15,7 @@ if [[ $FORCE -eq 0 ]] && command -v fzf >/dev/null 2>&1; then
 	echo 'fzf already installed!'
 else
 	if [[ -n $TERMUX_VERSION ]]; then
-		pkg install -f fzf
+		pkg install -y fzf
 
 	elif [[ $(uname) == 'Linux' ]]; then
 		if [[ $(uname -m) =~ arm(.*) ]]; then
