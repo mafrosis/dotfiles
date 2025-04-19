@@ -64,10 +64,10 @@ brew install nordvpn
 brew install numi
 brew install qlmarkdown
 brew install qlstephen
-brew install qlcolorcode
 brew install qlvideo
 brew install raycast
 brew install --cask syncthing
+brew install syntax-highlight
 brew install textmate
 brew install vlc
 
