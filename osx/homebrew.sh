@@ -55,6 +55,10 @@ if [[ ! -d /Applications/iTerm.app ]]; then
 	brew install iterm2
 fi
 
+function notarize {
+	xattr -r -d com.apple.quarantine "/Applications/$1"
+}
+
 # install baseline apps via Cask
 brew install 1password
 brew install 1password-cli
@@ -62,7 +66,7 @@ brew install firefox
 brew install google-drive
 brew install nordvpn
 brew install numi
-brew install qlmarkdown
+brew install --cask qlmarkdown && notarize QLMarkdown.app && open /Applications/QLMarkdown.app
 brew install qlstephen
 brew install qlvideo
 brew install raycast
