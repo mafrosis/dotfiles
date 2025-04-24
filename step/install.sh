@@ -4,6 +4,7 @@
 if [[ -n $DEBUG ]]; then set -x; fi
 
 SMALLSTEP_VERSION=${SMALLSTEP_VERSION:-'0.23.0'}
+TMPDIR=${TMPDIR:-/tmp}
 
 # passed from /dotfiles/install.sh
 FORCE=${1:-0}
@@ -22,9 +23,9 @@ else
 		else
 			ARCH=amd64
 		fi
-		curl -o /tmp/step.tgz -L "https://github.com/smallstep/cli/releases/download/v${SMALLSTEP_VERSION}/step_linux_${SMALLSTEP_VERSION}_${ARCH}.tar.gz"
-		tar xzf /tmp/step.tgz -C /tmp
-    	sudo mv "/tmp/step_${SMALLSTEP_VERSION}/bin/step" /usr/local/bin/step
+		curl -o ${TMPDIR}/step.tgz -L "https://github.com/smallstep/cli/releases/download/v${SMALLSTEP_VERSION}/step_linux_${SMALLSTEP_VERSION}_${ARCH}.tar.gz"
+		tar xzf ${TMPDIR}/step.tgz -C ${TMPDIR}
+    	sudo mv "${TMPDIR}/step_${SMALLSTEP_VERSION}/bin/step" /usr/local/bin/step
 
 	elif [[ $(uname) == 'Darwin' ]]; then
 		brew install step

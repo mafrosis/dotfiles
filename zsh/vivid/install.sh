@@ -3,6 +3,7 @@
 echo 'Installing vivid..'
 
 VIVID_VERSION=${VIVID_VERSION:-0.10.1}
+TMPDIR=${TMPDIR:-/tmp}
 
 # passed from /dotfiles/install.sh
 FORCE=${1:-0}
@@ -16,18 +17,18 @@ else
 	
 	elif [[ $(uname) == 'Linux' ]]; then
 		if [[ $(uname -m) =~ arm(.*) ]]; then
-			curl -o /tmp/vivid.tgz -L https://github.com/sharkdp/vivid/releases/download/v${VIVID_VERSION}/vivid-v${VIVID_VERSION}-arm-unknown-linux-musleabihf.tar.gz
-			tar xzf /tmp/vivid.tgz -C /tmp --strip-components=1
-			sudo mv /tmp/vivid /usr/bin
+			curl -o ${TMPDIR}/vivid.tgz -L https://github.com/sharkdp/vivid/releases/download/v${VIVID_VERSION}/vivid-v${VIVID_VERSION}-arm-unknown-linux-musleabihf.tar.gz
+			tar xzf ${TMPDIR}/vivid.tgz -C ${TMPDIR} --strip-components=1
+			sudo mv ${TMPDIR}/vivid /usr/bin
 
 		elif [[ $(uname -m) = aarch64 ]]; then
-			curl -o /tmp/vivid.deb -L https://github.com/sharkdp/vivid/releases/download/v${VIVID_VERSION}/vivid_${VIVID_VERSION}_arm64.deb
-			sudo dpkg -i /tmp/vivid.deb
+			curl -o ${TMPDIR}/vivid.deb -L https://github.com/sharkdp/vivid/releases/download/v${VIVID_VERSION}/vivid_${VIVID_VERSION}_arm64.deb
+			sudo dpkg -i ${TMPDIR}/vivid.deb
 
 		else
 			# Assume amd64 by default
-			curl -o /tmp/vivid.deb -L https://github.com/sharkdp/vivid/releases/download/v${VIVID_VERSION}/vivid_${VIVID_VERSION}_amd64.deb
-			sudo dpkg -i /tmp/vivid.deb
+			curl -o ${TMPDIR}/vivid.deb -L https://github.com/sharkdp/vivid/releases/download/v${VIVID_VERSION}/vivid_${VIVID_VERSION}_amd64.deb
+			sudo dpkg -i ${TMPDIR}/vivid.deb
 		fi
 
 	elif [[ $(uname) == 'Darwin' ]]; then
