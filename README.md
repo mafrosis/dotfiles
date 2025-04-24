@@ -22,4 +22,3 @@ A few git submodules are included:
  - [sorin-ionescu/prezto](http://github.com/sorin-ionescu/prezto): ZSH config framework
  - [gmarik/Vundle.vim](http://github.com/gmarik/Vundle.vim): Vim plugin management
  - [morgant/tools-osx](http://github.com/morgant/tools-osx): useful helper scripts for CLI on OSX
- - [mafrosis/salt-formulae](http://github.com/mafrosis/salt-formulae): more salt states
