@@ -12,6 +12,14 @@
 	<true/>
 	<key>AlternateMouseScroll</key>
 	<true/>
+	<key>AlwaysAllowBackgroundImage</key>
+	<array>
+		<string>/tmp/ncmpcpp.jpg</string>
+	</array>
+	<key>AlwaysDenyBackgroundImage</key>
+	<array>
+		<string></string>
+	</array>
 	<key>AnimateDimming</key>
 	<false/>
 	<key>AutoHideTmuxClientSession</key>
@@ -769,7 +777,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>HackMafro-Regular 12</string>
+			<string>HackMafro-Regular 17</string>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
