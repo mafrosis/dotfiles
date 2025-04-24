@@ -6,6 +6,7 @@ if [[ -n $DEBUG ]]; then set -x; fi
 echo 'Installing bat..'
 
 BAT_VERSION=${BAT_VERSION:-0.24.0}
+TMPDIR=${TMPDIR:-/tmp}
 
 # passed from /dotfiles/install.sh
 FORCE=${1:-0}
@@ -28,8 +29,8 @@ else
 		else
 			ARCH=amd64
 		fi
-		curl -o /tmp/bat.deb -L "https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat_${BAT_VERSION}_${ARCH}.deb"
-		sudo dpkg -i /tmp/bat.deb
+		curl -o ${TMPDIR}/bat.deb -L "https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat_${BAT_VERSION}_${ARCH}.deb"
+		sudo dpkg -i ${TMPDIR}/bat.deb
 
 	fi
 fi

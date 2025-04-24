@@ -6,6 +6,7 @@ if [[ -n $DEBUG ]]; then set -x; fi
 echo 'Installing duf..'
 
 DUF_VERSION=${DUF_VERSION:-0.8.1}
+TMPDIR=${TMPDIR:-/tmp}
 
 # passed from /dotfiles/install.sh
 FORCE=${1:-0}
@@ -25,8 +26,8 @@ else
 		else
 			ARCH=amd64
 		fi
-		curl -o /tmp/duf.deb -L "https://github.com/muesli/duf/releases/download/v${DUF_VERSION}/duf_${DUF_VERSION}_linux_${ARCH}.deb"
-		sudo dpkg -i /tmp/duf.deb
+		curl -o ${TMPDIR}/duf.deb -L "https://github.com/muesli/duf/releases/download/v${DUF_VERSION}/duf_${DUF_VERSION}_linux_${ARCH}.deb"
+		sudo dpkg -i ${TMPDIR}/duf.deb
 
 	elif [[ $(uname) == 'Darwin' ]]; then
 		brew install duf
