@@ -5,7 +5,7 @@ if [[ -n $DEBUG ]]; then set -x; fi
 
 echo 'Installing fzf..'
 
-FZF_VERSION=${FZF_VERSION:-0.56.3}
+FZF_VERSION=${FZF_VERSION:-0.61.3}
 TMPDIR=${TMPDIR:-/tmp}
 
 # passed from /dotfiles/install.sh
@@ -26,9 +26,10 @@ else
 		else
 			ARCH=amd64
 		fi
-		curl -o ${TMPDIR}/fzf.tgz -L "https://github.com/junegunn/fzf/releases/download/${FZF_VERSION}/fzf-${FZF_VERSION}-linux_${ARCH}.tar.gz"
+		curl -o ${TMPDIR}/fzf.tgz -L \
+			https://github.com/junegunn/fzf/releases/download/v${FZF_VERSION}/fzf-${FZF_VERSION}-linux_${ARCH}.tar.gz
 		tar xzf ${TMPDIR}/fzf.tgz -C ${TMPDIR}
-		sudo mv ${TMPDIR}/fzf /usr/local/bin/fzf
+		sudo mv ${TMPDIR}/fzf /usr/local/bin
 
 	elif [[ $(uname) == 'Darwin' ]]; then
 		brew install fzf
