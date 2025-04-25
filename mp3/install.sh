@@ -36,8 +36,8 @@ for app in $requires; do
 done
 
 info '## Installing eyeD3 globally'
-if ! command -v pipx >/dev/null 2>&1; then
+if ! command -v uv >/dev/null 2>&1; then
 	error "Python needs to be installed for eyeD3"
 else
-	pipx install eyeD3
+	uv tool install --force eyeD3
 fi
