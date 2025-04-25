@@ -5,7 +5,7 @@ if [[ -n $DEBUG ]]; then set -x; fi
 
 echo 'Installing bat..'
 
-BAT_VERSION=${BAT_VERSION:-0.24.0}
+BAT_VERSION=${BAT_VERSION:-0.25.0}
 TMPDIR=${TMPDIR:-/tmp}
 
 # passed from /dotfiles/install.sh
@@ -22,18 +22,25 @@ else
 		brew install bat
 
 	elif [[ $(uname) == 'Linux' ]]; then
-		if [[ $(uname -m) =~ arm(.*) ]]; then
-			ARCH=armhf
-		elif [[ $(uname -m) = aarch64 ]]; then
-			ARCH=aarch64
-		else
-			ARCH=amd64
-		fi
-		curl -o ${TMPDIR}/bat.deb -L "https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat_${BAT_VERSION}_${ARCH}.deb"
-		sudo dpkg -i ${TMPDIR}/bat.deb
+		if [[ $(uname -m) = arm64 ]]; then
+			curl -o ${TMPDIR}/bat.deb -L \
+				https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat-musl_${BAT_VERSION}_arm64.deb
+			sudo dpkg -i ${TMPDIR}/bat.deb
 
+		elif [[ $(uname -m) = aarch64 ]]; then
+			curl -o ${TMPDIR}/bat.tgz -L \
+				https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat-v${BAT_VERSION}-aarch64-unknown-linux-musl.tar.gz
+			tar xzf ${TMPDIR}/bat.tgz -C ${TMPDIR}
+			sudo mv ${TMPDIR}/bat-v${BAT_VERSION}-aarch64-unknown-linux-musl/bat /usr/local/bin
+
+		else
+			curl -o ${TMPDIR}/bat.deb -L \
+				https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat-musl_${BAT_VERSION}_musl-linux-amd64.deb
+			sudo dpkg -i ${TMPDIR}/bat.deb
+		fi
 	fi
 fi
+bat -V
 
 # Setup custom theme
 mkdir -p "$(bat --config-dir)/themes"
