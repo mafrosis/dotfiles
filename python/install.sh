@@ -31,8 +31,8 @@ elif [[ $(uname) == 'Linux' ]]; then
 	fi
 fi
 
-# Ensure python symlink is present
-if ! command -v python >/dev/null 2>&1; then
+# On macOS, ensure python symlink points to Homebrew
+if [[ $(uname) == Darwin ]] && [[ ! $(readlink $(which python)) =~ ^$HOMEBREW_PREFIX/(.*) ]]; then
 	info '## Symlinking python3'
 	sudo ln -sf $(which python3) /usr/local/bin/python
 fi
