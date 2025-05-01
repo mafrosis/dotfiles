@@ -39,3 +39,6 @@ fi
 
 info '## Install hatch'
 uv tool install --upgrade hatch
+
+info '## Install ruff'
+uv tool install --upgrade ruff
