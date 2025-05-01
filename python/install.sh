@@ -39,3 +39,8 @@ fi
 
 info '## Install hatch'
 uv install hatch
+
+info '## Install ruff'
+if ! command -v ruff >/dev/null 2>&1; then
+	uv tool install ruff
+fi
