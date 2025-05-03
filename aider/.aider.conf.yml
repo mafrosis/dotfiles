@@ -1,0 +1,24 @@
+analytics-disable: true
+check-update: false
+vim: true
+env-file: na  # ignore .env
+
+# Model
+alias:
+  - gemini:openrouter/google/gemini-2.5-pro-preview-03-25
+  - deepseek:openrouter/deepseek/deepseek-chat-v3-0324:free
+  - r1:openrouter/deepseek/deepseek-r1:free
+  - quasar:openrouter/openrouter/quasar-alpha
+
+# Git
+git: true
+gitignore: false
+auto-commits: true
+attribute-commit-message-author: true
+
+# Linting and Testing
+auto-lint: true
+lint-cmd: make lint
+auto-test: true
+test-cmd: make test
+
