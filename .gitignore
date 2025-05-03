@@ -19,3 +19,5 @@ git/.local/bin/flac-to-mp3.sh
 git/.local/bin/sync-music.sh
 
 *.pyc
+.aider.chat.history.md
+.aider.input.history

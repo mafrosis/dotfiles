@@ -1,0 +1,27 @@
+analytics-disable: true
+check-update: false
+vim: true
+env-file: na  # ignore .env
+read: [.aider.conventions]
+dark-mode: true
+
+# Models
+alias:
+  - gemini:openrouter/google/gemini-2.5-pro-preview
+  - deepseek:openrouter/deepseek/deepseek-r1-0528:free
+  - claude:openrouter/anthropic/claude-sonnet-4
+  - devstral:openrouter/mistralai/devstral-small:free
+
+editor-model: devstral
+
+# Git
+git: true
+gitignore: false
+auto-commits: true
+attribute-commit-message-author: true
+
+# Linting and Testing
+auto-lint: true
+lint-cmd: make lint
+auto-test: true
+test-cmd: make test
