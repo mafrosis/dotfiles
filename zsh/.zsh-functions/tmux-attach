@@ -1,0 +1,10 @@
+#! /bin/zsh
+
+USAGE="Start a session, or attach an existing session, with\ntmux-attach NAME"
+
+if [ $# -eq 0 ]; then
+	tmux list-sessions
+	return 0
+fi
+
+tmux -CC new -A -s $1
