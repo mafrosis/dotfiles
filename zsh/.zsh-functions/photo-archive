@@ -17,7 +17,7 @@ if [[ $# -eq 0 ]]; then
 fi
 
 MODE_NORMAL=1
-MODE_RENAME=2
+MODE_EXIF=2
 MODE=$MODE_NORMAL
 FULLAUTO=1
 REENCODE=1
@@ -28,7 +28,7 @@ VERBOSE=
 while getopts 'xo:niRvh' params
 do
 	case $params in
-		x ) MODE=$MODE_RENAME;;
+		x ) MODE=$MODE_EXIF;;
 		o ) OUTPUT_PATH=$OPTARG;;
 		n ) DRYRUN=1;;
 		i ) FULLAUTO=0;;
@@ -97,9 +97,9 @@ function process {
 	local fn=${filename:t:r}
 	local exif_date=
 
-	if [[ $MODE -eq $MODE_RENAME ]]; then
+	if [[ $MODE -eq $MODE_EXIF ]]; then
 		if [[ $fn =~ ^MAD_(.*) ]]; then
-			# Extract EXIF from the input file
+			# Extract EXIF from the MAD file
 			exif_date=$(read_exif_date $filepath)
 
 			# Check EXIF matches filename
@@ -123,7 +123,7 @@ function process {
 
 	# Transcode movies before rename
 	if [[ $REENCODE -eq 1 && $ext == mp4 ]]; then
-		new_filepath=$(ffconv -fqTN $filepath)
+		new_filepath=$(ffconv -f5qTn $filepath)
 		RET=$?
 
 		if [[ $RET -eq 0 ]]; then
@@ -145,6 +145,11 @@ function process {
 		elif [[ $RET -eq 2 ]]; then
 			error "Failed transcode of ${filename}"
 			print 'F'
+			return
+
+		elif [[ $RET -eq 4 ]]; then
+			info "Skipped source file whose transcode already exists: ${filename}"
+			print '_'
 			return
 		fi
 	fi
@@ -176,14 +181,20 @@ function archive_file {
 	local exif_date=$2
 	local archive_filename="MAD_$exif_date.$ext"
 
+	if [[ -z $exif_date ]]; then
+		error "EXIF missing for $input_file!"
+		print 'E'
+		return
+	fi
+
 	if [[ -f $OUTPUT_PATH/$archive_filename ]]; then
-		error "EXISTS: target $OUTPUT_PATH/$archive_filename already exists for $input_file"
+		warn "Target $OUTPUT_PATH/$archive_filename already exists for $input_file"
 		print 'E'
 		return
 	fi
 
 	if [[ $DRYRUN -eq 1 ]]; then
-		info "DRYRUN: Skipped copy $input_file to $OUTPUT_PATH/$archive_filename"
+		info "Skipped copy $input_file to $OUTPUT_PATH/$archive_filename"
 		print '~'
 		return
 	fi
@@ -227,6 +238,12 @@ function write_exif_date {
 
 	# Update file modification timestamp
 	touch -d "${date[0,4]}-${date[5,6]}-${date[7,8]} ${date[10,11]}:${date[12,13]}:${date[14,15]}" $filepath
+
+	# Set file creation/modified on macOS
+	if command -v SetFile >/dev/null 2>&1; then
+		dt="${date[5,6]}/${date[7,8]}/${date[0,4]} ${date[10,11]}:${date[12,13]}:${date[14,15]}"
+		SetFile -d "${dt}" -m "${dt}" $filepath
+	fi
 }
 
 ##################################################
