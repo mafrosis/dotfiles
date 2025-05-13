@@ -1,0 +1,61 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = '$username$hostname:$directory$git_branch$git_status$git_state $character'
+
+# Inserts a blank line between shell prompts
+add_newline = false
+
+[hostname]
+# https://starship.rs/config/#hostname
+ssh_only = false
+format = '[$hostname](bold cyan)'
+
+[username]
+# https://starship.rs/config/#username
+show_always = true
+style_user = 'bold cyan'
+style_root = 'bold white'
+format = '[$user@]($style)'
+
+[directory]
+# https://starship.rs/config/#directory
+style = 'cyan'
+format = '[$path]($style)'
+truncation_length = 8
+truncation_symbol = '…/'
+truncate_to_repo = false
+
+[character]
+# https://starship.rs/config/#character
+success_symbol = '[>](grey)'
+error_symbol = '[>](red)'
+
+[git_branch]
+# https://starship.rs/config/#git-branch
+format = ' [\[$branch]($style)'
+style = 'yellow'
+
+[git_status]
+# https://starship.rs/config/#git-status
+format = '[$modified$staged\]$ahead_behind$stashed](yellow)'
+modified = '*'
+conflicted = '[*](red)'
+staged = '[*](green)'
+ahead = '${count}>'
+behind = '<${count}'
+diverged = '~${ahead_count}:${behind_count}'
+stashed = '^'
+
+[git_state]
+# https://starship.rs/config/#git-state
+format = '\([$state( $progress_current/$progress_total)]($style)\)'
+rebase = 'RB'
+merge = 'MG'
+revert = 'RV'
+cherry_pick = 'CP'
+bisect = 'BS'
+
+[package]
+# https://starship.rs/config/#package-version
+disabled = true
