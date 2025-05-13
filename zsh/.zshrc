@@ -18,6 +18,11 @@ if [[ -s ${HOME}/.zprezto/init.zsh ]]; then
   source ${HOME}/.zprezto/init.zsh
 fi
 
+# Starship
+if command -v starship >/dev/null 2>&1; then
+	eval "$(starship init zsh)"
+fi
+
 
 ########### Globals ######################################
 
