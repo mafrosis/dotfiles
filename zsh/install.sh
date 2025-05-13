@@ -28,7 +28,8 @@ if ! command -v zsh >/dev/null 2>&1; then
 	fi
 fi
 
-# install bat, vivid, ag, fd, duf, fzf everywhere
+# install starship, bat, vivid, ag, fd, duf, fzf everywhere
+source "$(dirname "$0")/starship/install.sh"
 source "$(dirname "$0")/bat/install.sh"
 source "$(dirname "$0")/vivid/install.sh"
 source "$(dirname "$0")/ag/install.sh"
