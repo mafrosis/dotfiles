@@ -14,6 +14,7 @@ base:
 
   'G@host:jorg':
     - match: compound
+    - debian.backports
     - grub-timeout-0
     - jorg
     - jorg.caddy
