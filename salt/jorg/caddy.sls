@@ -1,24 +1,6 @@
 include:
-  - step.root-ca-cert
+  - caddy
 
-
-caddy:
-  pkg:
-    - installed
-  user.present:
-    - optional_groups:
-      - step-ca
-      - video
-      - rtorrent
-    - require:
-      - pkg: caddy
-      - group: step-ca
-  service.running:
-    - restart: true
-    - watch:
-      - file: /etc/caddy/Caddyfile
-    - require:
-      - user: caddy
 
 /etc/caddy/Caddyfile:
   file.managed:
@@ -51,3 +33,5 @@ caddy:
         }
     - require:
       - pkg: caddy
+    - watch_in:
+      - service: caddy
