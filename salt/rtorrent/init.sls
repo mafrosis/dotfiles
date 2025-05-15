@@ -78,8 +78,8 @@ rtorrent.rc:
     - template: jinja
     - group: {{ rtorrent_group }}
     - defaults:
-        download_rate: 7000
-        upload_rate: 90
+        download_rate: 15000
+        upload_rate: 200
         download_dir: {{ pillar['rtorrent_download_dir'] }}
         move_torrent: true
     - require:
