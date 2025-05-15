@@ -34,9 +34,13 @@ docker:
   pkg.installed:
     - names:
       - docker-ce
+      - docker-ce-cli
+      - containerd.io
       - docker-compose-plugin
+      - docker-buildx-plugin
   service.running:
     - restart: true
+    - enable: true
     - watch:
       - file: /etc/docker/daemon.json
 
@@ -52,9 +56,6 @@ docker-adduser-group:
     - mode: 644
     - makedirs: true
     - dataset:
-        {% if grains['host'] == 'locke' %}
-        data-root: '/home/mafro/docker-data'
-        {% endif %}
         default-address-pools:
           - base: '172.16.0.0/12'
             size: 24
