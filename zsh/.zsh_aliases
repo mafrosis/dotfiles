@@ -55,7 +55,6 @@ alias docker-stats='docker stats --all --format "table {{.ID}}\t{{.Name}}\t{{.CP
 
 # ffprobe via docker FTW
 alias ffprobe='docker run -it --rm -v "$(pwd):/tmp/workdir" --entrypoint ffprobe jrottenberg/ffmpeg'
-alias ffconv='docker run -it --rm -v "$(pwd):/tmp/workdir" mafrosis/ffconv'
 
 alias mkdircd='mkdir -p $1 && cd $1'
 
