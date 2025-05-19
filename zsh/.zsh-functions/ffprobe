@@ -1,0 +1,11 @@
+#! /bin/zsh
+
+if command -v ffprobe >/dev/null 2>&1; then
+	ffprobe $@
+
+elif command -v podman >/dev/null 2>&1; then
+	podman run -it --rm -v "$(pwd):/tmp/workdir" --entrypoint ffprobe lscr.io/linuxserver/ffmpeg:latest
+
+elif command -v docker >/dev/null 2>&1; then
+	docker run -it --rm -v "$(pwd):/tmp/workdir" --entrypoint ffprobe lscr.io/linuxserver/ffmpeg:latest
+fi
