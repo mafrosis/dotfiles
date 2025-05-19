@@ -2,6 +2,7 @@ analytics-disable: true
 check-update: false
 vim: true
 env-file: na  # ignore .env
+read: [.aider.conventions]
 
 # Model
 alias:
@@ -21,4 +22,3 @@ auto-lint: true
 lint-cmd: make lint
 auto-test: true
 test-cmd: make test
-
