@@ -70,12 +70,15 @@ alias fvim='vim $(fzf)'
 
 alias dcr='docker compose restart'
 alias dcp='docker compose pull'
+alias dcb='docker compose build'
 alias dcu='docker compose up -d'
 alias dcul='docker compose up -d && docker compose logs -f --tail=200'
 alias dcbu='docker compose up --build -d'
 alias dcps='docker compose ps'
 alias dcl='docker compose logs -f --tail=200'
 alias dcd='docker compose down'
+alias dcp='docker compose pull'
+alias dce='docker compose exec'
 
 alias recentf1-hup='docker kill --signal=SIGHUP $(docker ps | grep recentf1 | cut -d\  -f 1)'
 
