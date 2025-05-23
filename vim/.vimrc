@@ -144,6 +144,7 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'lifepillar/pgsql.vim.git'
 Plugin 'itspriddle/vim-shellcheck'
 Plugin 'davidbeckingsale/writegood.vim'
+Plugin 'nekowasabi/aider.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -274,3 +275,49 @@ endfunction
 "---- vim-go ----------------------------------------------------------
 " don't keep popping up the quickfix window
 let g:go_list_type = ""
+
+
+"---- aider.vim -------------------------------------------------------
+" Aider command configuration
+let g:aider_command = 'aider --no-auto-commits'
+
+" Floating window settings
+let g:aider_buffer_open_type = 'floating'
+let g:aider_floatwin_width = 100
+let g:aider_floatwin_height = 20
+let g:aider_floatwin_border = "double"
+let g:aider_floatwin_border_style = "minimal"
+
+" Additional prompt setting
+"let g:aider_additional_prompt = [
+"  "Your additional prompt here",
+"  "This will be displayed in the floating window when using visual mode selections",
+"  "You can see and edit it before sending to aider",
+"]
+
+" Key mappings
+nnoremap <silent> <leader>at :AiderRun<CR>
+nnoremap <silent> <leader>aa :AiderAddCurrentFile<CR>
+nnoremap <silent> <leader>ar :AiderAddCurrentFileReadOnly<CR>
+" Add Aider web interface
+nnoremap <silent> <leader>aw :AiderAddWeb<CR>
+nnoremap <silent> <leader>ax :AiderExit<CR>
+nnoremap <silent> <leader>ai :AiderAddIgnoreCurrentFile<CR>
+" Open Aider ignore list
+nnoremap <silent> <leader>aI :AiderOpenIgnore<CR>
+nnoremap <silent> <leader>ap :AiderPaste<CR>
+nnoremap <silent> <leader>ah :AiderHide<CR>
+tnoremap <C-x><C-x> <C-\><C-n>:AiderHide<CR>
+vmap <leader>av :AiderVisualTextWithPrompt<CR>
+
+" Autocommand group for Aider
+augroup AiderOpenGroup
+  autocmd!
+  autocmd User AiderOpen call s:AiderOpenHandler()
+augroup END
+
+function! s:AiderOpenHandler() abort
+  " Set key mappings for the Aider buffer
+  tnoremap <buffer> <Esc> <C-\><C-n>
+  nnoremap <buffer> <Esc> :AiderHide<CR>
+endfunction
