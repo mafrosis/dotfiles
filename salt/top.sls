@@ -32,7 +32,6 @@ base:
 
   'G@host:ringil':
     - match: compound
-    - kodi
     - networking.wireless
     - snapcast.client
 
