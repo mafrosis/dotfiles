@@ -8,8 +8,9 @@ docker-apt-deps:
       - libffi-dev
       - software-properties-common
 
-/etc/apt/keyrings:
-  file.directory
+docker-apt-keyrings:
+  file.directory:
+    - name: /etc/apt/keyrings
 
 docker-apt-gpg:
   file.managed:

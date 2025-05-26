@@ -11,8 +11,9 @@ caddy-apt-deps:
       - ca-certificates
       - curl
 
-/etc/apt/keyrings:
-  file.directory
+caddy-apt-keyrings:
+  file.directory:
+    - name: /etc/apt/keyrings
 
 caddy-apt-gpg:
   file.managed:
