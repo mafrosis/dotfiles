@@ -82,8 +82,11 @@ alias dce='docker compose exec'
 
 alias recentf1-hup='docker kill --signal=SIGHUP $(docker ps | grep recentf1 | cut -d\  -f 1)'
 
-alias informa='docker compose -f /media/mnt/apps/informa/docker-compose.yml run --rm informa'
+alias informa='docker compose -f /home/mafro/apps/informa/docker-compose.yml exec informa informa'
 
 alias fdupes='fdupes --cache -rA'
 
 alias pip='uv pip'
+
+alias salt='docker compose -f /home/mafro/apps/saltstack/docker-compose.yml exec salt-master salt'
+alias salt-run='docker compose -f /home/mafro/apps/saltstack/docker-compose.yml exec salt-master salt-run'
