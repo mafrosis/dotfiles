@@ -5,6 +5,7 @@ base:
     - linux-util
     - sshd
     - step.cli
+    - systemd
 
   'G@os:Debian':
     - common.debian
