@@ -32,3 +32,7 @@ autofs:
   file.managed:
     - contents: |
         enc -fstype=cifs,username=mafro,password={{ pillar['jorg_samba_password'] }} ://192.168.1.104/Backup
+        photos -fstype=cifs,username=mafro,password={{ pillar['jorg_samba_password'] }} ://192.168.1.104/Photos
+
+
+# [any_name] -fstype=cifs,[other_options] /photos ://[remote_server]/photos /music ://[remote_server]/music /video ://[remote_server]/video
