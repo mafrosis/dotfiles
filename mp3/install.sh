@@ -20,7 +20,7 @@ fi
 requires=(lame flac opus-tools ncmpcpp mplayer)
 
 for app in $requires; do
-	if ! command -v lame >/dev/null 2>&1; then
+	if ! command -v ${app} >/dev/null 2>&1; then
 		info "## Installing ${app}"
 
 		if [[ -n $TERMUX_VERSION ]]; then
