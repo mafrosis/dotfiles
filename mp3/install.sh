@@ -19,18 +19,18 @@ fi
 
 requires=(lame flac opus-tools ncmpcpp mplayer)
 
-for app in $requires; do
-	if ! command -v lame >/dev/null 2>&1; then
-		info "## Installing ${app}"
+for req in "${requires[@]}"; do
+	if ! command -v ${req} >/dev/null 2>&1; then
+		info "## Installing ${req}"
 
 		if [[ -n $TERMUX_VERSION ]]; then
-			pkg install -y ${app}
+			pkg install -y ${req}
 
 		elif [[ $(uname) == 'Darwin' ]]; then
-			brew install ${app}
+			brew install ${req}
 
 		elif [[ $(uname) == 'Linux' ]]; then
-			sudo apt-get install -y ${app}
+			sudo apt-get install -y ${req}
 		fi
 	fi
 done
