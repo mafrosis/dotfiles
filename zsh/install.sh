@@ -31,7 +31,7 @@ fi
 # install bat, vivid, ag, fd, duf, fzf everywhere
 source "$(dirname "$0")/bat/install.sh"
 source "$(dirname "$0")/vivid/install.sh"
-source "$(dirname "$0")/ag/install.sh"
+source "$(dirname "$0")/ripgrep/install.sh"
 source "$(dirname "$0")/fd/install.sh"
 source "$(dirname "$0")/duf/install.sh"
 source "$(dirname "$0")/fzf/install.sh"
