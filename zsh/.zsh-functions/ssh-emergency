@@ -21,7 +21,7 @@ ssh-keygen -t ecdsa -f ${TMPDIR}/emergency -N ''
 # Sign public key using private key on the Yubikey (signing generates a certificate)
 ssh-keygen -Us ${TMPDIR}/sk-user-ca.pub \
 	-I breakglass.mafro.net \
-	-n pi,mafro \
+	-n root,mafro \
 	-V -5m:+60m \
 	${TMPDIR}/emergency
 
