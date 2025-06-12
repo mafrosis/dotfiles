@@ -13,7 +13,10 @@ FORCE=${1:-0}
 if [[ $FORCE -eq 0 ]] && command -v step >/dev/null 2>&1; then
 	echo 'step-cli already installed!'
 else
-	if [[ $(uname) == 'Linux' ]]; then
+	if [[ -n $TERMUX_VERSION ]]; then
+		pkg install -y step-cli
+
+	elif [[ $(uname) == 'Linux' ]]; then
 		if [[ $(uname -m) =~ arm7(.*) ]]; then
 			ARCH=armv7l
 		elif [[ $(uname -m) =~ arm6(.*) ]]; then
