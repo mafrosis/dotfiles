@@ -11,13 +11,13 @@ system-tools:
       - file
       - less
       - make
-      - ntp
       - time
       - vim
       - whois
 
 {% set timezone = pillar.get('timezone', 'Australia/Melbourne') %}
 
-{{ timezone }}:
+/etc/timezone:
   timezone.system:
+    - name: {{ timezone }}
     - utc: true
