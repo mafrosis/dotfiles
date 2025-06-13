@@ -32,6 +32,10 @@ avahi-daemon:
 libnss-mdns:
   service.disabled
 
+# Remove openresolv which conflicts with systemd-resolved
+openresolv:
+  pkg.purged
+
 systemd-networkd-apt-hold-pkgs:
   pkg.held:
     - pkgs:
