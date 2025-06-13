@@ -88,3 +88,6 @@ alias fvim='vim $(fzf)'
 if [[ -d ${HOME}/.step/zsh_completion ]]; then
 	source ${HOME}/.step/zsh_completion
 fi
+
+# llm.datasette.io
+export LLM_USER_PATH=~/.config/io.datasette.llm
