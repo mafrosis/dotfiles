@@ -17,11 +17,15 @@ if [[ $(uname) == 'Darwin' ]]; then
 elif [[ $(uname) == 'Linux' ]]; then
 	if [[ $FORCE -eq 0 ]] && command -v salt-call >/dev/null 2>&1; then
 		echo 'Salt already installed!'
+
+	elif [[ $(uname -m) = armv7l ]]; then
+		curl -L -o /tmp/bootstrap-salt.sh https://raw.githubusercontent.com/saltstack/salt-bootstrap/refs/heads/develop/bootstrap-salt.sh
+		chmod +x /tmp/bootstrap-salt.sh
+		sudo /tmp/bootstrap-salt.sh stable 3007.3
+
 	else
 		if [[ $(uname -m) = aarch64 ]]; then
 			ARCH=arm64
-		elif [[ $(uname -m) = armv7l ]]; then
-			ARCH=armhf
 		else
 			ARCH=amd64
 		fi
