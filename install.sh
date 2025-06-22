@@ -95,8 +95,10 @@ do
 			# remove files which would be replaced with symlinks
 			# remove symlinks which belong to other packages (which may cause trouble later but ho hum)
 			CONFLICTS=$(stow -nv "$app" 2>&1 | awk '/\* existing target is/ {print $NF}')
-			echo "$CONFLICTS"
-			delete_symlinks "$CONFLICTS"
+			if [[ -n $CONFLICTS ]]; then
+				echo "$CONFLICTS"
+				delete_symlinks "$CONFLICTS"
+			fi
 		fi
 	fi
 
