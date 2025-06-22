@@ -1,9 +1,7 @@
 #! /bin/zsh -e
 
-# DEBUG mode controlled by env var
-if [[ -n $DEBUG ]]; then set -x; fi
-
-echo 'Installing duf..'
+source ./lib.sh
+info '## Setup duf'
 
 DUF_VERSION=${DUF_VERSION:-0.8.1}
 TMPDIR=${TMPDIR:-/tmp}

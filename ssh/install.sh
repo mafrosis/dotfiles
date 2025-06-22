@@ -1,7 +1,7 @@
 #! /bin/zsh -e
 
-# DEBUG mode controlled by env var
-if [[ -n $DEBUG ]]; then set -x; fi
+source ./lib.sh
+info '## Setup ssh'
 
 # Create a new SSH key for Github in dotfiles, before stow symlinks into $HOME
 if [[ ! -f $HOME/dotfiles/ssh/.ssh/github.pky ]]; then

@@ -1,7 +1,7 @@
 #! /bin/zsh
 
-# DEBUG mode controlled by env var
-if [[ -n $DEBUG ]]; then set -x; fi
+source ./lib.sh
+info '## Setup git'
 
 if ! command -v git >/dev/null 2>&1; then
 	if [[ $(uname) == 'Darwin' ]]; then

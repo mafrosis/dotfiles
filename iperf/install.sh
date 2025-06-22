@@ -1,7 +1,7 @@
 #! /bin/zsh
 
-# DEBUG mode controlled by env var
-if [[ -n $DEBUG ]]; then set -x; fi
+source ./lib.sh
+info '## Setup iperf3'
 
 if ! command -v iperf3 >/dev/null 2>&1; then
 	if [[ $(uname) == 'Darwin' ]]; then

@@ -1,14 +1,7 @@
 #! /bin/zsh -e
 
-# DEBUG mode controlled by env var
-if [[ -n $DEBUG ]]; then set -x; fi
-
-function info {
-	>&2 print "\e[32m$1\e[0m"
-}
-function error {
-	>&2 print "\e[32m$1\e[0m"
-}
+source ./lib.sh
+info '## Setup mp3'
 
 if [[ $(uname) == 'Darwin' ]]; then
 	if ! command -v brew >/dev/null 2>&1; then
