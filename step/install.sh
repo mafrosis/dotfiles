@@ -1,7 +1,7 @@
 #! /bin/zsh -e
 
-# DEBUG mode controlled by env var
-if [[ -n $DEBUG ]]; then set -x; fi
+source ./lib.sh
+info '## Setup step-cli'
 
 SMALLSTEP_VERSION=${SMALLSTEP_VERSION:-'0.23.0'}
 TMPDIR=${TMPDIR:-/tmp}

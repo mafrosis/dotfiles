@@ -1,11 +1,7 @@
 #! /bin/zsh -e
 
-# DEBUG mode controlled by env var
-if [[ -n $DEBUG ]]; then set -x; fi
-
-function info {
-	>&2 print "\e[32m$1\e[0m"
-}
+source ./lib.sh
+info '## Setup python'
 
 if [[ -n $TERMUX_VERSION ]]; then
 	pkg install -y python3 uv

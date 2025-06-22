@@ -1,7 +1,7 @@
 #! /bin/zsh -e
 
-# DEBUG mode controlled by env var
-if [[ -n $DEBUG ]]; then set -x; fi
+source ./lib.sh
+info '## Setup salt-minion'
 
 # passed from /dotfiles/install.sh
 FORCE=${1:-0}

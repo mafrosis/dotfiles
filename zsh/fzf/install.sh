@@ -1,9 +1,7 @@
 #! /bin/zsh -e
 
-# DEBUG mode controlled by env var
-if [[ -n $DEBUG ]]; then set -x; fi
-
-echo 'Installing fzf..'
+source ./lib.sh
+info '## Setup fzf'
 
 FZF_VERSION=${FZF_VERSION:-0.61.3}
 TMPDIR=${TMPDIR:-/tmp}

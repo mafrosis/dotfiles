@@ -1,7 +1,7 @@
 #! /bin/zsh -e
 
-# DEBUG mode controlled by env var
-if [[ -n $DEBUG ]]; then set -x; fi
+source ./lib.sh
+info '## Setup wakeonlan'
 
 # Install wakeonlan package
 if ! command -v wakeonlan >/dev/null 2>&1; then

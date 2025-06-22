@@ -1,7 +1,7 @@
 #! /bin/zsh -e
 
-# DEBUG mode controlled by env var
-if [[ -n $DEBUG ]]; then set -x; fi
+source ./lib.sh
+info '## Setup docker'
 
 if ! command -v docker >/dev/null 2>&1; then
 	if [[ $(uname) == 'Darwin' ]]; then

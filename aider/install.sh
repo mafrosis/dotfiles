@@ -1,7 +1,7 @@
 #! /bin/zsh -e
 
-# DEBUG mode controlled by env var
-if [[ -n $DEBUG ]]; then set -x; fi
+source ./lib.sh
+info '## Setup aider'
 
 if ! command -v uv >/dev/null 2>&1; then
 	print 'uv missing! First install python'

@@ -1,6 +1,7 @@
 #! /bin/zsh -e
 
-echo 'Installing vivid..'
+source ./lib.sh
+info '## Setup vivid'
 
 VIVID_VERSION=${VIVID_VERSION:-0.10.1}
 TMPDIR=${TMPDIR:-/tmp}
