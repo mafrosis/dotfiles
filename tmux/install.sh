@@ -1,7 +1,7 @@
 #! /bin/zsh -e
 
-# DEBUG mode controlled by env var
-if [[ -n $DEBUG ]]; then set -x; fi
+source ./lib.sh
+info '## Setup tmux'
 
 # install tmux package
 if ! command -v tmux >/dev/null 2>&1; then

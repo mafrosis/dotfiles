@@ -1,7 +1,7 @@
 #! /bin/zsh
 
-# DEBUG mode controlled by env var
-if [[ -n $DEBUG ]]; then set -x; fi
+source ./lib.sh
+info '## Setup git-delta'
 
 DELTA_VERSION=${DELTA_VERSION:-0.15.1}
 TMPDIR=${TMPDIR:-/tmp}

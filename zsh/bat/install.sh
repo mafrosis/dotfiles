@@ -1,9 +1,7 @@
 #! /bin/zsh -e
 
-# DEBUG mode controlled by env var
-if [[ -n $DEBUG ]]; then set -x; fi
-
-echo 'Installing bat..'
+source ./lib.sh
+info '## Setup bat'
 
 BAT_VERSION=${BAT_VERSION:-0.25.0}
 TMPDIR=${TMPDIR:-/tmp}

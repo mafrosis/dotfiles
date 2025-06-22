@@ -1,6 +1,7 @@
 #! /bin/zsh -e
 
-echo 'Installing ripgrep..'
+source ./lib.sh
+info '## Setup ripgrep'
 
 # Install ripgrep package
 if [[ $FORCE -eq 0 ]] && command -v rg >/dev/null 2>&1; then

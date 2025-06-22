@@ -1,7 +1,7 @@
 #! /bin/zsh -e
 
-# DEBUG mode controlled by env var
-if [[ -n $DEBUG ]]; then set -x; fi
+source ./lib.sh
+info '## Setup osx'
 
 # bail if not Darwin
 if [[ $(uname) != 'Darwin' ]] ; then
