@@ -1,0 +1,11 @@
+GOOSE_MODE: smart_approve
+GOOSE_MODEL: google/gemini-2.5-pro-preview
+GOOSE_PROVIDER: openrouter
+extensions:
+  developer:
+    bundled: true
+    display_name: Developer
+    enabled: true
+    name: developer
+    timeout: 300
+    type: builtin
