@@ -1,8 +1,7 @@
 #! /bin/zsh
 
 source ./lib.sh
-
-info 'Installing llm.datasette.io'
+info '## Setup llm.datasette.io'
 
 # https://llm.datasette.io
 uv tool install llm
@@ -33,3 +32,11 @@ fi
 
 echo 'Plugins:'
 llm plugins | grep name
+
+info '## Setup goose'
+
+if [[ $(uname) == 'Darwin' ]]; then
+	brew install block-goose-cli
+else
+	echo 'Goose on linux not supported by install.sh'
+fi
