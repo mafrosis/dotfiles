@@ -5,6 +5,10 @@ include:
 {% set wdev = pillar.get('wifi_device', 'wlan0') %}
 
 
+wireless-tools:
+  pkg.installed
+
+
 # Create networkd config for wireless device
 systemd-networkd-wlan:
   file.managed:
