@@ -6,9 +6,6 @@ info '## Setup bat'
 BAT_VERSION=${BAT_VERSION:-0.25.0}
 TMPDIR=${TMPDIR:-/tmp}
 
-# passed from /dotfiles/install.sh
-FORCE=${1:-0}
-
 # Install bat package
 if [[ $FORCE -eq 0 ]] && command -v bat >/dev/null 2>&1; then
 	echo 'bat already installed!'
