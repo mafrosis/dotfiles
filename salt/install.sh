@@ -3,9 +3,6 @@
 source ./lib.sh
 info '## Setup salt-minion'
 
-# passed from /dotfiles/install.sh
-FORCE=${1:-0}
-
 # install salt package
 if [[ $(uname) == 'Darwin' ]]; then
 	if ! command -v brew >/dev/null 2>&1; then

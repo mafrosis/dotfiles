@@ -6,9 +6,6 @@ info '## Setup step-cli'
 SMALLSTEP_VERSION=${SMALLSTEP_VERSION:-'0.23.0'}
 TMPDIR=${TMPDIR:-/tmp}
 
-# passed from /dotfiles/install.sh
-FORCE=${1:-0}
-
 # Install step cli tools
 if [[ $FORCE -eq 0 ]] && command -v step >/dev/null 2>&1; then
 	echo 'step-cli already installed!'

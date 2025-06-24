@@ -6,9 +6,6 @@ info '## Setup duf'
 DUF_VERSION=${DUF_VERSION:-0.8.1}
 TMPDIR=${TMPDIR:-/tmp}
 
-# passed from /dotfiles/install.sh
-FORCE=${1:-0}
-
 # Install duf package
 if [[ $FORCE -eq 0 ]] && command -v duf >/dev/null 2>&1; then
 	echo 'duf already installed!'

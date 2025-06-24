@@ -4,7 +4,7 @@ source ./lib.sh
 info '## Setup fd'
 
 # Install fd package
-if command -v fd >/dev/null 2>&1; then
+if [[ $FORCE -eq 0 ]] && command -v fd >/dev/null 2>&1; then
 	echo 'fd already installed!'
 else
 	if [[ -n $TERMUX_VERSION ]]; then
