@@ -6,9 +6,6 @@ info '## Setup vivid'
 VIVID_VERSION=${VIVID_VERSION:-0.10.1}
 TMPDIR=${TMPDIR:-/tmp}
 
-# passed from /dotfiles/install.sh
-FORCE=${1:-0}
-
 # Install vivid package
 if [[ $FORCE -eq 0 ]] && command -v vivid >/dev/null 2>&1; then
 	echo 'vivid already installed!'

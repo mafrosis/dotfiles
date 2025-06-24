@@ -6,9 +6,6 @@ info '## Setup fzf'
 FZF_VERSION=${FZF_VERSION:-0.61.3}
 TMPDIR=${TMPDIR:-/tmp}
 
-# passed from /dotfiles/install.sh
-FORCE=${1:-0}
-
 # Install fzf package
 if [[ $FORCE -eq 0 ]] && command -v fzf >/dev/null 2>&1; then
 	echo 'fzf already installed!'

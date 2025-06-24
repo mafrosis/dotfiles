@@ -6,9 +6,6 @@ info '## Setup git-delta'
 DELTA_VERSION=${DELTA_VERSION:-0.15.1}
 TMPDIR=${TMPDIR:-/tmp}
 
-# passed from /dotfiles/install.sh
-FORCE=${1:-0}
-
 # install git-delta
 if [[ $FORCE -eq 0 ]] && command -v delta >/dev/null 2>&1; then
 	echo 'git-delta already installed!'
