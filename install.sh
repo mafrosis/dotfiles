@@ -104,7 +104,7 @@ do
 
 	# use per-app install.sh, or just symlink with stow
 	if [[ -x $app/install.sh ]]; then
-		"./$app/install.sh" $FORCE $DRY_RUN
+		source ./$app/install.sh
 	fi
 
 	# per-app install scripts can return 255 to indicate that the
