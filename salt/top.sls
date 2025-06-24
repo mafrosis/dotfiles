@@ -52,6 +52,7 @@ base:
   'G@host:caul':
     - match: compound
     - networking.wireless
+    - networking.wireless-power-mgmt-off
     - snapcast.client
 
   'G@host:rand':
