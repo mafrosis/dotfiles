@@ -3,7 +3,7 @@
 source ./lib.sh
 info '## Setup step-cli'
 
-SMALLSTEP_VERSION=${SMALLSTEP_VERSION:-'0.23.0'}
+SMALLSTEP_VERSION=${SMALLSTEP_VERSION:-'0.28.3'}
 TMPDIR=${TMPDIR:-/tmp}
 
 # Install step cli tools
