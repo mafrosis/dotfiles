@@ -1,3 +1,6 @@
+{% set user = pillar.get('login_user', 'mafro') %}
+
+
 docker-apt-deps:
   pkg.installed:
     - names:
@@ -49,7 +52,7 @@ docker-adduser-group:
   group.present:
     - name: docker
     - addusers:
-      - {{ pillar['login_user'] }}
+      - {{ user }}
 
 /etc/docker/daemon.json:
   file.serialize:

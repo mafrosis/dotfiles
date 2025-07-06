@@ -1,7 +1,7 @@
 include:
   - sudo
 
-{% set user = pillar['login_user'] %}
+{% set user = pillar.get('login_user', 'mafro') %}
 {% set rtorrent_user = pillar.get('rtorrent_user', 'rtorrent') %}
 {% set rtorrent_group = pillar.get('rtorrent_group', 'rtorrent') %}
 {% set rtorrent_download_dir = pillar.get('rtorrent_download_dir', '/home/'+user+'/rtorrent') %}
