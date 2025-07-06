@@ -2,7 +2,7 @@ include:
   - sshd.authorized_keys
 
 
-{% set user = pillar['login_user'] %}
+{% set user = pillar.get('login_user', 'mafro') %}
 
 /home/{{ user }}/.ssh:
   file.directory:
