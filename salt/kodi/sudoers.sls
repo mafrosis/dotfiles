@@ -2,7 +2,7 @@ kodi-sudo:
   pkg.installed:
     - name: sudo
 
-{% if pillar.get('login_user', false) %}
+{% if pillar.get('login_user', 'mafro') %}
 
 /etc/sudoers.d/kodi-restart:
   file.managed:

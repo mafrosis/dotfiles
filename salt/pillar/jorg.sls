@@ -1,5 +1,3 @@
-login_user: mafro
-
 rtorrent_download_dir: /media/download/rtorrent
 
 samba_users:
