@@ -99,7 +99,6 @@ rtorrent-tmux-conf:
     - require:
       - file: /etc/rtorrent
 
-{% if pillar.get('login_user', false) %}
 add-rtorrent-group-to-login-user:
   user.present:
     - name: {{ user }}
@@ -129,4 +128,3 @@ home-bin-rtorrent:
     - mode: 700
     - require:
       - file: home-bin-rtorrent
-{% endif %}

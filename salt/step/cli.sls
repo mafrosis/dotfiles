@@ -2,6 +2,7 @@ include:
   - step.root-ca-cert
 
 {% set smallstep_version = '0.23.0' %}
+{% set user = pillar.get('login_user', 'mafro') %}
 
 install-step-cli:
   archive.extracted:
@@ -25,18 +26,18 @@ install-step-cli:
 
 step-ca-group:
   user.present:
-    - name: {{ pillar['login_user'] }}
+    - name: {{ user }}
     - optional_groups:
       - step-ca
     - require:
       - group: step-ca
 
-{% for user in ['root', pillar['login_user']]: %}
+{% for user in ['root', user]: %}
 
 {% if user == 'root': %}
 {% set home_path = '/root' %}
 {% else %}
-{% set home_path = '/home/'+pillar['login_user'] %}
+{% set home_path = '/home/'+user %}
 {% endif %}
 
 step-cli-defaults-{{ user }}:
