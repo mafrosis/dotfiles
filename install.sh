@@ -45,7 +45,7 @@ if ! command -v curl >/dev/null 2>&1; then
 	elif [[ -n $TERMUX_VERSION ]]; then
 		pkg install curl
 	else
-		sudo apt-get install curl
+		sudo apt-get install -y curl
 	fi
 fi
 
@@ -56,7 +56,7 @@ if ! command -v stow >/dev/null 2>&1; then
 	elif [[ -n $TERMUX_VERSION ]]; then
 		pkg install stow
 	else
-		sudo apt-get install stow
+		sudo apt-get install -y stow
 	fi
 fi
 
