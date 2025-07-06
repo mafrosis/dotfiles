@@ -18,21 +18,23 @@ else
 
 	elif [[ $(uname) == 'Linux' ]]; then
 		if [[ $(uname -m) = arm64 ]]; then
-			curl -o ${TMPDIR}/bat.deb -L \
-				https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat-musl_${BAT_VERSION}_arm64.deb
-			sudo dpkg -i ${TMPDIR}/bat.deb
+			FILE=bat_${BAT_VERSION}_arm64.deb
 
 		elif [[ $(uname -m) = aarch64 ]]; then
-			curl -o ${TMPDIR}/bat.tgz -L \
-				https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat-v${BAT_VERSION}-aarch64-unknown-linux-musl.tar.gz
-			tar xzf ${TMPDIR}/bat.tgz -C ${TMPDIR}
-			sudo mv ${TMPDIR}/bat-v${BAT_VERSION}-aarch64-unknown-linux-musl/bat /usr/local/bin
+			# rpi4, rpi zero2
+			FILE=bat_${BAT_VERSION}_arm64.deb
+
+		elif [[ $(uname -m) = armv7l ]]; then
+			# rpi3
+			FILE=bat_${BAT_VERSION}_armhf.deb
 
 		else
-			curl -o ${TMPDIR}/bat.deb -L \
-				https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat-musl_${BAT_VERSION}_musl-linux-amd64.deb
-			sudo dpkg -i ${TMPDIR}/bat.deb
+			FILE=bat_${BAT_VERSION}_amd64.deb
 		fi
+
+		curl -o ${TMPDIR}/bat.deb -L \
+			https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/${FILE}
+		sudo dpkg -i ${TMPDIR}/bat.deb
 	fi
 fi
 bat -V
