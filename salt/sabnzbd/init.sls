@@ -1,4 +1,4 @@
-{% set user = pillar['login_user'] %}
+{% set user = pillar.get('login_user', 'mafro') %}
 
 # Install the SABnzbd config into the docker directory on target host
 sabnzbd-config:
