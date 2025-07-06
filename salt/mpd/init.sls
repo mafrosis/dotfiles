@@ -1,6 +1,8 @@
 mpd:
   pkg.installed
 
+{% set user = pillar.get('login_user', 'mafro') %}
+
 /etc/mpd.conf:
   file.managed:
     - contents: |
@@ -42,7 +44,7 @@ mpd:
       - file: /etc/mpd.conf
 
 
-/home/{{ pillar['login_user'] }}/playlists:
+/home/{{ user }}/playlists:
   file.directory:
-    - user: {{ pillar['login_user'] }}
+    - user: {{ user }}
     - group: audio

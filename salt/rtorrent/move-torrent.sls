@@ -8,6 +8,8 @@ extend:
           move_torrent: true
 
 
+{% set user = pillar.get('login_user', 'mafro') %}
+
 # script moves completed torrents
 /home/rtorrent/.local/bin:
   file.directory:
@@ -25,7 +27,7 @@ extend:
     - mode: 774
 
 # make script available for the login user to run
-/home/{{ pillar['login_user'] }}/.local/bin/move-torrent.sh:
+/home/{{ user }}/.local/bin/move-torrent.sh:
   file.symlink:
     - target: /home/rtorrent/.local/bin/move-torrent.sh
 

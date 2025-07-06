@@ -1,5 +1,3 @@
-login_user: mafro
-
 mp3_dir: /home/mafro/music
 playlist_dir: /home/mafro/playlists
 
