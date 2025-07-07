@@ -52,7 +52,6 @@ base:
   'G@host:caul':
     - match: compound
     - networking.wireless
-    - networking.wireless-power-mgmt-off
     - snapcast.client
 
   'G@host:rand':
@@ -63,3 +62,7 @@ base:
     - match: compound
     - networking.wireless
     - snapcast.client
+
+  'G@osfullname:*Raspbian* or G@productname:*Raspberry*':
+    - match: compound
+    - networking.wireless-power-mgmt-off
