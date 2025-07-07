@@ -79,7 +79,7 @@ rtorrent.rc:
     - group: {{ rtorrent_group }}
     - defaults:
         download_rate: 15000
-        upload_rate: 200
+        upload_rate: 500
         download_dir: {{ pillar['rtorrent_download_dir'] }}
         move_torrent: true
     - require:
