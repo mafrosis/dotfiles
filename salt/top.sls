@@ -1,7 +1,6 @@
 base:
   '*':
     - common
-    - docker
     - linux-util
     - sshd
     - step.cli
@@ -17,6 +16,7 @@ base:
     - match: compound
     - caddy
     - debian.backports
+    - docker
     - grub-timeout-0
     - jorg
     - jorg.caddy
@@ -38,6 +38,7 @@ base:
   'G@host:locke':
     - match: compound
     - autofs
+    - docker
     - mpd
     - mpd.scribble
     - networking.wired
