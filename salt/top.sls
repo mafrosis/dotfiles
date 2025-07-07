@@ -45,19 +45,10 @@ base:
     - snapcast.server
     - yubikey
 
-  'G@host:whirrun':
-    - match: compound
-    - networking.wireless
-    - snapcast.client
-
   'G@host:caul':
     - match: compound
     - networking.wireless
     - snapcast.client
-
-  'G@host:rand':
-    - match: compound
-    - networking.wireless
 
   'G@host:kvothe':
     - match: compound
