@@ -9,7 +9,7 @@ linux-utils-base-pkgs:
       - dnsutils
       - ethtool
       - htop
-      - netcat
+      - netcat-openbsd
       - rsync
       - unzip
       - telnet
