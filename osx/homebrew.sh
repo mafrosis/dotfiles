@@ -1,6 +1,7 @@
 #! /bin/bash
 
-# Bootstrap Homebrew and install required apps
+source ./lib.sh
+info '## Bootstrap Homebrew and install baseline macOS apps'
 
 if [[ $(uname) != 'Darwin' ]] ; then
 	echo 'Script only for OSX!';
@@ -12,9 +13,6 @@ function install_homebrew {
 		bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	fi
 }
-
-# DEBUG mode controlled by env var
-if [[ -n $DEBUG ]]; then set -x; fi
 
 # install missing Homebrew
 install_homebrew

@@ -1,3 +1,5 @@
+# vim: set ft=bash:
+
 # DEBUG mode controlled by env var
 if [[ -n $DEBUG ]]; then
 	set -x
