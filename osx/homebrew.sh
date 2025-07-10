@@ -8,15 +8,6 @@ if [[ $(uname) != 'Darwin' ]] ; then
 	exit 44;
 fi
 
-function install_homebrew {
-	if ! command -v brew >/dev/null 2>&1; then
-		bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-	fi
-}
-
-# install missing Homebrew
-install_homebrew
-
 # --init means ensure Homebrew available & exit
 if [[ $1 == '--init' ]]; then
 	exit 0;
