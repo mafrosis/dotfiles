@@ -29,7 +29,7 @@ if ! command -v zsh >/dev/null 2>&1; then
 fi
 
 # install starship, bat, vivid, fd, fg, etc etc
-for F in "$(dirname "$0")"/*/install.sh; do
+for F in $HOME/dotfiles/zsh/*/install.sh; do
 	source $F
 done
 
