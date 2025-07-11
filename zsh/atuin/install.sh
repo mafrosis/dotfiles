@@ -25,12 +25,12 @@ else
 			ARCH=aarch64
 			CLIB=gnu
 		else
-			ARCH=amd64
+			ARCH=x86_64
 			CLIB=gnu
 		fi
 		curl -o ${TMPDIR}/atuin.tgz -L \
 			https://github.com/atuinsh/atuin/releases/download/v${ATUIN_VERSION}/atuin-${ARCH}-unknown-linux-${CLIB}.tar.gz
 		tar xzf ${TMPDIR}/atuin.tgz -C ${TMPDIR}
-		sudo mv ${TMPDIR}/atuin /usr/local/bin
+		sudo mv ${TMPDIR}/atuin*/atuin /usr/local/bin
 	fi
 fi
