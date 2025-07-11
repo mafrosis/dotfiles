@@ -3,7 +3,7 @@
 source ./lib.sh
 info '## Setup bat'
 
-BAT_VERSION=${BAT_VERSION:-${BAT_VERSION}}
+BAT_VERSION=${BAT_VERSION:-0.25.0}
 TMPDIR=${TMPDIR:-/tmp}
 
 # Install bat package
