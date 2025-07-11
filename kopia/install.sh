@@ -17,6 +17,7 @@ if ! command -v kopia >/dev/null 2>&1; then
 	fi
 fi
 
+# Create the kopia GCS config
 mkdir -p $HOME/.config/kopia
 tee $HOME/.config/kopia/repository.config > /dev/null <<EOF
 {
@@ -40,3 +41,6 @@ tee $HOME/.config/kopia/repository.config > /dev/null <<EOF
   "formatBlobCacheDuration": 900000000000
 }
 EOF
+
+# Test
+kopia repository status -t -s
