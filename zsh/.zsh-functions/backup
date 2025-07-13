@@ -1,0 +1,85 @@
+#! /bin/zsh
+
+USAGE='Usage: backup [OPTS] [VOLUME_NAME]
+  -h	display this message
+
+  VOLUME_NAME    Single volume to snapshot with kopia
+
+  Backup single volume or all volumes with label net.mafro.kopia'
+
+while getopts 'h' params
+do
+	case $params in
+		h ) echo "$USAGE" && return 1;;
+		* ) echo "$USAGE" && return 1;;
+	esac
+done
+shift $((OPTIND-1))
+
+##################################################
+
+function warn {
+	>&2 echo -e "\e[35m$1\e[0m"
+}
+
+function error {
+	>&2 echo -e "\e[31m$1\e[0m"
+}
+
+function info {
+	>&2 echo -e "\e[32m$1\e[0m"
+}
+
+function debug {
+	# DEBUG logging controlled by env var
+	if [[ -n $DEBUG ]]; then
+		>&2 echo -e "\e[33m$1\e[0m"
+	fi
+}
+
+##################################################
+
+function backup {
+	local backup_name=$1
+	local volume_dir=$2
+
+	docker run --rm -it \
+		-v ${volume_dir}:${volume_dir} \
+		-e KOPIA_PASSWORD \
+		mafrosis/kopia snapshot create ${volume_dir}
+}
+
+##################################################
+
+function main {
+	local volume_name=$1
+
+	if [[ -f /etc/kopia.conf && -r /etc/kopia.conf ]]; then
+		source /etc/kopia.conf
+	else
+		warn 'Missing or unreadable /etc/kopia.conf'
+	fi
+
+	if [[ -z $KOPIA_PASSWORD ]]; then
+		error 'KOPIA_PASSWORD is not set'
+		return 2
+	fi
+
+	if [[ ! -z $volume_name ]]; then
+		local mount_point=$(docker volume inspect --format '{{.Mountpoint}}' $volume_name)
+		backup $volume_name $mount_point
+		return 0
+	fi
+
+	# Iterate docker volumes
+	docker volume ls --format "{{.Name}}\t{{.Mountpoint}}" | \
+		while IFS=$'\t' read -r VOLUME_NAME MOUNT_POINT; do
+
+		if docker volume inspect $VOLUME_NAME | grep -q 'net.mafro.kopia'; then
+			backup $VOLUME_NAME $MOUNT_POINT
+		else
+			debug "Skipped $VOLUME_NAME"
+		fi
+	done
+}
+main $1; return $?
