@@ -19,6 +19,8 @@ fi
 
 # Add ollama
 if ! llm plugins | grep -q llm-ollama; then
+	brew install ollama
+	# curl -fsSL https://ollama.com/install.sh | sh
 	llm install llm-ollama
 fi
 
