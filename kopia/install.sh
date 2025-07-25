@@ -42,5 +42,10 @@ tee $HOME/.config/kopia/repository.config > /dev/null <<EOF
 }
 EOF
 
+# Convenience copy for locke/trevor
+if [[ -f ${HOME}/dotfiles/kopia/mafro-backup-7deca97f9b3e.json ]]; then
+	cp ${HOME}/dotfiles/kopia/mafro-backup-7deca97f9b3e.json ${HOME}/.config/kopia/mafro-backup-7deca97f9b3e.json
+fi
+
 # Test
 kopia repository status -t -s
