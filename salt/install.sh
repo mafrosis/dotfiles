@@ -45,8 +45,8 @@ if [[ ! -d /etc/salt ]]; then
 fi
 
 sudo mkdir -p /etc/salt
-sudo tee /etc/salt/minion > /dev/null <<EOF
-master: locke
+sudo tee /etc/salt/minion.d/minion.conf > /dev/null <<EOF
+master: salt-master.mafro.net
 state_output: mixed
 log_level: info
 id: $(hostname -s)
