@@ -34,7 +34,7 @@ elif [[ $(uname) == 'Linux' ]]; then
 		curl -fsSL https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public | sudo tee /etc/apt/keyrings/salt-archive-keyring.pgp
 		curl -fsSL https://github.com/saltstack/salt-install-guide/releases/latest/download/salt.sources | sudo tee /etc/apt/sources.list.d/salt.sources
 		rm -f /etc/apt/sources.list.d/salt.list
-		sudo apt update
+		sudo apt -y update
 		sudo apt install salt-minion
 	fi
 fi
@@ -45,8 +45,8 @@ if [[ ! -d /etc/salt ]]; then
 fi
 
 sudo mkdir -p /etc/salt
-sudo tee /etc/salt/minion > /dev/null <<EOF
-master: locke
+sudo tee /etc/salt/minion.d/minion.conf > /dev/null <<EOF
+master: 192.168.1.166
 state_output: mixed
 log_level: info
 id: $(hostname -s)
