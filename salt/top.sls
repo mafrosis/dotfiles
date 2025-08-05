@@ -45,6 +45,11 @@ base:
     - snapcast.server
     - yubikey
 
+  'G@host:trevor':
+    - match: compound
+    - networking.wired
+    - docker
+
   'G@host:caul':
     - match: compound
     - networking.wireless
