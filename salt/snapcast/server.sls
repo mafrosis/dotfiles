@@ -1,4 +1,4 @@
-{% set snap_version = "0.31.0" %}
+{% set snap_version = "0.32.2" %}
 
 install-snapcast:
   pkg.installed:
