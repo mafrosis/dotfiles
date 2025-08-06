@@ -1,3 +1,5 @@
+{% set user = pillar.get('login_user', 'mafro') %}
+
 nordvpn-apt-deps:
   pkg.installed:
     - names:
@@ -18,6 +20,12 @@ nordvpn-install:
     - name: nordvpn
     - require:
       - pkg: nordvpn-apt-deps
+
+nordvpn-adduser-group:
+  group.present:
+    - name: nordvpn
+    - addusers:
+      - {{ user }}
 
 nordvpn-config-tech:
   cmd.run:
