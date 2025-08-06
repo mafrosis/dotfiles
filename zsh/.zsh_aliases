@@ -88,5 +88,6 @@ alias fdupes='fdupes --cache -rA'
 
 alias pip='uv pip'
 
-alias salt='docker compose -f /home/mafro/apps/saltstack/docker-compose.yml exec salt-master salt'
-alias salt-run='docker compose -f /home/mafro/apps/saltstack/docker-compose.yml exec salt-master salt-run'
+alias salt='docker compose -f /home/mafro/apps/salt-master-config/docker-compose.yml exec salt-master salt'
+alias salt-run='docker compose -f /home/mafro/apps/salt-master-config/docker-compose.yml exec salt-master salt-run'
+alias salt-key='docker compose -f /home/mafro/apps/salt-master-config/docker-compose.yml exec salt-master salt-key'
