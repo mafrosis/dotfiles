@@ -39,16 +39,16 @@ base:
     - match: compound
     - autofs
     - docker
-    - mpd
-    - mpd.scribble
     - networking.wired
-    - snapcast.server
     - yubikey
 
   'G@host:trevor':
     - match: compound
-    - networking.wired
     - docker
+    - mpd
+    - mpd.scribble
+    - networking.wired
+    - snapcast.server
 
   'G@host:caul':
     - match: compound

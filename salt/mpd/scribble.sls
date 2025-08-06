@@ -1,5 +1,11 @@
 mpdscribble:
-  pkg.installed
+  pkg:
+    - installed
+  service.running:
+    - restart: true
+    - enable: true
+    - watch:
+      - file: /etc/mpdscribble.conf
 
 /etc/mpdscribble.conf:
   file.managed:
