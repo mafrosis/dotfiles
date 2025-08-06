@@ -1,21 +1,31 @@
-mpd:
-  pkg.installed
-
 {% set user = pillar.get('login_user', 'mafro') %}
+
+
+mpd:
+  pkg:
+    - installed
+  service.running:
+    - restart: true
+    - enable: true
+    - watch:
+      - file: /etc/mpd.conf
+    - require:
+      - file: /home/{{ user }}/music
+      - file: /home/{{ user }}/playlists
+      - group: mpd-group-audio
 
 /etc/mpd.conf:
   file.managed:
     - contents: |
-        music_directory     "{{ pillar.get('mp3_dir', '/home/pi/mp3') }}"
-        playlist_directory  "{{ pillar.get('playlist_dir', '/home/pi/playlists') }}"
+        music_directory     "{{ pillar.get('mp3_dir', '/home/mafro/music') }}"
+        playlist_directory  "{{ pillar.get('playlist_dir', '/home/mafro/playlists') }}"
         db_file             "/var/lib/mpd/tag_cache"
         log_file            "/var/log/mpd/mpd.log"
-        pid_file            "/run/mpd/pid"
         state_file          "/var/lib/mpd/state"
         sticker_file        "/var/lib/mpd/sticker.sql"
 
         user                "mpd"
-        bind_to_address     "{{ grains['ipv4'][1] }}"
+        bind_to_address     "{{ grains['host'] }}"
         bind_to_address     "/run/mpd/socket"
 
         metadata_to_use     "artist,albumartist,album,title,track,name,genre,date,composer,performer,disc"
@@ -38,13 +48,19 @@ mpd:
           format      "48000:16:2"
           mixer_type  "software"
         }
-  cmd.wait:
-    - name: systemctl restart mpd
-    - watch:
-      - file: /etc/mpd.conf
-
 
 /home/{{ user }}/playlists:
   file.directory:
     - user: {{ user }}
     - group: audio
+
+/home/{{ user }}/music:
+  file.directory:
+    - user: {{ user }}
+    - group: audio
+
+mpd-group-audio:
+  group.present:
+    - name: audio
+    - addusers:
+      - mpd
