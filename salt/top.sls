@@ -21,12 +21,12 @@ base:
     - jorg
     - jorg.caddy
     - jorg.monitoring
+    - jorg.samba
     - linux-util.disk-tools
     - networking.wired
     - rtorrent
     - rtorrent.move-torrent
     - sabnzbd
-    - samba
     - vpn
     - zfs-on-linux
 

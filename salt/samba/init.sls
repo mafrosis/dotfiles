@@ -14,12 +14,18 @@ samba-common-bin:
   pkg.installed
 
 /etc/samba/smb.conf:
-  file.managed:
-    - source: salt://samba/smb.conf
-    - template: jinja
-    - defaults:
-        host: {{ grains['host'] }}
-        workgroup: {{ pillar['smb_workgroup'] }}
+  file.append:
+    - text: |
+        include = /etc/samba/smb.conf.d/*.conf
+
+set-samba-workgroup-eggs:
+  file.replace:
+    - name: /etc/samba/smb.conf
+    - pattern: 'workgroup = WORKGROUP'
+    - repl: 'workgroup = EGGS'
+
+/etc/samba/smb.conf.d:
+  file.directory
 
 {% for user, args in pillar.get('samba_users', {}).items() %}
 create-samba-user-{{ user }}:
