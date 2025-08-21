@@ -19,8 +19,10 @@ if ! command -v git >/dev/null 2>&1; then
 	fi
 fi
 
-# install git-delta
-source "$(dirname "$0")/delta/install.sh"
+# install git-delta, etc
+for F in $HOME/dotfiles/git/*/install.sh; do
+	source $F
+done
 
 # create bin directory in $HOME before stow symlinks into it
 mkdir -p "$HOME/.local/bin"
