@@ -5,14 +5,14 @@ include:
 linux-utils-base-pkgs:
   pkg.latest:
     - names:
+      - bind9-dnsutils
       - curl
-      - dnsutils
       - ethtool
       - htop
       - netcat-openbsd
       - rsync
-      - unzip
       - telnet
+      - unzip
       - whois
       - zip
     - require:
