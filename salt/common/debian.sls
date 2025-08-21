@@ -11,7 +11,6 @@ required-packages:
       - libffi-dev
       - libssl-dev
       - man-db
-      - software-properties-common
       - swig
     - require:
       - file: apt-no-recommends
