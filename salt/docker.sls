@@ -9,7 +9,6 @@ docker-apt-deps:
       - curl
       - gnupg2
       - libffi-dev
-      - software-properties-common
 
 docker-apt-keyrings:
   file.directory:
