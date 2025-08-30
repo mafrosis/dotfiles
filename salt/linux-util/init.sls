@@ -10,6 +10,7 @@ linux-utils-base-pkgs:
       - ethtool
       - htop
       - netcat-openbsd
+      - nvme-cli
       - rsync
       - telnet
       - unzip
