@@ -10,6 +10,7 @@ system-tools:
       - disktype
       - file
       - less
+      - lshw
       - make
       - time
       - vim
