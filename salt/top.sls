@@ -14,12 +14,10 @@ base:
 
   'G@host:jorg':
     - match: compound
-    - caddy
     - debian.backports
     - docker
     - grub-timeout-0
     - jorg
-    - jorg.caddy
     - jorg.monitoring
     - jorg.samba
     - linux-util.disk-tools
