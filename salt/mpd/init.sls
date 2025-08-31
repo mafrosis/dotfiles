@@ -45,8 +45,15 @@ mpd:
           type        "fifo"
           name        "snapserver"
           path        "/tmp/snapfifo"
-          format      "48000:16:2"
+          format      "44100:16:2"
           mixer_type  "software"
+        }
+        audio_output {
+          type        "fifo"
+          name        "snapserver_hi"
+          path        "/tmp/snapfifo_hi"
+          format      "96000:24:2"
+          mixer_type  "none"
         }
 
 /home/{{ user }}/playlists:

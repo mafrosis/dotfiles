@@ -1,4 +1,4 @@
-{% set snap_version = "0.32.2" %}
+{% set snap_version = "0.32.3" %}
 
 install-snapcast:
   pkg.installed:
@@ -14,7 +14,8 @@ install-snapcast:
         [tcp]
         enabled = true
         [stream]
-        source = pipe:///tmp/snapfifo?name=default
+        source = pipe:///tmp/snapfifo?name=44k_16b&sampleformat=44100:16:2&codec=pcm
+        source = pipe:///tmp/snapfifo_hi?name=96k_24b&sampleformat=96000:24:2&codec=pcm
 
 snapserver:
   service.running:
