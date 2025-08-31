@@ -1,1 +1,1 @@
-snapserver: trevor
+snapserver: trevor.mafro.net
