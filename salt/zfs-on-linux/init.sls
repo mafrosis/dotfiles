@@ -2,9 +2,8 @@ include:
   - zfs-on-linux.auto-snapshot
 
 
-zfs-kernel-headers:
-  pkg.installed:
-    - name: linux-headers-{{ grains['kernelrelease'] }}
+linux-headers-amd64:
+  pkg.installed
 
 zol-install:
   pkg.installed:
@@ -12,7 +11,7 @@ zol-install:
       - zfs-dkms
       - zfsutils-linux
     - require:
-      - pkg: zfs-kernel-headers
+      - pkg: linux-headers-amd64
 
 zfs.target:
   service.enabled
