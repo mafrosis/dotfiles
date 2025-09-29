@@ -1,0 +1,2 @@
+#! /bin/zsh
+fd -e="$1" -X grep --color=always -n -- "$2"
