@@ -1,0 +1,43 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  "theme": "catppuccin",
+  "autoupdate": false,
+
+  "provider": {
+    "bedrock": {},
+    "vertex": {},
+    "openrouter": {}
+  },
+
+  "agent": {
+    "plan": {
+      "model": "amazon-bedrock/anthropic.claude-sonnet-4-5-20250929-v1:0"
+    },
+    "build": {
+      "model": "amazon-bedrock/anthropic.claude-sonnet-4-5-20250929-v1:0"
+    }
+  },
+
+  "permission": {
+    "bash": {
+      "*": "allow",
+      "rm": "deny"
+    },
+    "edit": "allow",
+    "grep": "allow",
+    "glob": "allow",
+    "list": "allow",
+    "read": "allow",
+    "webfetch": "allow",
+    "write": "allow"
+  },
+
+  "mcp": {
+    "context7": {
+      "type": "local",
+      "command": ["npx", "-y", "@upstash/context7-mcp"],
+      "enabled": true
+    }
+  }
+}
