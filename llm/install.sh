@@ -31,14 +31,12 @@ fi
 if ! llm plugins | grep -q llm-cmd; then
 	llm install llm-cmd
 fi
+if ! llm plugins | grep -q llm-logging-debug; then
+	llm install llm-logging-debug
+fi
 
 echo 'Plugins:'
 llm plugins | grep name
 
-info '## Setup goose'
-
-if [[ $(uname) == 'Darwin' ]]; then
-	brew install block-goose-cli
-else
-	echo 'Goose on linux not supported by install.sh'
-fi
+info '## Install opencode'
+brew install opencode
