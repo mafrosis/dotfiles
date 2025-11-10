@@ -1,9 +1,9 @@
 #! /bin/zsh
 
 source ./lib.sh
-info '## Setup llm.datasette.io'
 
 # https://llm.datasette.io
+info '## Setup llm.datasette.io'
 uv tool install llm
 
 # Add openrouter
