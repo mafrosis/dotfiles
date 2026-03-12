@@ -18,8 +18,16 @@ function warn {
 
 # Wrap brew command, ensuring setup
 function brew {
-	if ! command -v brew >/dev/null 2>&1; then
+	if [[ ! -x /opt/homebrew/bin/brew ]] && [[ ! -x /usr/local/bin/brew ]]; then
 		bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	fi
-	command brew $@
+
+	# Ensure brew is on PATH for this shell session
+	if [[ -x /opt/homebrew/bin/brew ]]; then
+		eval "$(/opt/homebrew/bin/brew shellenv)"
+	elif [[ -x /usr/local/bin/brew ]]; then
+		eval "$(/usr/local/bin/brew shellenv)"
+	fi
+
+	command brew "$@"
 }
