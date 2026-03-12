@@ -31,12 +31,7 @@ fi
 # retrieve all repo submodules
 git submodule update --init --recursive
 
-# initialise OSX with missing homebrew
-if [[ $(uname) == 'Darwin' ]]; then
-	if ! command -v brew >/dev/null 2>&1; then
-		./osx/homebrew.sh --init
-	fi
-fi
+source ./lib.sh
 
 # ensure curl is available
 if ! command -v curl >/dev/null 2>&1; then
