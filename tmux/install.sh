@@ -23,13 +23,13 @@ fi
 # symlink all custom themes into tmux-powerline source
 for F in tmux/powerline-themes/*; do
 	echo "Installing powerline theme $F"
-	ln -sf "$HOME/dotfiles/$F" "tmux/tmux-powerline/themes/"
+	ln -sf "$HOME/dotfiles/$F" "tmux/tmux-powerline/themes/$(basename "$F")"
 done
 
 # symlink all custom segments into tmux-powerline source
 for F in tmux/powerline-segments/*; do
 	echo "Installing powerline segment $F"
-	ln -sf "$HOME/dotfiles/$F" "tmux/tmux-powerline/segments/"
+	ln -sf "$HOME/dotfiles/$F" "tmux/tmux-powerline/segments/$(basename "$F")"
 done
 
 THEME=generic

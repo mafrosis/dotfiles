@@ -17,7 +17,8 @@ elif [[ $(uname) == 'Darwin' ]]; then
 		brew install vim
 
 		if [[ ! -L /usr/local/bin/vim ]]; then
-			sudo ln -sf /opt/homebrew/bin/vim /usr/local/bin
+			sudo mkdir -p /usr/local/bin
+			sudo ln -sf /opt/homebrew/bin/vim /usr/local/bin/vim
 		fi
 	fi
 fi
