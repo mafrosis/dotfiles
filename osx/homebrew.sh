@@ -1,6 +1,6 @@
 #! /bin/bash
 
-source ./lib.sh
+source "$(dirname "$0")/../lib.sh"
 info '## Bootstrap Homebrew and install baseline macOS apps'
 
 if [[ $(uname) != 'Darwin' ]] ; then
