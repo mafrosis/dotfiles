@@ -68,7 +68,7 @@ function delete_symlinks {
 
 for app in "$@"
 do
-	if [[ ! -d $1 ]]; then
+	if [[ ! -d $app ]]; then
 		echo "Subdirectory $app does not exist!"
 		continue
 	fi
