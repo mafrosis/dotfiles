@@ -1,7 +1,7 @@
 # Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
-format = '$username$hostname:$directory$git_branch$git_status$git_state $character'
+format = '$username$hostname:$directory$git_branch$git_status$git_state$python $character'
 
 # Inserts a blank line between shell prompts
 add_newline = false
@@ -59,3 +59,9 @@ bisect = 'BS'
 [package]
 # https://starship.rs/config/#package-version
 disabled = true
+
+[python]
+# https://starship.rs/config/#python
+disabled = false
+format = '([\[$virtualenv\]]($style))'
+style = "blue"
