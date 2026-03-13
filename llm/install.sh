@@ -37,6 +37,3 @@ fi
 
 echo 'Plugins:'
 llm plugins | grep name
-
-info '## Install opencode'
-brew install opencode
