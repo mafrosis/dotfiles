@@ -1,7 +1,7 @@
 ---
 agent: build
 variant: high
-description: Create or amend a new OpenSpec change before implementation.
+description: Provide critical review of an OpenSpec change before implementation.
 ---
 The user has requested a review of the following change proposal.
 <UserRequest>
